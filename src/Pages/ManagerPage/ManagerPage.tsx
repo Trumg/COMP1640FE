@@ -1,5 +1,11 @@
+import DashboardHeader from "../../Components/Header/DashboardHeader/DashboardHeader";
+
 function ManagerPage() {
-  return <div>ManagerPage</div>;
+  return (
+    <div>
+      <DashboardHeader />
+    </div>
+  );
 }
 
 export default ManagerPage;
