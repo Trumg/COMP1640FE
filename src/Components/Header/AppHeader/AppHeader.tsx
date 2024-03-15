@@ -51,7 +51,7 @@ function AppHeader() {
                 color: "inherit",
               }}
             >
-              LOGIN
+              JOIN
             </Link>
           </Button>
         </Toolbar>
