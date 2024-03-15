@@ -15,7 +15,7 @@ import { createTheme, ThemeProvider } from "@mui/material/styles";
 // TODO remove, this demo shouldn't need to reset the theme.
 const defaultTheme = createTheme();
 
-function LoginPage() {
+function SignupPage() {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
@@ -60,7 +60,7 @@ function LoginPage() {
               <LockOutlinedIcon />
             </Avatar>
             <Typography component="h1" variant="h5">
-              Log In
+              Sign Up
             </Typography>
             <Box
               component="form"
@@ -98,7 +98,7 @@ function LoginPage() {
                 variant="contained"
                 sx={{ mt: 3, mb: 2 }}
               >
-                Log In
+                Sign Up
               </Button>
             </Box>
           </Box>
@@ -108,4 +108,4 @@ function LoginPage() {
   );
 }
 
-export default LoginPage;
+export default SignupPage;
