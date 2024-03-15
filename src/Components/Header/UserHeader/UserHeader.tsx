@@ -19,12 +19,12 @@ import Badge from "@mui/material/Badge";
 import MailIcon from "@mui/icons-material/Mail";
 import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
+import Avatar from "@mui/material/Avatar";
 
 // Material UI Icons
 import MenuRoundedIcon from "@mui/icons-material/MenuRounded";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import NotificationsIcon from "@mui/icons-material/Notifications";
-import AccountCircle from "@mui/icons-material/AccountCircle";
 
 const drawerWidth = 250;
 
@@ -117,19 +117,20 @@ function UserHeader() {
             id="menu-appbar"
             anchorEl={anchorEl}
             anchorOrigin={{
-              vertical: "top",
-              horizontal: "right",
+              vertical: "bottom",
+              horizontal: "left",
             }}
             keepMounted
             transformOrigin={{
               vertical: "top",
-              horizontal: "right",
+              horizontal: "left",
             }}
             open={Boolean(anchorEl)}
             onClose={handleClose}
           >
             <MenuItem onClick={handleClose}>Profile</MenuItem>
-            <MenuItem onClick={handleClose}>My account</MenuItem>
+            <MenuItem onClick={handleClose}>Settings</MenuItem>
+            <MenuItem onClick={handleClose}>Logout</MenuItem>
           </Menu>
           <Typography
             variant="h5"
@@ -181,7 +182,7 @@ function UserHeader() {
               onClick={handleMenu}
               color="inherit"
             >
-              <AccountCircle />
+              <Avatar src="/broken-image.jpg" />
             </IconButton>
           </Box>
         </Toolbar>

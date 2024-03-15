@@ -1,9 +1,9 @@
-import AppHeader from "../../Components/Header/AppHeader/AppHeader";
+import GuestHeader from "../../Components/Header/AppHeader/AppHeader";
 
 function HomePage() {
   return (
     <div>
-      <AppHeader />
+      <GuestHeader />
     </div>
   );
 }
