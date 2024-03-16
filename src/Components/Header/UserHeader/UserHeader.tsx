@@ -20,8 +20,6 @@ import MailIcon from "@mui/icons-material/Mail";
 import MenuItem from "@mui/material/MenuItem";
 import Menu from "@mui/material/Menu";
 import Avatar from "@mui/material/Avatar";
-
-// Material UI Icons
 import MenuRoundedIcon from "@mui/icons-material/MenuRounded";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import NotificationsIcon from "@mui/icons-material/Notifications";
@@ -139,7 +137,7 @@ function UserHeader() {
               flexGrow: 1,
               fontFamily: "monospace",
               fontWeight: 700,
-              letterSpacing: "0.5rem",
+              letterSpacing: "0.2rem",
               color: "inherit",
               textDecoration: "none",
             }}

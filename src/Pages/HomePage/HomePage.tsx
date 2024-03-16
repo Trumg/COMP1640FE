@@ -1,4 +1,4 @@
-import GuestHeader from "../../Components/Header/AppHeader/AppHeader";
+import GuestHeader from "../../Components/Header/GuestHeader/GuestHeader";
 
 function HomePage() {
   return (

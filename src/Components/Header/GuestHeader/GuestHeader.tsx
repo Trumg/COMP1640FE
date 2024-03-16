@@ -1,16 +1,18 @@
 import * as React from "react";
 import { styled, useTheme } from "@mui/material/styles";
+import { Link } from "react-router-dom";
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
 import CssBaseline from "@mui/material/CssBaseline";
 import MuiAppBar, { AppBarProps as MuiAppBarProps } from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
+import Button from "@mui/material/Button";
 import List from "@mui/material/List";
 import Divider from "@mui/material/Divider";
 import IconButton from "@mui/material/IconButton";
-import MenuIcon from "@mui/icons-material/Menu";
-import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
-import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import MenuRoundedIcon from "@mui/icons-material/MenuRounded";
+import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
+import Typography from "@mui/material/Typography";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
@@ -69,7 +71,7 @@ const DrawerHeader = styled("div")(({ theme }) => ({
   justifyContent: "flex-end",
 }));
 
-function DashboardHeader() {
+function AppHeader() {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
 
@@ -93,8 +95,41 @@ function DashboardHeader() {
             edge="start"
             sx={{ mr: 2, ...(open && { display: "none" }) }}
           >
-            <MenuIcon />
+            <MenuRoundedIcon />
           </IconButton>
+          <Typography
+            variant="h5"
+            component="div"
+            sx={{
+              flexGrow: 1,
+              fontFamily: "monospace",
+              fontWeight: 700,
+              letterSpacing: "0.2rem",
+              color: "inherit",
+              textDecoration: "none",
+            }}
+          >
+            <Link
+              to="/"
+              style={{
+                textDecoration: "none",
+                color: "inherit",
+              }}
+            >
+              COMP1640
+            </Link>
+          </Typography>
+          <Button color="inherit">
+            <Link
+              to="/login"
+              style={{
+                textDecoration: "none",
+                color: "inherit",
+              }}
+            >
+              JOIN
+            </Link>
+          </Button>
         </Toolbar>
       </AppBar>
       <Drawer
@@ -113,9 +148,9 @@ function DashboardHeader() {
         <DrawerHeader>
           <IconButton onClick={handleDrawerClose}>
             {theme.direction === "ltr" ? (
-              <ChevronLeftIcon />
+              <CloseRoundedIcon />
             ) : (
-              <ChevronRightIcon />
+              <CloseRoundedIcon />
             )}
           </IconButton>
         </DrawerHeader>
@@ -153,4 +188,4 @@ function DashboardHeader() {
   );
 }
 
-export default DashboardHeader;
+export default AppHeader;

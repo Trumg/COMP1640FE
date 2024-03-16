@@ -14,19 +14,13 @@ const AppRoutes: React.FC = () => {
   return (
     <Routes>
       <Route path="/" element={<HomePage />} />
-
-      {/* User Routes */}
       <Route path="/user" element={<UserPage />} />
       <Route path="/user/profile" element={<ProfilePage />} />
       <Route path="/user/settings" element={<SettingPage />} />
-
-      {/* Authorization */}
-      <Route path="/auth/login" element={<LoginPage />} />
-      <Route path="/auth/signup" element={<SignupPage />} />
-
-      {/* Management */}
-      <Route path="/dashboard/manager" element={<ManagerPage />} />
-      <Route path="/dashboard/admin" element={<AdminPage />} />
+      <Route path="/login" element={<LoginPage />} />
+      <Route path="/signup" element={<SignupPage />} />
+      <Route path="/manager" element={<ManagerPage />} />
+      <Route path="/admin" element={<AdminPage />} />
     </Routes>
   );
 };
