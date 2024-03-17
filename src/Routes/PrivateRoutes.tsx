@@ -7,7 +7,7 @@ interface PrivateRouteProps {
   isAuthenticated: boolean;
 }
 
-const PrivateRoute: React.FC<PrivateRouteProps> = ({
+const PrivateRoutes: React.FC<PrivateRouteProps> = ({
   path,
   element,
   isAuthenticated,
@@ -15,8 +15,8 @@ const PrivateRoute: React.FC<PrivateRouteProps> = ({
   return isAuthenticated ? (
     <Route path={path} element={element} />
   ) : (
-    <Navigate to="/auth/login" />
+    <Navigate to="/login" />
   );
 };
 
-export default PrivateRoute;
+export default PrivateRoutes;

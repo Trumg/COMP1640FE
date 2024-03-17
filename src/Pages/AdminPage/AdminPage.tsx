@@ -1,9 +1,9 @@
-import DashboardHeader from "../../Components/Header/DashboardHeader/DashboardHeader";
+import AdminHeader from "../../Components/Header/AdminHeader/AdminHeader";
 
 function AdminPage() {
   return (
     <div>
-      <DashboardHeader />
+      <AdminHeader />
     </div>
   );
 }

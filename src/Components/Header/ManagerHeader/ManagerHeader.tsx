@@ -75,7 +75,7 @@ const DrawerHeader = styled("div")(({ theme }) => ({
   justifyContent: "flex-end",
 }));
 
-function UserHeader() {
+function ManagerHeader() {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
 
@@ -149,7 +149,7 @@ function UserHeader() {
                 color: "inherit",
               }}
             >
-              COMP1640
+              MANAGER
             </Link>
           </Typography>
           <Box sx={{ flexGrow: 1 }} />
@@ -241,4 +241,4 @@ function UserHeader() {
   );
 }
 
-export default UserHeader;
+export default ManagerHeader;

@@ -1,9 +1,9 @@
-import DashboardHeader from "../../Components/Header/DashboardHeader/DashboardHeader";
+import ManagerHeader from "../../Components/Header/ManagerHeader/ManagerHeader";
 
 function ManagerPage() {
   return (
     <div>
-      <DashboardHeader />
+      <ManagerHeader />
     </div>
   );
 }

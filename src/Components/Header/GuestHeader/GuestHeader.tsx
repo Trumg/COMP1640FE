@@ -104,7 +104,7 @@ function AppHeader() {
               flexGrow: 1,
               fontFamily: "monospace",
               fontWeight: 700,
-              letterSpacing: "0.5rem",
+              letterSpacing: "0.2rem",
               color: "inherit",
               textDecoration: "none",
             }}
@@ -121,7 +121,7 @@ function AppHeader() {
           </Typography>
           <Button color="inherit">
             <Link
-              to="/auth/login"
+              to="/login"
               style={{
                 textDecoration: "none",
                 color: "inherit",
