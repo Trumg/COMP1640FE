@@ -71,7 +71,7 @@ const DrawerHeader = styled("div")(({ theme }) => ({
   justifyContent: "flex-end",
 }));
 
-function AppHeader() {
+function GuestHeader() {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
 
@@ -86,7 +86,11 @@ function AppHeader() {
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
-      <AppBar position="fixed" open={open}>
+      <AppBar
+        style={{ backgroundColor: "#00033D" }}
+        position="fixed"
+        open={open}
+      >
         <Toolbar>
           <IconButton
             color="inherit"
@@ -119,7 +123,13 @@ function AppHeader() {
               COMP1640
             </Link>
           </Typography>
-          <Button color="inherit">
+          <Button
+            style={{
+              backgroundColor: "#FFFFFF",
+              color: "#005EB8",
+              marginRight: "10px",
+            }}
+          >
             <Link
               to="/login"
               style={{
@@ -130,7 +140,7 @@ function AppHeader() {
               LOGIN
             </Link>
           </Button>
-          <Button color="inherit">
+          <Button style={{ backgroundColor: "#005EB8", color: "#FFFFFF" }}>
             <Link
               to="/signup"
               style={{
@@ -199,4 +209,4 @@ function AppHeader() {
   );
 }
 
-export default AppHeader;
+export default GuestHeader;
