@@ -1,8 +1,9 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
+
 import StudentPage from "../../Pages/StudentPage/StudentPage";
 
-const StudentRoutes: React.FC = () => {
+const StudentRoute: React.FC = () => {
   return (
     <Routes>
       <Route path="/student" element={<StudentPage />} />
@@ -10,4 +11,4 @@ const StudentRoutes: React.FC = () => {
   );
 };
 
-export default StudentRoutes;
+export default StudentRoute;

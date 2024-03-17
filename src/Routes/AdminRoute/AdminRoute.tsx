@@ -3,7 +3,7 @@ import { Route, Routes } from "react-router-dom";
 
 import AdminPage from "../../Pages/AdminPage/AdminPage";
 
-const AdminRoutes: React.FC = () => {
+const AdminRoute: React.FC = () => {
   return (
     <Routes>
       <Route path="/admin" element={<AdminPage />} />
@@ -11,4 +11,4 @@ const AdminRoutes: React.FC = () => {
   );
 };
 
-export default AdminRoutes;
+export default AdminRoute;

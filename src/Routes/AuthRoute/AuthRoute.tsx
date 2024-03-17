@@ -5,7 +5,7 @@ import LoginPage from "../../Pages/LoginPage/LoginPage";
 import SignupPage from "../../Pages/SignupPage/SignupPage";
 import ForgotPasswordPage from "../../Pages/ForgotPasswordPage/ForgotPasswordPage";
 
-const AuthRoutes: React.FC = () => {
+const AuthRoute: React.FC = () => {
   return (
     <Routes>
       <Route path="/login" element={<LoginPage />} />
@@ -15,4 +15,4 @@ const AuthRoutes: React.FC = () => {
   );
 };
 
-export default AuthRoutes;
+export default AuthRoute;
