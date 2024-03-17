@@ -127,7 +127,18 @@ function AppHeader() {
                 color: "inherit",
               }}
             >
-              JOIN
+              LOGIN
+            </Link>
+          </Button>
+          <Button color="inherit">
+            <Link
+              to="/signup"
+              style={{
+                textDecoration: "none",
+                color: "inherit",
+              }}
+            >
+              SIGNUP
             </Link>
           </Button>
         </Toolbar>
