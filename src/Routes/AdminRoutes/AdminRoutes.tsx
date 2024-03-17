@@ -1,7 +1,7 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
 
-import AdminPage from "../Pages/AdminPage/AdminPage";
+import AdminPage from "../../Pages/AdminPage/AdminPage";
 
 const AdminRoutes: React.FC = () => {
   return (

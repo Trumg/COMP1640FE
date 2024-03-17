@@ -1,6 +1,6 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
-import ManagerPage from "../Pages/ManagerPage/ManagerPage";
+import ManagerPage from "../../Pages/ManagerPage/ManagerPage";
 
 const ManagerRoutes: React.FC = () => {
   return (
