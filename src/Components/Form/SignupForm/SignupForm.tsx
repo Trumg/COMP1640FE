@@ -3,11 +3,12 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { SignupLogo } from "../../../Assets/SignupLogo/SignupLogo";
 import { SignupBackground } from "../../../Assets/SignupBackground/SignupBackground";
+import GlobalStyles from "../../../Styles/GlobalStyles/GlobalStyles";
+
 import CloseIcon from "@mui/icons-material/Close";
 
 const Background = styled.div`
   background: url(${SignupBackground}) no-repeat center center fixed;
-  background-color: #f4f4f4;
   background-size: 110%;
   min-height: 100vh;
   display: flex;
@@ -104,30 +105,33 @@ const LoginLink = styled(Link)`
 
 const SignupForm: React.FC = () => {
   return (
-    <Background>
-      <FormBackground>
-        <LogoWrapper>
-          <Logo src={SignupLogo} alt="LoginLogo" />
-          <Link to="/">
-            <CloseIcon />
-          </Link>
-        </LogoWrapper>
-        <Form>
-          <FormGroup>
-            <Label htmlFor="email">Email</Label>
-            <Input type="text" id="email" name="email" />
-          </FormGroup>
-          <FormGroup>
-            <Label htmlFor="password">Password</Label>
-            <Input type="password" id="password" name="password" />
-          </FormGroup>
-          <SubmitButton type="submit">Signup</SubmitButton>
-          <LoginText>
-            Already have an account? <LoginLink to="/login">Login</LoginLink>
-          </LoginText>
-        </Form>
-      </FormBackground>
-    </Background>
+    <>
+      <GlobalStyles />
+      <Background>
+        <FormBackground>
+          <LogoWrapper>
+            <Logo src={SignupLogo} alt="LoginLogo" />
+            <Link to="/">
+              <CloseIcon />
+            </Link>
+          </LogoWrapper>
+          <Form>
+            <FormGroup>
+              <Label htmlFor="email">Email</Label>
+              <Input type="text" id="email" name="email" />
+            </FormGroup>
+            <FormGroup>
+              <Label htmlFor="password">Password</Label>
+              <Input type="password" id="password" name="password" />
+            </FormGroup>
+            <SubmitButton type="submit">Signup</SubmitButton>
+            <LoginText>
+              Already have an account? <LoginLink to="/login">Login</LoginLink>
+            </LoginText>
+          </Form>
+        </FormBackground>
+      </Background>
+    </>
   );
 };
 
