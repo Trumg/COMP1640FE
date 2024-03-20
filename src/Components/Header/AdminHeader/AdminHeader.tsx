@@ -18,6 +18,7 @@ import MenuRoundedIcon from "@mui/icons-material/MenuRounded";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import AdminSider from "../../Sider/AdminSider/AdminSider";
+import AdminLayout from "../../../Interface/Layouts/AdminLayout/AdminLayout";
 
 const drawerWidth = 250;
 
@@ -211,6 +212,7 @@ function AdminHeader() {
       </Drawer>
       <Main open={open}>
         <DrawerHeader />
+        <AdminLayout />
       </Main>
     </Box>
   );

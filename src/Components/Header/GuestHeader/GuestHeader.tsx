@@ -13,6 +13,7 @@ import MenuRoundedIcon from "@mui/icons-material/MenuRounded";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import Typography from "@mui/material/Typography";
 import GuestSider from "../../Sider/GuestSider/GuestSider";
+import GuestLayout from "../../../Interface/Layouts/GuestLayout/GuestLayout";
 
 const drawerWidth = 250;
 
@@ -174,6 +175,7 @@ function GuestHeader() {
       </Drawer>
       <Main open={open}>
         <DrawerHeader />
+        <GuestLayout />
       </Main>
     </Box>
   );
