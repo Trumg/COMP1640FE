@@ -8,4 +8,4 @@ function AdminLayout() {
   );
 }
 
-export default AdminPageLayout;
+export default AdminLayout;
