@@ -1,5 +1,5 @@
-function AdminPageLayout() {
-  return <div>AdminPageLayout</div>;
+function AdminLayout() {
+  return <div>AdminLayout</div>;
 }
 
-export default AdminPageLayout;
+export default AdminLayout;
