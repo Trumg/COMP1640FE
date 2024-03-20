@@ -1,5 +1,11 @@
-function AdminPageLayout() {
-  return <div>AdminPageLayout</div>;
+import AdminTable from "../../../Components/Table/AdminTable/AdminTable";
+
+function AdminLayout() {
+  return (
+    <div>
+      <AdminTable />
+    </div>
+  );
 }
 
-export default AdminPageLayout;
+export default AdminLayout;
