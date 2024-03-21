@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
-import { LoginLogo } from "../../../Assets/LoginLogo/LoginLogo";
-import { LoginBackground } from "../../../Assets/LoginBackground/LoginBackground";
+import { LoginLogo } from "../../../Assets/Image/LoginLogo/LoginLogo";
+import { LoginBackground } from "../../../Assets/Image/LoginBackground/LoginBackground";
 import GlobalStyles from "../../../Styles/GlobalStyles/GlobalStyles";
 import CloseIcon from "@mui/icons-material/Close";
 import axios from "axios";

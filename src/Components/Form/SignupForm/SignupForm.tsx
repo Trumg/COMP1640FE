@@ -1,8 +1,8 @@
 import React from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
-import { SignupLogo } from "../../../Assets/SignupLogo/SignupLogo";
-import { SignupBackground } from "../../../Assets/SignupBackground/SignupBackground";
+import { SignupLogo } from "../../../Assets/Image/SignupLogo/SignupLogo";
+import { SignupBackground } from "../../../Assets/Image/SignupBackground/SignupBackground";
 import GlobalStyles from "../../../Styles/GlobalStyles/GlobalStyles";
 
 import CloseIcon from "@mui/icons-material/Close";
