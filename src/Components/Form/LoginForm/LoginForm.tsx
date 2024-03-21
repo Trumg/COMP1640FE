@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { LoginLogo } from "../../../Assets/LoginLogo/LoginLogo";
 import { LoginBackground } from "../../../Assets/LoginBackground/LoginBackground";
 import GlobalStyles from "../../../Styles/GlobalStyles/GlobalStyles";
 import CloseIcon from "@mui/icons-material/Close";
+import axios from "axios";
 
 const Background = styled.div`
   background: url(${LoginBackground}) no-repeat center center fixed;
@@ -102,11 +103,35 @@ const SignUpLink = styled(Link)`
 `;
 
 const LoginForm: React.FC = () => {
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      const response = await axios.post("https://reqres.in/api/login", {
+        email,
+        password,
+      });
+
+      if (response.status === 200) {
+        const { token } = response.data;
+        // Store the JWT token securely (e.g., local storage)
+        localStorage.setItem("token", token);
+        console.log("Login successful. Token:", token);
+      } else {
+        console.error("Login failed:", response.data);
+      }
+    } catch (error) {
+      console.error("An error occurred:", error.message);
+    }
+  };
+
   return (
     <>
-      <GlobalStyles />{" "}
+      <GlobalStyles />
       <Background>
-        <FormBackground>
+        <FormBackground onSubmit={handleLogin}>
           <LogoWrapper>
             <Logo src={LoginLogo} alt="LoginLogo" />
             <Link to="/">
@@ -116,16 +141,28 @@ const LoginForm: React.FC = () => {
           <Form>
             <FormGroup>
               <Label htmlFor="email">Email</Label>
-              <Input type="text" id="email" name="email" />
+              <Input
+                type="email"
+                id="email"
+                name="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
             </FormGroup>
             <FormGroup>
               <Label htmlFor="password">Password</Label>
-              <Input type="password" id="password" name="password" />
+              <Input
+                type="password"
+                id="password"
+                name="password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
             </FormGroup>
             <SubmitButton type="submit">Login</SubmitButton>
             <SignUpText>
-              Don't have an account?{" "}
-              <SignUpLink to="/signup">Signup</SignUpLink>
+              Don't have an account?
+              <SignUpLink to="/signup"> Signup</SignUpLink>
             </SignUpText>
           </Form>
         </FormBackground>

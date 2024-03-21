@@ -9,7 +9,6 @@ import CloseIcon from "@mui/icons-material/Close";
 
 const Background = styled.div`
   background: url(${SignupBackground}) no-repeat center center fixed;
-  background-size: 110%;
   min-height: 100vh;
   display: flex;
   justify-content: center;
@@ -126,7 +125,7 @@ const SignupForm: React.FC = () => {
             </FormGroup>
             <SubmitButton type="submit">Signup</SubmitButton>
             <LoginText>
-              Already have an account? <LoginLink to="/login">Login</LoginLink>
+              Already have an account? <LoginLink to="/login"> Login</LoginLink>
             </LoginText>
           </Form>
         </FormBackground>

@@ -17,7 +17,7 @@ import Avatar from "@mui/material/Avatar";
 import MenuRoundedIcon from "@mui/icons-material/MenuRounded";
 import CloseRoundedIcon from "@mui/icons-material/CloseRounded";
 import NotificationsIcon from "@mui/icons-material/Notifications";
-import GuestSider from "../../Sider/GuestSider/GuestSider";
+import ManagerSider from "../../Sider/ManagerSider/ManagerSider";
 
 const drawerWidth = 250;
 
@@ -207,7 +207,7 @@ function ManagerHeader() {
           </IconButton>
         </DrawerHeader>
         <Divider />
-        <GuestSider />
+        <ManagerSider />
       </Drawer>
       <Main open={open}>
         <DrawerHeader />
