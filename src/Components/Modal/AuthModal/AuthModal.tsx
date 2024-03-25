@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import { FaGoogle } from "react-icons/fa";
 import { MdOutlineClose } from "react-icons/md";
 import { MdOutlineArrowBack } from "react-icons/md";
 import { LoginImage } from "../../../Assets/LoginImage/LoginImage";
 import { SignupImage } from "../../../Assets/SignupImage/SignupImage";
 import { ResetImage } from "../../../Assets/ResetImage/ResetImage";
+import { GoogleImage } from "../../../Assets/GoogleImage/GoogleImage";
 
 enum ModalState {
   LOGIN,
@@ -44,24 +44,29 @@ const AuthModal: React.FC = () => {
               <div className="flex items-center justify-center">
                 <img
                   src={LoginImage}
-                  width={225}
-                  height={200}
+                  width={120}
+                  height={120}
                   alt="Login Image"
                 />
               </div>
             </h3>
             <div className="mt-2">
               {/* Continue with Google Button */}
-              <button className="bg-blue-600 text-white font-bold py-2 px-4 rounded-full w-full flex items-center justify-center">
-                <FaGoogle className="mr-2" />
-                <span className="inline-block">Continue with Google</span>
+              <button className="relative bg-white text-blue-600 font-bold py-2 px-4 rounded-full w-full flex items-center justify-center border transition duration-300 hover:text-gray-600 hover:border-gray-400 focus:outline-none hover:bg-gray-100">
+                <img
+                  src={GoogleImage}
+                  width="36"
+                  height="36"
+                  alt="Google Logo"
+                />
+                <span className="inline-block ml-2">Continue with Google</span>
               </button>
 
               {/* Or Break */}
               <div className="text-center py-5 relative">
-                <div className="absolute left-0 top-1/2 w-1/3 bg-gray-300 h-0.5 transform -translate-y-1/2"></div>
+                <div className="absolute left-0 top-1/2 w-52 bg-gray-300 h-0.5 transform -translate-y-1/2"></div>
                 <span className="text-gray-500">OR</span>
-                <div className="absolute right-0 top-1/2 w-1/3 bg-gray-300 h-0.5 transform -translate-y-1/2"></div>
+                <div className="absolute right-0 top-1/2 w-52 bg-gray-300 h-0.5 transform -translate-y-1/2"></div>
               </div>
 
               {/* Email and Password Form */}
@@ -103,8 +108,9 @@ const AuthModal: React.FC = () => {
                   onClick={openResetPasswordModal}
                   className="text-blue-500"
                 >
-                  Reset.
+                  Reset
                 </button>
+                .
               </p>
               <p>
                 Don't have an account?{" "}
@@ -131,23 +137,28 @@ const AuthModal: React.FC = () => {
             <div className="flex items-center justify-center">
               <img
                 src={SignupImage}
-                width={225}
-                height={200}
+                width={120}
+                height={120}
                 alt="Signup Image"
               />
             </div>
             <div className="mt-2">
               {/* Continue with Google Button */}
-              <button className="bg-blue-600 text-white font-bold py-2 px-4 rounded-full w-full flex items-center justify-center">
-                <FaGoogle className="mr-2" />
-                <span className="inline-block">Continue with Google</span>
+              <button className="relative bg-white text-blue-600 font-bold py-2 px-4 rounded-full w-full flex items-center justify-center border transition duration-300 hover:text-gray-600 hover:border-gray-400 focus:outline-none hover:bg-gray-100">
+                <img
+                  src={GoogleImage}
+                  width="36"
+                  height="36"
+                  alt="Google Logo"
+                />
+                <span className="inline-block ml-2">Continue with Google</span>
               </button>
 
               {/* Or Break */}
               <div className="text-center py-5 relative">
-                <div className="absolute left-0 top-1/2 w-1/3 bg-gray-300 h-0.5 transform -translate-y-1/2"></div>
+                <div className="absolute left-0 top-1/2 w-52 bg-gray-300 h-0.5 transform -translate-y-1/2"></div>
                 <span className="text-gray-500">OR</span>
-                <div className="absolute right-0 top-1/2 w-1/3 bg-gray-300 h-0.5 transform -translate-y-1/2"></div>
+                <div className="absolute right-0 top-1/2 w-52 bg-gray-300 h-0.5 transform -translate-y-1/2"></div>
               </div>
 
               {/* Sign Up Form */}
@@ -199,8 +210,8 @@ const AuthModal: React.FC = () => {
             <div className="flex items-center justify-center">
               <img
                 src={ResetImage}
-                width={225}
-                height={200}
+                width={120}
+                height={120}
                 alt="Reset Image"
               />
             </div>
@@ -239,7 +250,7 @@ const AuthModal: React.FC = () => {
     <>
       <button
         onClick={openModal}
-        className="bg-white text-black border-2 border-black hover:bg-gray-400 font-bold py-2 px-4 rounded-full shadow-md mr-4"
+        className="bg-red-600 text-white border-1 border-black hover:bg-gray-400 font-bold py-2 px-4 rounded-full shadow-md mr-4"
       >
         Log In
       </button>
@@ -280,7 +291,8 @@ const AuthModal: React.FC = () => {
               <div className="px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
                 <button
                   onClick={closeModal}
-                  className="bg-blue-600 text-white font-bold py-2 px-4 rounded-full w-full flex items-center justify-center mb-4"
+                  className="bg-red-600 text-white font-bold py-2 px-4 hover:bg-gray-400
+                  rounded-full w-full flex items-center justify-center mb-4"
                 >
                   {currentForm === ModalState.LOGIN
                     ? "Login"
