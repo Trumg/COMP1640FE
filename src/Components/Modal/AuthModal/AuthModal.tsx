@@ -1,13 +1,15 @@
 import React, { useState } from "react";
+import { FaGoogle } from "react-icons/fa";
+import { MdOutlineClose } from "react-icons/md";
 
 enum ModalState {
   LOGIN,
   SIGNUP,
 }
 
-const LoginModal: React.FC = () => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [currentForm, setCurrentForm] = useState(ModalState.LOGIN);
+const AuthModal: React.FC = () => {
+  const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [currentForm, setCurrentForm] = useState<ModalState>(ModalState.LOGIN);
 
   const openModal = () => {
     setIsOpen(true);
@@ -39,7 +41,7 @@ const LoginModal: React.FC = () => {
               className="fixed inset-0 transition-opacity"
               aria-hidden="true"
             >
-              <div className="absolute inset-0 bg-gray-500 opacity-75"></div>
+              <div className="absolute inset-0 bg-gray-600 opacity-75"></div>
             </div>
 
             <span
@@ -55,21 +57,9 @@ const LoginModal: React.FC = () => {
                 <button
                   onClick={closeModal}
                   className="text-gray-400 hover:text-gray-500"
+                  style={{ fontSize: "1.5rem" }}
                 >
-                  <svg
-                    className="h-6 w-6"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M6 18L18 6M6 6l12 12"
-                    />
-                  </svg>
+                  <MdOutlineClose />
                 </button>
               </div>
 
@@ -78,17 +68,24 @@ const LoginModal: React.FC = () => {
                 {currentForm === ModalState.LOGIN ? (
                   <>
                     <h3 className="text-lg font-medium leading-6 text-gray-900 text-center mb-6">
-                      Create an Account
+                      Log In
                     </h3>
                     <div className="mt-2">
                       {/* Continue with Google Button */}
-                      <button className="bg-red-600 text-white font-bold py-2 px-4 rounded-full w-full mb-2">
-                        Continue with Google
+                      <button className="bg-blue-600 text-white font-bold py-2 px-4 rounded-full w-full flex items-center justify-center">
+                        <FaGoogle className="mr-2" />
+                        <span className="inline-block">
+                          Continue with Google
+                        </span>
                       </button>
+
                       {/* Or Break */}
-                      <div className="text-center py-5">
-                        <span className="text-gray-500">or</span>
+                      <div className="text-center py-5 relative">
+                        <div className="absolute left-0 top-1/2 w-1/3 bg-gray-300 h-0.5 transform -translate-y-1/2"></div>
+                        <span className="text-gray-500">OR</span>
+                        <div className="absolute right-0 top-1/2 w-1/3 bg-gray-300 h-0.5 transform -translate-y-1/2"></div>
                       </div>
+
                       {/* Email and Password Form */}
                       <form>
                         <div>
@@ -137,51 +134,73 @@ const LoginModal: React.FC = () => {
                       Sign Up
                     </h3>
                     <div className="mt-2">
-                      {/* Sign Up Form */}
+                      {/* Continue with Google Button */}
+                      <button className="bg-blue-600 text-white font-bold py-2 px-4 rounded-full w-full flex items-center justify-center">
+                        <FaGoogle className="mr-2" />
+                        <span className="inline-block">
+                          Continue with Google
+                        </span>
+                      </button>
 
-                      {/* You can add sign up form fields here */}
+                      {/* Or Break */}
+                      <div className="text-center py-5 relative">
+                        <div className="absolute left-0 top-1/2 w-1/3 bg-gray-300 h-0.5 transform -translate-y-1/2"></div>
+                        <span className="text-gray-500">OR</span>
+                        <div className="absolute right-0 top-1/2 w-1/3 bg-gray-300 h-0.5 transform -translate-y-1/2"></div>
+                      </div>
+
+                      {/* Sign Up Form */}
+                      <form>
+                        <div>
+                          <label
+                            htmlFor="signup-email"
+                            className="block text-sm font-medium text-gray-700"
+                          >
+                            Email
+                          </label>
+                          <input
+                            type="email"
+                            id="signup-email"
+                            name="signup-email"
+                            className="mt-1 p-2 w-full border border-gray-300 rounded-md"
+                          />
+                        </div>
+                        <div className="mt-3">
+                          <label
+                            htmlFor="signup-password"
+                            className="block text-sm font-medium text-gray-700"
+                          >
+                            Password
+                          </label>
+                          <input
+                            type="password"
+                            id="signup-password"
+                            name="signup-password"
+                            className="mt-1 p-2 w-full border border-gray-300 rounded-md"
+                          />
+                        </div>
+                      </form>
                     </div>
                     <div className="mt-4 text-center">
-                      <button
-                        onClick={toggleForm}
-                        className="text-blue-500 flex items-center justify-center"
-                      >
-                        <svg
-                          className="h-5 w-5 mr-2"
-                          xmlns="http://www.w3.org/2000/svg"
-                          viewBox="0 0 20 20"
-                          fill="currentColor"
-                        >
-                          <path
-                            fillRule="evenodd"
-                            d="M10 18a8 8 0 100-16 8 8 0 000 16zm0-2a6 6 0 100-12 6 6 0 000 12z"
-                            clipRule="evenodd"
-                          />
-                          <path
-                            fillRule="evenodd"
-                            d="M10 4a.75.75 0 01.75.75v4.5h4.5a.75.75 0 010 1.5h-4.5v4.5a.75.75 0 01-1.5 0v-4.5H4.75a.75.75 0 010-1.5h4.5v-4.5A.75.75 0 0110 4z"
-                            clipRule="evenodd"
-                          />
-                        </svg>
-                        Back to Login
-                      </button>
+                      <p>
+                        Already have an account?{" "}
+                        <button onClick={toggleForm} className="text-blue-500">
+                          Log In
+                        </button>
+                        .
+                      </p>
                     </div>
                   </>
                 )}
               </div>
+
               {/* End of Modal Content */}
-              <div className="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+              <div className="px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
                 <button
                   onClick={closeModal}
-                  className="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-500 text-base font-medium text-white hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm"
+                  className="bg-blue-600 text-white font-bold py-2 px-4 rounded-full w-full flex items-center justify-center mb-4"
                 >
                   {currentForm === ModalState.LOGIN ? "Login" : "Sign Up"}
-                </button>
-                <button
-                  onClick={closeModal}
-                  className="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm"
-                >
-                  Cancel
                 </button>
               </div>
             </div>
@@ -192,4 +211,4 @@ const LoginModal: React.FC = () => {
   );
 };
 
-export default LoginModal;
+export default AuthModal;
