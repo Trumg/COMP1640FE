@@ -5,6 +5,7 @@ import { LoginImage } from "../../../Assets/LoginImage/LoginImage";
 import { SignupImage } from "../../../Assets/SignupImage/SignupImage";
 import { ResetImage } from "../../../Assets/ResetImage/ResetImage";
 import { GoogleImage } from "../../../Assets/GoogleImage/GoogleImage";
+import { login } from "../../../Services/apiService";
 
 enum ModalState {
   LOGIN,
@@ -15,6 +16,20 @@ enum ModalState {
 const AuthModal: React.FC = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [currentForm, setCurrentForm] = useState<ModalState>(ModalState.LOGIN);
+
+  // Login
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState<any>(null);
+
+  const handleLogin = async () => {
+    try {
+      await login(email, password);
+      // Handle successful login, e.g., redirect user or update UI
+    } catch (error) {
+      setError(error);
+    }
+  };
 
   const openModal = () => {
     setIsOpen(true);
@@ -37,6 +52,7 @@ const AuthModal: React.FC = () => {
 
   const renderModalContent = () => {
     switch (currentForm) {
+      // Log In Modal
       case ModalState.LOGIN:
         return (
           <>
@@ -58,7 +74,7 @@ const AuthModal: React.FC = () => {
                   height="36"
                   alt="Google Logo"
                 />
-                <span className="inline-block ml-2">Continue with Google</span>
+                <span className="inline-block ml-2">Log in with Google</span>
               </button>
               <div className="text-center py-5 relative">
                 <div className="absolute left-0 top-1/2 w-52 bg-gray-300 h-0.5 transform -translate-y-1/2"></div>
@@ -79,6 +95,8 @@ const AuthModal: React.FC = () => {
                     name="email"
                     className="mt-1 p-2 w-full border border-gray-500 rounded-md"
                     placeholder="Enter your email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
                   />
                 </div>
                 <div className="mt-3">
@@ -94,6 +112,8 @@ const AuthModal: React.FC = () => {
                     name="password"
                     className="mt-1 p-2 w-full border border-gray-500 rounded-md"
                     placeholder="Enter your password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
                   />
                 </div>
               </form>
@@ -117,8 +137,19 @@ const AuthModal: React.FC = () => {
                 .
               </p>
             </div>
+            <div
+              onClick={handleLogin}
+              className="px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse"
+            >
+              <button className="bg-red-600 text-white font-bold py-2 px-4 hover:bg-gray-400 rounded-full w-full flex items-center justify-center mb-4">
+                Log In
+              </button>
+              {error && <div>{error}</div>}
+            </div>
           </>
         );
+
+      // Sign Up Modal
       case ModalState.SIGNUP:
         return (
           <>
@@ -146,7 +177,7 @@ const AuthModal: React.FC = () => {
                   height="36"
                   alt="Google Logo"
                 />
-                <span className="inline-block ml-2">Continue with Google</span>
+                <span className="inline-block ml-2">Sign up with Google</span>
               </button>
               <div className="text-center py-5 relative">
                 <div className="absolute left-0 top-1/2 w-52 bg-gray-300 h-0.5 transform -translate-y-1/2"></div>
@@ -195,8 +226,18 @@ const AuthModal: React.FC = () => {
                 .
               </p>
             </div>
+            <div className="px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+              <button
+                className="bg-red-600 text-white font-bold py-2 px-4 hover:bg-gray-400
+                  rounded-full w-full flex items-center justify-center mb-4"
+              >
+                Sign Up
+              </button>
+            </div>
           </>
         );
+
+      // Reset Password Modal
       case ModalState.RESET_PASSWORD:
         return (
           <>
@@ -248,6 +289,14 @@ const AuthModal: React.FC = () => {
                   SIGN UP
                 </button>
               </div>
+              <div className="px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+                <button
+                  className="bg-red-600 text-white font-bold py-2 px-4 hover:bg-gray-400
+                  rounded-full w-full flex items-center justify-center mb-4"
+                >
+                  Reset Password
+                </button>
+              </div>
             </form>
           </>
         );
@@ -261,7 +310,7 @@ const AuthModal: React.FC = () => {
         onClick={openModal}
         className="bg-red-600 text-white border-1 border-black hover:bg-gray-400 font-bold py-2 px-4 rounded-full shadow-md mr-4"
       >
-        Log In
+        Join with us
       </button>
       {isOpen && (
         <div className="fixed z-10 inset-0 overflow-y-auto">
@@ -272,14 +321,12 @@ const AuthModal: React.FC = () => {
             >
               <div className="absolute inset-0 bg-gray-600 opacity-75"></div>
             </div>
-
             <span
               className="hidden sm:inline-block sm:align-middle sm:h-screen"
               aria-hidden="true"
             >
               &#8203;
             </span>
-
             <div className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
               <div className="absolute top-0 right-0 pt-4 pr-4">
                 <button
@@ -291,19 +338,6 @@ const AuthModal: React.FC = () => {
               </div>
               <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
                 {renderModalContent()}
-              </div>
-              <div className="px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
-                <button
-                  onClick={closeModal}
-                  className="bg-red-600 text-white font-bold py-2 px-4 hover:bg-gray-400
-                  rounded-full w-full flex items-center justify-center mb-4"
-                >
-                  {currentForm === ModalState.LOGIN
-                    ? "Login"
-                    : currentForm === ModalState.SIGNUP
-                    ? "Sign Up"
-                    : "Reset Password"}
-                </button>
               </div>
             </div>
           </div>
