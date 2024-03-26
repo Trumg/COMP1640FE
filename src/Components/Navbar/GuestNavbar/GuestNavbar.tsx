@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { MagazineImage } from "../../Assets/MagazineImage/MagazineImage";
+import { MagazineImage } from "../../../Assets/MagazineImage/MagazineImage";
 import { Link } from "react-router-dom";
-import AuthModal from "../Modal/AuthModal/AuthModal";
-import { FaSearch, FaBars } from "react-icons/fa"; // Import icons
+import AuthModalDesktop from "../../Modal/AuthModal/AuthModalDesktop";
+import AuthModalMobile from "../../Modal/AuthModal/AuthModalMobile";
+import { FaSearch, FaBars, FaTimes } from "react-icons/fa"; // Import icons
 
 const Navbar: React.FC = () => {
   const [isMobile, setIsMobile] = useState<boolean>(false);
+  const [showMenu, setShowMenu] = useState<boolean>(false);
 
   useEffect(() => {
     const handleResize = () => {
@@ -16,6 +18,10 @@ const Navbar: React.FC = () => {
     window.addEventListener("resize", handleResize); // Listen for window resize events
     return () => window.removeEventListener("resize", handleResize); // Cleanup function
   }, []);
+
+  const toggleMenu = () => {
+    setShowMenu(!showMenu);
+  };
 
   return (
     <nav className="bg-white shadow-lg w-full fixed">
@@ -33,8 +39,15 @@ const Navbar: React.FC = () => {
           </div>
           {isMobile ? (
             <div className="flex md:hidden">
-              <button className="text-gray-500 hover:text-gray-800 focus:outline-none focus:text-gray-800">
-                <FaBars className="h-8 w-16" />
+              <button
+                className="text-gray-500 hover:text-gray-800 focus:outline-none focus:text-gray-800"
+                onClick={toggleMenu}
+              >
+                {showMenu ? (
+                  <FaTimes className="h-8 w-8" />
+                ) : (
+                  <FaBars className="h-8 w-8" />
+                )}
               </button>
             </div>
           ) : (
@@ -51,15 +64,22 @@ const Navbar: React.FC = () => {
                   </div>
                 </div>
               </div>
-              <div className="hidden md:block">
-                <div className="ml-10 flex items-baseline space-x-2 mr-4">
-                  <AuthModal />
+              <div className="hidden md:flex items-center">
+                <div className="ml-10 space-x-2">
+                  <AuthModalDesktop />
                 </div>
               </div>
             </>
           )}
         </div>
       </div>
+      {isMobile && showMenu && (
+        <div className="md:hidden bg-gray-100 py-2">
+          <div className="px-4">
+            <AuthModalMobile />
+          </div>
+        </div>
+      )}
     </nav>
   );
 };

@@ -11,7 +11,6 @@ import {
 import { auth } from "../../../firebase";
 
 import { MdOutlineClose } from "react-icons/md";
-import { MdOutlineArrowBack } from "react-icons/md";
 import { LoginImage } from "../../../Assets/LoginImage/LoginImage";
 import { SignupImage } from "../../../Assets/SignupImage/SignupImage";
 import { ResetImage } from "../../../Assets/ResetImage/ResetImage";
@@ -183,7 +182,7 @@ const AuthModal: React.FC = () => {
                   onClick={handleLoginWithGoogle}
                   className="inline-block ml-2"
                 >
-                  Log in with Google
+                  Login with Google
                 </span>
               </button>
               <div className="text-center py-5 relative">
@@ -242,7 +241,7 @@ const AuthModal: React.FC = () => {
               <p>
                 Don't have an account?{" "}
                 <button onClick={toggleForm} className="text-blue-500">
-                  SIGN UP
+                  SIGNUP
                 </button>
                 .
               </p>
@@ -252,7 +251,7 @@ const AuthModal: React.FC = () => {
                 onClick={handleLogIn}
                 className="bg-red-600 text-white font-bold py-2 px-4 hover:bg-gray-400 rounded-full w-full flex items-center justify-center mb-4"
               >
-                Log In
+                LOGIN
               </button>
             </div>
           </>
@@ -262,14 +261,6 @@ const AuthModal: React.FC = () => {
       case ModalState.SIGNUP:
         return (
           <>
-            <div className="absolute top-0 left-0 pt-4 pl-4">
-              <button
-                onClick={() => setCurrentForm(ModalState.LOGIN)}
-                className="text-gray-400 hover:text-gray-500 text-xl"
-              >
-                <MdOutlineArrowBack />
-              </button>
-            </div>
             <div className="flex items-center justify-center">
               <img
                 src={SignupImage}
@@ -290,7 +281,7 @@ const AuthModal: React.FC = () => {
                   onClick={handleSignUpWithGoogle}
                   className="inline-block ml-2"
                 >
-                  Sign up with Google
+                  Signup with Google
                 </span>
               </button>
               <div className="text-center py-5 relative">
@@ -354,7 +345,7 @@ const AuthModal: React.FC = () => {
               <p>
                 Already have an account?{" "}
                 <button onClick={toggleForm} className="text-blue-500">
-                  LOG IN
+                  LOGIN
                 </button>
                 .
               </p>
@@ -365,7 +356,7 @@ const AuthModal: React.FC = () => {
                   rounded-full w-full flex items-center justify-center mb-4"
                 onClick={handleSignUp}
               >
-                Sign Up
+                SIGNUP
               </button>
             </div>
           </>
@@ -383,14 +374,7 @@ const AuthModal: React.FC = () => {
                 alt="Reset Image"
               />
             </div>
-            <div className="absolute top-0 left-0 pt-4 pl-4">
-              <button
-                onClick={() => setCurrentForm(ModalState.LOGIN)}
-                className="text-gray-400 hover:text-gray-500 text-xl"
-              >
-                <MdOutlineArrowBack />
-              </button>
-            </div>
+
             <form>
               <div>
                 <label
@@ -414,14 +398,14 @@ const AuthModal: React.FC = () => {
                   onClick={() => setCurrentForm(ModalState.LOGIN)}
                   className="inline-block text-blue-500"
                 >
-                  LOG IN
+                  LOGIN
                 </button>
                 <span className="mx-2"> &bull; </span>
                 <button
                   onClick={() => setCurrentForm(ModalState.SIGNUP)}
                   className="inline-block text-blue-500"
                 >
-                  SIGN UP
+                  SIGNUP
                 </button>
               </div>
               <div className="px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
@@ -430,7 +414,7 @@ const AuthModal: React.FC = () => {
                   className="bg-red-600 text-white font-bold py-2 px-4 hover:bg-gray-400
                   rounded-full w-full flex items-center justify-center mb-4"
                 >
-                  Reset Password
+                  RESET
                 </button>
               </div>
             </form>
@@ -446,7 +430,7 @@ const AuthModal: React.FC = () => {
         onClick={openModal}
         className="bg-red-600 text-white border-1 border-black hover:bg-gray-400 font-bold py-2 px-4 rounded-full shadow-md mr-4"
       >
-        Join with us
+        LOGIN
       </button>
       {isOpen && (
         <div className="fixed z-10 inset-0 overflow-y-auto">
