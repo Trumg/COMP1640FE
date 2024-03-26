@@ -4,6 +4,8 @@ import {
   signInWithEmailAndPassword,
   signInWithPopup,
   GoogleAuthProvider,
+  AuthError,
+  sendPasswordResetEmail,
 } from "firebase/auth";
 import { auth } from "../../../firebase";
 
@@ -24,11 +26,11 @@ const AuthModal: React.FC = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [currentForm, setCurrentForm] = useState<ModalState>(ModalState.LOGIN);
 
-  // Sign Up
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
+  // Sign Up
   const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) =>
     setEmail(event.target.value);
   const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -103,9 +105,30 @@ const AuthModal: React.FC = () => {
         console.log(user);
         // Redirect user to dashboard or another page upon successful login
       })
-      .catch((error) => {
-        // Handle errors here (e.g., display error message to the user)
-        console.log(error);
+      .catch((error: AuthError) => {
+        // Handle errors here
+        if (error.code === "auth/cancelled-popup-request") {
+          // User cancelled the login process
+          console.log("Login process cancelled by the user.");
+        } else {
+          // Other authentication errors
+          console.error("Authentication error:", error.message);
+        }
+      });
+  };
+
+  // Forgot Password Email Resend
+  const handleForgotPassword = () => {
+    sendPasswordResetEmail(auth, email)
+      .then(() => {
+        // Password reset email sent successfully
+        // setMessage("Password reset email sent. Please check your inbox.");
+        // setError("");
+      })
+      .catch(() => {
+        // Handle errors
+        // setMessage("");
+        // setError(error.message);
       });
   };
 
@@ -381,6 +404,7 @@ const AuthModal: React.FC = () => {
                   name="reset-password"
                   className="mt-1 p-2 w-full border border-gray-300 rounded-md"
                   placeholder="Enter your email"
+                  onChange={(e) => setEmail(e.target.value)}
                 />
               </div>
 
@@ -401,6 +425,7 @@ const AuthModal: React.FC = () => {
               </div>
               <div className="px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
                 <button
+                  onClick={handleForgotPassword}
                   className="bg-red-600 text-white font-bold py-2 px-4 hover:bg-gray-400
                   rounded-full w-full flex items-center justify-center mb-4"
                 >
