@@ -6,6 +6,7 @@ import {
   GoogleAuthProvider,
   AuthError,
   sendPasswordResetEmail,
+  // sendEmailVerification,
 } from "firebase/auth";
 import { auth } from "../../../firebase";
 
@@ -309,7 +310,7 @@ const AuthModal: React.FC = () => {
                     type="email"
                     id="signup-email"
                     name="signup-email"
-                    className="mt-1 p-2 w-full border border-gray-300 rounded-md"
+                    className="mt-1 p-2 w-full border border-gray-500 rounded-md"
                     placeholder="Enter your email"
                     onChange={handleEmailChange}
                   />
@@ -325,7 +326,7 @@ const AuthModal: React.FC = () => {
                     type="password"
                     id="signup-password"
                     name="signup-password"
-                    className="mt-1 p-2 w-full border border-gray-300 rounded-md"
+                    className="mt-1 p-2 w-full border border-gray-500 rounded-md"
                     placeholder="Enter your password"
                     onChange={handlePasswordChange}
                   />
@@ -341,7 +342,7 @@ const AuthModal: React.FC = () => {
                     type="password"
                     id="confirm-password"
                     name="confirm-password"
-                    className="mt-1 p-2 w-full border border-gray-300 rounded-md"
+                    className="mt-1 p-2 w-full border border-gray-500 rounded-md"
                     placeholder="Confirm your password"
                     value={confirmPassword}
                     onChange={handleConfirmPasswordChange}
@@ -402,8 +403,8 @@ const AuthModal: React.FC = () => {
                   type="email"
                   id="reset-password"
                   name="reset-password"
-                  className="mt-1 p-2 w-full border border-gray-300 rounded-md"
-                  placeholder="Enter your email"
+                  className="mt-1 p-2 w-full border border-gray-500 rounded-md"
+                  placeholder="Enter your email to reset"
                   onChange={(e) => setEmail(e.target.value)}
                 />
               </div>

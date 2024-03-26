@@ -1,33 +1,21 @@
-import React, { ReactNode, useEffect, useState } from "react";
-import { getAuth, onAuthStateChanged } from "firebase/auth";
-import { useNavigate } from "react-router-dom";
+import { ReactNode } from "react";
+import { Navigate } from "react-router-dom";
 
-export interface IAuthRouteProps {
-  children: ReactNode; // Define children prop as ReactNode
+interface User {
+  // Define the structure of your user object here
+  // For example:
+  id: string;
+  email: string;
+  // Add more fields as needed
 }
 
-const PrivateRoute: React.FunctionComponent<IAuthRouteProps> = (props) => {
-  const { children } = props;
-  const auth = getAuth();
-  const navigate = useNavigate();
-  const [loading, setLoading] = useState(true); // Set loading to true initially
+interface PrivateRouteProps {
+  children: ReactNode;
+  user: User | null; // Specify a more specific type for the user prop
+}
 
-  useEffect(() => {
-    const AuthCheck = onAuthStateChanged(auth, (user) => {
-      if (user) {
-        setLoading(false);
-      } else {
-        console.log("unauthorized");
-        navigate("/login");
-      }
-    });
-
-    return () => AuthCheck();
-  }, [auth, navigate]);
-
-  if (loading) return <p>loading ...</p>;
-
-  return <>{children}</>; // Render children
+const PrivateRoute: React.FC<PrivateRouteProps> = ({ children, user }) => {
+  return user ? children : <Navigate to="/" />;
 };
 
 export default PrivateRoute;
