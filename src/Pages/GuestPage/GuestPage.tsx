@@ -1,11 +1,11 @@
-import GuestHeader from "../../Components/Header/GuestHeader/GuestHeader";
+import Navbar from "../../Components/Navbar/Navbar";
 
-function HomePage() {
+function GuestPage() {
   return (
     <div>
-      <GuestHeader />
+      <Navbar />
     </div>
   );
 }
 
-export default HomePage;
+export default GuestPage;
