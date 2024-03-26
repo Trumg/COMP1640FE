@@ -51,8 +51,7 @@ const AuthModal: React.FC = () => {
               </div>
             </h3>
             <div className="mt-2">
-              {/* Continue with Google Button */}
-              <button className="relative bg-white text-blue-600 font-bold py-2 px-4 rounded-full w-full flex items-center justify-center border transition duration-300 hover:text-gray-600 hover:border-gray-400 focus:outline-none hover:bg-gray-100">
+              <button className="relative bg-white text-black font-bold py-2 px-4 rounded-full w-full flex items-center justify-center border border-gray-500 transition duration-300 hover:text-gray-600 hover:border-gray-500 focus:outline-none hover:bg-gray-100">
                 <img
                   src={GoogleImage}
                   width="36"
@@ -61,20 +60,16 @@ const AuthModal: React.FC = () => {
                 />
                 <span className="inline-block ml-2">Continue with Google</span>
               </button>
-
-              {/* Or Break */}
               <div className="text-center py-5 relative">
                 <div className="absolute left-0 top-1/2 w-52 bg-gray-300 h-0.5 transform -translate-y-1/2"></div>
-                <span className="text-gray-500">OR</span>
+                <span className="text-gray-600">OR</span>
                 <div className="absolute right-0 top-1/2 w-52 bg-gray-300 h-0.5 transform -translate-y-1/2"></div>
               </div>
-
-              {/* Email and Password Form */}
               <form>
                 <div>
                   <label
                     htmlFor="email"
-                    className="block text-sm font-medium text-gray-700"
+                    className="block text-xl font-medium text-gray-700 "
                   >
                     Email
                   </label>
@@ -82,13 +77,14 @@ const AuthModal: React.FC = () => {
                     type="email"
                     id="email"
                     name="email"
-                    className="mt-1 p-2 w-full border border-gray-300 rounded-md"
+                    className="mt-1 p-2 w-full border border-gray-500 rounded-md"
+                    placeholder="Enter your email"
                   />
                 </div>
                 <div className="mt-3">
                   <label
                     htmlFor="password"
-                    className="block text-sm font-medium text-gray-700"
+                    className="block text-xl font-medium text-gray-700"
                   >
                     Password
                   </label>
@@ -96,7 +92,8 @@ const AuthModal: React.FC = () => {
                     type="password"
                     id="password"
                     name="password"
-                    className="mt-1 p-2 w-full border border-gray-300 rounded-md"
+                    className="mt-1 p-2 w-full border border-gray-500 rounded-md"
+                    placeholder="Enter your password"
                   />
                 </div>
               </form>
@@ -108,14 +105,14 @@ const AuthModal: React.FC = () => {
                   onClick={openResetPasswordModal}
                   className="text-blue-500"
                 >
-                  Reset
+                  RESET
                 </button>
                 .
               </p>
               <p>
                 Don't have an account?{" "}
                 <button onClick={toggleForm} className="text-blue-500">
-                  Sign Up
+                  SIGN UP
                 </button>
                 .
               </p>
@@ -124,7 +121,6 @@ const AuthModal: React.FC = () => {
         );
       case ModalState.SIGNUP:
         return (
-          // Your signup form content here
           <>
             <div className="absolute top-0 left-0 pt-4 pl-4">
               <button
@@ -143,8 +139,7 @@ const AuthModal: React.FC = () => {
               />
             </div>
             <div className="mt-2">
-              {/* Continue with Google Button */}
-              <button className="relative bg-white text-blue-600 font-bold py-2 px-4 rounded-full w-full flex items-center justify-center border transition duration-300 hover:text-gray-600 hover:border-gray-400 focus:outline-none hover:bg-gray-100">
+              <button className="relative bg-white text-black font-bold py-2 px-4 rounded-full w-full flex items-center justify-center border border-gray-500 transition duration-300 hover:text-gray-600 hover:border-gray-500 focus:outline-none hover:bg-gray-100">
                 <img
                   src={GoogleImage}
                   width="36"
@@ -153,20 +148,16 @@ const AuthModal: React.FC = () => {
                 />
                 <span className="inline-block ml-2">Continue with Google</span>
               </button>
-
-              {/* Or Break */}
               <div className="text-center py-5 relative">
                 <div className="absolute left-0 top-1/2 w-52 bg-gray-300 h-0.5 transform -translate-y-1/2"></div>
-                <span className="text-gray-500">OR</span>
+                <span className="text-gray-600">OR</span>
                 <div className="absolute right-0 top-1/2 w-52 bg-gray-300 h-0.5 transform -translate-y-1/2"></div>
               </div>
-
-              {/* Sign Up Form */}
               <form>
                 <div>
                   <label
                     htmlFor="signup-email"
-                    className="block text-sm font-medium text-gray-700"
+                    className="block text-xl font-medium text-gray-700"
                   >
                     Email
                   </label>
@@ -175,12 +166,13 @@ const AuthModal: React.FC = () => {
                     id="signup-email"
                     name="signup-email"
                     className="mt-1 p-2 w-full border border-gray-300 rounded-md"
+                    placeholder="Enter your email"
                   />
                 </div>
                 <div className="mt-3">
                   <label
                     htmlFor="signup-password"
-                    className="block text-sm font-medium text-gray-700"
+                    className="block text-xl font-medium text-gray-700"
                   >
                     Password
                   </label>
@@ -189,6 +181,7 @@ const AuthModal: React.FC = () => {
                     id="signup-password"
                     name="signup-password"
                     className="mt-1 p-2 w-full border border-gray-300 rounded-md"
+                    placeholder="Enter your password"
                   />
                 </div>
               </form>
@@ -197,7 +190,7 @@ const AuthModal: React.FC = () => {
               <p>
                 Already have an account?{" "}
                 <button onClick={toggleForm} className="text-blue-500">
-                  Log In
+                  LOG IN
                 </button>
                 .
               </p>
@@ -226,17 +219,34 @@ const AuthModal: React.FC = () => {
             <form>
               <div>
                 <label
-                  htmlFor="signup-email"
-                  className="block text-sm font-medium text-gray-700"
+                  htmlFor="reset-password"
+                  className="block text-xl text-center font-medium text-gray-700"
                 >
-                  Email
+                  Reset your password
                 </label>
                 <input
                   type="email"
-                  id="signup-email"
-                  name="signup-email"
+                  id="reset-password"
+                  name="reset-password"
                   className="mt-1 p-2 w-full border border-gray-300 rounded-md"
+                  placeholder="Enter your email"
                 />
+              </div>
+
+              <div className="mt-4 text-center">
+                <button
+                  onClick={() => setCurrentForm(ModalState.LOGIN)}
+                  className="inline-block text-blue-500"
+                >
+                  LOG IN
+                </button>
+                <span className="mx-2"> &bull; </span>
+                <button
+                  onClick={() => setCurrentForm(ModalState.SIGNUP)}
+                  className="inline-block text-blue-500"
+                >
+                  SIGN UP
+                </button>
               </div>
             </form>
           </>
@@ -245,7 +255,6 @@ const AuthModal: React.FC = () => {
         return null;
     }
   };
-
   return (
     <>
       <button
@@ -272,7 +281,6 @@ const AuthModal: React.FC = () => {
             </span>
 
             <div className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
-              {/* Close Button */}
               <div className="absolute top-0 right-0 pt-4 pr-4">
                 <button
                   onClick={closeModal}
@@ -281,13 +289,9 @@ const AuthModal: React.FC = () => {
                   <MdOutlineClose />
                 </button>
               </div>
-
-              {/* Modal Content */}
               <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
                 {renderModalContent()}
               </div>
-
-              {/* End of Modal Content */}
               <div className="px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
                 <button
                   onClick={closeModal}

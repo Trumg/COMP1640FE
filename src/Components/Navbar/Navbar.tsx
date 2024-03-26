@@ -33,7 +33,7 @@ const Navbar: React.FC = () => {
           </div>
           {isMobile ? (
             <div className="flex md:hidden">
-              <button className="text-gray-600 hover:text-gray-800 focus:outline-none focus:text-gray-800">
+              <button className="text-gray-500 hover:text-gray-800 focus:outline-none focus:text-gray-800">
                 <FaBars className="h-8 w-16" />
               </button>
             </div>
@@ -42,11 +42,11 @@ const Navbar: React.FC = () => {
               <div className="flex-1 hidden md:block">
                 <div className="flex items-center justify-center">
                   <div className="relative flex items-center">
-                    <FaSearch className="absolute left-3 text-gray-400" />
+                    <FaSearch className="absolute left-3 text-gray-500" />
                     <input
                       type="text"
                       placeholder="Search..."
-                      className="bg-white border border-gray-300 rounded-full py-2 pl-10 pr-4 focus:outline-none focus:ring-1 focus:ring-gray-400 shadow-md w-full md:w-96"
+                      className="bg-white border border-gray-600 rounded-full py-2 pl-10 pr-4 focus:outline-none focus:ring-1 focus:ring-gray-400 shadow-md w-full md:w-96"
                     />
                   </div>
                 </div>
