@@ -6,7 +6,7 @@ import AuthModalMobile from "../../Modal/AuthModal/AuthModalMobile";
 import { FaSearch, FaBars, FaTimes } from "react-icons/fa";
 import { IoMoon, IoSunny } from "react-icons/io5"; // Import moon and sun icons
 
-const Navbar: React.FC = () => {
+const GuestNav: React.FC = () => {
   const [isMobile, setIsMobile] = useState<boolean>(false);
   const [showMenu, setShowMenu] = useState<boolean>(false);
   const [isDarkMode, setIsDarkMode] = useState<boolean>(false);
@@ -106,4 +106,4 @@ const Navbar: React.FC = () => {
   );
 };
 
-export default Navbar;
+export default GuestNav;
