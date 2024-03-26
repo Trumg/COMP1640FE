@@ -142,6 +142,8 @@ const AuthModal: React.FC = () => {
                     name="email"
                     className="mt-1 p-2 w-full border border-gray-500 rounded-md"
                     placeholder="Enter your email"
+                    value={email}
+                    onChange={handleEmailChange}
                   />
                 </div>
                 <div className="mt-3">
@@ -157,6 +159,8 @@ const AuthModal: React.FC = () => {
                     name="password"
                     className="mt-1 p-2 w-full border border-gray-500 rounded-md"
                     placeholder="Enter your password"
+                    value={password}
+                    onChange={handlePasswordChange}
                   />
                 </div>
               </form>
