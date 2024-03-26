@@ -1,14 +1,16 @@
 import React, { useState } from "react";
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+} from "firebase/auth";
+import { auth } from "../../../firebase";
+
 import { MdOutlineClose } from "react-icons/md";
 import { MdOutlineArrowBack } from "react-icons/md";
 import { LoginImage } from "../../../Assets/LoginImage/LoginImage";
 import { SignupImage } from "../../../Assets/SignupImage/SignupImage";
 import { ResetImage } from "../../../Assets/ResetImage/ResetImage";
 import { GoogleImage } from "../../../Assets/GoogleImage/GoogleImage";
-
-import firebase from "firebase/compat/app";
-import "firebase/compat/auth";
-import "firebase/compat/firestore";
 
 enum ModalState {
   LOGIN,
@@ -20,31 +22,71 @@ const AuthModal: React.FC = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [currentForm, setCurrentForm] = useState<ModalState>(ModalState.LOGIN);
 
+  // Sign Up
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState<string | null>(null);
+  const [confirmPassword, setConfirmPassword] = useState("");
 
-  const handleLogin = async () => {
-    try {
-      await firebase.auth().signInWithEmailAndPassword(email, password);
-    } catch (error) {
-      if (error instanceof Error) {
-        setError(error.message);
-      } else {
-        setError("An error occurred");
-      }
-    }
+  const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) =>
+    setEmail(event.target.value);
+  const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setPassword(event.target.value);
+  };
+  const handleConfirmPasswordChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setConfirmPassword(event.target.value);
   };
 
+  const handleSignUp = () => {
+    if (!email || !password) return;
+
+    // Check if passwords match
+    if (password !== confirmPassword) {
+      console.log("Passwords do not match");
+      return;
+    }
+
+    // Continue with sign up process
+    createUserWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        const user = userCredential.user;
+        console.log(user);
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.log(errorCode, errorMessage);
+      });
+  };
+
+  // Log In
+  const handleLogIn = () => {
+    if (!email || !password) return;
+    signInWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        const user = userCredential.user;
+        console.log(user);
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.log(errorCode, errorMessage);
+      });
+  };
+
+  // Open Modal
   const openModal = () => {
     setIsOpen(true);
   };
 
+  // Close Modal
   const closeModal = () => {
     setIsOpen(false);
     setCurrentForm(ModalState.LOGIN); // Reset to login form when closing modal
   };
 
+  // Change Log In, Sign Up,  Reset Password
   const toggleForm = () => {
     setCurrentForm(
       currentForm === ModalState.LOGIN ? ModalState.SIGNUP : ModalState.LOGIN
@@ -100,8 +142,6 @@ const AuthModal: React.FC = () => {
                     name="email"
                     className="mt-1 p-2 w-full border border-gray-500 rounded-md"
                     placeholder="Enter your email"
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
                   />
                 </div>
                 <div className="mt-3">
@@ -117,8 +157,6 @@ const AuthModal: React.FC = () => {
                     name="password"
                     className="mt-1 p-2 w-full border border-gray-500 rounded-md"
                     placeholder="Enter your password"
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
                   />
                 </div>
               </form>
@@ -142,10 +180,9 @@ const AuthModal: React.FC = () => {
                 .
               </p>
             </div>
-            {error && <p className="text-red-500 text-center">{error}</p>}
             <div className="px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
               <button
-                onClick={handleLogin}
+                onClick={handleLogIn}
                 className="bg-red-600 text-white font-bold py-2 px-4 hover:bg-gray-400 rounded-full w-full flex items-center justify-center mb-4"
               >
                 Log In
@@ -203,6 +240,7 @@ const AuthModal: React.FC = () => {
                     name="signup-email"
                     className="mt-1 p-2 w-full border border-gray-300 rounded-md"
                     placeholder="Enter your email"
+                    onChange={handleEmailChange}
                   />
                 </div>
                 <div className="mt-3">
@@ -218,6 +256,24 @@ const AuthModal: React.FC = () => {
                     name="signup-password"
                     className="mt-1 p-2 w-full border border-gray-300 rounded-md"
                     placeholder="Enter your password"
+                    onChange={handlePasswordChange}
+                  />
+                </div>
+                <div className="mt-3">
+                  <label
+                    htmlFor="confirm-password"
+                    className="block text-xl font-medium text-gray-700"
+                  >
+                    Confirm Password
+                  </label>
+                  <input
+                    type="password"
+                    id="confirm-password"
+                    name="confirm-password"
+                    className="mt-1 p-2 w-full border border-gray-300 rounded-md"
+                    placeholder="Confirm your password"
+                    value={confirmPassword}
+                    onChange={handleConfirmPasswordChange}
                   />
                 </div>
               </form>
@@ -235,6 +291,7 @@ const AuthModal: React.FC = () => {
               <button
                 className="bg-red-600 text-white font-bold py-2 px-4 hover:bg-gray-400
                   rounded-full w-full flex items-center justify-center mb-4"
+                onClick={handleSignUp}
               >
                 Sign Up
               </button>
@@ -266,7 +323,7 @@ const AuthModal: React.FC = () => {
               <div>
                 <label
                   htmlFor="reset-password"
-                  className="block text-xl text-center font-medium text-gray-700"
+                  className="block text-xl font-medium text-gray-700"
                 >
                   Reset your password
                 </label>
