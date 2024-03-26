@@ -6,6 +6,7 @@ import { User } from "firebase/auth"; // Import User type from firebase/auth
 
 import PrivateRoute from "../PrivateRoute/PrivateRoute";
 import AdminPage from "../../Pages/AdminPage/AdminPage";
+import AdminDashboardPage from "../../Pages/AdminPage/AdminDashboardPage";
 
 const AdminRoute: React.FC = () => {
   const [user, setUser] = useState<User | null>(null); // Use User type from firebase/auth
@@ -34,6 +35,14 @@ const AdminRoute: React.FC = () => {
         element={
           <PrivateRoute user={user}>
             <AdminPage />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="/admin/dashboard"
+        element={
+          <PrivateRoute user={user}>
+            <AdminDashboardPage />
           </PrivateRoute>
         }
       />
