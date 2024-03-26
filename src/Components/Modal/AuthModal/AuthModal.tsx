@@ -117,6 +117,14 @@ const AuthModal: React.FC = () => {
                 .
               </p>
             </div>
+            <div className="px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+              <button
+                className="bg-red-600 text-white font-bold py-2 px-4 hover:bg-gray-400
+                  rounded-full w-full flex items-center justify-center mb-4"
+              >
+                Log In
+              </button>
+            </div>
           </>
         );
       case ModalState.SIGNUP:
@@ -195,6 +203,14 @@ const AuthModal: React.FC = () => {
                 .
               </p>
             </div>
+            <div className="px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+              <button
+                className="bg-red-600 text-white font-bold py-2 px-4 hover:bg-gray-400
+                  rounded-full w-full flex items-center justify-center mb-4"
+              >
+                Sign Up
+              </button>
+            </div>
           </>
         );
       case ModalState.RESET_PASSWORD:
@@ -248,6 +264,14 @@ const AuthModal: React.FC = () => {
                   SIGN UP
                 </button>
               </div>
+              <div className="px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+                <button
+                  className="bg-red-600 text-white font-bold py-2 px-4 hover:bg-gray-400
+                  rounded-full w-full flex items-center justify-center mb-4"
+                >
+                  Reset Password
+                </button>
+              </div>
             </form>
           </>
         );
@@ -291,19 +315,6 @@ const AuthModal: React.FC = () => {
               </div>
               <div className="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
                 {renderModalContent()}
-              </div>
-              <div className="px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
-                <button
-                  onClick={closeModal}
-                  className="bg-red-600 text-white font-bold py-2 px-4 hover:bg-gray-400
-                  rounded-full w-full flex items-center justify-center mb-4"
-                >
-                  {currentForm === ModalState.LOGIN
-                    ? "Login"
-                    : currentForm === ModalState.SIGNUP
-                    ? "Sign Up"
-                    : "Reset Password"}
-                </button>
               </div>
             </div>
           </div>
