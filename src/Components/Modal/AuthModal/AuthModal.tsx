@@ -6,6 +6,10 @@ import { SignupImage } from "../../../Assets/SignupImage/SignupImage";
 import { ResetImage } from "../../../Assets/ResetImage/ResetImage";
 import { GoogleImage } from "../../../Assets/GoogleImage/GoogleImage";
 
+import firebase from "firebase/compat/app";
+import "firebase/compat/auth";
+import "firebase/compat/firestore";
+
 enum ModalState {
   LOGIN,
   SIGNUP,
@@ -15,6 +19,22 @@ enum ModalState {
 const AuthModal: React.FC = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [currentForm, setCurrentForm] = useState<ModalState>(ModalState.LOGIN);
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState<string | null>(null);
+
+  const handleLogin = async () => {
+    try {
+      await firebase.auth().signInWithEmailAndPassword(email, password);
+    } catch (error) {
+      if (error instanceof Error) {
+        setError(error.message);
+      } else {
+        setError("An error occurred");
+      }
+    }
+  };
 
   const openModal = () => {
     setIsOpen(true);
@@ -37,6 +57,7 @@ const AuthModal: React.FC = () => {
 
   const renderModalContent = () => {
     switch (currentForm) {
+      // Log In Modal
       case ModalState.LOGIN:
         return (
           <>
@@ -58,7 +79,7 @@ const AuthModal: React.FC = () => {
                   height="36"
                   alt="Google Logo"
                 />
-                <span className="inline-block ml-2">Continue with Google</span>
+                <span className="inline-block ml-2">Log in with Google</span>
               </button>
               <div className="text-center py-5 relative">
                 <div className="absolute left-0 top-1/2 w-52 bg-gray-300 h-0.5 transform -translate-y-1/2"></div>
@@ -79,6 +100,8 @@ const AuthModal: React.FC = () => {
                     name="email"
                     className="mt-1 p-2 w-full border border-gray-500 rounded-md"
                     placeholder="Enter your email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
                   />
                 </div>
                 <div className="mt-3">
@@ -94,6 +117,8 @@ const AuthModal: React.FC = () => {
                     name="password"
                     className="mt-1 p-2 w-full border border-gray-500 rounded-md"
                     placeholder="Enter your password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
                   />
                 </div>
               </form>
@@ -117,16 +142,19 @@ const AuthModal: React.FC = () => {
                 .
               </p>
             </div>
+            {error && <p className="text-red-500 text-center">{error}</p>}
             <div className="px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
               <button
-                className="bg-red-600 text-white font-bold py-2 px-4 hover:bg-gray-400
-                  rounded-full w-full flex items-center justify-center mb-4"
+                onClick={handleLogin}
+                className="bg-red-600 text-white font-bold py-2 px-4 hover:bg-gray-400 rounded-full w-full flex items-center justify-center mb-4"
               >
                 Log In
               </button>
             </div>
           </>
         );
+
+      // Sign Up Modal
       case ModalState.SIGNUP:
         return (
           <>
@@ -154,7 +182,7 @@ const AuthModal: React.FC = () => {
                   height="36"
                   alt="Google Logo"
                 />
-                <span className="inline-block ml-2">Continue with Google</span>
+                <span className="inline-block ml-2">Sign up with Google</span>
               </button>
               <div className="text-center py-5 relative">
                 <div className="absolute left-0 top-1/2 w-52 bg-gray-300 h-0.5 transform -translate-y-1/2"></div>
@@ -213,6 +241,8 @@ const AuthModal: React.FC = () => {
             </div>
           </>
         );
+
+      // Reset Password Modal
       case ModalState.RESET_PASSWORD:
         return (
           <>
@@ -285,7 +315,7 @@ const AuthModal: React.FC = () => {
         onClick={openModal}
         className="bg-red-600 text-white border-1 border-black hover:bg-gray-400 font-bold py-2 px-4 rounded-full shadow-md mr-4"
       >
-        Log In
+        Join with us
       </button>
       {isOpen && (
         <div className="fixed z-10 inset-0 overflow-y-auto">
@@ -296,14 +326,12 @@ const AuthModal: React.FC = () => {
             >
               <div className="absolute inset-0 bg-gray-600 opacity-75"></div>
             </div>
-
             <span
               className="hidden sm:inline-block sm:align-middle sm:h-screen"
               aria-hidden="true"
             >
               &#8203;
             </span>
-
             <div className="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
               <div className="absolute top-0 right-0 pt-4 pr-4">
                 <button
