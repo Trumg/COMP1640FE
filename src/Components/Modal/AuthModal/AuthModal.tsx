@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  signInWithPopup,
+  GoogleAuthProvider,
 } from "firebase/auth";
 import { auth } from "../../../firebase";
 
@@ -60,6 +62,22 @@ const AuthModal: React.FC = () => {
       });
   };
 
+  //  Sign Up with Google
+  const handleSignUpWithGoogle = () => {
+    const provider = new GoogleAuthProvider();
+    signInWithPopup(auth, provider)
+      .then((result) => {
+        // The signed-in user info.
+        const user = result.user;
+        console.log(user);
+        // Redirect user to dashboard or another page upon successful signup
+      })
+      .catch((error) => {
+        // Handle errors here (e.g., display error message to the user)
+        console.log(error);
+      });
+  };
+
   // Log In
   const handleLogIn = () => {
     if (!email || !password) return;
@@ -72,6 +90,22 @@ const AuthModal: React.FC = () => {
         const errorCode = error.code;
         const errorMessage = error.message;
         console.log(errorCode, errorMessage);
+      });
+  };
+
+  // Log In with Google Provider
+  const handleLoginWithGoogle = () => {
+    const provider = new GoogleAuthProvider();
+    signInWithPopup(auth, provider)
+      .then((result) => {
+        // The signed-in user info.
+        const user = result.user;
+        console.log(user);
+        // Redirect user to dashboard or another page upon successful login
+      })
+      .catch((error) => {
+        // Handle errors here (e.g., display error message to the user)
+        console.log(error);
       });
   };
 
@@ -113,7 +147,7 @@ const AuthModal: React.FC = () => {
                 />
               </div>
             </h3>
-            <div className="mt-2">
+            <div className="login-google mt-2">
               <button className="relative bg-white text-black font-bold py-2 px-4 rounded-full w-full flex items-center justify-center border border-gray-500 transition duration-300 hover:text-gray-600 hover:border-gray-500 focus:outline-none hover:bg-gray-100">
                 <img
                   src={GoogleImage}
@@ -121,7 +155,12 @@ const AuthModal: React.FC = () => {
                   height="36"
                   alt="Google Logo"
                 />
-                <span className="inline-block ml-2">Log in with Google</span>
+                <span
+                  onClick={handleLoginWithGoogle}
+                  className="inline-block ml-2"
+                >
+                  Log in with Google
+                </span>
               </button>
               <div className="text-center py-5 relative">
                 <div className="absolute left-0 top-1/2 w-52 bg-gray-300 h-0.5 transform -translate-y-1/2"></div>
@@ -215,7 +254,7 @@ const AuthModal: React.FC = () => {
                 alt="Signup Image"
               />
             </div>
-            <div className="mt-2">
+            <div className="signup-google mt-2">
               <button className="relative bg-white text-black font-bold py-2 px-4 rounded-full w-full flex items-center justify-center border border-gray-500 transition duration-300 hover:text-gray-600 hover:border-gray-500 focus:outline-none hover:bg-gray-100">
                 <img
                   src={GoogleImage}
@@ -223,7 +262,12 @@ const AuthModal: React.FC = () => {
                   height="36"
                   alt="Google Logo"
                 />
-                <span className="inline-block ml-2">Sign up with Google</span>
+                <span
+                  onClick={handleSignUpWithGoogle}
+                  className="inline-block ml-2"
+                >
+                  Sign up with Google
+                </span>
               </button>
               <div className="text-center py-5 relative">
                 <div className="absolute left-0 top-1/2 w-52 bg-gray-300 h-0.5 transform -translate-y-1/2"></div>
