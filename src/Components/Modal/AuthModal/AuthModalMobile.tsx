@@ -8,8 +8,7 @@ import {
   sendPasswordResetEmail,
   // sendEmailVerification,
 } from "firebase/auth";
-import { auth } from "../../../firebase";
-
+import { auth } from "../../../Firebase/firebase";
 import { MdOutlineClose } from "react-icons/md";
 import { LoginImage } from "../../../Assets/LoginImage/LoginImage";
 import { SignupImage } from "../../../Assets/SignupImage/SignupImage";
@@ -22,7 +21,11 @@ enum ModalState {
   RESET_PASSWORD,
 }
 
-const AuthModalMobile: React.FC = () => {
+interface AuthModalMobileProps {
+  onLogin: () => void; // Define the prop type
+}
+
+const AuthModalMobile: React.FC<AuthModalMobileProps> = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [currentForm, setCurrentForm] = useState<ModalState>(ModalState.LOGIN);
 
@@ -182,7 +185,7 @@ const AuthModalMobile: React.FC = () => {
                   onClick={handleLoginWithGoogle}
                   className="inline-block ml-2"
                 >
-                  Login with Google
+                  Continue with Google
                 </span>
               </button>
               <div className="text-center py-5 relative">
@@ -194,7 +197,7 @@ const AuthModalMobile: React.FC = () => {
                 <div className="mb-3">
                   <label
                     htmlFor="email"
-                    className="block text-xl font-medium text-gray-700"
+                    className="block text-xl text-center font-medium text-gray-700"
                   >
                     Email
                   </label>
@@ -211,7 +214,7 @@ const AuthModalMobile: React.FC = () => {
                 <div className="mb-3">
                   <label
                     htmlFor="password"
-                    className="block text-xl font-medium text-gray-700"
+                    className="block text-xl text-center font-medium text-gray-700"
                   >
                     Password
                   </label>
@@ -281,7 +284,7 @@ const AuthModalMobile: React.FC = () => {
                   onClick={handleSignUpWithGoogle}
                   className="inline-block ml-2"
                 >
-                  Signup with Google
+                  Continue with Google
                 </span>
               </button>
               <div className="text-center py-5 relative">
@@ -293,7 +296,7 @@ const AuthModalMobile: React.FC = () => {
                 <div className="mb-3">
                   <label
                     htmlFor="signup-email"
-                    className="block text-xl font-medium text-gray-700"
+                    className="block text-xl text-center font-medium text-gray-700"
                   >
                     Email
                   </label>
@@ -309,7 +312,7 @@ const AuthModalMobile: React.FC = () => {
                 <div className="mb-3">
                   <label
                     htmlFor="signup-password"
-                    className="block text-xl font-medium text-gray-700"
+                    className="block text-xl text-center font-medium text-gray-700"
                   >
                     Password
                   </label>
@@ -325,7 +328,7 @@ const AuthModalMobile: React.FC = () => {
                 <div className="mb-4">
                   <label
                     htmlFor="confirm-password"
-                    className="block text-xl font-medium text-gray-700"
+                    className="block text-xl text-center font-medium text-gray-700"
                   >
                     Confirm Password
                   </label>
@@ -378,7 +381,7 @@ const AuthModalMobile: React.FC = () => {
               <div className="mb-4">
                 <label
                   htmlFor="reset-password"
-                  className="block text-xl font-medium text-gray-700"
+                  className="block text-xl text-center font-medium text-gray-700"
                 >
                   Reset your password
                 </label>

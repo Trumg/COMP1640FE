@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { auth } from "../../firebase";
+import { auth } from "../../Firebase/firebase";
 import { signOut } from "firebase/auth";
 
 const UserProfilePage: React.FC = () => {

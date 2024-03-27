@@ -8,8 +8,7 @@ import {
   sendPasswordResetEmail,
   // sendEmailVerification,
 } from "firebase/auth";
-import { auth } from "../../../firebase";
-
+import { auth } from "../../../Firebase/firebase";
 import { MdOutlineClose } from "react-icons/md";
 import { LoginImage } from "../../../Assets/LoginImage/LoginImage";
 import { SignupImage } from "../../../Assets/SignupImage/SignupImage";
@@ -22,7 +21,11 @@ enum ModalState {
   RESET_PASSWORD,
 }
 
-const AuthModal: React.FC = () => {
+interface AuthModalDesktopProps {
+  onLogin: () => void; // Define the prop type
+}
+
+const AuthModal: React.FC<AuthModalDesktopProps> = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [currentForm, setCurrentForm] = useState<ModalState>(ModalState.LOGIN);
 
@@ -182,7 +185,7 @@ const AuthModal: React.FC = () => {
                   onClick={handleLoginWithGoogle}
                   className="inline-block ml-2"
                 >
-                  Login with Google
+                  Continue with Google
                 </span>
               </button>
               <div className="text-center py-5 relative">
@@ -281,7 +284,7 @@ const AuthModal: React.FC = () => {
                   onClick={handleSignUpWithGoogle}
                   className="inline-block ml-2"
                 >
-                  Signup with Google
+                  Continue with Google
                 </span>
               </button>
               <div className="text-center py-5 relative">

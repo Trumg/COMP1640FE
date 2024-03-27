@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Route, Routes } from "react-router-dom";
 import { onAuthStateChanged } from "firebase/auth";
-import { auth } from "../../firebase";
+import { auth } from "../../Firebase/firebase";
 import { User } from "firebase/auth"; // Import User type from firebase/auth
 
 import PrivateRoute from "../PrivateRoute/PrivateRoute";

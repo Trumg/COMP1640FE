@@ -1,26 +1,16 @@
 import React, { useState, useEffect } from "react";
-import { MagazineImage } from "../../../Assets/MagazineImage/MagazineImage";
 import { Link } from "react-router-dom";
-import AuthModalDesktop from "../../Modal/AuthModal/AuthModalDesktop";
-import AuthModalMobile from "../../Modal/AuthModal/AuthModalMobile";
+import { MagazineImage } from "../../Assets/MagazineImage/MagazineImage";
 import { FaSearch, FaBars, FaTimes } from "react-icons/fa";
-import { IoMoon, IoSunny } from "react-icons/io5"; // Import moon and sun icons
+import { IoMoon, IoSunny } from "react-icons/io5";
+import AuthModalDesktop from "../Modal/AuthModal/AuthModalDesktop";
+import AuthModalMobile from "../Modal/AuthModal/AuthModalMobile";
 
-// Define UserNavbar component
-const UserNavbar: React.FC = () => {
-  // Implement UserNavbar UI here
-  return (
-    <nav className="bg-white shadow-lg w-full fixed">
-      {/* UserNavbar content */}
-    </nav>
-  );
-};
-
-const GuestNavbar: React.FC = () => {
+const Navbar: React.FC = () => {
   const [isMobile, setIsMobile] = useState<boolean>(false);
   const [showMenu, setShowMenu] = useState<boolean>(false);
   const [isDarkMode, setIsDarkMode] = useState<boolean>(false);
-  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
+  const [isLogged, setIsLogged] = useState<boolean>(false); // New state for login status
 
   useEffect(() => {
     const handleResize = () => {
@@ -40,6 +30,16 @@ const GuestNavbar: React.FC = () => {
     setIsDarkMode(!isDarkMode);
     // You can save the user's preference in localStorage or a state management solution
     // localStorage.setItem('darkMode', JSON.stringify(!isDarkMode));
+  };
+
+  const handleLogin = () => {
+    // Perform login logic
+    setIsLogged(true);
+  };
+
+  const handleLogout = () => {
+    // Perform logout logic
+    setIsLogged(false);
   };
 
   return (
@@ -98,9 +98,17 @@ const GuestNavbar: React.FC = () => {
                     </>
                   )}
                 </button>
-                <div className="ml-10 space-x-2">
-                  <AuthModalDesktop />
-                </div>
+                {/* Render different content based on login status */}
+                {isLogged ? (
+                  <div className="ml-10 space-x-2">
+                    {/* Add your logged in components here */}
+                    <button onClick={handleLogout}>Logout</button>
+                  </div>
+                ) : (
+                  <div className="ml-10 space-x-2">
+                    <AuthModalDesktop onLogin={handleLogin} />
+                  </div>
+                )}
               </div>
             </>
           )}
@@ -109,7 +117,7 @@ const GuestNavbar: React.FC = () => {
       {isMobile && showMenu && (
         <div className="md:hidden bg-gray-100 py-2">
           <div className="px-4">
-            <AuthModalMobile />
+            <AuthModalMobile onLogin={handleLogin} />
           </div>
         </div>
       )}
@@ -117,4 +125,4 @@ const GuestNavbar: React.FC = () => {
   );
 };
 
-export default GuestNavbar;
+export default Navbar;
