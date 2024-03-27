@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { notification } from "antd";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
@@ -11,6 +10,7 @@ import {
   // sendEmailVerification,
 } from "firebase/auth";
 import { auth } from "../../../Firebase/firebase";
+
 import { MdOutlineClose } from "react-icons/md";
 import { LoginImage } from "../../../Assets/LoginImage/LoginImage";
 import { SignupImage } from "../../../Assets/SignupImage/SignupImage";
@@ -23,11 +23,7 @@ enum ModalState {
   RESET_PASSWORD,
 }
 
-interface AuthModalDesktopProps {
-  onLogin: () => void; // Define the prop type
-}
-
-const AuthModal: React.FC<AuthModalDesktopProps> = () => {
+const AuthModal: React.FC = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [currentForm, setCurrentForm] = useState<ModalState>(ModalState.LOGIN);
 
@@ -69,7 +65,7 @@ const AuthModal: React.FC<AuthModalDesktopProps> = () => {
       });
   };
 
-  //  Sign Up with Google Provider
+  //  Sign Up with Google
   const handleSignUpWithGoogle = () => {
     const provider = new GoogleAuthProvider();
     signInWithPopup(auth, provider)
@@ -87,20 +83,34 @@ const AuthModal: React.FC<AuthModalDesktopProps> = () => {
 
   // Log In
   const handleLogIn = () => {
-    if (!email || !password) return;
+    if (!email || !password) {
+      console.error("Email or password is missing.");
+      return;
+    }
 
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         const user = userCredential.user;
-        // Display success toast
-        toast.success("Login successful!", { position: "top-center" });
-        console.log(user);
+        console.log("User logged in successfully:", user);
+
+        // Show success notification
+        notification.success({
+          message: "Login Successful",
+          description: "You have successfully logged in.",
+        });
+
+        // Redirect to homepage after a short delay
+        setTimeout(() => {
+          redirectToHomepage(); // Call your function to redirect to homepage
+        }, 2000); // 2 seconds delay
       })
       .catch((error) => {
         const errorMessage = error.message;
-        // Display error toast
-        toast.error(errorMessage, { position: "top-center" });
-        console.error(error);
+        console.error("Login failed:", errorMessage);
+        notification.error({
+          message: "Login Failed",
+          description: errorMessage,
+        });
       });
   };
 
@@ -111,25 +121,44 @@ const AuthModal: React.FC<AuthModalDesktopProps> = () => {
       .then((result) => {
         // The signed-in user info.
         const user = result.user;
-        // Display success toast
-        toast.success("Login with Google successful!", {
-          position: "top-center",
-        });
         console.log(user);
-        // Redirect user to dashboard or another page upon successful login
+
+        // Show success notification
+        notification.success({
+          message: "Login Successful",
+          description: "Redirecting to dashboard...",
+        });
+
+        // Redirect to dashboard after a short delay
+        setTimeout(() => {
+          redirectToHomepage(); // Call your function to redirect to dashboard
+        }, 2000); // 2 seconds delay
       })
       .catch((error) => {
         // Handle errors here
         if (error.code === "auth/cancelled-popup-request") {
           // User cancelled the login process
+          notification.info({
+            message: "Login Cancelled",
+            description: "Login process cancelled by the user.",
+          });
           console.log("Login process cancelled by the user.");
         } else {
           // Other authentication errors
+          notification.error({
+            message: "Authentication Error",
+            description: error.message,
+          });
           console.error("Authentication error:", error.message);
-          // Display error toast
-          toast.error(error.message, { position: "top-center" });
         }
       });
+  };
+
+  // Function to redirect to the homepage after successful login
+  const redirectToHomepage = () => {
+    // Implement your redirection logic here
+    // For example:
+    window.location.href = "/"; // Redirect to the homepage
   };
 
   // Forgot Password Email Resend
@@ -158,7 +187,7 @@ const AuthModal: React.FC<AuthModalDesktopProps> = () => {
     setCurrentForm(ModalState.LOGIN); // Reset to login form when closing modal
   };
 
-  // Change Log In, Sign Up, Reset Password Modal
+  // Change Log In, Sign Up,  Reset Password
   const toggleForm = () => {
     setCurrentForm(
       currentForm === ModalState.LOGIN ? ModalState.SIGNUP : ModalState.LOGIN
@@ -197,9 +226,8 @@ const AuthModal: React.FC<AuthModalDesktopProps> = () => {
                   onClick={handleLoginWithGoogle}
                   className="inline-block ml-2"
                 >
-                  Continue with Google
+                  Login with Google
                 </span>
-                <ToastContainer />
               </button>
               <div className="text-center py-5 relative">
                 <div className="absolute left-0 top-1/2 w-52 bg-gray-300 h-0.5 transform -translate-y-1/2"></div>
@@ -269,7 +297,6 @@ const AuthModal: React.FC<AuthModalDesktopProps> = () => {
               >
                 LOGIN
               </button>
-              <ToastContainer />
             </div>
           </>
         );
@@ -298,7 +325,7 @@ const AuthModal: React.FC<AuthModalDesktopProps> = () => {
                   onClick={handleSignUpWithGoogle}
                   className="inline-block ml-2"
                 >
-                  Continue with Google
+                  Signup with Google
                 </span>
               </button>
               <div className="text-center py-5 relative">

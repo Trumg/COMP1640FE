@@ -1,4 +1,4 @@
-import GuestNavbar from "../../Components/Navbar/Navbar";
+import GuestNavbar from "../../Components/Navbar/GuestNavbar/GuestNavbar";
 
 function UserPage() {
   return (

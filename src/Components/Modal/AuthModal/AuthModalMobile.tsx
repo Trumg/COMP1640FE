@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { notification } from "antd";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
@@ -9,6 +10,7 @@ import {
   // sendEmailVerification,
 } from "firebase/auth";
 import { auth } from "../../../Firebase/firebase";
+
 import { MdOutlineClose } from "react-icons/md";
 import { LoginImage } from "../../../Assets/LoginImage/LoginImage";
 import { SignupImage } from "../../../Assets/SignupImage/SignupImage";
@@ -21,11 +23,7 @@ enum ModalState {
   RESET_PASSWORD,
 }
 
-interface AuthModalMobileProps {
-  onLogin: () => void; // Define the prop type
-}
-
-const AuthModalMobile: React.FC<AuthModalMobileProps> = () => {
+const AuthModalMobile: React.FC = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [currentForm, setCurrentForm] = useState<ModalState>(ModalState.LOGIN);
 
@@ -85,16 +83,28 @@ const AuthModalMobile: React.FC<AuthModalMobileProps> = () => {
 
   // Log In
   const handleLogIn = () => {
-    if (!email || !password) return;
+    if (!email || !password) {
+      console.error("Email or password is missing.");
+      return;
+    }
+
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         const user = userCredential.user;
-        console.log(user);
+        console.log("User logged in successfully:", user);
+        notification.success({
+          message: "Login Successful",
+          description: "You have successfully logged in.",
+        });
+        // Redirect user to dashboard or another page upon successful login
       })
       .catch((error) => {
-        const errorCode = error.code;
         const errorMessage = error.message;
-        console.log(errorCode, errorMessage);
+        console.error("Login failed:", errorMessage);
+        notification.error({
+          message: "Login Failed",
+          description: errorMessage,
+        });
       });
   };
 
@@ -107,14 +117,27 @@ const AuthModalMobile: React.FC<AuthModalMobileProps> = () => {
         const user = result.user;
         console.log(user);
         // Redirect user to dashboard or another page upon successful login
+        notification.success({
+          message: "Login Successful",
+          description: "Redirecting to dashboard...",
+        });
+        // Redirect user to dashboard or another page upon successful login
       })
       .catch((error: AuthError) => {
         // Handle errors here
         if (error.code === "auth/cancelled-popup-request") {
           // User cancelled the login process
+          notification.info({
+            message: "Login Cancelled",
+            description: "Login process cancelled by the user.",
+          });
           console.log("Login process cancelled by the user.");
         } else {
           // Other authentication errors
+          notification.error({
+            message: "Authentication Error",
+            description: error.message,
+          });
           console.error("Authentication error:", error.message);
         }
       });
@@ -185,7 +208,7 @@ const AuthModalMobile: React.FC<AuthModalMobileProps> = () => {
                   onClick={handleLoginWithGoogle}
                   className="inline-block ml-2"
                 >
-                  Continue with Google
+                  Login with Google
                 </span>
               </button>
               <div className="text-center py-5 relative">
@@ -197,7 +220,7 @@ const AuthModalMobile: React.FC<AuthModalMobileProps> = () => {
                 <div className="mb-3">
                   <label
                     htmlFor="email"
-                    className="block text-xl text-center font-medium text-gray-700"
+                    className="block text-xl font-medium text-gray-700"
                   >
                     Email
                   </label>
@@ -214,7 +237,7 @@ const AuthModalMobile: React.FC<AuthModalMobileProps> = () => {
                 <div className="mb-3">
                   <label
                     htmlFor="password"
-                    className="block text-xl text-center font-medium text-gray-700"
+                    className="block text-xl font-medium text-gray-700"
                   >
                     Password
                   </label>
@@ -284,7 +307,7 @@ const AuthModalMobile: React.FC<AuthModalMobileProps> = () => {
                   onClick={handleSignUpWithGoogle}
                   className="inline-block ml-2"
                 >
-                  Continue with Google
+                  Signup with Google
                 </span>
               </button>
               <div className="text-center py-5 relative">
@@ -296,7 +319,7 @@ const AuthModalMobile: React.FC<AuthModalMobileProps> = () => {
                 <div className="mb-3">
                   <label
                     htmlFor="signup-email"
-                    className="block text-xl text-center font-medium text-gray-700"
+                    className="block text-xl font-medium text-gray-700"
                   >
                     Email
                   </label>
@@ -312,7 +335,7 @@ const AuthModalMobile: React.FC<AuthModalMobileProps> = () => {
                 <div className="mb-3">
                   <label
                     htmlFor="signup-password"
-                    className="block text-xl text-center font-medium text-gray-700"
+                    className="block text-xl font-medium text-gray-700"
                   >
                     Password
                   </label>
@@ -328,7 +351,7 @@ const AuthModalMobile: React.FC<AuthModalMobileProps> = () => {
                 <div className="mb-4">
                   <label
                     htmlFor="confirm-password"
-                    className="block text-xl text-center font-medium text-gray-700"
+                    className="block text-xl font-medium text-gray-700"
                   >
                     Confirm Password
                   </label>
@@ -381,7 +404,7 @@ const AuthModalMobile: React.FC<AuthModalMobileProps> = () => {
               <div className="mb-4">
                 <label
                   htmlFor="reset-password"
-                  className="block text-xl text-center font-medium text-gray-700"
+                  className="block text-xl font-medium text-gray-700"
                 >
                   Reset your password
                 </label>
