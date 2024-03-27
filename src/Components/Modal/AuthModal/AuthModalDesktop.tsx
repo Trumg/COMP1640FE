@@ -1,10 +1,12 @@
 import React, { useState } from "react";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   signInWithPopup,
   GoogleAuthProvider,
-  AuthError,
+  // AuthError,
   sendPasswordResetEmail,
   // sendEmailVerification,
 } from "firebase/auth";
@@ -67,7 +69,7 @@ const AuthModal: React.FC<AuthModalDesktopProps> = () => {
       });
   };
 
-  //  Sign Up with Google
+  //  Sign Up with Google Provider
   const handleSignUpWithGoogle = () => {
     const provider = new GoogleAuthProvider();
     signInWithPopup(auth, provider)
@@ -86,15 +88,19 @@ const AuthModal: React.FC<AuthModalDesktopProps> = () => {
   // Log In
   const handleLogIn = () => {
     if (!email || !password) return;
+
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         const user = userCredential.user;
+        // Display success toast
+        toast.success("Login successful!", { position: "top-center" });
         console.log(user);
       })
       .catch((error) => {
-        const errorCode = error.code;
         const errorMessage = error.message;
-        console.log(errorCode, errorMessage);
+        // Display error toast
+        toast.error(errorMessage, { position: "top-center" });
+        console.error(error);
       });
   };
 
@@ -105,10 +111,14 @@ const AuthModal: React.FC<AuthModalDesktopProps> = () => {
       .then((result) => {
         // The signed-in user info.
         const user = result.user;
+        // Display success toast
+        toast.success("Login with Google successful!", {
+          position: "top-center",
+        });
         console.log(user);
         // Redirect user to dashboard or another page upon successful login
       })
-      .catch((error: AuthError) => {
+      .catch((error) => {
         // Handle errors here
         if (error.code === "auth/cancelled-popup-request") {
           // User cancelled the login process
@@ -116,6 +126,8 @@ const AuthModal: React.FC<AuthModalDesktopProps> = () => {
         } else {
           // Other authentication errors
           console.error("Authentication error:", error.message);
+          // Display error toast
+          toast.error(error.message, { position: "top-center" });
         }
       });
   };
@@ -146,7 +158,7 @@ const AuthModal: React.FC<AuthModalDesktopProps> = () => {
     setCurrentForm(ModalState.LOGIN); // Reset to login form when closing modal
   };
 
-  // Change Log In, Sign Up,  Reset Password
+  // Change Log In, Sign Up, Reset Password Modal
   const toggleForm = () => {
     setCurrentForm(
       currentForm === ModalState.LOGIN ? ModalState.SIGNUP : ModalState.LOGIN
@@ -187,6 +199,7 @@ const AuthModal: React.FC<AuthModalDesktopProps> = () => {
                 >
                   Continue with Google
                 </span>
+                <ToastContainer />
               </button>
               <div className="text-center py-5 relative">
                 <div className="absolute left-0 top-1/2 w-52 bg-gray-300 h-0.5 transform -translate-y-1/2"></div>
@@ -256,6 +269,7 @@ const AuthModal: React.FC<AuthModalDesktopProps> = () => {
               >
                 LOGIN
               </button>
+              <ToastContainer />
             </div>
           </>
         );
