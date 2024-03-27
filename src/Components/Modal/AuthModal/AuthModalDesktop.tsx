@@ -96,7 +96,6 @@ const AuthModal: React.FC = () => {
         // Show success notification
         notification.success({
           message: "Login Successful",
-          description: "You have successfully logged in.",
         });
 
         // Redirect to homepage after a short delay
@@ -109,7 +108,6 @@ const AuthModal: React.FC = () => {
         console.error("Login failed:", errorMessage);
         notification.error({
           message: "Login Failed",
-          description: errorMessage,
         });
       });
   };
@@ -126,7 +124,6 @@ const AuthModal: React.FC = () => {
         // Show success notification
         notification.success({
           message: "Login Successful",
-          description: "Redirecting to dashboard...",
         });
 
         // Redirect to dashboard after a short delay
@@ -158,7 +155,7 @@ const AuthModal: React.FC = () => {
   const redirectToHomepage = () => {
     // Implement your redirection logic here
     // For example:
-    window.location.href = "/"; // Redirect to the homepage
+    window.location.href = "/user"; // Redirect to the homepage
   };
 
   // Forgot Password Email Resend
