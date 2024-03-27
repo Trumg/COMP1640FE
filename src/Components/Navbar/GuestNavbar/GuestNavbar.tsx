@@ -6,10 +6,21 @@ import AuthModalMobile from "../../Modal/AuthModal/AuthModalMobile";
 import { FaSearch, FaBars, FaTimes } from "react-icons/fa";
 import { IoMoon, IoSunny } from "react-icons/io5"; // Import moon and sun icons
 
-const GuestNav: React.FC = () => {
+// Define UserNavbar component
+const UserNavbar: React.FC = () => {
+  // Implement UserNavbar UI here
+  return (
+    <nav className="bg-white shadow-lg w-full fixed">
+      {/* UserNavbar content */}
+    </nav>
+  );
+};
+
+const GuestNavbar: React.FC = () => {
   const [isMobile, setIsMobile] = useState<boolean>(false);
   const [showMenu, setShowMenu] = useState<boolean>(false);
   const [isDarkMode, setIsDarkMode] = useState<boolean>(false);
+  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(false);
 
   useEffect(() => {
     const handleResize = () => {
@@ -106,4 +117,4 @@ const GuestNav: React.FC = () => {
   );
 };
 
-export default GuestNav;
+export default GuestNavbar;

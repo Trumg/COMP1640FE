@@ -1,9 +1,9 @@
-import UserNavbar from "../../Components/Navbar/UserNavbar/UserNavbar";
+import GuestNavbar from "../../Components/Navbar/GuestNavbar/GuestNavbar";
 
 function UserPage() {
   return (
     <div>
-      <UserNavbar />
+      <GuestNavbar />
     </div>
   );
 }
