@@ -69,6 +69,28 @@ const LoginEmailPasswordForm: React.FC = () => {
         </h3>
         <div className="login-google mt-2">
           <div>
+            <div className="flex justify-between">
+              <div className="mb-3">
+                <label
+                  htmlFor="email"
+                  className="block text-base font-medium text-gray-700"
+                >
+                  Email / Password
+                </label>
+              </div>
+              <div className="mb-3">
+                <label
+                  htmlFor="phone"
+                  className="block text-base font-medium text-gray-700"
+                >
+                  <Link to="/login-phone">
+                    <button className="text-[#549b90] font-bold italic">
+                      Login with Phone
+                    </button>
+                  </Link>
+                </label>
+              </div>
+            </div>
             <div>
               <Input
                 type="email"
