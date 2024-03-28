@@ -1,5 +1,11 @@
+import VerifyForm from "../../../Components/Form/VerifyForm/VerifyForm";
+
 function VerifyPage() {
-  return <div>VerifyPage</div>;
+  return (
+    <div>
+      <VerifyForm />
+    </div>
+  );
 }
 
 export default VerifyPage;

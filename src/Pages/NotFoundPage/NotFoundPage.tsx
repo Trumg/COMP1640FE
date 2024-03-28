@@ -1,5 +1,11 @@
+import NotFoundForm from "../../Components/Form/NotFoundForm/NotFoundForm";
+
 function NotFoundPage() {
-  return <div>NotFoundPage</div>;
+  return (
+    <div>
+      <NotFoundForm />
+    </div>
+  );
 }
 
 export default NotFoundPage;

@@ -1,46 +1,46 @@
-import React from "react";
-// import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import {
-  signInWithPopup,
-  GoogleAuthProvider,
-  // AuthError,
-  // sendPasswordResetEmail,
-  // sendEmailVerification,
-} from "firebase/auth";
+import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import { notification, Card } from "antd";
 import {
   UserOutlined,
   GoogleOutlined,
   ArrowLeftOutlined,
 } from "@ant-design/icons";
-import { auth } from "../../../../Firebase/firebase";
+import { auth } from "../../../Firebase/firebase";
 
-import { SignupImage } from "../../../../Assets/SignupImage/SignupImage";
+import { SignupImage } from "../../../Assets/SignupImage/SignupImage";
 
-const SignupFormDesktop: React.FC = () => {
+const SignupForm: React.FC = () => {
+  const [isMobile, setIsMobile] = useState<boolean>(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768); // Adjust the breakpoint as needed
+    };
+
+    handleResize(); // Call the function to set initial state
+    window.addEventListener("resize", handleResize); // Listen for window resize events
+    return () => window.removeEventListener("resize", handleResize); // Cleanup function
+  }, []);
+
   const handleLoginWithGoogle = () => {
     const provider = new GoogleAuthProvider();
     signInWithPopup(auth, provider)
       .then((result) => {
-        // The signed-in user info.
         const user = result.user;
         console.log(user);
 
-        // Show success notification
         notification.success({
           message: "Login Successful",
         });
 
-        // Redirect to dashboard after a short delay
         setTimeout(() => {
-          redirecttoUserPage(); // Call your function to redirect to dashboard
-        }, 2000); // 2 seconds delay
+          redirecttoUserPage();
+        }, 2000);
       })
       .catch((error) => {
-        // Handle errors here
         if (error.code === "auth/cancelled-popup-request") {
-          // User cancelled the login process
           notification.info({
             message: "Login Cancelled",
             description: "Login process cancelled by the user.",
@@ -63,7 +63,7 @@ const SignupFormDesktop: React.FC = () => {
   return (
     <div className="flex justify-center items-center h-screen">
       <Card
-        className="w-full max-w-md p-2"
+        className={`w-full max-w-md p-2 ${isMobile ? "max-w-xs" : ""}`}
         style={{ border: "3px solid #549b90", borderRadius: "5px" }}
       >
         <Link to="/" className="text-[#549b90]">
@@ -74,7 +74,12 @@ const SignupFormDesktop: React.FC = () => {
         </Link>
         <h3 className="text-lg font-medium leading-6 text-gray-900 text-center mb-1">
           <div className="flex items-center justify-center">
-            <img src={SignupImage} width={200} height={200} alt="Login Image" />
+            <img
+              src={SignupImage}
+              width={200}
+              height={200}
+              alt="Signup Image"
+            />
           </div>
         </h3>
         <div className="login-google mt-2">
@@ -82,7 +87,7 @@ const SignupFormDesktop: React.FC = () => {
             <button className="relative bg-white text-black font-bold py-2 px-4 rounded-full w-full flex items-center justify-center border border-[#549b90] transition duration-300 hover:text-gray-600 hover:border-[#549b90] focus:outline-none hover:bg-gray-200">
               <UserOutlined />
               <span className="inline-block ml-2">
-                Sign up with email / phone number
+                Signup with email / phone number
               </span>
             </button>
           </div>
@@ -93,7 +98,7 @@ const SignupFormDesktop: React.FC = () => {
                 onClick={handleLoginWithGoogle}
                 className="inline-block ml-2"
               >
-                Sign up with Google
+                Signup with Google
               </span>
             </button>
           </div>
@@ -112,4 +117,4 @@ const SignupFormDesktop: React.FC = () => {
   );
 };
 
-export default SignupFormDesktop;
+export default SignupForm;

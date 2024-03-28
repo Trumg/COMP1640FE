@@ -1,9 +1,9 @@
-import LoginFormDesktop from "../../../Components/Form/LoginForm/LoginFormDesktop/LoginFormDesktop";
+import LoginForm from "../../../Components/Form/LoginForm/LoginForm";
 
 function LogInPage() {
   return (
     <div>
-      <LoginFormDesktop />
+      <LoginForm />
     </div>
   );
 }

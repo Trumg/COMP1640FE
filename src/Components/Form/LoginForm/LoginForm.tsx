@@ -1,53 +1,52 @@
-import React from "react";
-// import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import {
-  signInWithPopup,
-  GoogleAuthProvider,
-  // AuthError,
-  // sendPasswordResetEmail,
-  // sendEmailVerification,
-} from "firebase/auth";
+import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import { notification, Card } from "antd";
 import {
   UserOutlined,
   GoogleOutlined,
   ArrowLeftOutlined,
 } from "@ant-design/icons";
-import { auth } from "../../../../Firebase/firebase";
+import { auth } from "../../../Firebase/firebase";
 
-import { LoginImage } from "../../../../Assets/LoginImage/LoginImage";
+import { LoginImage } from "../../../Assets/LoginImage/LoginImage";
 
-const LoginFormDesktop: React.FC = () => {
+const LoginForm: React.FC = () => {
+  const [isMobile, setIsMobile] = useState<boolean>(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768); // Adjust the breakpoint as needed
+    };
+
+    handleResize(); // Call the function to set initial state
+    window.addEventListener("resize", handleResize); // Listen for window resize events
+    return () => window.removeEventListener("resize", handleResize); // Cleanup function
+  }, []);
+
   const handleLoginWithGoogle = () => {
     const provider = new GoogleAuthProvider();
     signInWithPopup(auth, provider)
       .then((result) => {
-        // The signed-in user info.
         const user = result.user;
         console.log(user);
 
-        // Show success notification
         notification.success({
           message: "Login Successful",
         });
 
-        // Redirect to dashboard after a short delay
         setTimeout(() => {
-          redirecttoUserPage(); // Call your function to redirect to dashboard
-        }, 2000); // 2 seconds delay
+          redirecttoUserPage();
+        }, 2000);
       })
       .catch((error) => {
-        // Handle errors here
         if (error.code === "auth/cancelled-popup-request") {
-          // User cancelled the login process
           notification.info({
             message: "Login Cancelled",
             description: "Login process cancelled by the user.",
           });
           console.log("Login process cancelled by the user.");
         } else {
-          // Other authentication errors
           notification.error({
             message: "Authentication Error",
             description: error.message,
@@ -65,7 +64,9 @@ const LoginFormDesktop: React.FC = () => {
     <div className="flex justify-center items-center h-screen">
       <div className="absolute top-4 left-4"></div>
       <Card
-        className="w-full max-w-md p-2"
+        className={`w-full max-w-md p-2 ${
+          isMobile ? "max-w-xs" : "" // Apply max-w-xs class if isMobile is true
+        }`}
         style={{ border: "3px solid #549b90", borderRadius: "5px" }}
       >
         <Link to="/" className="text-[#549b90]">
@@ -84,7 +85,7 @@ const LoginFormDesktop: React.FC = () => {
             <button className="relative bg-white text-black font-bold py-2 px-4 rounded-full w-full flex items-center justify-center border border-[#549b90] transition duration-300 hover:text-gray-600 hover:border-[#549b90] focus:outline-none hover:bg-gray-200">
               <UserOutlined />
               <span className="inline-block ml-2">
-                Log in with email / phone number
+                Login with email / phone number
               </span>
             </button>
           </div>
@@ -95,7 +96,7 @@ const LoginFormDesktop: React.FC = () => {
                 onClick={handleLoginWithGoogle}
                 className="inline-block ml-2"
               >
-                Log in with Google
+                Login with Google
               </span>
             </button>
           </div>
@@ -114,4 +115,4 @@ const LoginFormDesktop: React.FC = () => {
   );
 };
 
-export default LoginFormDesktop;
+export default LoginForm;

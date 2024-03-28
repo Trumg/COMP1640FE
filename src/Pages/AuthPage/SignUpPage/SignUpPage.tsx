@@ -1,9 +1,9 @@
-import SignupFormDesktop from "../../../Components/Form/SignupForm/SignupFormDestop/SignupFormDesktop";
+import SignupForm from "../../../Components/Form/SignupForm/SignupForm";
 
 function SignUpPage() {
   return (
     <div>
-      <SignupFormDesktop />
+      <SignupForm />
     </div>
   );
 }

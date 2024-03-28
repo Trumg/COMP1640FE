@@ -1,5 +1,11 @@
+import ResetForm from "../../../Components/Form/ResetForm/ResetForm";
+
 function ResetPage() {
-  return <div>ResetPage</div>;
+  return (
+    <div>
+      <ResetForm />
+    </div>
+  );
 }
 
 export default ResetPage;

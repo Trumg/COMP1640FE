@@ -1,5 +1,11 @@
+import AccessDeniedForm from "../../Components/Form/AccessDeniedForm/AccessDeniedForm";
+
 function AccessDeniedPage() {
-  return <div>AccessDeniedPage</div>;
+  return (
+    <div>
+      <AccessDeniedForm />
+    </div>
+  );
 }
 
 export default AccessDeniedPage;
