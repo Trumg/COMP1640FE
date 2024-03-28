@@ -1,19 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { MagazineImage } from "../../../Assets/MagazineImage/MagazineImage";
 import { Link } from "react-router-dom";
-import { FaBars, FaTimes } from "react-icons/fa";
-import { Avatar, Space } from "antd";
+import { Drawer, Avatar } from "antd";
 import {
-  MoonOutlined,
-  SunOutlined,
+  MenuOutlined,
   UserOutlined,
   BellOutlined,
+  MailOutlined,
 } from "@ant-design/icons";
 
 const UserNavbar: React.FC = () => {
   const [isMobile, setIsMobile] = useState<boolean>(false);
-  const [showMenu, setShowMenu] = useState<boolean>(false);
-  const [isDarkMode, setIsDarkMode] = useState<boolean>(false);
+  const [showDrawer, setShowDrawer] = useState<boolean>(false);
 
   useEffect(() => {
     const handleResize = () => {
@@ -26,13 +24,7 @@ const UserNavbar: React.FC = () => {
   }, []);
 
   const toggleMenu = () => {
-    setShowMenu(!showMenu);
-  };
-
-  const toggleDarkMode = () => {
-    setIsDarkMode(!isDarkMode);
-    // You can save the user's preference in localStorage or a state management solution
-    // localStorage.setItem('darkMode', JSON.stringify(!isDarkMode));
+    setShowDrawer(!showDrawer);
   };
 
   return (
@@ -51,48 +43,31 @@ const UserNavbar: React.FC = () => {
           </div>
           {isMobile ? (
             <div className="flex md:hidden">
-              <button
-                className="text-gray-500 hover:text-gray-800 focus:outline-none focus:text-gray-800 w-12 h-12"
-                onClick={toggleMenu}
-              >
-                {showMenu ? (
-                  <FaTimes className="h-8 w-8" />
-                ) : (
-                  <FaBars className="h-8 w-8" />
-                )}
+              <button onClick={toggleMenu}>
+                <MenuOutlined />
               </button>
+              <Drawer
+                placement="right"
+                onClose={() => setShowDrawer(false)}
+                open={showDrawer}
+                width="70%"
+              ></Drawer>
             </div>
           ) : (
-            <>
-              <div className="hidden md:flex items-center">
-                <Space size="middle">
-                  <button
-                    onClick={toggleDarkMode}
-                    className="text-xl text-gray-500 hover:text-gray-800 cursor-pointer inline-flex items-center"
-                  >
-                    {isDarkMode ? (
-                      <>
-                        <MoonOutlined className="h-6 w-6" />
-                      </>
-                    ) : (
-                      <>
-                        <SunOutlined className="h-6 w-6" />
-                      </>
-                    )}
-                  </button>
-                  <BellOutlined className="text-xl text-gray-500 hover:text-gray-800 cursor-pointer inline-flex items-center" />
-                  <Avatar
-                    className="text-xl text-gray-500 hover:text-gray-800 cursor-pointer inline-flex items-center"
-                    size="large"
-                    icon={<UserOutlined />}
-                  />
-                </Space>
+            <div className="ml-10 space-x-8">
+              <div className="inline-flex mx-2">
+                <MailOutlined style={{ fontSize: "22px" }} />
               </div>
-            </>
+              <div className="inline-flex mx-4">
+                <BellOutlined style={{ fontSize: "22px" }} />
+              </div>
+              <div className="inline-flex mx-4">
+                <Avatar size="large" icon={<UserOutlined />} />
+              </div>
+            </div>
           )}
         </div>
       </div>
-      {/* {isMobile && showMenu && ()} */}
     </nav>
   );
 };
