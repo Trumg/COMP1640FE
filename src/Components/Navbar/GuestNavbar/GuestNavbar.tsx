@@ -3,6 +3,7 @@ import { MagazineImage } from "../../../Assets/MagazineImage/MagazineImage";
 import { Link } from "react-router-dom";
 import { Drawer } from "antd";
 import { AiOutlineMenu } from "react-icons/ai";
+import { LuLogIn } from "react-icons/lu";
 
 const GuestNavbar: React.FC = () => {
   const [isMobile, setIsMobile] = useState<boolean>(false);
@@ -43,25 +44,28 @@ const GuestNavbar: React.FC = () => {
                   <AiOutlineMenu className="w-8 h-8" />
                 </button>
                 <Drawer
-                  placement="right" // Adjust placement to left
+                  placement="right"
                   onClose={() => setShowDrawer(false)}
-                  visible={showDrawer} // Set visible prop instead of open
+                  visible={showDrawer}
                   width="70%"
-                  closable={false} // Hide the close button
+                  closable={false}
                   className="flex flex-col justify-center items-center text-center"
-                ></Drawer>
+                >
+                  <div className="w-full flex justify-end">
+                    <Link to="/login" className="text-white items-center">
+                      <button className="text-[#549b90] text-xl flex items-center">
+                        <LuLogIn className="mr-2" /> JOIN MAGAZINE
+                      </button>
+                    </Link>
+                  </div>
+                </Drawer>
               </div>
             </>
           ) : (
             <div className="ml-10 space-x-2">
               <Link to="/login" className="text-white">
                 <button className="bg-[#549b90] border-1 border-black hover:bg-gray-400 font-bold py-2 px-4 rounded-full shadow-md mr-4">
-                  LOGIN
-                </button>
-              </Link>
-              <Link to="/signup" className="text-white">
-                <button className="bg-[#549b90] border-1 border-black hover:bg-gray-400 font-bold py-2 px-4 rounded-full shadow-md mr-4">
-                  SIGNUP
+                  JOIN MAGAZINE
                 </button>
               </Link>
             </div>

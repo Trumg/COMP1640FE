@@ -19,9 +19,6 @@ import { auth } from "../../../../Firebase/firebase";
 import { LoginImage } from "../../../../Assets/LoginImage/LoginImage";
 
 const LoginFormDesktop: React.FC = () => {
-  // const [email, setEmail] = useState("");
-  // const [password, setPassword] = useState("");
-
   const handleLoginWithGoogle = () => {
     const provider = new GoogleAuthProvider();
     signInWithPopup(auth, provider)
@@ -64,12 +61,6 @@ const LoginFormDesktop: React.FC = () => {
     window.location.href = "/user";
   };
 
-  // const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) =>
-  //   setEmail(event.target.value);
-  // const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-  //   setPassword(event.target.value);
-  // };
-
   return (
     <div className="flex justify-center items-center h-screen">
       <div className="absolute top-4 left-4"></div>
@@ -108,54 +99,8 @@ const LoginFormDesktop: React.FC = () => {
               </span>
             </button>
           </div>
-          {/* <form>
-            <div>
-              <label
-                htmlFor="email"
-                className="block text-xl font-medium text-gray-700 "
-              >
-                Email
-              </label>
-              <input
-                type="email"
-                id="email"
-                name="email"
-                className="mt-1 p-2 w-full border border-gray-500 rounded-md"
-                placeholder="Enter your email"
-                value={email}
-                onChange={handleEmailChange}
-              />
-            </div>
-            <div className="mt-3">
-              <label
-                htmlFor="password"
-                className="block text-xl font-medium text-gray-700"
-              >
-                Password
-              </label>
-              <input
-                type="password"
-                id="password"
-                name="password"
-                className="mt-1 p-2 w-full border border-gray-500 rounded-md"
-                placeholder="Enter your password"
-                value={password}
-                onChange={handlePasswordChange}
-              />
-            </div>
-          </form> */}
         </div>
         <div className="mt-4 text-center">
-          {/* <p>
-            Forgot password?{" "}
-            <Link
-              to="/reset-password"
-              className="text-[#549b90] font-bold italic"
-            >
-              RESET
-            </Link>
-            .
-          </p> */}
           <p>
             Don't have an account?{" "}
             <Link to="/signup" className="text-[#549b90] font-bold italic">

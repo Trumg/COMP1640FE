@@ -19,9 +19,6 @@ import { auth } from "../../../../Firebase/firebase";
 import { SignupImage } from "../../../../Assets/SignupImage/SignupImage";
 
 const SignupFormDesktop: React.FC = () => {
-  // const [email, setEmail] = useState("");
-  // const [password, setPassword] = useState("");
-
   const handleLoginWithGoogle = () => {
     const provider = new GoogleAuthProvider();
     signInWithPopup(auth, provider)
@@ -50,7 +47,6 @@ const SignupFormDesktop: React.FC = () => {
           });
           console.log("Login process cancelled by the user.");
         } else {
-          // Other authentication errors
           notification.error({
             message: "Authentication Error",
             description: error.message,
@@ -63,12 +59,6 @@ const SignupFormDesktop: React.FC = () => {
   const redirecttoUserPage = () => {
     window.location.href = "/user";
   };
-
-  // const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) =>
-  //   setEmail(event.target.value);
-  // const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-  //   setPassword(event.target.value);
-  // };
 
   return (
     <div className="flex justify-center items-center h-screen">
@@ -107,42 +97,6 @@ const SignupFormDesktop: React.FC = () => {
               </span>
             </button>
           </div>
-          {/* <form>
-            <div>
-              <label
-                htmlFor="email"
-                className="block text-xl font-medium text-gray-700 "
-              >
-                Email
-              </label>
-              <input
-                type="email"
-                id="email"
-                name="email"
-                className="mt-1 p-2 w-full border border-gray-500 rounded-md"
-                placeholder="Enter your email"
-                value={email}
-                onChange={handleEmailChange}
-              />
-            </div>
-            <div className="mt-3">
-              <label
-                htmlFor="password"
-                className="block text-xl font-medium text-gray-700"
-              >
-                Password
-              </label>
-              <input
-                type="password"
-                id="password"
-                name="password"
-                className="mt-1 p-2 w-full border border-gray-500 rounded-md"
-                placeholder="Enter your password"
-                value={password}
-                onChange={handlePasswordChange}
-              />
-            </div>
-          </form> */}
         </div>
         <div className="mt-4 text-center">
           <p>
