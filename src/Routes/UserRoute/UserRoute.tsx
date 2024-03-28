@@ -6,7 +6,7 @@ import { User } from "firebase/auth";
 
 import PrivateRoute from "../PrivateRoute/PrivateRoute";
 import UserPage from "../../Pages/UserPage/UserPage";
-import UserProfilePage from "../../Pages/UserPage/UserProfilePage";
+import UserProfilePage from "../../Pages/UserPage/UserProfilePage/UserProfilePage";
 
 const UserRoute: React.FC = () => {
   const [user, setUser] = useState<User | null>(null);
