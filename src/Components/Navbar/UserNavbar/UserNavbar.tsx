@@ -48,8 +48,9 @@ const UserNavbar: React.FC = () => {
                 <Drawer
                   placement="left" // Adjust placement to left
                   onClose={() => setShowDrawer(false)}
-                  open={showDrawer}
+                  visible={showDrawer} // Set visible prop instead of open
                   width="70%"
+                  closable={false} // Hide the close button
                 ></Drawer>
               </div>
             </>
@@ -67,7 +68,10 @@ const UserNavbar: React.FC = () => {
           )}
           <div className="ml-10 space-x-4">
             <div className="inline-flex mx-3">
-              <FaBell size={22} /> {/* Change the size value as needed */}
+              <FaBell
+                size={22}
+                className="transition duration-300 ease-in-out hover:text-[#549b90]"
+              />
             </div>
             <div className="inline-flex mx-3">
               <Popover
