@@ -1,12 +1,12 @@
-import React from "react";
-import { Route, Routes } from "react-router-dom";
-
-import ManagerPage from "../../Pages/ManagerPage/ManagerPage";
+import React from 'react';
+import { Routes, Route } from 'react-router-dom';
+import ManagerPage from '../../Pages/ManagerPage/ManagerPage';
+import PrivateRoute from '../PrivateRoute/PrivateRoute';
 
 const ManagerRoute: React.FC = () => {
   return (
     <Routes>
-      <Route path="/manager" element={<ManagerPage />} />
+      <PrivateRoute path="/manager" component={<ManagerPage />} />
     </Routes>
   );
 };

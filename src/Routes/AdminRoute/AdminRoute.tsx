@@ -1,12 +1,12 @@
-import React from "react";
-import { Route, Routes } from "react-router-dom";
-
-import AdminPage from "../../Pages/AdminPage/AdminPage";
+import React from 'react';
+import { Routes, Route } from 'react-router-dom';
+import AdminPage from '../../Pages/AdminPage/AdminPage';
+import PrivateRoute from '../PrivateRoute/PrivateRoute';
 
 const AdminRoute: React.FC = () => {
   return (
     <Routes>
-      <Route path="/admin" element={<AdminPage />} />
+      <PrivateRoute path="/admin" component={<AdminPage />} />
     </Routes>
   );
 };
