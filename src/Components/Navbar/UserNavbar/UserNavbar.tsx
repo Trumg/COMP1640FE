@@ -9,7 +9,9 @@ import { AiOutlineMenu } from "react-icons/ai";
 const UserNavbar: React.FC = () => {
   const [isMobile, setIsMobile] = useState<boolean>(false);
   const [showDrawer, setShowDrawer] = useState<boolean>(false);
-  const [popoverVisible, setPopoverVisible] = useState<boolean>(false);
+  const [avatarPopoverVisible, setAvatarPopoverVisible] =
+    useState<boolean>(false);
+  const [bellPopoverVisible, setBellPopoverVisible] = useState<boolean>(false);
 
   useEffect(() => {
     const handleResize = () => {
@@ -26,12 +28,22 @@ const UserNavbar: React.FC = () => {
   };
 
   const handleAvatarClick = () => {
-    setPopoverVisible(!popoverVisible);
+    setAvatarPopoverVisible(!avatarPopoverVisible);
   };
 
-  const content = (
+  const handleBellClick = () => {
+    setBellPopoverVisible(!bellPopoverVisible);
+  };
+
+  const avatarContent = (
     <div>
-      <p>Content of the popover</p>
+      <p>User</p>
+    </div>
+  );
+
+  const bellContent = (
+    <div>
+      <p>Notification</p>
     </div>
   );
 
@@ -80,17 +92,27 @@ const UserNavbar: React.FC = () => {
           )}
           <div className="ml-10 space-x-4">
             <div className="inline-flex mx-3">
-              <FaBell
-                size={22}
-                className="transition duration-300 ease-in-out hover:text-[#549b90]"
-              />
+              <Popover
+                content={bellContent}
+                trigger="click"
+                visible={bellPopoverVisible}
+                onVisibleChange={setBellPopoverVisible}
+                placement="bottomRight"
+              >
+                <FaBell
+                  size={22}
+                  style={{ cursor: "pointer" }}
+                  className="transition duration-300 ease-in-out hover:text-[#549b90]"
+                  onClick={handleBellClick}
+                />
+              </Popover>
             </div>
             <div className="inline-flex mx-3">
               <Popover
-                content={content}
+                content={avatarContent}
                 trigger="click"
-                visible={popoverVisible}
-                onVisibleChange={setPopoverVisible}
+                visible={avatarPopoverVisible}
+                onVisibleChange={setAvatarPopoverVisible}
                 placement="bottomRight"
               >
                 <Avatar
