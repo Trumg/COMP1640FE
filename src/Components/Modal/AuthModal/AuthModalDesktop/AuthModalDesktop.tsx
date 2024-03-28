@@ -5,17 +5,17 @@ import {
   signInWithEmailAndPassword,
   signInWithPopup,
   GoogleAuthProvider,
-  AuthError,
+  // AuthError,
   sendPasswordResetEmail,
   // sendEmailVerification,
 } from "firebase/auth";
-import { auth } from "../../../Firebase/firebase";
+import { auth } from "../../../../Firebase/firebase";
 
 import { MdOutlineClose } from "react-icons/md";
-import { LoginImage } from "../../../Assets/LoginImage/LoginImage";
-import { SignupImage } from "../../../Assets/SignupImage/SignupImage";
-import { ResetImage } from "../../../Assets/ResetImage/ResetImage";
-import { GoogleImage } from "../../../Assets/GoogleImage/GoogleImage";
+import { LoginImage } from "../../../../Assets/LoginImage/LoginImage";
+import { SignupImage } from "../../../../Assets/SignupImage/SignupImage";
+import { ResetImage } from "../../../../Assets/ResetImage/ResetImage";
+import { GoogleImage } from "../../../../Assets/GoogleImage/GoogleImage";
 
 enum ModalState {
   LOGIN,
@@ -23,7 +23,7 @@ enum ModalState {
   RESET_PASSWORD,
 }
 
-const AuthModalMobile: React.FC = () => {
+const AuthModal: React.FC = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [currentForm, setCurrentForm] = useState<ModalState>(ModalState.LOGIN);
 
@@ -92,18 +92,22 @@ const AuthModalMobile: React.FC = () => {
       .then((userCredential) => {
         const user = userCredential.user;
         console.log("User logged in successfully:", user);
+
+        // Show success notification
         notification.success({
           message: "Login Successful",
-          description: "You have successfully logged in.",
         });
-        // Redirect user to dashboard or another page upon successful login
+
+        // Redirect to homepage after a short delay
+        setTimeout(() => {
+          redirecttoUserPage(); // Call your function to redirect to homepage
+        }, 2000); // 2 seconds delay
       })
       .catch((error) => {
         const errorMessage = error.message;
         console.error("Login failed:", errorMessage);
         notification.error({
           message: "Login Failed",
-          description: errorMessage,
         });
       });
   };
@@ -116,14 +120,17 @@ const AuthModalMobile: React.FC = () => {
         // The signed-in user info.
         const user = result.user;
         console.log(user);
-        // Redirect user to dashboard or another page upon successful login
+
+        // Show success notification
         notification.success({
           message: "Login Successful",
-          description: "Redirecting to dashboard...",
         });
-        // Redirect user to dashboard or another page upon successful login
+
+        setTimeout(() => {
+          redirecttoUserPage();
+        }, 2000); // 2 seconds delay
       })
-      .catch((error: AuthError) => {
+      .catch((error) => {
         // Handle errors here
         if (error.code === "auth/cancelled-popup-request") {
           // User cancelled the login process
@@ -141,6 +148,13 @@ const AuthModalMobile: React.FC = () => {
           console.error("Authentication error:", error.message);
         }
       });
+  };
+
+  // Function to redirect to the homepage after successful login
+  const redirecttoUserPage = () => {
+    // Implement your redirection logic here
+    // For example:
+    window.location.href = "/user"; // Redirect to the homepage
   };
 
   // Forgot Password Email Resend
@@ -212,15 +226,15 @@ const AuthModalMobile: React.FC = () => {
                 </span>
               </button>
               <div className="text-center py-5 relative">
-                <div className="absolute left-0 top-1/2 w-24 bg-gray-300 h-0.5 transform -translate-y-1/2"></div>
+                <div className="absolute left-0 top-1/2 w-52 bg-gray-300 h-0.5 transform -translate-y-1/2"></div>
                 <span className="text-gray-600">OR</span>
-                <div className="absolute right-0 top-1/2 w-24 bg-gray-300 h-0.5 transform -translate-y-1/2"></div>
+                <div className="absolute right-0 top-1/2 w-52 bg-gray-300 h-0.5 transform -translate-y-1/2"></div>
               </div>
-              <form className="px-4">
-                <div className="mb-3">
+              <form>
+                <div>
                   <label
                     htmlFor="email"
-                    className="block text-xl font-medium text-gray-700"
+                    className="block text-xl font-medium text-gray-700 "
                   >
                     Email
                   </label>
@@ -234,7 +248,7 @@ const AuthModalMobile: React.FC = () => {
                     onChange={handleEmailChange}
                   />
                 </div>
-                <div className="mb-3">
+                <div className="mt-3">
                   <label
                     htmlFor="password"
                     className="block text-xl font-medium text-gray-700"
@@ -311,12 +325,12 @@ const AuthModalMobile: React.FC = () => {
                 </span>
               </button>
               <div className="text-center py-5 relative">
-                <div className="absolute left-0 top-1/2 w-24 bg-gray-300 h-0.5 transform -translate-y-1/2"></div>
+                <div className="absolute left-0 top-1/2 w-52 bg-gray-300 h-0.5 transform -translate-y-1/2"></div>
                 <span className="text-gray-600">OR</span>
-                <div className="absolute right-0 top-1/2 w-24 bg-gray-300 h-0.5 transform -translate-y-1/2"></div>
+                <div className="absolute right-0 top-1/2 w-52 bg-gray-300 h-0.5 transform -translate-y-1/2"></div>
               </div>
-              <form className="px-4">
-                <div className="mb-3">
+              <form>
+                <div>
                   <label
                     htmlFor="signup-email"
                     className="block text-xl font-medium text-gray-700"
@@ -332,7 +346,7 @@ const AuthModalMobile: React.FC = () => {
                     onChange={handleEmailChange}
                   />
                 </div>
-                <div className="mb-3">
+                <div className="mt-3">
                   <label
                     htmlFor="signup-password"
                     className="block text-xl font-medium text-gray-700"
@@ -348,7 +362,7 @@ const AuthModalMobile: React.FC = () => {
                     onChange={handlePasswordChange}
                   />
                 </div>
-                <div className="mb-4">
+                <div className="mt-3">
                   <label
                     htmlFor="confirm-password"
                     className="block text-xl font-medium text-gray-700"
@@ -379,7 +393,7 @@ const AuthModalMobile: React.FC = () => {
             <div className="px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
               <button
                 className="bg-red-600 text-white font-bold py-2 px-4 hover:bg-gray-400
-        rounded-full w-full flex items-center justify-center mb-4"
+                  rounded-full w-full flex items-center justify-center mb-4"
                 onClick={handleSignUp}
               >
                 SIGNUP
@@ -400,8 +414,9 @@ const AuthModalMobile: React.FC = () => {
                 alt="Reset Image"
               />
             </div>
-            <form className="mt-4 px-4">
-              <div className="mb-4">
+
+            <form>
+              <div>
                 <label
                   htmlFor="reset-password"
                   className="block text-xl font-medium text-gray-700"
@@ -418,26 +433,26 @@ const AuthModalMobile: React.FC = () => {
                 />
               </div>
 
-              <div className="text-center mb-4">
+              <div className="mt-4 text-center">
                 <button
                   onClick={() => setCurrentForm(ModalState.LOGIN)}
-                  className="inline-block text-blue-500 mr-2"
+                  className="inline-block text-blue-500"
                 >
                   LOGIN
                 </button>
-                <span>&bull;</span>
+                <span className="mx-2"> &bull; </span>
                 <button
                   onClick={() => setCurrentForm(ModalState.SIGNUP)}
-                  className="inline-block text-blue-500 ml-2"
+                  className="inline-block text-blue-500"
                 >
                   SIGNUP
                 </button>
               </div>
-              <div className="text-center">
+              <div className="px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
                 <button
                   onClick={handleForgotPassword}
                   className="bg-red-600 text-white font-bold py-2 px-4 hover:bg-gray-400
-                  rounded-full w-full mb-4"
+                  rounded-full w-full flex items-center justify-center mb-4"
                 >
                   RESET
                 </button>
@@ -453,7 +468,7 @@ const AuthModalMobile: React.FC = () => {
     <>
       <button
         onClick={openModal}
-        className="text-black text-center block mx-auto"
+        className="bg-red-600 text-white border-1 border-black hover:bg-gray-400 font-bold py-2 px-4 rounded-full shadow-md mr-4"
       >
         LOGIN
       </button>
@@ -492,4 +507,4 @@ const AuthModalMobile: React.FC = () => {
   );
 };
 
-export default AuthModalMobile;
+export default AuthModal;

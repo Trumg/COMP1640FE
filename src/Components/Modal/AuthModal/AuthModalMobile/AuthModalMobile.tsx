@@ -9,13 +9,13 @@ import {
   sendPasswordResetEmail,
   // sendEmailVerification,
 } from "firebase/auth";
-import { auth } from "../../../Firebase/firebase";
+import { auth } from "../../../../Firebase/firebase";
 
 import { MdOutlineClose } from "react-icons/md";
-import { LoginImage } from "../../../Assets/LoginImage/LoginImage";
-import { SignupImage } from "../../../Assets/SignupImage/SignupImage";
-import { ResetImage } from "../../../Assets/ResetImage/ResetImage";
-import { GoogleImage } from "../../../Assets/GoogleImage/GoogleImage";
+import { LoginImage } from "../../../../Assets/LoginImage/LoginImage";
+import { SignupImage } from "../../../../Assets/SignupImage/SignupImage";
+import { ResetImage } from "../../../../Assets/ResetImage/ResetImage";
+import { GoogleImage } from "../../../../Assets/GoogleImage/GoogleImage";
 
 enum ModalState {
   LOGIN,
@@ -23,7 +23,7 @@ enum ModalState {
   RESET_PASSWORD,
 }
 
-const AuthModal: React.FC = () => {
+const AuthModalMobile: React.FC = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [currentForm, setCurrentForm] = useState<ModalState>(ModalState.LOGIN);
 
@@ -98,9 +98,8 @@ const AuthModal: React.FC = () => {
           message: "Login Successful",
         });
 
-        // Redirect to homepage after a short delay
         setTimeout(() => {
-          redirectToHomepage(); // Call your function to redirect to homepage
+          redirecttoUserPage();
         }, 2000); // 2 seconds delay
       })
       .catch((error) => {
@@ -128,7 +127,7 @@ const AuthModal: React.FC = () => {
 
         // Redirect to dashboard after a short delay
         setTimeout(() => {
-          redirectToHomepage(); // Call your function to redirect to dashboard
+          redirecttoUserPage(); // Call your function to redirect to dashboard
         }, 2000); // 2 seconds delay
       })
       .catch((error) => {
@@ -152,7 +151,7 @@ const AuthModal: React.FC = () => {
   };
 
   // Function to redirect to the homepage after successful login
-  const redirectToHomepage = () => {
+  const redirecttoUserPage = () => {
     // Implement your redirection logic here
     // For example:
     window.location.href = "/user"; // Redirect to the homepage
@@ -227,15 +226,15 @@ const AuthModal: React.FC = () => {
                 </span>
               </button>
               <div className="text-center py-5 relative">
-                <div className="absolute left-0 top-1/2 w-52 bg-gray-300 h-0.5 transform -translate-y-1/2"></div>
+                <div className="absolute left-0 top-1/2 w-24 bg-gray-300 h-0.5 transform -translate-y-1/2"></div>
                 <span className="text-gray-600">OR</span>
-                <div className="absolute right-0 top-1/2 w-52 bg-gray-300 h-0.5 transform -translate-y-1/2"></div>
+                <div className="absolute right-0 top-1/2 w-24 bg-gray-300 h-0.5 transform -translate-y-1/2"></div>
               </div>
-              <form>
-                <div>
+              <form className="px-4">
+                <div className="mb-3">
                   <label
                     htmlFor="email"
-                    className="block text-xl font-medium text-gray-700 "
+                    className="block text-xl font-medium text-gray-700"
                   >
                     Email
                   </label>
@@ -249,7 +248,7 @@ const AuthModal: React.FC = () => {
                     onChange={handleEmailChange}
                   />
                 </div>
-                <div className="mt-3">
+                <div className="mb-3">
                   <label
                     htmlFor="password"
                     className="block text-xl font-medium text-gray-700"
@@ -326,12 +325,12 @@ const AuthModal: React.FC = () => {
                 </span>
               </button>
               <div className="text-center py-5 relative">
-                <div className="absolute left-0 top-1/2 w-52 bg-gray-300 h-0.5 transform -translate-y-1/2"></div>
+                <div className="absolute left-0 top-1/2 w-24 bg-gray-300 h-0.5 transform -translate-y-1/2"></div>
                 <span className="text-gray-600">OR</span>
-                <div className="absolute right-0 top-1/2 w-52 bg-gray-300 h-0.5 transform -translate-y-1/2"></div>
+                <div className="absolute right-0 top-1/2 w-24 bg-gray-300 h-0.5 transform -translate-y-1/2"></div>
               </div>
-              <form>
-                <div>
+              <form className="px-4">
+                <div className="mb-3">
                   <label
                     htmlFor="signup-email"
                     className="block text-xl font-medium text-gray-700"
@@ -347,7 +346,7 @@ const AuthModal: React.FC = () => {
                     onChange={handleEmailChange}
                   />
                 </div>
-                <div className="mt-3">
+                <div className="mb-3">
                   <label
                     htmlFor="signup-password"
                     className="block text-xl font-medium text-gray-700"
@@ -363,7 +362,7 @@ const AuthModal: React.FC = () => {
                     onChange={handlePasswordChange}
                   />
                 </div>
-                <div className="mt-3">
+                <div className="mb-4">
                   <label
                     htmlFor="confirm-password"
                     className="block text-xl font-medium text-gray-700"
@@ -394,7 +393,7 @@ const AuthModal: React.FC = () => {
             <div className="px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
               <button
                 className="bg-red-600 text-white font-bold py-2 px-4 hover:bg-gray-400
-                  rounded-full w-full flex items-center justify-center mb-4"
+        rounded-full w-full flex items-center justify-center mb-4"
                 onClick={handleSignUp}
               >
                 SIGNUP
@@ -415,9 +414,8 @@ const AuthModal: React.FC = () => {
                 alt="Reset Image"
               />
             </div>
-
-            <form>
-              <div>
+            <form className="mt-4 px-4">
+              <div className="mb-4">
                 <label
                   htmlFor="reset-password"
                   className="block text-xl font-medium text-gray-700"
@@ -434,26 +432,26 @@ const AuthModal: React.FC = () => {
                 />
               </div>
 
-              <div className="mt-4 text-center">
+              <div className="text-center mb-4">
                 <button
                   onClick={() => setCurrentForm(ModalState.LOGIN)}
-                  className="inline-block text-blue-500"
+                  className="inline-block text-blue-500 mr-2"
                 >
                   LOGIN
                 </button>
-                <span className="mx-2"> &bull; </span>
+                <span>&bull;</span>
                 <button
                   onClick={() => setCurrentForm(ModalState.SIGNUP)}
-                  className="inline-block text-blue-500"
+                  className="inline-block text-blue-500 ml-2"
                 >
                   SIGNUP
                 </button>
               </div>
-              <div className="px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+              <div className="text-center">
                 <button
                   onClick={handleForgotPassword}
                   className="bg-red-600 text-white font-bold py-2 px-4 hover:bg-gray-400
-                  rounded-full w-full flex items-center justify-center mb-4"
+                  rounded-full w-full mb-4"
                 >
                   RESET
                 </button>
@@ -469,7 +467,7 @@ const AuthModal: React.FC = () => {
     <>
       <button
         onClick={openModal}
-        className="bg-red-600 text-white border-1 border-black hover:bg-gray-400 font-bold py-2 px-4 rounded-full shadow-md mr-4"
+        className="text-black text-center block mx-auto"
       >
         LOGIN
       </button>
@@ -508,4 +506,4 @@ const AuthModal: React.FC = () => {
   );
 };
 
-export default AuthModal;
+export default AuthModalMobile;

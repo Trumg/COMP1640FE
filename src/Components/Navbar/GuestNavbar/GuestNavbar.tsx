@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { MagazineImage } from "../../../Assets/MagazineImage/MagazineImage";
 import { Link } from "react-router-dom";
-import AuthModalDesktop from "../../Modal/AuthModal/AuthModalDesktop";
-import AuthModalMobile from "../../Modal/AuthModal/AuthModalMobile";
+import AuthModalDesktop from "../../Modal/AuthModal/AuthModalDesktop/AuthModalDesktop";
+import AuthModalMobile from "../../Modal/AuthModal/AuthModalMobile/AuthModalMobile";
 import { FaSearch, FaBars, FaTimes } from "react-icons/fa";
 import { IoMoon, IoSunny } from "react-icons/io5"; // Import moon and sun icons
 
