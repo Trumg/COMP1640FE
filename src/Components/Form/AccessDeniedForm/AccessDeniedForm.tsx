@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { ArrowLeftOutlined } from "@ant-design/icons";
-import { NotFoundImage } from "../../../Assets/NotFoundImage/NotFoundImage";
+import { AccessDeniedImage } from "../../../Assets/AccessDeniedImage/AccessDeniedImage";
 
-const NotFoundForm: React.FC = () => {
+const AccessDeniedForm: React.FC = () => {
   const [isMobile, setIsMobile] = useState(false);
 
   useEffect(() => {
@@ -21,9 +21,9 @@ const NotFoundForm: React.FC = () => {
       {isMobile ? (
         <div className="flex flex-col items-center mb-2">
           <img
-            src={NotFoundImage}
-            width={300}
-            height={300}
+            src={AccessDeniedImage}
+            width={200}
+            height={200}
             alt="Not Found Image"
           />
           <span className="text-[#549b90] text-2xl">ACCESS DENIED</span>{" "}
@@ -31,7 +31,7 @@ const NotFoundForm: React.FC = () => {
       ) : (
         <div className="flex items-center mb-4">
           <img
-            src={NotFoundImage}
+            src={AccessDeniedImage}
             width={400}
             height={400}
             alt="Not Found Image"
@@ -49,4 +49,4 @@ const NotFoundForm: React.FC = () => {
   );
 };
 
-export default NotFoundForm;
+export default AccessDeniedForm;

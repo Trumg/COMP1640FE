@@ -10,7 +10,7 @@ const GuestRoute: React.FC = () => {
     <Routes>
       <Route path="/" element={<GuestPage />} />
       {/* <Route path="/*" element={<NotFoundPage />} /> */}
-      <Route path="/denied" element={<AccessDeniedPage />} />
+      <Route path="/access-denied" element={<AccessDeniedPage />} />
     </Routes>
   );
 };

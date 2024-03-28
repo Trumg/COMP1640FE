@@ -8,7 +8,6 @@ import {
   ArrowLeftOutlined,
 } from "@ant-design/icons";
 import { auth } from "../../../Firebase/firebase";
-
 import { LoginImage } from "../../../Assets/LoginImage/LoginImage";
 
 const LoginForm: React.FC = () => {
@@ -82,22 +81,22 @@ const LoginForm: React.FC = () => {
         </h3>
         <div className="login-google mt-2">
           <div>
-            <button className="relative bg-white text-black font-bold py-2 px-4 rounded-full w-full flex items-center justify-center border border-[#549b90] transition duration-300 hover:text-gray-600 hover:border-[#549b90] focus:outline-none hover:bg-gray-200">
-              <UserOutlined />
-              <span className="inline-block ml-2">
-                Login with email / phone number
-              </span>
-            </button>
+            <Link to="/login-email">
+              <button className="relative bg-white text-black font-bold py-2 px-4 rounded-full w-full flex items-center justify-center border border-[#549b90] transition duration-300 hover:text-gray-600 hover:border-[#549b90] focus:outline-none hover:bg-gray-200">
+                <UserOutlined />
+                <span className="inline-block ml-2">
+                  Login with email / phone number
+                </span>
+              </button>
+            </Link>
           </div>
           <div className="mt-3">
-            <button className="relative bg-white text-black font-bold py-2 px-4 rounded-full w-full flex items-center justify-center border border-[#549b90] transition duration-300 hover:text-gray-600 hover:border-[#549b90] focus:outline-none hover:bg-gray-200">
+            <button
+              className="relative bg-white text-black font-bold py-2 px-4 rounded-full w-full flex items-center justify-center border border-[#549b90] transition duration-300 hover:text-gray-600 hover:border-[#549b90] focus:outline-none hover:bg-gray-200"
+              onClick={handleLoginWithGoogle}
+            >
               <GoogleOutlined />
-              <span
-                onClick={handleLoginWithGoogle}
-                className="inline-block ml-2"
-              >
-                Login with Google
-              </span>
+              <span className="inline-block ml-2">Login with Google</span>
             </button>
           </div>
         </div>

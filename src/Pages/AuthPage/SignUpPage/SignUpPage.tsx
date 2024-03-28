@@ -1,6 +1,6 @@
 import SignupForm from "../../../Components/Form/SignupForm/SignupForm";
 
-function SignUpPage() {
+function SignupPage() {
   return (
     <div>
       <SignupForm />
@@ -8,4 +8,4 @@ function SignUpPage() {
   );
 }
 
-export default SignUpPage;
+export default SignupPage;
