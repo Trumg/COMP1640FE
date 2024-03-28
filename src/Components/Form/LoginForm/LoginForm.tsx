@@ -82,7 +82,7 @@ const LoginForm: React.FC = () => {
         <div className="login-google mt-2">
           <div>
             <Link to="/login-email">
-              <button className="relative bg-white text-black font-bold py-2 px-4 rounded-full w-full flex items-center justify-center border border-[#549b90] transition duration-300 hover:text-gray-600 hover:border-[#549b90] focus:outline-none hover:bg-gray-200">
+              <button className="relative bg-white text-black  py-2 px-4 rounded-full w-full flex items-center justify-center border border-[#549b90] transition duration-300 hover:text-gray-600 hover:border-[#549b90] focus:outline-none hover:bg-gray-200">
                 <UserOutlined />
                 <span className="inline-block ml-2">Login with Email</span>
               </button>
@@ -90,7 +90,7 @@ const LoginForm: React.FC = () => {
           </div>
           <div className="mt-3">
             <button
-              className="relative bg-white text-black font-bold py-2 px-4 rounded-full w-full flex items-center justify-center border border-[#549b90] transition duration-300 hover:text-gray-600 hover:border-[#549b90] focus:outline-none hover:bg-gray-200"
+              className="relative bg-white text-black  py-2 px-4 rounded-full w-full flex items-center justify-center border border-[#549b90] transition duration-300 hover:text-gray-600 hover:border-[#549b90] focus:outline-none hover:bg-gray-200"
               onClick={handleLoginWithGoogle}
             >
               <GoogleOutlined />
