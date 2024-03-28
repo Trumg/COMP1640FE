@@ -39,7 +39,22 @@ const ResetForm: React.FC = () => {
   }, []);
 
   return (
-    <div className="flex justify-center items-center h-screen">
+    <div
+      className="h-screen flex justify-center items-center relative"
+      style={{
+        backgroundImage: `url('https://media.giphy.com/media/l4FGGYrtfJP7qpcDC/giphy.gif')`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+      }}
+    >
+      <div
+        className="absolute inset-0 backdrop-filter backdrop-blur-md"
+        style={{
+          filter: "blur(2px)",
+          opacity: 0.2,
+        }}
+      />
+      <div className="absolute top-4 left-4"></div>
       <Card
         className={`w-full max-w-md p-2 ${
           isMobile ? "max-w-xs" : "" // Apply max-w-xs class if isMobile is true

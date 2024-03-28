@@ -60,13 +60,31 @@ const LoginForm: React.FC = () => {
   };
 
   return (
-    <div className="bg-gray-400 h-screen flex justify-center items-center">
+    <div
+      className="h-screen flex justify-center items-center relative"
+      style={{
+        backgroundImage: `url('https://media.giphy.com/media/l0Iy3qmrODEarmfHq/giphy.gif')`,
+        backgroundSize: "100% auto",
+        backgroundPosition: "center",
+      }}
+    >
+      <div
+        className="absolute inset-0 backdrop-filter backdrop-blur-md"
+        style={{
+          filter: "blur(2px)",
+          opacity: 0.2,
+        }}
+      />
       <div className="absolute top-4 left-4"></div>
       <Card
         className={`w-full max-w-md p-2 ${
           isMobile ? "max-w-xs" : "" // Apply max-w-xs class if isMobile is true
         }`}
-        style={{ border: "3px solid #549b90", borderRadius: "5px" }}
+        style={{
+          border: "3px solid #549b90",
+          borderRadius: "5px",
+          backgroundColor: "#fafafa",
+        }}
       >
         <Link to="/" className="text-[#549b90]">
           <button>
