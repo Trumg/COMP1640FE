@@ -1,14 +1,33 @@
 import React, { useState, useEffect } from "react";
+import {
+  signInWithEmailAndPassword,
+  // sendEmailVerification,
+} from "firebase/auth";
+import { auth } from "../../../../Firebase/firebase";
+
 import { Link } from "react-router-dom";
 import { Card, Input } from "antd";
 import { ArrowLeftOutlined } from "@ant-design/icons";
 import { LoginImage } from "../../../../Assets/LoginImage/LoginImage";
 
-const LoginForm: React.FC = () => {
+const LoginEmailPasswordForm: React.FC = () => {
   const [isMobile, setIsMobile] = useState<boolean>(false);
-  const [email, setEmail] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
-  // const [confirmPassword, setConfirmPassword] = useState<string>("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleLogIn = () => {
+    if (!email || !password) return;
+    signInWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        const user = userCredential.user;
+        console.log(user);
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.error(errorCode, errorMessage);
+      });
+  };
 
   useEffect(() => {
     const handleResize = () => {
@@ -28,19 +47,11 @@ const LoginForm: React.FC = () => {
     setPassword(e.target.value);
   };
 
-  // const handleConfirmPasswordChange = (
-  //   e: React.ChangeEvent<HTMLInputElement>
-  // ) => {
-  //   setConfirmPassword(e.target.value);
-  // };
-
   return (
     <div className="flex justify-center items-center h-screen">
       <div className="absolute top-4 left-4"></div>
       <Card
-        className={`w-full max-w-md p-2 ${
-          isMobile ? "max-w-xs" : "" // Apply max-w-xs class if isMobile is true
-        }`}
+        className={`w-full max-w-md p-2 ${isMobile ? "max-w-xs" : ""}`}
         style={{ border: "3px solid #549b90", borderRadius: "5px" }}
       >
         <Link to="/" className="text-[#549b90]">
@@ -58,6 +69,9 @@ const LoginForm: React.FC = () => {
           <div>
             <div>
               <Input
+                type="email"
+                id="email"
+                name="email"
                 placeholder="Enter Email"
                 value={email}
                 onChange={handleEmailChange}
@@ -66,6 +80,9 @@ const LoginForm: React.FC = () => {
             </div>
             <div className="mt-3">
               <Input.Password
+                type="password"
+                id="password"
+                name="password"
                 placeholder="Enter Password"
                 value={password}
                 onChange={handlePasswordChange}
@@ -81,7 +98,10 @@ const LoginForm: React.FC = () => {
               />
             </div> */}
             <div className="mt-3">
-              <button className="relative bg-[#549b90] text-black font-bold py-2 px-4 rounded-full w-full flex items-center justify-center border border-[#549b90] transition duration-300 hover:text-gray-600 hover:border-[#549b90] focus:outline-none hover:bg-gray-200">
+              <button
+                onClick={handleLogIn}
+                className="relative bg-[#549b90] text-black font-bold py-2 px-4 rounded-full w-full flex items-center justify-center border border-[#549b90] transition duration-300 hover:text-gray-600 hover:border-[#549b90] focus:outline-none hover:bg-gray-200"
+              >
                 <span className="inline-block ml-2">Submit</span>
               </button>
             </div>
@@ -111,4 +131,4 @@ const LoginForm: React.FC = () => {
   );
 };
 
-export default LoginForm;
+export default LoginEmailPasswordForm;
