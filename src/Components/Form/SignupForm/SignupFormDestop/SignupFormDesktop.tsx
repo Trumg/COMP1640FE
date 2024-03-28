@@ -9,7 +9,11 @@ import {
   // sendEmailVerification,
 } from "firebase/auth";
 import { notification, Card } from "antd";
-import { UserOutlined, GoogleOutlined } from "@ant-design/icons";
+import {
+  UserOutlined,
+  GoogleOutlined,
+  ArrowLeftOutlined,
+} from "@ant-design/icons";
 import { auth } from "../../../../Firebase/firebase";
 
 import { SignupImage } from "../../../../Assets/SignupImage/SignupImage";
@@ -72,6 +76,12 @@ const SignupFormDesktop: React.FC = () => {
         className="w-full max-w-md p-2"
         style={{ border: "3px solid #549b90", borderRadius: "5px" }}
       >
+        <Link to="/" className="text-[#549b90]">
+          <button>
+            <ArrowLeftOutlined />
+            &nbsp; Back to Homepage
+          </button>
+        </Link>
         <h3 className="text-lg font-medium leading-6 text-gray-900 text-center mb-1">
           <div className="flex items-center justify-center">
             <img src={SignupImage} width={200} height={200} alt="Login Image" />
@@ -137,7 +147,7 @@ const SignupFormDesktop: React.FC = () => {
         <div className="mt-4 text-center">
           <p>
             Already have an account?{" "}
-            <Link to="/login" className="text-blue-500">
+            <Link to="/login" className="text-[#549b90] font-bold italic">
               LOGIN
             </Link>
             .

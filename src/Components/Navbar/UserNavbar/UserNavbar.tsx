@@ -36,13 +36,18 @@ const UserNavbar: React.FC = () => {
   };
 
   const avatarContent = (
-    <div>
+    <div className="p-4">
+      <p>User</p>
+      <p>User</p>
       <p>User</p>
     </div>
   );
 
   const bellContent = (
-    <div>
+    <div className="p-4">
+      <p>Notification</p>
+      <p>Notification</p>
+      <p>Notification</p>
       <p>Notification</p>
     </div>
   );

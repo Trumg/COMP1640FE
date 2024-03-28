@@ -9,7 +9,11 @@ import {
   // sendEmailVerification,
 } from "firebase/auth";
 import { notification, Card } from "antd";
-import { UserOutlined, GoogleOutlined } from "@ant-design/icons";
+import {
+  UserOutlined,
+  GoogleOutlined,
+  ArrowLeftOutlined,
+} from "@ant-design/icons";
 import { auth } from "../../../../Firebase/firebase";
 
 import { LoginImage } from "../../../../Assets/LoginImage/LoginImage";
@@ -68,10 +72,17 @@ const LoginFormDesktop: React.FC = () => {
 
   return (
     <div className="flex justify-center items-center h-screen">
+      <div className="absolute top-4 left-4"></div>
       <Card
         className="w-full max-w-md p-2"
         style={{ border: "3px solid #549b90", borderRadius: "5px" }}
       >
+        <Link to="/" className="text-[#549b90]">
+          <button>
+            <ArrowLeftOutlined />
+            &nbsp; Back to Homepage
+          </button>
+        </Link>
         <h3 className="text-lg font-medium leading-6 text-gray-900 text-center mb-1">
           <div className="flex items-center justify-center">
             <img src={LoginImage} width={200} height={200} alt="Login Image" />
@@ -135,16 +146,19 @@ const LoginFormDesktop: React.FC = () => {
           </form> */}
         </div>
         <div className="mt-4 text-center">
-          <p>
+          {/* <p>
             Forgot password?{" "}
-            <Link to="/reset-password" className="text-blue-500">
+            <Link
+              to="/reset-password"
+              className="text-[#549b90] font-bold italic"
+            >
               RESET
             </Link>
             .
-          </p>
+          </p> */}
           <p>
             Don't have an account?{" "}
-            <Link to="/signup" className="text-blue-500">
+            <Link to="/signup" className="text-[#549b90] font-bold italic">
               SIGNUP
             </Link>
             .

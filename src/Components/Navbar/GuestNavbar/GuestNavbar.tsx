@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { MagazineImage } from "../../../Assets/MagazineImage/MagazineImage";
 import { Link } from "react-router-dom";
 import { Drawer } from "antd";
-import { MenuOutlined } from "@ant-design/icons";
+import { AiOutlineMenu } from "react-icons/ai";
 
 const GuestNavbar: React.FC = () => {
   const [isMobile, setIsMobile] = useState<boolean>(false);
@@ -37,22 +37,31 @@ const GuestNavbar: React.FC = () => {
             </Link>
           </div>
           {isMobile ? (
-            <div className="flex md:hidden">
-              <button onClick={toggleMenu}>
-                <MenuOutlined />
-              </button>
-              <Drawer
-                placement="right"
-                onClose={() => setShowDrawer(false)}
-                open={showDrawer}
-                width="70%"
-              ></Drawer>
-            </div>
+            <>
+              <div className="flex">
+                <button onClick={toggleMenu} className="p-2 ml-2">
+                  <AiOutlineMenu className="w-8 h-8" />
+                </button>
+                <Drawer
+                  placement="right" // Adjust placement to left
+                  onClose={() => setShowDrawer(false)}
+                  visible={showDrawer} // Set visible prop instead of open
+                  width="70%"
+                  closable={false} // Hide the close button
+                  className="flex flex-col justify-center items-center text-center"
+                ></Drawer>
+              </div>
+            </>
           ) : (
             <div className="ml-10 space-x-2">
               <Link to="/login" className="text-white">
                 <button className="bg-[#549b90] border-1 border-black hover:bg-gray-400 font-bold py-2 px-4 rounded-full shadow-md mr-4">
                   LOGIN
+                </button>
+              </Link>
+              <Link to="/signup" className="text-white">
+                <button className="bg-[#549b90] border-1 border-black hover:bg-gray-400 font-bold py-2 px-4 rounded-full shadow-md mr-4">
+                  SIGNUP
                 </button>
               </Link>
             </div>
