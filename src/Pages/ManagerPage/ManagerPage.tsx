@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+
 
 const ManagerPage: React.FC = () => {
   const [posts, setPosts] = useState([]);
@@ -10,8 +10,8 @@ const ManagerPage: React.FC = () => {
 
   const fetchPosts = async () => {
     try {
-      const response = await axios.get('/api/posts'); // Thay đổi đường dẫn API tương ứng
-      setPosts(response.data);
+      // const response = await axios.get('/api/posts'); // Thay đổi đường dẫn API tương ứng
+      // setPosts(response.data);
     } catch (error) {
       console.error('Error fetching posts:', error);
     } 
@@ -26,8 +26,8 @@ const ManagerPage: React.FC = () => {
     // Xử lý xóa bài đăng
     console.log(`Xóa bài đăng có id: ${postId}`);
     try {
-      await axios.delete(`/api/posts/${postId}`); // Thay đổi đường dẫn API tương ứng
-      fetchPosts(); // Lấy lại danh sách bài đăng sau khi xóa
+      // await axios.delete(`/api/posts/${postId}`); // Thay đổi đường dẫn API tương ứng
+      // fetchPosts(); // Lấy lại danh sách bài đăng sau khi xóa
     } catch (error) {
       console.error('Error deleting post:', error);
     }
@@ -36,8 +36,8 @@ const ManagerPage: React.FC = () => {
   return (
     <div>
       <h1>Manager Page</h1>
-      <ul>
-        {posts.map((post: any) => (
+      {/* <ul>
+        {posts.map((post: ) => (
           <li key={post.id}>
             <p>{post.title}</p>
             <p>{post.content}</p>
@@ -45,7 +45,7 @@ const ManagerPage: React.FC = () => {
             <button onClick={() => handleDelete(post.id)}>Delete</button>
           </li>
         ))}
-      </ul>
+      </ul> */}
     </div>
   );
 };
