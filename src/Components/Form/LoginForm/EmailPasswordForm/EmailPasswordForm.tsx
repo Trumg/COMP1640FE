@@ -89,6 +89,16 @@ const LoginForm: React.FC = () => {
         </div>
         <div className="mt-4 text-center">
           <p>
+            Forgot your password?{" "}
+            <Link
+              to="/reset-password"
+              className="text-[#549b90] font-bold italic"
+            >
+              RESET
+            </Link>
+            .
+          </p>
+          <p>
             Don't have an account?{" "}
             <Link to="/signup" className="text-[#549b90] font-bold italic">
               SIGNUP

@@ -86,9 +86,7 @@ const SignupForm: React.FC = () => {
           <div>
             <button className="relative bg-white text-black font-bold py-2 px-4 rounded-full w-full flex items-center justify-center border border-[#549b90] transition duration-300 hover:text-gray-600 hover:border-[#549b90] focus:outline-none hover:bg-gray-200">
               <UserOutlined />
-              <span className="inline-block ml-2">
-                Signup with email / phone number
-              </span>
+              <span className="inline-block ml-2">Signup with Email</span>
             </button>
           </div>
           <div className="mt-3">
