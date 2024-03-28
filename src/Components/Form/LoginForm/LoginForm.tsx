@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import { notification, Card } from "antd";
-import { ArrowLeftOutlined } from "@ant-design/icons";
+import { CloseOutlined } from "@ant-design/icons";
 import { FaUser } from "react-icons/fa";
 import { auth } from "../../../Firebase/firebase";
 import { LoginImage } from "../../../Assets/LoginImage/LoginImage";
@@ -75,21 +75,20 @@ const LoginForm: React.FC = () => {
       />
       <div className="absolute top-4 left-4"></div>
       <Card
-        className={`w-full max-w-md p-2 ${
-          isMobile ? "max-w-xs" : "" // Apply max-w-xs class if isMobile is true
-        }`}
+        className={`w-full max-w-md p-2 ${isMobile ? "max-w-xs" : ""}`}
         style={{
           border: "3px solid #549b90",
           borderRadius: "5px",
           backgroundColor: "#fafafa",
         }}
       >
-        <Link to="/" className="text-[#549b90]">
-          <button>
-            <ArrowLeftOutlined />
-            &nbsp; Back to Homepage
-          </button>
-        </Link>
+        <div className="flex justify-end w-full">
+          <Link to="/" className="text-[#549b90]">
+            <button>
+              <CloseOutlined />
+            </button>
+          </Link>
+        </div>
         <h3 className="text-lg font-medium leading-6 text-gray-900 text-center mb-1">
           <div className="flex items-center justify-center">
             <img src={LoginImage} width={200} height={200} alt="Login Image" />

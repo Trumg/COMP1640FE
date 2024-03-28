@@ -62,7 +62,11 @@ const LoginEmailPasswordForm: React.FC = () => {
       <div className="absolute top-4 left-4"></div>
       <Card
         className={`w-full max-w-md p-2 ${isMobile ? "max-w-xs" : ""}`}
-        style={{ border: "3px solid #549b90", borderRadius: "5px" }}
+        style={{
+          border: "3px solid #549b90",
+          borderRadius: "5px",
+          backgroundColor: "#fafafa",
+        }}
       >
         <div className="flex justify-between">
           <Link to="/login" className="text-[#549b90]">
