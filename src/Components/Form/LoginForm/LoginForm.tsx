@@ -2,13 +2,11 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import { notification, Card } from "antd";
-import {
-  UserOutlined,
-  GoogleOutlined,
-  ArrowLeftOutlined,
-} from "@ant-design/icons";
+import { ArrowLeftOutlined } from "@ant-design/icons";
+import { FaUser } from "react-icons/fa";
 import { auth } from "../../../Firebase/firebase";
 import { LoginImage } from "../../../Assets/LoginImage/LoginImage";
+import { GoogleImage } from "../../../Assets/GoogleImage/GoogleImage";
 
 const LoginForm: React.FC = () => {
   const [isMobile, setIsMobile] = useState<boolean>(false);
@@ -101,8 +99,8 @@ const LoginForm: React.FC = () => {
           <div>
             <Link to="/login-email">
               <button className="relative bg-white text-black  py-2 px-4 rounded-full w-full flex items-center justify-center border border-[#549b90] transition duration-300 hover:text-gray-600 hover:border-[#549b90] focus:outline-none hover:bg-gray-200">
-                <UserOutlined />
-                <span className="inline-block ml-2">Login with Email</span>
+                <FaUser />
+                <span className="inline-block ml-6">Login with Email</span>
               </button>
             </Link>
           </div>
@@ -111,8 +109,8 @@ const LoginForm: React.FC = () => {
               className="relative bg-white text-black  py-2 px-4 rounded-full w-full flex items-center justify-center border border-[#549b90] transition duration-300 hover:text-gray-600 hover:border-[#549b90] focus:outline-none hover:bg-gray-200"
               onClick={handleLoginWithGoogle}
             >
-              <GoogleOutlined />
-              <span className="inline-block ml-2">Login with Google</span>
+              <img src={GoogleImage} width="34" height="34" alt="Google Logo" />
+              <span className="inline-block ml-3">Login with Google</span>
             </button>
           </div>
         </div>
