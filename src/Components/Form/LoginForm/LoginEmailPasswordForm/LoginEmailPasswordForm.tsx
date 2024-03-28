@@ -1,19 +1,25 @@
 import React, { useState, useEffect } from "react";
-import {
-  signInWithEmailAndPassword,
-  // sendEmailVerification,
-} from "firebase/auth";
-import { auth } from "../../../../Firebase/firebase";
-
+import { signInWithEmailAndPassword } from "firebase/auth";
 import { Link } from "react-router-dom";
 import { Card, Input } from "antd";
-import { ArrowLeftOutlined } from "@ant-design/icons";
+import { ArrowLeftOutlined, CloseOutlined } from "@ant-design/icons";
 import { LoginImage } from "../../../../Assets/LoginImage/LoginImage";
+import { auth } from "../../../../Firebase/firebase";
 
 const LoginEmailPasswordForm: React.FC = () => {
   const [isMobile, setIsMobile] = useState<boolean>(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   const handleLogIn = () => {
     if (!email || !password) return;
@@ -29,16 +35,6 @@ const LoginEmailPasswordForm: React.FC = () => {
       });
   };
 
-  useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth <= 768); // Adjust the breakpoint as needed
-    };
-
-    handleResize(); // Call the function to set initial state
-    window.addEventListener("resize", handleResize); // Listen for window resize events
-    return () => window.removeEventListener("resize", handleResize); // Cleanup function
-  }, []);
-
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
   };
@@ -49,17 +45,23 @@ const LoginEmailPasswordForm: React.FC = () => {
 
   return (
     <div className="flex justify-center items-center h-screen">
-      <div className="absolute top-4 left-4"></div>
       <Card
         className={`w-full max-w-md p-2 ${isMobile ? "max-w-xs" : ""}`}
         style={{ border: "3px solid #549b90", borderRadius: "5px" }}
       >
-        <Link to="/" className="text-[#549b90]">
-          <button>
-            <ArrowLeftOutlined />
-            &nbsp; Back to Homepage
-          </button>
-        </Link>
+        <div className="flex justify-between">
+          <Link to="/login" className="text-[#549b90]">
+            <button>
+              <ArrowLeftOutlined />
+              &nbsp; Back to Login
+            </button>
+          </Link>
+          <Link to="/" className="text-[#549b90]">
+            <button>
+              <CloseOutlined />
+            </button>
+          </Link>
+        </div>
         <h3 className="text-lg font-medium leading-6 text-gray-900 text-center mb-1">
           <div className="flex items-center justify-center">
             <img src={LoginImage} width={200} height={200} alt="Login Image" />
@@ -89,14 +91,6 @@ const LoginEmailPasswordForm: React.FC = () => {
                 className="relative bg-white text-black font-bold py-2 px-4 rounded-full w-full flex items-center justify-center border border-[#549b90] transition duration-300 hover:text-gray-600 hover:border-[#549b90] focus:outline-none hover:bg-gray-200"
               />
             </div>
-            {/* <div className="mt-3">
-              <Input.Password
-                placeholder="Confirm Password"
-                value={confirmPassword}
-                onChange={handleConfirmPasswordChange}
-                className="relative bg-white text-black font-bold py-2 px-4 rounded-full w-full flex items-center justify-center border border-[#549b90] transition duration-300 hover:text-gray-600 hover:border-[#549b90] focus:outline-none hover:bg-gray-200"
-              />
-            </div> */}
             <div className="mt-3">
               <button
                 onClick={handleLogIn}
