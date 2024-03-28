@@ -60,7 +60,7 @@ const LoginForm: React.FC = () => {
   };
 
   return (
-    <div className="flex justify-center items-center h-screen">
+    <div className="bg-gray-400 h-screen flex justify-center items-center">
       <div className="absolute top-4 left-4"></div>
       <Card
         className={`w-full max-w-md p-2 ${
