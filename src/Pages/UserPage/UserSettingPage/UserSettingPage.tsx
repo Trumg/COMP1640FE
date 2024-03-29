@@ -1,5 +1,11 @@
+import UserNavbar from "../../../Components/Navbar/UserNavbar/UserNavbar";
+
 function UserSettingPage() {
-  return <div>UserSettingPage</div>;
+  return (
+    <div>
+      <UserNavbar />
+    </div>
+  );
 }
 
 export default UserSettingPage;

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { MagazineImage } from "../../../Assets/MagazineImage/MagazineImage";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Drawer, Avatar, Popover } from "antd";
 import { UserOutlined } from "@ant-design/icons";
 import { FaBell } from "react-icons/fa";
@@ -14,6 +14,7 @@ const UserNavbar: React.FC = () => {
   const [avatarPopoverVisible, setAvatarPopoverVisible] =
     useState<boolean>(false);
   const [bellPopoverVisible, setBellPopoverVisible] = useState<boolean>(false);
+  const location = useLocation();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -94,21 +95,24 @@ const UserNavbar: React.FC = () => {
                   <AiOutlineMenu className="w-8 h-8" />
                 </button>
                 <Drawer
-                  placement="left" // Adjust placement to left
+                  placement="left"
                   onClose={() => setShowDrawer(false)}
-                  visible={showDrawer} // Set visible prop instead of open
+                  visible={showDrawer}
                   width="70%"
-                  closable={false} // Hide the close button
+                  closable={false}
                   className="flex flex-col justify-center items-center text-center"
                 >
                   <div>
-                    <img
-                      src={MagazineImage}
-                      width={200}
-                      height={200}
-                      className="w-auto h-auto mt-0"
-                      alt="Magazine Logo"
-                    />
+                    <Link to="/user">
+                      <img
+                        src={MagazineImage}
+                        width={200}
+                        height={200}
+                        className="w-auto h-auto mt-0"
+                        alt="Magazine Logo"
+                      />
+                    </Link>
+
                     <hr className="my-4 border-gray-400 w-full" />
                   </div>
                 </Drawer>
@@ -116,7 +120,13 @@ const UserNavbar: React.FC = () => {
             </>
           ) : (
             <div className="flex-shrink-0 py-2">
-              <Link to="/user">
+              <Link
+                to={
+                  location.pathname === "/user/profile"
+                    ? "/user/profile"
+                    : "/user"
+                }
+              >
                 <img
                   src={MagazineImage}
                   width={200}
