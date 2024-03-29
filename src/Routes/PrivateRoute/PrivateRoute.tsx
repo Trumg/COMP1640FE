@@ -12,7 +12,7 @@ interface PrivateRouteProps {
 }
 
 const PrivateRoute: React.FC<PrivateRouteProps> = ({ children, user }) => {
-  return user ? children : <Navigate to="/" />;
+  return user ? children : <Navigate to="/access-denied" />;
 };
 
 export default PrivateRoute;

@@ -48,7 +48,7 @@ const LoginEmailPasswordForm: React.FC = () => {
       className="h-screen flex justify-center items-center relative"
       style={{
         backgroundImage: `url('https://media.giphy.com/media/l0IyopaSDZuhof8Nq/giphy.gif')`,
-        backgroundSize: "cover",
+        backgroundSize: "100% auto",
         backgroundPosition: "center",
       }}
     >
@@ -88,17 +88,15 @@ const LoginEmailPasswordForm: React.FC = () => {
         </h3>
         <div className="login-google mt-2">
           <div>
-            <div className="flex justify-between">
+            <div>
               <div className="mb-3">
                 <label
                   htmlFor="email"
                   className="block text-base font-medium text-gray-700"
                 >
-                  Email / Password
+                  Email
                 </label>
               </div>
-            </div>
-            <div>
               <Input
                 type="email"
                 id="email"
@@ -110,6 +108,14 @@ const LoginEmailPasswordForm: React.FC = () => {
               />
             </div>
             <div className="mt-3">
+              <div className="mb-3">
+                <label
+                  htmlFor="email"
+                  className="block text-base font-medium text-gray-700"
+                >
+                  Password
+                </label>
+              </div>
               <Input.Password
                 type="password"
                 id="password"
