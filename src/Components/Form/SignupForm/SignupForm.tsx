@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import {
   signInWithPopup,
   GoogleAuthProvider,
-  // sendEmailVerification,
+  sendEmailVerification, // Import sendEmailVerification
 } from "firebase/auth";
 import { auth } from "../../../Firebase/firebase";
 
@@ -16,7 +16,7 @@ import { FaUser } from "react-icons/fa";
 const SignupForm: React.FC = () => {
   const [isMobile, setIsMobile] = useState<boolean>(false);
 
-  //  Sign Up with Google
+  // Sign Up with Google
   const handleSignUpWithGoogle = () => {
     const provider = new GoogleAuthProvider();
     signInWithPopup(auth, provider)
@@ -24,6 +24,21 @@ const SignupForm: React.FC = () => {
         // The signed-in user info.
         const user = result.user;
         console.log(user);
+
+        if (auth.currentUser !== null) {
+          // Check if currentUser is not null
+          // Send email verification
+          sendEmailVerification(auth.currentUser)
+            .then(() => {
+              // Email verification sent.
+              console.log("Email verification sent");
+            })
+            .catch((error) => {
+              // An error happened.
+              console.error("Error sending email verification:", error);
+            });
+        }
+
         // Redirect user to dashboard or another page upon successful signup
       })
       .catch((error) => {
