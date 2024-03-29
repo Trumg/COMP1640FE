@@ -5,7 +5,7 @@ import { FaArrowUp } from "react-icons/fa"; // Import the FaArrowUp icon
 
 const { Content } = Layout;
 
-const App: React.FC = () => {
+const UserPage: React.FC = () => {
   const [showScrollButton, setShowScrollButton] = useState(false);
 
   const handleScroll = () => {
@@ -65,7 +65,7 @@ const App: React.FC = () => {
                 }}
               >
                 <Card
-                  title="Submission Ideas"
+                  title="Ideas"
                   bordered={true}
                   hoverable={true} // Make the card hoverable
                   style={{ width: "80%", height: "300px" }} // Adjust card size
@@ -87,4 +87,4 @@ const App: React.FC = () => {
   );
 };
 
-export default App;
+export default UserPage;
