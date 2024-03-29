@@ -7,6 +7,7 @@ import { FaBell } from "react-icons/fa";
 import { AiOutlineMenu } from "react-icons/ai";
 import { signOut } from "firebase/auth";
 import { auth } from "../../../Firebase/firebase";
+import { useGetInfoUser } from "../../../Hooks/useToken";
 
 const UserNavbar: React.FC = () => {
   const [isMobile, setIsMobile] = useState<boolean>(false);
@@ -47,6 +48,9 @@ const UserNavbar: React.FC = () => {
       .catch((error) => console.log(error));
   };
 
+  // useGetInfoUser
+  const infoUser = useGetInfoUser();
+
   const bellContent = <div className="p-4"></div>;
 
   const avatarContent = (
@@ -56,8 +60,8 @@ const UserNavbar: React.FC = () => {
     >
       <div className="flex items-center mb-2">
         <div>
-          <p className="font-bold mb-2">User Name</p>
-          <p className="text-gray-600 mb-2">user@example.com</p>
+          <p className="font-bold mb-2">{infoUser?.displayName}</p>
+          <p className="text-gray-600 mb-2">{infoUser?.email}</p>
         </div>
       </div>
       <hr className="border-t w-full my-2" />
@@ -151,6 +155,7 @@ const UserNavbar: React.FC = () => {
               >
                 <Avatar
                   size="large"
+                  src={infoUser?.photoURL}
                   icon={<UserOutlined />}
                   style={{ cursor: "pointer" }}
                   onClick={handleAvatarClick}

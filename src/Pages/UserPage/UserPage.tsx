@@ -2,11 +2,15 @@ import React, { useState } from "react";
 import { Layout, Card, Row, Col, Button } from "antd";
 import UserNavbar from "../../Components/Navbar/UserNavbar/UserNavbar";
 import { FaArrowUp, FaArrowDown, FaRegComment } from "react-icons/fa";
+import useToken from "../../Hooks/useToken";
 
 const { Content } = Layout;
 
 const UserPage = () => {
   const [showScrollButton, setShowScrollButton] = useState(false);
+
+  const token = useToken();
+  console.log(token);
 
   const handleScroll = () => {
     if (window.scrollY > 300) {

@@ -1,14 +1,10 @@
+import { User } from "firebase/auth";
 import { ReactNode } from "react";
 import { Navigate } from "react-router-dom";
 
-interface User {
-  id: string;
-  email: string;
-}
-
 interface PrivateRouteProps {
   children: ReactNode;
-  user: User | null;
+  user?: User | null;
 }
 
 const PrivateRoute: React.FC<PrivateRouteProps> = ({ children, user }) => {

@@ -11,6 +11,7 @@ import AdminDashboardPage from "../../Pages/AdminPage/AdminDashboard/AdminDashbo
 const AdminRoute: React.FC = () => {
   const [user, setUser] = useState<User | null>(null); // Use User type from firebase/auth
   const [isFetching, setIsFetching] = useState(true);
+
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (userData) => {
       if (userData) {

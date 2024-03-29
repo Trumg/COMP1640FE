@@ -54,7 +54,7 @@ const LoginForm: React.FC = () => {
   };
 
   const redirecttoUserPage = () => {
-    window.location.href = "/user";
+    window.location.href = "/";
   };
 
   return (
