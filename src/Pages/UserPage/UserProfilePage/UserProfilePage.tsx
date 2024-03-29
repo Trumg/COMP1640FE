@@ -1,11 +1,5 @@
-import UserNavbar from "../../../Components/Navbar/UserNavbar/UserNavbar";
-
 function UserProfilePage() {
-  return (
-    <div>
-      <UserNavbar />
-    </div>
-  );
+  return <div>UserProfilePage</div>;
 }
 
 export default UserProfilePage;
