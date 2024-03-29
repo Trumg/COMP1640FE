@@ -26,7 +26,9 @@ const NotFoundForm: React.FC = () => {
             height={200}
             alt="Not Found Image"
           />
-          <span className="text-[#549b90] text-2xl">NOT FOUND</span>{" "}
+          <span className="text-[#549b90] text-center mb-12">
+            Sorry, the page you visited does not exist.
+          </span>
         </div>
       ) : (
         <div className="flex items-center mb-4">

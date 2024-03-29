@@ -26,7 +26,9 @@ const AccessDeniedForm: React.FC = () => {
             height={200}
             alt="Not Found Image"
           />
-          <span className="text-[#549b90] text-2xl">ACCESS DENIED</span>{" "}
+          <span className="text-[#549b90] text-2xl text-center mb-12">
+            Sorry, you are not authorized to access this page.
+          </span>
         </div>
       ) : (
         <div className="flex items-center mb-4">
