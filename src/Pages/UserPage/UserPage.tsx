@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import { Layout, Card, Row, Col } from "antd";
+import { Layout, Card, Row, Col, Button } from "antd";
 import UserNavbar from "../../Components/Navbar/UserNavbar/UserNavbar";
-import { FaArrowUp } from "react-icons/fa"; // Import the FaArrowUp icon
+import { FaArrowUp, FaArrowDown, FaRegComment } from "react-icons/fa";
 
 const { Content } = Layout;
 
-const UserPage: React.FC = () => {
+const UserPage = () => {
   const [showScrollButton, setShowScrollButton] = useState(false);
 
   const handleScroll = () => {
@@ -65,11 +65,49 @@ const UserPage: React.FC = () => {
                 }}
               >
                 <Card
-                  title="Ideas"
+                  title={
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                      }}
+                    >
+                      <span>Ideas</span>
+                      <div>
+                        <Button
+                          type="link"
+                          icon={
+                            <FaArrowUp
+                              style={{ color: "#549b90", fontSize: "18px" }}
+                            />
+                          }
+                        />
+                        <Button
+                          type="link"
+                          icon={
+                            <FaArrowDown
+                              style={{ color: "#549b90", fontSize: "18px" }}
+                            />
+                          }
+                        />
+                        <Button
+                          type="link"
+                          icon={
+                            <FaRegComment
+                              style={{ color: "#549b90", fontSize: "18px" }}
+                            />
+                          }
+                        />
+                      </div>
+                    </div>
+                  }
                   bordered={true}
-                  hoverable={true} // Make the card hoverable
-                  style={{ width: "80%", height: "300px" }} // Adjust card size
-                ></Card>
+                  hoverable={true}
+                  style={{ width: "80%", height: "300px" }}
+                >
+                  Content is here
+                </Card>
               </Col>
             ))}
           </Row>
