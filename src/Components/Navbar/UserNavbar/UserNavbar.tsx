@@ -102,15 +102,13 @@ const UserNavbar: React.FC = () => {
                   className="flex flex-col justify-center items-center text-center"
                 >
                   <div>
-                    <Link to="/user">
-                      <img
-                        src={MagazineImage}
-                        width={200}
-                        height={200}
-                        className="w-auto h-auto mt-0"
-                        alt="Magazine Logo"
-                      />
-                    </Link>
+                    <img
+                      src={MagazineImage}
+                      width={200}
+                      height={200}
+                      className="w-auto h-auto mt-0"
+                      alt="Magazine Logo"
+                    />
                     <hr className="my-4 border-gray-400 w-full" />
                   </div>
                 </Drawer>
@@ -118,14 +116,12 @@ const UserNavbar: React.FC = () => {
             </>
           ) : (
             <div className="flex-shrink-0 py-2">
-              <Link to="/user">
-                <img
-                  src={MagazineImage}
-                  width={200}
-                  height={200}
-                  alt="Magazine Logo"
-                />
-              </Link>
+              <img
+                src={MagazineImage}
+                width={200}
+                height={200}
+                alt="Magazine Logo"
+              />
             </div>
           )}
           <div className="ml-10 space-x-4">
