@@ -48,17 +48,28 @@ const App: React.FC = () => {
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            minHeight: "calc(100vh - 69px - 48px - 48px)",
+            minHeight: "calc(100vh - 75px - 48px - 48px)",
             position: "relative",
-            zIndex: 0, // Ensure content is below the navbar
+            zIndex: 0,
           }}
         >
-          <Row gutter={16}>
+          <Row gutter={16} justify="center">
             {[...Array(10)].map((_, index) => (
-              <Col key={index} span={24} style={{ marginBottom: "16px" }}>
-                <Card title="Card title" bordered={false}>
-                  Card content
-                </Card>
+              <Col
+                key={index}
+                span={24}
+                style={{
+                  marginBottom: "16px",
+                  display: "flex",
+                  justifyContent: "center",
+                }}
+              >
+                <Card
+                  title="Submission Ideas"
+                  bordered={true}
+                  hoverable={true} // Make the card hoverable
+                  style={{ width: "80%", height: "300px" }} // Adjust card size
+                ></Card>
               </Col>
             ))}
           </Row>
