@@ -1,4 +1,11 @@
 import React, { useState, useEffect } from "react";
+import {
+  signInWithPopup,
+  GoogleAuthProvider,
+  // sendEmailVerification,
+} from "firebase/auth";
+import { auth } from "../../../Firebase/firebase";
+
 import { Link } from "react-router-dom";
 import { Card } from "antd";
 import { ArrowLeftOutlined, CloseOutlined } from "@ant-design/icons";
@@ -8,6 +15,22 @@ import { FaUser } from "react-icons/fa";
 
 const SignupForm: React.FC = () => {
   const [isMobile, setIsMobile] = useState<boolean>(false);
+
+  //  Sign Up with Google
+  const handleSignUpWithGoogle = () => {
+    const provider = new GoogleAuthProvider();
+    signInWithPopup(auth, provider)
+      .then((result) => {
+        // The signed-in user info.
+        const user = result.user;
+        console.log(user);
+        // Redirect user to dashboard or another page upon successful signup
+      })
+      .catch((error) => {
+        // Handle errors here (e.g., display error message to the user)
+        console.log(error);
+      });
+  };
 
   useEffect(() => {
     const handleResize = () => {
@@ -81,7 +104,12 @@ const SignupForm: React.FC = () => {
           <div className="mt-3">
             <button className="relative bg-white text-black py-2 px-4 rounded-full w-full flex items-center justify-center border border-[#549b90] transition duration-300 hover:text-gray-600 hover:border-[#549b90] focus:outline-none hover:bg-gray-200">
               <img src={GoogleImage} width="34" height="34" alt="Google Logo" />
-              <span className="inline-block ml-2">Signup with Google</span>
+              <span
+                onClick={handleSignUpWithGoogle}
+                className="inline-block ml-2"
+              >
+                Signup with Google
+              </span>
             </button>
           </div>
         </div>
