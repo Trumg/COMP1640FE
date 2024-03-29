@@ -183,9 +183,9 @@ const SignupEmailPasswordForm: React.FC = () => {
             .
           </p>
           <p>
-            Don't have an account?{" "}
-            <Link to="/signup" className="text-[#549b90] font-bold italic">
-              SIGNUP
+            Already have an account?{" "}
+            <Link to="/login" className="text-[#549b90] font-bold italic">
+              LOGIN
             </Link>
             .
           </p>

@@ -3,7 +3,6 @@ import { MagazineImage } from "../../../Assets/MagazineImage/MagazineImage";
 import { Link, useNavigate } from "react-router-dom";
 import { Drawer, Avatar, Popover } from "antd";
 import { UserOutlined } from "@ant-design/icons";
-import { FaBell } from "react-icons/fa";
 import { AiOutlineMenu } from "react-icons/ai";
 import { signOut } from "firebase/auth";
 import { auth } from "../../../Firebase/firebase";
@@ -14,7 +13,6 @@ const UserNavbar: React.FC = () => {
   const [showDrawer, setShowDrawer] = useState<boolean>(false);
   const [avatarPopoverVisible, setAvatarPopoverVisible] =
     useState<boolean>(false);
-  const [bellPopoverVisible, setBellPopoverVisible] = useState<boolean>(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -35,10 +33,6 @@ const UserNavbar: React.FC = () => {
     setAvatarPopoverVisible(!avatarPopoverVisible);
   };
 
-  const handleBellClick = () => {
-    setBellPopoverVisible(!bellPopoverVisible);
-  };
-
   const handleSignOut = () => {
     signOut(auth)
       .then(() => {
@@ -50,14 +44,8 @@ const UserNavbar: React.FC = () => {
 
   // useGetInfoUser
   const infoUser = useGetInfoUser();
-
-  const bellContent = <div className="p-4"></div>;
-
   const avatarContent = (
-    <div
-      className="p-6"
-      style={{ width: "180px", maxHeight: "220px", overflowY: "auto" }}
-    >
+    <div className="p-6" style={{ maxWidth: "300px" }}>
       <div className="flex items-center mb-2">
         <div>
           <p className="font-bold mb-2">{infoUser?.displayName}</p>
@@ -120,31 +108,17 @@ const UserNavbar: React.FC = () => {
             </>
           ) : (
             <div className="flex-shrink-0 py-2">
-              <img
-                src={MagazineImage}
-                width={200}
-                height={200}
-                alt="Magazine Logo"
-              />
+              <Link to="/">
+                <img
+                  src={MagazineImage}
+                  width={200}
+                  height={200}
+                  alt="Magazine Logo"
+                />
+              </Link>
             </div>
           )}
           <div className="ml-10 space-x-4">
-            <div className="inline-flex mx-3">
-              <Popover
-                content={bellContent}
-                trigger="click"
-                visible={bellPopoverVisible}
-                onVisibleChange={setBellPopoverVisible}
-                placement="bottomRight"
-              >
-                <FaBell
-                  size={22}
-                  style={{ cursor: "pointer" }}
-                  className="transition duration-300 ease-in-out hover:text-[#549b90]"
-                  onClick={handleBellClick}
-                />
-              </Popover>
-            </div>
             <div className="inline-flex mx-3">
               <Popover
                 content={avatarContent}
@@ -152,6 +126,7 @@ const UserNavbar: React.FC = () => {
                 visible={avatarPopoverVisible}
                 onVisibleChange={setAvatarPopoverVisible}
                 placement="bottomRight"
+                overlayStyle={{ width: "300px" }} // Adjust width as needed
               >
                 <Avatar
                   size="large"
