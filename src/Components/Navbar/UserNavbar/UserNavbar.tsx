@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { MagazineImage } from "../../../Assets/MagazineImage/MagazineImage";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Drawer, Avatar, Popover } from "antd";
 import { UserOutlined } from "@ant-design/icons";
 import { FaBell } from "react-icons/fa";
@@ -14,7 +14,6 @@ const UserNavbar: React.FC = () => {
   const [avatarPopoverVisible, setAvatarPopoverVisible] =
     useState<boolean>(false);
   const [bellPopoverVisible, setBellPopoverVisible] = useState<boolean>(false);
-  const location = useLocation();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -52,7 +51,7 @@ const UserNavbar: React.FC = () => {
 
   const avatarContent = (
     <div
-      className="p-4"
+      className="p-6"
       style={{ width: "180px", maxHeight: "220px", overflowY: "auto" }}
     >
       <div className="flex items-center mb-2">
@@ -112,7 +111,6 @@ const UserNavbar: React.FC = () => {
                         alt="Magazine Logo"
                       />
                     </Link>
-
                     <hr className="my-4 border-gray-400 w-full" />
                   </div>
                 </Drawer>
@@ -120,13 +118,7 @@ const UserNavbar: React.FC = () => {
             </>
           ) : (
             <div className="flex-shrink-0 py-2">
-              <Link
-                to={
-                  location.pathname === "/user/profile"
-                    ? "/user/profile"
-                    : "/user"
-                }
-              >
+              <Link to="/user">
                 <img
                   src={MagazineImage}
                   width={200}
