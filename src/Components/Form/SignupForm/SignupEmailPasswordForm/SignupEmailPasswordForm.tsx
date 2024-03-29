@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { createUserWithEmailAndPassword } from "firebase/auth";
+import {
+  createUserWithEmailAndPassword,
+  sendEmailVerification,
+} from "firebase/auth";
 import { auth } from "../../../../Firebase/firebase";
 import { Card, Input } from "antd";
 import { ArrowLeftOutlined, CloseOutlined } from "@ant-design/icons";
@@ -22,38 +25,40 @@ const SignupEmailPasswordForm: React.FC = () => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  // Sign Up
   const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) =>
     setEmail(event.target.value);
-  const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handlePasswordChange = (event: React.ChangeEvent<HTMLInputElement>) =>
     setPassword(event.target.value);
-  };
   const handleConfirmPasswordChange = (
     event: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    setConfirmPassword(event.target.value);
-  };
+  ) => setConfirmPassword(event.target.value);
 
   const handleSignUp = () => {
     if (!email || !password) return;
 
-    // Check if passwords match
     if (password !== confirmPassword) {
-      console.log("Passwords do not match");
+      // setError("Passwords do not match");
       return;
     }
 
-    // Continue with sign up process
     createUserWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        const user = userCredential.user;
-        console.log(user);
+      .then(() => {
+        if (auth.currentUser !== null) {
+          sendEmailVerification(auth.currentUser)
+            .then(() => {
+              console.log("Email verification sent");
+            })
+            .catch((error) => {
+              console.error("Error sending email verification:", error);
+            });
+        }
       })
-      .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        console.log(errorCode, errorMessage);
-      });
+      // .catch((error) => {
+      //   const errorCode = error.code;
+      //   const errorMessage = error.message;
+      //   setError(errorMessage);
+      // });
+      .catch(() => {});
   };
 
   return (
@@ -82,10 +87,10 @@ const SignupEmailPasswordForm: React.FC = () => {
         }}
       >
         <div className="flex justify-between">
-          <Link to="/login" className="text-[#549b90]">
+          <Link to="/signup" className="text-[#549b90]">
             <button>
               <ArrowLeftOutlined />
-              &nbsp; Back to Login
+              &nbsp; Back to Signup
             </button>
           </Link>
           <Link to="/" className="text-[#549b90]">
@@ -123,14 +128,13 @@ const SignupEmailPasswordForm: React.FC = () => {
             <div className="mt-3">
               <div className="mb-3">
                 <label
-                  htmlFor="email"
+                  htmlFor="password"
                   className="block text-base font-medium text-gray-700"
                 >
                   Password
                 </label>
               </div>
               <Input.Password
-                type="password"
                 id="password"
                 name="password"
                 placeholder="Enter Password"
@@ -142,14 +146,13 @@ const SignupEmailPasswordForm: React.FC = () => {
             <div className="mt-3">
               <div className="mb-3">
                 <label
-                  htmlFor="email"
+                  htmlFor="confirm-password"
                   className="block text-base font-medium text-gray-700"
                 >
                   Confirm Password
                 </label>
               </div>
               <Input.Password
-                type="confirm-password"
                 id="confirm-password"
                 name="confirm-password"
                 placeholder="Confirm Password"
