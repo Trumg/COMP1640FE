@@ -1,10 +1,35 @@
-import React from "react";
+import React, { useState } from "react";
 import { Layout, Card, Row, Col } from "antd";
 import UserNavbar from "../../Components/Navbar/UserNavbar/UserNavbar";
+import { FaArrowUp } from "react-icons/fa"; // Import the FaArrowUp icon
 
 const { Content } = Layout;
 
 const App: React.FC = () => {
+  const [showScrollButton, setShowScrollButton] = useState(false);
+
+  const handleScroll = () => {
+    if (window.scrollY > 300) {
+      setShowScrollButton(true);
+    } else {
+      setShowScrollButton(false);
+    }
+  };
+
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
+
+  React.useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
   return (
     <Layout style={{ minHeight: "100vh" }}>
       <div style={{ position: "fixed", zIndex: 1, width: "100%" }}>
@@ -14,8 +39,8 @@ const App: React.FC = () => {
         style={{
           padding: "24px 48px 0",
           flexGrow: 1,
-          marginTop: "69px", // Adjusted for the height of the navbar
-          overflowY: "auto", // Enable vertical scrolling
+          marginTop: "69px",
+          overflowY: "auto",
         }}
       >
         <div
@@ -23,64 +48,29 @@ const App: React.FC = () => {
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
-            minHeight: "calc(100vh - 69px - 48px - 48px)", // Adjusted for padding and navbar height
-            position: "relative", // Needed for z-index to work
+            minHeight: "calc(100vh - 69px - 48px - 48px)",
+            position: "relative",
             zIndex: 0, // Ensure content is below the navbar
           }}
         >
           <Row gutter={16}>
-            <Col span={24} style={{ marginBottom: "16px" }}>
-              <Card title="Card title" bordered={false}>
-                Card content
-              </Card>
-            </Col>
-            <Col span={24} style={{ marginBottom: "16px" }}>
-              <Card title="Card title" bordered={false}>
-                Card content
-              </Card>
-            </Col>
-            <Col span={24} style={{ marginBottom: "16px" }}>
-              <Card title="Card title" bordered={false}>
-                Card content
-              </Card>
-            </Col>
-            <Col span={24} style={{ marginBottom: "16px" }}>
-              <Card title="Card title" bordered={false}>
-                Card content
-              </Card>
-            </Col>
-            <Col span={24} style={{ marginBottom: "16px" }}>
-              <Card title="Card title" bordered={false}>
-                Card content
-              </Card>
-            </Col>
-            <Col span={24} style={{ marginBottom: "16px" }}>
-              <Card title="Card title" bordered={false}>
-                Card content
-              </Card>
-            </Col>
-            <Col span={24} style={{ marginBottom: "16px" }}>
-              <Card title="Card title" bordered={false}>
-                Card content
-              </Card>
-            </Col>
-            <Col span={24} style={{ marginBottom: "16px" }}>
-              <Card title="Card title" bordered={false}>
-                Card content
-              </Card>
-            </Col>
-            <Col span={24} style={{ marginBottom: "16px" }}>
-              <Card title="Card title" bordered={false}>
-                Card content
-              </Card>
-            </Col>
-            <Col span={24} style={{ marginBottom: "16px" }}>
-              <Card title="Card title" bordered={false}>
-                Card content
-              </Card>
-            </Col>
+            {[...Array(10)].map((_, index) => (
+              <Col key={index} span={24} style={{ marginBottom: "16px" }}>
+                <Card title="Card title" bordered={false}>
+                  Card content
+                </Card>
+              </Col>
+            ))}
           </Row>
         </div>
+        {showScrollButton && (
+          <button
+            className="bg-[#549b90] hover:bg-gray-400 text-white font-bold h-12 w-12 rounded-full fixed bottom-10 right-10 z-10 flex justify-center items-center"
+            onClick={scrollToTop}
+          >
+            <FaArrowUp />
+          </button>
+        )}
       </Content>
     </Layout>
   );
