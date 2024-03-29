@@ -73,7 +73,6 @@ const LoginForm: React.FC = () => {
           opacity: 0.2,
         }}
       />
-      <div className="absolute top-4 left-4"></div>
       <Card
         className={`w-full max-w-md p-2 ${isMobile ? "max-w-xs" : ""}`}
         style={{
