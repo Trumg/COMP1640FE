@@ -4,7 +4,6 @@ import { Route, Routes } from "react-router-dom";
 import LoginPage from "../../Pages/AuthPage/LoginPage/LoginPage";
 import SignupPage from "../../Pages/AuthPage/SignupPage/SignupPage";
 import ResetPage from "../../Pages/AuthPage/ResetPage/ResetPage";
-import VerifyPage from "../../Pages/AuthPage/VerifyPage/VerifyPage";
 import LoginEmailPasswordPage from "../../Pages/AuthPage/LoginPage/LoginEmailPasswordPage/LoginEmailPasswordPage";
 import SignupEmailPasswordForm from "../../Components/Form/SignupForm/SignupEmailPasswordForm/SignupEmailPasswordForm";
 
@@ -16,7 +15,6 @@ const AuthRoute: React.FC = () => {
       <Route path="/signup" element={<SignupPage />} />
       <Route path="/signup-email" element={<SignupEmailPasswordForm />} />
       <Route path="/reset-password" element={<ResetPage />} />
-      <Route path="/verify-email" element={<VerifyPage />} />
     </Routes>
   );
 };

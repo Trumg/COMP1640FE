@@ -29,12 +29,14 @@ const GuestNavbar: React.FC = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-20">
             <div className="flex-shrink-0 py-2">
-              <img
-                src={MagazineImage}
-                width={200}
-                height={200}
-                alt="Magazine Logo"
-              />
+              <Link to="/">
+                <img
+                  src={MagazineImage}
+                  width={200}
+                  height={200}
+                  alt="Magazine Logo"
+                />
+              </Link>
             </div>
             {isMobile ? (
               <>
@@ -45,7 +47,7 @@ const GuestNavbar: React.FC = () => {
                   <Drawer
                     placement="right"
                     onClose={() => setShowDrawer(false)}
-                    visible={showDrawer}
+                    open={showDrawer}
                     width="70%"
                     closable={false}
                     className="flex flex-col justify-center items-center text-center"

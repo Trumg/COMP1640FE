@@ -1,7 +1,6 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
 
-import UserPage from "../../Pages/UserPage/UserPage";
 import UserProfilePage from "../../Pages/UserPage/UserProfilePage/UserProfilePage";
 import UserSettingPage from "../../Pages/UserPage/UserSettingPage/UserSettingPage";
 import PrivateRoute from "../PrivateRoute/PrivateRoute";
@@ -12,14 +11,6 @@ const UserRoute: React.FC = () => {
 
   return (
     <Routes>
-      <Route
-        path="/user"
-        element={
-          <PrivateRoute user={userInfo}>
-            <UserPage />
-          </PrivateRoute>
-        }
-      />
       <Route
         path="/user/profile"
         element={
