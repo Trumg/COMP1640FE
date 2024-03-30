@@ -1,13 +1,15 @@
 import React, { useState } from "react";
-import { Layout, Card, Row, Col, Button } from "antd";
+import { Layout, Card, Row, Col, Button, Dropdown, Menu } from "antd";
 import UserNavbar from "../../Components/Navbar/UserNavbar/UserNavbar";
 import { FaArrowUp, FaArrowDown, FaRegComment } from "react-icons/fa";
 import useToken from "../../Hooks/useToken";
+import { HiMenuAlt4 } from "react-icons/hi";
 
 const { Content } = Layout;
 
 const UserPage = () => {
   const [showScrollButton, setShowScrollButton] = useState(false);
+  const [isMobileView, setIsMobileView] = useState(false);
 
   const token = useToken();
   console.log(token);
@@ -27,12 +29,46 @@ const UserPage = () => {
     });
   };
 
+  const handleResize = () => {
+    if (window.innerWidth <= 768) {
+      setIsMobileView(true);
+    } else {
+      setIsMobileView(false);
+    }
+  };
+
   React.useEffect(() => {
     window.addEventListener("scroll", handleScroll);
+    window.addEventListener("resize", handleResize);
+    handleResize(); // Call handleResize initially to set the initial state
     return () => {
       window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("resize", handleResize);
     };
   }, []);
+
+  const menu = (
+    <Menu>
+      <Menu.Item>
+        <Button
+          type="link"
+          icon={<FaArrowUp style={{ color: "#549b90", fontSize: "18px" }} />}
+        />
+      </Menu.Item>
+      <Menu.Item>
+        <Button
+          type="link"
+          icon={<FaArrowDown style={{ color: "#549b90", fontSize: "18px" }} />}
+        />
+      </Menu.Item>
+      <Menu.Item>
+        <Button
+          type="link"
+          icon={<FaRegComment style={{ color: "#549b90", fontSize: "18px" }} />}
+        />
+      </Menu.Item>
+    </Menu>
+  );
 
   return (
     <Layout style={{ minHeight: "100vh" }}>
@@ -79,30 +115,45 @@ const UserPage = () => {
                     >
                       <span>Ideas</span>
                       <div>
-                        <Button
-                          type="link"
-                          icon={
-                            <FaArrowUp
-                              style={{ color: "#549b90", fontSize: "18px" }}
+                        {isMobileView ? (
+                          <Dropdown overlay={menu} trigger={["click"]}>
+                            <Button
+                              type="link"
+                              icon={
+                                <HiMenuAlt4
+                                  style={{ color: "#549b90", fontSize: "18px" }}
+                                />
+                              }
                             />
-                          }
-                        />
-                        <Button
-                          type="link"
-                          icon={
-                            <FaArrowDown
-                              style={{ color: "#549b90", fontSize: "18px" }}
+                          </Dropdown>
+                        ) : (
+                          <>
+                            <Button
+                              type="link"
+                              icon={
+                                <FaArrowUp
+                                  style={{ color: "#549b90", fontSize: "18px" }}
+                                />
+                              }
                             />
-                          }
-                        />
-                        <Button
-                          type="link"
-                          icon={
-                            <FaRegComment
-                              style={{ color: "#549b90", fontSize: "18px" }}
+                            <Button
+                              type="link"
+                              icon={
+                                <FaArrowDown
+                                  style={{ color: "#549b90", fontSize: "18px" }}
+                                />
+                              }
                             />
-                          }
-                        />
+                            <Button
+                              type="link"
+                              icon={
+                                <FaRegComment
+                                  style={{ color: "#549b90", fontSize: "18px" }}
+                                />
+                              }
+                            />
+                          </>
+                        )}
                       </div>
                     </div>
                   }
