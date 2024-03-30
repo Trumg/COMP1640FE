@@ -6,6 +6,7 @@ import { User } from "firebase/auth";
 
 import PrivateRoute from "../PrivateRoute/PrivateRoute";
 import ManagerPage from "../../Pages/ManagerPage/ManagerPage";
+import ManagerDashboardPage from "./ManagerDashboardPage/ManagerDashboardPage";
 
 const ManagerRoute: React.FC = () => {
   const [user, setUser] = useState<User | null>(null);
@@ -34,6 +35,14 @@ const ManagerRoute: React.FC = () => {
         element={
           <PrivateRoute user={user}>
             <ManagerPage />
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="/manager/dashboard"
+        element={
+          <PrivateRoute user={user}>
+            <ManagerDashboardPage />
           </PrivateRoute>
         }
       />

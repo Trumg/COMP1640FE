@@ -54,12 +54,12 @@ const UserNavbar: React.FC = () => {
       </div>
       <hr className="border-t w-full my-2" />
       <div className="mb-2">
-        <Link to="/user/profile" className="block">
+        <Link to="/profile" className="block">
           <button className="w-full text-left">Profile</button>
         </Link>
       </div>
       <div className="mb-2">
-        <Link to="/user/settings" className="block">
+        <Link to="/settings" className="block">
           <button className="w-full text-left">Settings</button>
         </Link>
       </div>
