@@ -88,7 +88,7 @@ const UserNavbar: React.FC = () => {
                 <Drawer
                   placement="left"
                   onClose={() => setShowDrawer(false)}
-                  visible={showDrawer}
+                  open={showDrawer}
                   width="70%"
                   closable={false}
                   className="flex flex-col justify-center items-center text-center"
@@ -123,18 +123,21 @@ const UserNavbar: React.FC = () => {
               <Popover
                 content={avatarContent}
                 trigger="click"
-                visible={avatarPopoverVisible}
-                onVisibleChange={setAvatarPopoverVisible}
+                open={avatarPopoverVisible}
+                onOpenChange={setAvatarPopoverVisible}
                 placement="bottomRight"
-                overlayStyle={{ width: "300px" }} // Adjust width as needed
+                overlayStyle={{ width: "300px" }}
               >
-                <Avatar
-                  size="large"
-                  src={infoUser?.photoURL}
-                  icon={<UserOutlined />}
-                  style={{ cursor: "pointer" }}
-                  onClick={handleAvatarClick}
-                />
+                <div style={{ display: "flex", alignItems: "center" }}>
+                  <Avatar
+                    size={45}
+                    src={infoUser?.photoURL}
+                    icon={<UserOutlined />}
+                    style={{ cursor: "pointer" }}
+                    onClick={handleAvatarClick}
+                  />
+                  <div style={{ flex: 1 }}></div>
+                </div>
               </Popover>
             </div>
           </div>
