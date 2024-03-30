@@ -107,13 +107,14 @@ const UserNavbar: React.FC = () => {
               </div>
             </>
           ) : (
-            <div className="flex-shrink-0 py-2">
+            <div className="flex-shrink-0">
               <Link to="/">
                 <img
                   src={MagazineImage}
                   width={200}
                   height={200}
                   alt="Magazine Logo"
+                  className="py-2"
                 />
               </Link>
             </div>
