@@ -1,9 +1,9 @@
-import UserNavbar from "../../../Components/Navbar/UserNavbar/UserNavbar";
+import UserSettingNavbar from "../../../Components/Navbar/UserNavbar/UserSettingNavbar";
 
 function UserSettingPage() {
   return (
     <div>
-      <UserNavbar />
+      <UserSettingNavbar />
     </div>
   );
 }
