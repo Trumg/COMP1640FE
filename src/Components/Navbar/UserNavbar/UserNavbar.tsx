@@ -113,49 +113,59 @@ const UserNavbar: React.FC = () => {
               </div>
             </>
           ) : (
-            <div className="flex-shrink-0">
-              <Link to="/">
-                <img
-                  src={MagazineImage}
-                  width={200}
-                  height={200}
-                  alt="Magazine Logo"
-                  className="py-2"
-                />
-              </Link>
-            </div>
-          )}
-          <div className="ml-10 space-x-4 flex items-center">
-            {/* Create Post Icon */}
-            <button
-              onClick={handleCreatePost}
-              className="p-2 rounded-full hover:bg-gray-200"
-            >
-              <PlusOutlined className="text-2xl text-gray-700" />
-            </button>
-            {/* Avatar and Popover */}
-            <div className="inline-flex mx-3">
-              <Popover
-                content={avatarContent}
-                trigger="click"
-                open={avatarPopoverVisible}
-                onOpenChange={setAvatarPopoverVisible}
-                placement="bottomRight"
-                overlayStyle={{ width: "300px" }}
-              >
-                <div style={{ display: "flex", alignItems: "center" }}>
-                  <Avatar
-                    size={45}
-                    src={infoUser?.photoURL}
-                    icon={<UserOutlined />}
-                    style={{ cursor: "pointer" }}
-                    onClick={handleAvatarClick}
-                  />
-                  <div style={{ flex: 1 }}></div>
+            <>
+              <div className="flex items-center">
+                <div className="flex-shrink-0">
+                  <Link to="/">
+                    <img
+                      src={MagazineImage}
+                      width={200}
+                      height={200}
+                      alt="Magazine Logo"
+                      className="py-2"
+                    />
+                  </Link>
                 </div>
-              </Popover>
+                <button className="p-2 rounded-full hover:bg-gray-200">
+                  <AiOutlineMenu className="text-2xl text-gray-700" />
+                </button>
+              </div>
+            </>
+          )}
+          <>
+            {" "}
+            <div className="ml-10 space-x-4 flex items-center">
+              {/* Create Post Icon */}
+              <button
+                onClick={handleCreatePost}
+                className="p-2 rounded-full hover:bg-gray-200"
+              >
+                <PlusOutlined className="text-2xl text-gray-700" />
+              </button>
+              {/* Avatar and Popover */}
+              <div className="inline-flex mx-3">
+                <Popover
+                  content={avatarContent}
+                  trigger="click"
+                  open={avatarPopoverVisible}
+                  onOpenChange={setAvatarPopoverVisible}
+                  placement="bottomRight"
+                  overlayStyle={{ width: "300px" }}
+                >
+                  <div style={{ display: "flex", alignItems: "center" }}>
+                    <Avatar
+                      size={45}
+                      src={infoUser?.photoURL}
+                      icon={<UserOutlined />}
+                      style={{ cursor: "pointer" }}
+                      onClick={handleAvatarClick}
+                    />
+                    <div style={{ flex: 1 }}></div>
+                  </div>
+                </Popover>
+              </div>
             </div>
-          </div>
+          </>
         </div>
       </div>
     </nav>

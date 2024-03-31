@@ -30,17 +30,24 @@ const GuestNavbar: React.FC = () => {
       <nav>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-20">
-            <div className="flex-shrink-0">
-              <Link to="/">
-                <img
-                  src={MagazineImage}
-                  width={200}
-                  height={200}
-                  alt="Magazine Logo"
-                  className="py-2"
-                />
-              </Link>
-            </div>
+            <>
+              <div className="flex items-center">
+                <div className="flex-shrink-0">
+                  <Link to="/">
+                    <img
+                      src={MagazineImage}
+                      width={200}
+                      height={200}
+                      alt="Magazine Logo"
+                      className="py-2"
+                    />
+                  </Link>
+                </div>
+                <button className="p-2 rounded-full hover:bg-gray-200">
+                  <AiOutlineMenu className="text-2xl text-gray-700" />
+                </button>
+              </div>
+            </>
             {isMobile ? (
               <>
                 <div className="flex">
@@ -57,7 +64,7 @@ const GuestNavbar: React.FC = () => {
                   >
                     <div className="w-full flex justify-end font-roboto">
                       <Link to="/login" className="text-white items-center">
-                        <button className="bg-[#549b90] border-1 border-black hover:bg-gray-400 font-bold py-2 px-4 rounded-full shadow-md mr-4">
+                        <button className="bg-[#549b90] border-1 border-black hover:bg-gray-400 font-bold py-3 px-6 rounded-full shadow-md mr-4 text-xl">
                           LOGIN
                         </button>
                       </Link>
@@ -66,13 +73,15 @@ const GuestNavbar: React.FC = () => {
                 </div>
               </>
             ) : (
-              <div className="ml-10 space-x-2 font-roboto">
-                <Link to="/login" className="text-white">
-                  <button className="bg-[#549b90] border-1 border-black hover:bg-gray-400 font-bold py-2 px-4 rounded-full shadow-md mr-4">
-                    LOGIN
-                  </button>
-                </Link>
-              </div>
+              <>
+                <div className="flex items-center">
+                  <Link to="/login" className="text-white">
+                    <button className="bg-[#549b90] border-1 border-black hover:bg-gray-400 font-bold py-3 px-6 rounded-full shadow-md">
+                      LOGIN
+                    </button>
+                  </Link>
+                </div>
+              </>
             )}
           </div>
         </div>
