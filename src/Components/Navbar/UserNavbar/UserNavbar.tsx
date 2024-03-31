@@ -127,13 +127,12 @@ const UserNavbar: React.FC = () => {
                   </Link>
                 </div>
                 <button className="p-2 rounded-full hover:bg-gray-200">
-                  <AiOutlineMenu className="text-2xl text-gray-700" />
+                  <AiOutlineMenu className="w-8 h-8 text-gray-700" />
                 </button>
               </div>
             </>
           )}
           <>
-            {" "}
             <div className="ml-10 space-x-4 flex items-center">
               {/* Create Post Icon */}
               <button
