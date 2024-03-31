@@ -135,12 +135,15 @@ const UserNavbar: React.FC = () => {
           <>
             <div className="ml-10 space-x-4 flex items-center">
               {/* Create Post Icon */}
-              <button
-                onClick={handleCreatePost}
-                className="p-2 rounded-full hover:bg-gray-200"
-              >
-                <PlusOutlined className="text-2xl text-gray-700" />
-              </button>
+              <Link to="/post">
+                <button
+                  onClick={handleCreatePost}
+                  className="p-2 rounded-full hover:bg-gray-200"
+                >
+                  <PlusOutlined className="text-2xl text-gray-700" />
+                </button>
+              </Link>
+
               {/* Avatar and Popover */}
               <div className="inline-flex mx-3">
                 <Popover
