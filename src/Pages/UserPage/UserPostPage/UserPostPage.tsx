@@ -1,18 +1,20 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Layout, Card, Input, Tabs, Upload } from "antd";
+import { Layout, Card, Input, Tabs, Upload, Steps, Spin } from "antd";
 import UserPostNavbar from "../../../Components/Navbar/UserNavbar/UserPostNavbar";
 import { InboxOutlined } from "@ant-design/icons";
 import { FaUpload } from "react-icons/fa6";
 import { IoDocumentTextOutline } from "react-icons/io5";
 import { FaCheck } from "react-icons/fa";
+import TabPane from "antd/es/tabs/TabPane";
 
 const { Content } = Layout;
-const { TabPane } = Tabs;
 
 const UserPostPage: React.FC = () => {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const [activeTab, setActiveTab] = useState<string>("1");
   const [isMobile, setIsMobile] = useState<boolean>(false);
+  const [uploading, setUploading] = useState<boolean>(false);
+  const [uploadSuccess, setUploadSuccess] = useState<boolean>(false);
 
   useEffect(() => {
     document.body.style.backgroundColor = "transparent";
@@ -45,6 +47,15 @@ const UserPostPage: React.FC = () => {
     setActiveTab(key);
   };
 
+  const handleUpload = () => {
+    setUploading(true);
+    // Simulate upload process
+    setTimeout(() => {
+      setUploading(false);
+      setUploadSuccess(true);
+    }, 2000);
+  };
+
   return (
     <Layout>
       <UserPostNavbar />
@@ -70,6 +81,20 @@ const UserPostPage: React.FC = () => {
             height: "500px",
           }}
         >
+          <Steps
+            current={parseInt(activeTab) - 1}
+            items={[
+              {
+                title: isMobile ? "" : "Step 1",
+              },
+              {
+                title: isMobile ? "" : "Step 2",
+              },
+              {
+                title: isMobile ? "" : "Step 3",
+              },
+            ]}
+          />
           <Tabs activeKey={activeTab} onChange={handleTabChange} size="large">
             <>
               <TabPane
@@ -95,7 +120,7 @@ const UserPostPage: React.FC = () => {
                     />
                     <Input.TextArea
                       placeholder="Content"
-                      autoSize={{ minRows: 8, maxRows: 8 }}
+                      autoSize={{ minRows: 10, maxRows: 10 }}
                       className="border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500"
                       style={{
                         width: "100%",
@@ -106,7 +131,7 @@ const UserPostPage: React.FC = () => {
                       }}
                     />
                   </div>
-                  <div style={{ textAlign: "right", marginTop: "20px" }}>
+                  <div style={{ textAlign: "right" }}>
                     <button
                       className="bg-[#549b90] border-1 border-black hover:bg-gray-400 font-bold py-2 px-4 rounded-full shadow-md"
                       onClick={handleNextButtonClick}
@@ -129,14 +154,43 @@ const UserPostPage: React.FC = () => {
                 key="2"
               >
                 <div style={{ zIndex: 2 }}>
-                  <div style={{ width: "100%", height: "320px" }}>
-                    <Upload.Dragger>
-                      <p className="ant-upload-drag-icon">
-                        <InboxOutlined style={{ fontSize: "64px" }} />
-                      </p>
-                      <p className="ant-upload-text">
-                        Click or drag file to this area to upload
-                      </p>
+                  <div
+                    style={{
+                      width: "100%",
+                      height: "300px",
+                    }}
+                  >
+                    <Upload.Dragger
+                      showUploadList={false}
+                      style={{
+                        width: "100%",
+                        height: "300px",
+                        padding: "20px",
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "center",
+                        justifyContent: "center",
+                        border: "2px dashed #549b90",
+                        borderRadius: "8px",
+                      }}
+                      beforeUpload={handleUpload}
+                    >
+                      {uploading && <Spin />}{" "}
+                      {/* Show loading spinner while uploading */}
+                      {uploadSuccess && ( // Show success message when upload is successful
+                        <p style={{ color: "green" }}>Upload Successful!</p>
+                      )}
+                      {!uploading &&
+                        !uploadSuccess && ( // Show drag area when not uploading or after success
+                          <>
+                            <p className="ant-upload-drag-icon">
+                              <InboxOutlined style={{ fontSize: "50px" }} />
+                            </p>
+                            <p className="ant-upload-text">
+                              Click or drag file to this area to upload
+                            </p>
+                          </>
+                        )}
                     </Upload.Dragger>
                   </div>
                   <div style={{ textAlign: "right", marginTop: "20px" }}>
@@ -175,10 +229,10 @@ const UserPostPage: React.FC = () => {
                       alignItems: "center",
                     }}
                   >
-                    <h1 style={{ fontSize: "20px" }}>
+                    <h1 style={{ fontSize: "22px" }}>
                       User Terms and Conditions
                     </h1>
-                    <h4 style={{ fontSize: "20px" }}>
+                    <h4 style={{ fontSize: "22px" }}>
                       By clicking "Accept" you agree to our website{" "}
                       <a href="/terms-conditions" style={{ color: "#549b90" }}>
                         {" "}
@@ -189,14 +243,15 @@ const UserPostPage: React.FC = () => {
                     <label
                       style={{
                         display: "block",
-                        fontSize: "20px",
+                        fontSize: "22px",
+                        marginTop: "20px",
                       }}
                     >
                       <input type="checkbox" />
                       &nbsp;I agree to the Terms and Conditions.
                     </label>
                   </div>
-                  <div style={{ textAlign: "right", marginTop: "20px" }}>
+                  <div style={{ textAlign: "right" }}>
                     <button
                       className="bg-[#549b90] border-1 border-black hover:bg-gray-400 font-bold py-2 px-4 rounded-full shadow-md"
                       onClick={handlePreviousButtonClick}

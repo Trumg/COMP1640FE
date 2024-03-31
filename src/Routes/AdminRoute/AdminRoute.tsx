@@ -25,28 +25,28 @@ const AdminRoute: React.FC = () => {
     return () => unsubscribe();
   }, []);
 
-  if (isFetching) {
-    return <h2>Loading...</h2>;
-  }
-
   return (
     <Routes>
-      <Route
-        path="/admin"
-        element={
-          <PrivateRoute user={user}>
-            <AdminPage />
-          </PrivateRoute>
-        }
-      />
-      <Route
-        path="/admin/dashboard"
-        element={
-          <PrivateRoute user={user}>
-            <AdminDashboardPage />
-          </PrivateRoute>
-        }
-      />
+      {!isFetching && (
+        <>
+          <Route
+            path="/admin"
+            element={
+              <PrivateRoute user={user}>
+                <AdminPage />
+              </PrivateRoute>
+            }
+          />
+          <Route
+            path="/admin/dashboard"
+            element={
+              <PrivateRoute user={user}>
+                <AdminDashboardPage />
+              </PrivateRoute>
+            }
+          />
+        </>
+      )}
     </Routes>
   );
 };
