@@ -1,11 +1,5 @@
-import CoordinatorHeader from "../../Components/Header/CoordinatorHeader/CoordinatorHeader";
-
 function CoordinatorPage() {
-  return (
-    <div>
-      <CoordinatorHeader />
-    </div>
-  );
+  return <div>CoordinatorPage</div>;
 }
 
 export default CoordinatorPage;

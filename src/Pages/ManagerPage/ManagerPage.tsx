@@ -1,9 +1,17 @@
-import ManagerHeader from "../../Components/Header/ManagerHeader/ManagerHeader";
+import { signOut } from "firebase/auth";
+import { auth } from "../../Firebase/firebase";
 
 function ManagerPage() {
+  const handleSignOut = () => {
+    signOut(auth)
+      .then(() => console.log("Sign Out"))
+      .catch((error) => console.log(error));
+  };
+
   return (
     <div>
-      <ManagerHeader />
+      ManagerPage
+      <button onClick={handleSignOut}>Sign Out</button>
     </div>
   );
 }

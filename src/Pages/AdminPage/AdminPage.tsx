@@ -1,9 +1,17 @@
-import AdminHeader from "../../Components/Header/AdminHeader/AdminHeader";
+import { signOut } from "firebase/auth";
+import { auth } from "../../Firebase/firebase";
 
 function AdminPage() {
+  const handleSignOut = () => {
+    signOut(auth)
+      .then(() => console.log("Sign Out"))
+      .catch((error) => console.log(error));
+  };
+
   return (
     <div>
-      <AdminHeader />
+      AdminPage
+      <button onClick={handleSignOut}>Sign Out</button>
     </div>
   );
 }

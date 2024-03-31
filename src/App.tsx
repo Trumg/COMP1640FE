@@ -1,22 +1,22 @@
 import React from "react";
 import { BrowserRouter as Router } from "react-router-dom";
 
-import AdminRoute from "./Routes/AdminRoute/AdminRoute";
-import AuthRoute from "./Routes/AuthRoute/AuthRoute";
-import CoordinatorRoute from "./Routes/CoordinatorRoute/CoordinatorRoute";
 import GuestRoute from "./Routes/GuestRoute/GuestRoute";
+import AuthRoute from "./Routes/AuthRoute/AuthRoute";
+import UserRoute from "./Routes/UserRoute/UserRoute";
+import AdminRoute from "./Routes/AdminRoute/AdminRoute";
 import ManagerRoute from "./Routes/ManagerRoute/ManagerRoute";
-import StudentRoute from "./Routes/StudentRoute/StudentRoute";
+import AccessDeniedRoute from "./Routes/AccessDeniedRoute/AccessDeniedRoute";
 
 const App: React.FC = () => {
   return (
     <Router>
-      <AdminRoute />
-      <AuthRoute />
-      <CoordinatorRoute />
       <GuestRoute />
+      <AuthRoute />
+      <UserRoute />
+      <AdminRoute />
       <ManagerRoute />
-      <StudentRoute />
+      <AccessDeniedRoute />
     </Router>
   );
 };

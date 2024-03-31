@@ -1,23 +1,14 @@
-import React from "react";
-import { Route, Navigate } from "react-router-dom";
+import { User } from "firebase/auth";
+import { ReactNode } from "react";
+import { Navigate } from "react-router-dom";
 
 interface PrivateRouteProps {
-  path: string;
-  isAuthenticated: boolean;
-  element: React.ReactNode;
+  children: ReactNode;
+  user?: User | null;
 }
 
-const PrivateRoute: React.FC<PrivateRouteProps> = ({
-  path,
-  isAuthenticated,
-  element,
-}) => {
-  return (
-    <Route
-      path={path}
-      element={isAuthenticated ? element : <Navigate to="/login" replace />}
-    />
-  );
+const PrivateRoute: React.FC<PrivateRouteProps> = ({ children, user }) => {
+  return user ? children : <Navigate to="/access-denied" />;
 };
 
 export default PrivateRoute;
