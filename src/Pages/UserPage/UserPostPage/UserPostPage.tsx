@@ -83,20 +83,22 @@ const UserPostPage: React.FC = () => {
             borderRadius: "8px",
           }}
         >
-          <Steps
-            current={parseInt(activeTab) - 1}
-            items={[
-              {
-                title: isMobile ? "" : "Step 1",
-              },
-              {
-                title: isMobile ? "" : "Step 2",
-              },
-              {
-                title: isMobile ? "" : "Step 3",
-              },
-            ]}
-          />
+          {!isMobile && (
+            <Steps
+              current={parseInt(activeTab) - 1}
+              items={[
+                {
+                  title: "Step 1",
+                },
+                {
+                  title: "Step 2",
+                },
+                {
+                  title: "Step 3",
+                },
+              ]}
+            />
+          )}
           <Tabs activeKey={activeTab} onChange={handleTabChange} size="large">
             <>
               <TabPane
