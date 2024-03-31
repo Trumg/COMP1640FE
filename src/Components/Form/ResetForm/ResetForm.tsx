@@ -1,24 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { sendPasswordResetEmail } from "firebase/auth";
 import { auth } from "../../../Firebase/firebase";
-import { Link } from "react-router-dom";
-import { Card, Input, message } from "antd"; // Import message component
+import { Link, useNavigate } from "react-router-dom";
+import { Card, Input, message } from "antd";
 import { ArrowLeftOutlined, CloseOutlined } from "@ant-design/icons";
 import { ResetImage } from "../../../Assets/ResetImage/ResetImage";
+import Confetti from "react-confetti";
 
 const ResetForm: React.FC = () => {
   const [isMobile, setIsMobile] = useState<boolean>(false);
   const [email, setEmail] = useState("");
-
-  const handleForgotPassword = () => {
-    sendPasswordResetEmail(auth, email)
-      .then(() => {
-        message.success("Password reset email sent. Please check your inbox.");
-      })
-      .catch((error) => {
-        message.error(error.message);
-      });
-  };
+  const [showConfetti, setShowConfetti] = useState<boolean>(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleResize = () => {
@@ -30,6 +23,20 @@ const ResetForm: React.FC = () => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
+  const handleForgotPassword = () => {
+    sendPasswordResetEmail(auth, email)
+      .then(() => {
+        message.success("Password reset email sent. Please check your inbox.");
+        setShowConfetti(true);
+        setTimeout(() => {
+          navigate("/login-email"); // Redirect to the reset password page
+        }, 2000);
+      })
+      .catch((error) => {
+        message.error(error.message);
+      });
+  };
+
   return (
     <div
       className="h-screen flex justify-center items-center relative"
@@ -39,6 +46,7 @@ const ResetForm: React.FC = () => {
         backgroundPosition: "center",
       }}
     >
+      {showConfetti && <Confetti />}
       <div
         className="absolute inset-0 backdrop-filter backdrop-blur-md"
         style={{

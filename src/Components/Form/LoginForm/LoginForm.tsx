@@ -8,9 +8,11 @@ import { auth } from "../../../Firebase/firebase";
 import { LoginImage } from "../../../Assets/LoginImage/LoginImage";
 import { GoogleImage } from "../../../Assets/GoogleImage/GoogleImage";
 import { motion } from "framer-motion"; // Import motion from framer-motion
+import Confetti from "react-confetti"; // Import Confetti component
 
 const LoginForm: React.FC = () => {
   const [isMobile, setIsMobile] = useState<boolean>(false);
+  const [showConfetti, setShowConfetti] = useState<boolean>(false);
 
   useEffect(() => {
     const handleResize = () => {
@@ -31,7 +33,10 @@ const LoginForm: React.FC = () => {
 
         message.success("Login Successful");
 
+        setShowConfetti(true); // Show confetti
+
         setTimeout(() => {
+          setShowConfetti(false); // Hide confetti after 2 seconds
           redirecttoUserPage();
         }, 2000);
       })
@@ -62,6 +67,8 @@ const LoginForm: React.FC = () => {
         backgroundPosition: "center",
       }}
     >
+      {showConfetti && <Confetti />}{" "}
+      {/* Render confetti if showConfetti is true */}
       <div
         className="absolute inset-0 backdrop-filter backdrop-blur-md"
         style={{
@@ -91,24 +98,46 @@ const LoginForm: React.FC = () => {
         </h3>
         <div className="login-google mt-2 font-roboto">
           <div>
-            <Link to="/login-email">
-              <button className="relative bg-white text-black  py-2 px-4 rounded-full w-full flex items-center justify-center border border-[#549b90] transition duration-300 hover:text-gray-600 hover:border-[#549b90] focus:outline-none hover:bg-gray-200">
-                <FaUser />
-                <span className="inline-block ml-6">Login with Email</span>
-              </button>
-            </Link>
+            <motion.div // Wrap "Login with Email" button with motion.div
+              initial={{ opacity: 0, x: -50 }} // Set initial opacity to 0 and x to -50 (off-screen to the left)
+              animate={{ opacity: 1, x: 0 }} // Animate opacity to 1 and x to 0 (original position)
+              transition={{ duration: 0.5, delay: 0.3 }} // Set transition duration with delay
+            >
+              <Link to="/login-email">
+                <button className="relative bg-white text-black  py-2 px-4 rounded-full w-full flex items-center justify-center border border-[#549b90] transition duration-300 hover:text-gray-600 hover:border-[#549b90] focus:outline-none hover:bg-gray-200">
+                  <FaUser />
+                  <span className="inline-block ml-6">Login with Email</span>
+                </button>
+              </Link>
+            </motion.div>
           </div>
           <div className="mt-3">
-            <button
-              className="relative bg-white text-black  py-2 px-4 rounded-full w-full flex items-center justify-center border border-[#549b90] transition duration-300 hover:text-gray-600 hover:border-[#549b90] focus:outline-none hover:bg-gray-200"
-              onClick={handleLoginWithGoogle}
+            <motion.div // Wrap "Login with Google" button with motion.div
+              initial={{ opacity: 0, x: -50 }} // Set initial opacity to 0 and x to -50 (off-screen to the left)
+              animate={{ opacity: 1, x: 0 }} // Animate opacity to 1 and x to 0 (original position)
+              transition={{ duration: 0.5, delay: 0.5 }} // Set transition duration with delay
             >
-              <img src={GoogleImage} width="34" height="34" alt="Google Logo" />
-              <span className="inline-block ml-3">Login with Google</span>
-            </button>
+              <button
+                className="relative bg-white text-black  py-2 px-4 rounded-full w-full flex items-center justify-center border border-[#549b90] transition duration-300 hover:text-gray-600 hover:border-[#549b90] focus:outline-none hover:bg-gray-200"
+                onClick={handleLoginWithGoogle}
+              >
+                <img
+                  src={GoogleImage}
+                  width="34"
+                  height="34"
+                  alt="Google Logo"
+                />
+                <span className="inline-block ml-3">Login with Google</span>
+              </button>
+            </motion.div>
           </div>
         </div>
-        <div className="mt-4 text-center ">
+        <motion.div // Wrap "SIGNUP" link with motion.div
+          initial={{ opacity: 0, x: -50 }} // Set initial opacity to 0 and x to -50 (off-screen to the left)
+          animate={{ opacity: 1, x: 0 }} // Animate opacity to 1 and x to 0 (original position)
+          transition={{ duration: 0.5 }} // Set transition duration with delay
+          className="mt-4 text-center "
+        >
           <p>
             Don't have an account?{" "}
             <Link to="/signup" className="text-[#549b90] font-bold italic">
@@ -116,7 +145,7 @@ const LoginForm: React.FC = () => {
             </Link>
             .
           </p>
-        </div>
+        </motion.div>
       </Card>
     </motion.div>
   );
