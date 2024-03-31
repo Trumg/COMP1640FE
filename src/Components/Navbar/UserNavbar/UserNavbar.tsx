@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { MagazineImage } from "../../../Assets/MagazineImage/MagazineImage";
 import { Link, useNavigate } from "react-router-dom";
 import { Drawer, Avatar, Popover } from "antd";
-import { UserOutlined } from "@ant-design/icons";
+import { UserOutlined, PlusOutlined } from "@ant-design/icons"; // Import PlusOutlined for the create post icon
 import { AiOutlineMenu } from "react-icons/ai";
 import { signOut } from "firebase/auth";
 import { auth } from "../../../Firebase/firebase";
@@ -75,6 +75,12 @@ const UserNavbar: React.FC = () => {
     </div>
   );
 
+  // Function to handle create post
+  const handleCreatePost = () => {
+    // Add your logic for creating a post
+    console.log("Creating a post...");
+  };
+
   return (
     <nav className="bg-white shadow-lg w-full fixed">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -119,7 +125,15 @@ const UserNavbar: React.FC = () => {
               </Link>
             </div>
           )}
-          <div className="ml-10 space-x-4">
+          <div className="ml-10 space-x-4 flex items-center">
+            {/* Create Post Icon */}
+            <button
+              onClick={handleCreatePost}
+              className="p-2 rounded-full hover:bg-gray-200"
+            >
+              <PlusOutlined className="text-2xl text-gray-700" />
+            </button>
+            {/* Avatar and Popover */}
             <div className="inline-flex mx-3">
               <Popover
                 content={avatarContent}

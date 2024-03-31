@@ -106,7 +106,7 @@ const SignupForm: React.FC = () => {
             />
           </div>
         </h3>
-        <div className="login-google mt-2">
+        <div className="login-google mt-2 font-roboto">
           <div>
             <Link to="/signup-email">
               <button className="relative bg-white text-black  py-2 px-4 rounded-full w-full flex items-center justify-center border border-[#549b90] transition duration-300 hover:text-gray-600 hover:border-[#549b90] focus:outline-none hover:bg-gray-200">
@@ -127,7 +127,7 @@ const SignupForm: React.FC = () => {
             </button>
           </div>
         </div>
-        <div className="mt-4 text-center">
+        <div className="mt-4 text-center font-roboto">
           <p>
             Already have an account?{" "}
             <Link to="/login" className="text-[#549b90] font-bold italic">

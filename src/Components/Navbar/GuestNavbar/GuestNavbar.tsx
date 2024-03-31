@@ -1,9 +1,11 @@
+// GuestNavbar.tsx
 import React, { useState, useEffect } from "react";
 import { MagazineImage } from "../../../Assets/MagazineImage/MagazineImage";
 import { Link } from "react-router-dom";
 import { Drawer } from "antd";
 import { AiOutlineMenu } from "react-icons/ai";
-import { LuLogIn } from "react-icons/lu";
+
+import "../../../index.css";
 
 const GuestNavbar: React.FC = () => {
   const [isMobile, setIsMobile] = useState<boolean>(false);
@@ -53,10 +55,10 @@ const GuestNavbar: React.FC = () => {
                     closable={false}
                     className="flex flex-col justify-center items-center text-center"
                   >
-                    <div className="w-full flex justify-end">
+                    <div className="w-full flex justify-end font-roboto">
                       <Link to="/login" className="text-white items-center">
-                        <button className="text-[#549b90] text-xl flex items-center">
-                          <LuLogIn className="mr-2" /> JOIN MAGAZINE
+                        <button className="bg-[#549b90] border-1 border-black hover:bg-gray-400 font-bold py-2 px-4 rounded-full shadow-md mr-4">
+                          LOGIN
                         </button>
                       </Link>
                     </div>
@@ -64,10 +66,10 @@ const GuestNavbar: React.FC = () => {
                 </div>
               </>
             ) : (
-              <div className="ml-10 space-x-2">
+              <div className="ml-10 space-x-2 font-roboto">
                 <Link to="/login" className="text-white">
                   <button className="bg-[#549b90] border-1 border-black hover:bg-gray-400 font-bold py-2 px-4 rounded-full shadow-md mr-4">
-                    JOIN MAGAZINE
+                    LOGIN
                   </button>
                 </Link>
               </div>
