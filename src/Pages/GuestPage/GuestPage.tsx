@@ -200,7 +200,7 @@ const GuestPage: React.FC = () => {
             </Row>
           </div>
           {showScrollButton && (
-            <button
+            <button aria-label="Scroll to top"
               className="bg-[#549b90] hover:bg-gray-400 text-white font-bold h-12 w-12 rounded-full fixed bottom-10 right-10 z-10 flex justify-center items-center"
               onClick={scrollToTop}
             >
