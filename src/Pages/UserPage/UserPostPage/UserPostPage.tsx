@@ -13,7 +13,6 @@ const UserPostPage: React.FC = () => {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const [activeTab, setActiveTab] = useState<string>("1");
   const [isMobile, setIsMobile] = useState<boolean>(false);
-  const [maxContentHeight, setMaxContentHeight] = useState<number>(0);
 
   useEffect(() => {
     document.body.style.backgroundColor = "transparent";
@@ -27,21 +26,6 @@ const UserPostPage: React.FC = () => {
       window.removeEventListener("resize", updateMediaQuery); // Clean up
     };
   }, []);
-
-  useEffect(() => {
-    if (textareaRef.current) {
-      setMaxContentHeight(textareaRef.current.scrollHeight);
-    }
-  }, [textareaRef]);
-
-  const handleTextareaResize = () => {
-    if (textareaRef.current) {
-      textareaRef.current.style.height = "auto";
-      textareaRef.current.style.height =
-        textareaRef.current.scrollHeight + "px";
-      setMaxContentHeight(textareaRef.current.scrollHeight);
-    }
-  };
 
   const handleNextButtonClick = () => {
     setActiveTab((prevTab) => {
@@ -86,12 +70,7 @@ const UserPostPage: React.FC = () => {
             height: "500px",
           }}
         >
-          <Tabs
-            activeKey={activeTab}
-            onChange={handleTabChange}
-            type="card"
-            size="large"
-          >
+          <Tabs activeKey={activeTab} onChange={handleTabChange} size="large">
             <>
               <TabPane
                 tab={
@@ -105,38 +84,36 @@ const UserPostPage: React.FC = () => {
                 }
                 key="1"
               >
-                <div style={{ zIndex: 1, marginBottom: "20px" }}>
-                  <Input.TextArea
-                    ref={textareaRef}
-                    placeholder="Title"
-                    className="border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500"
-                    autoSize={{ minRows: 1, maxRows: 1 }}
-                    style={{ marginBottom: "10px" }}
-                    onInput={handleTextareaResize}
-                  />
-                  <Input.TextArea
-                    placeholder="Content"
-                    autoSize={{ minRows: 10, maxRows: 10 }}
-                    className="border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500"
-                    style={{
-                      width: "100%",
-                      height: "calc(100% - 60px)", // Adjust according to your needs
-                      overflowY: "auto",
-                    }}
-                  />
-                </div>
-                <div
-                  style={{
-                    textAlign: "right",
-                    marginTop: "50px",
-                  }}
-                >
-                  <button
-                    className="bg-[#549b90] border-1 border-black hover:bg-gray-400 font-bold py-2 px-4 rounded-full shadow-md"
-                    onClick={handleNextButtonClick}
-                  >
-                    Next
-                  </button>
+                <div>
+                  <div style={{ zIndex: 2, width: "100%", height: "320px" }}>
+                    <Input.TextArea
+                      ref={textareaRef}
+                      placeholder="Title"
+                      className="border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500"
+                      autoSize={{ minRows: 1, maxRows: 1 }}
+                      style={{ marginBottom: "20px" }}
+                    />
+                    <Input.TextArea
+                      placeholder="Content"
+                      autoSize={{ minRows: 8, maxRows: 8 }}
+                      className="border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500"
+                      style={{
+                        width: "100%",
+                        minHeight: "100px",
+                        maxHeight: "calc(100vh - 200px)",
+                        overflowY: "auto",
+                        marginBottom: "20px",
+                      }}
+                    />
+                  </div>
+                  <div style={{ textAlign: "right", marginTop: "20px" }}>
+                    <button
+                      className="bg-[#549b90] border-1 border-black hover:bg-gray-400 font-bold py-2 px-4 rounded-full shadow-md"
+                      onClick={handleNextButtonClick}
+                    >
+                      Next
+                    </button>
+                  </div>
                 </div>
               </TabPane>
               <TabPane
@@ -152,7 +129,7 @@ const UserPostPage: React.FC = () => {
                 key="2"
               >
                 <div style={{ zIndex: 2 }}>
-                  <div style={{ zIndex: 2, width: "100%", height: "270px" }}>
+                  <div style={{ width: "100%", height: "320px" }}>
                     <Upload.Dragger>
                       <p className="ant-upload-drag-icon">
                         <InboxOutlined style={{ fontSize: "64px" }} />
@@ -162,12 +139,7 @@ const UserPostPage: React.FC = () => {
                       </p>
                     </Upload.Dragger>
                   </div>
-                  <div
-                    style={{
-                      textAlign: "right",
-                      marginTop: "50px",
-                    }}
-                  >
+                  <div style={{ textAlign: "right", marginTop: "20px" }}>
                     <button
                       className="bg-[#549b90] border-1 border-black hover:bg-gray-400 font-bold py-2 px-4 rounded-full shadow-md"
                       onClick={handlePreviousButtonClick}
@@ -190,58 +162,49 @@ const UserPostPage: React.FC = () => {
                       <FaCheck style={{ marginRight: "8px" }} />
                     </span>
                   ) : (
-                    "Terms and Conditions"
+                    "Terms & Conditions"
                   )
                 }
                 key="3"
               >
-                <div
-                  className="font-roboto"
-                  style={{
-                    textAlign: "left",
-                    padding: "20px",
-                    height: maxContentHeight + "px",
-                  }}
-                >
-                  <h1 style={{ fontSize: "18px" }}>
-                    User Terms and Conditions
-                  </h1>
-                  <h4 style={{ fontSize: "18px" }}>
-                    By clicking "Accept" you agree to our website{" "}
-                    <a href="/terms-conditions" style={{ color: "#549b90" }}>
-                      {" "}
-                      Terms and Conditions{" "}
-                    </a>
-                    as described in our policy.
-                  </h4>
-                  <div style={{ paddingLeft: "0px" }}>
+                <div style={{ zIndex: 3 }}>
+                  <div
+                    style={{
+                      width: "100%",
+                      height: "320px",
+                      alignItems: "center",
+                    }}
+                  >
+                    <h1 style={{ fontSize: "20px" }}>
+                      User Terms and Conditions
+                    </h1>
+                    <h4 style={{ fontSize: "20px" }}>
+                      By clicking "Accept" you agree to our website{" "}
+                      <a href="/terms-conditions" style={{ color: "#549b90" }}>
+                        {" "}
+                        Terms and Conditions{" "}
+                      </a>
+                      as described in our policy.
+                    </h4>
                     <label
                       style={{
                         display: "block",
-                        marginTop: "30px",
-                        marginBottom: "30px",
-                        fontSize: "18px",
+                        fontSize: "20px",
                       }}
                     >
                       <input type="checkbox" />
                       &nbsp;I agree to the Terms and Conditions.
                     </label>
                   </div>
-                  <div
-                    style={{
-                      textAlign: "right",
-                      marginTop: "50px",
-                    }}
-                  >
+                  <div style={{ textAlign: "right", marginTop: "20px" }}>
                     <button
                       className="bg-[#549b90] border-1 border-black hover:bg-gray-400 font-bold py-2 px-4 rounded-full shadow-md"
                       onClick={handlePreviousButtonClick}
                     >
                       Previous
                     </button>{" "}
-                    {/* Add Previous button */}
                     <button className="bg-[#549b90] border-1 border-black hover:bg-gray-400 font-bold py-2 px-4 rounded-full shadow-md">
-                      Post
+                      Next
                     </button>
                   </div>
                 </div>
