@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { ChangeEvent } from "react";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -16,7 +16,7 @@ import { Api } from "../../Api";
 const defaultTheme = createTheme();
 
 function AdminPage() {
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: ChangeEvent<HTMLFormElement>) => {
     event.preventDefault();
     const data = new FormData(event.currentTarget);
   
