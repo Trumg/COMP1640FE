@@ -142,17 +142,30 @@ const UserPostPage: React.FC = () => {
               }
               key="3"
             >
-              <div style={{ textAlign: "left", padding: "20px" }}>
-                <h1>User Terms and Conditions</h1>
-                <h4>
+              <div
+                className="font-roboto"
+                style={{ textAlign: "left", padding: "20px" }}
+              >
+                <h1 style={{ fontSize: "20px" }}>User Terms and Conditions</h1>
+                <h4 style={{ fontSize: "20px" }}>
                   By clicking "Accept" you agree to our website{" "}
-                  <a href="/terms-conditions">Terms and Conditions</a> as
-                  described in our policy.
+                  <a href="/terms-conditions" style={{ color: "#549b90" }}>
+                    {" "}
+                    Terms and Conditions{" "}
+                  </a>
+                  as described in our policy.
                 </h4>
                 <div style={{ paddingLeft: "0px" }}>
-                  <label style={{ display: "block", marginBottom: "10px" }}>
+                  <label
+                    style={{
+                      display: "block",
+                      marginTop: "30px",
+                      marginBottom: "30px",
+                      fontSize: "20px",
+                    }}
+                  >
                     <input type="checkbox" />
-                    &nbsp;I agree to the terms and conditions
+                    &nbsp;I agree to the Terms and Conditions.
                   </label>
                 </div>
                 <div style={{ textAlign: "right", marginTop: "20px" }}>
