@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { Link } from "react-router-dom";
-import { Card, Input } from "antd";
+import { Card, Input, message } from "antd";
 import { ArrowLeftOutlined, CloseOutlined } from "@ant-design/icons";
 import { LoginImage } from "../../../../Assets/LoginImage/LoginImage";
 import { auth } from "../../../../Firebase/firebase";
@@ -27,11 +27,15 @@ const LoginEmailPasswordForm: React.FC = () => {
       .then((userCredential) => {
         const user = userCredential.user;
         console.log(user);
+        message.success("Login Successful");
+
+        setTimeout(() => {
+          redirecttoUserPage();
+        }, 2000);
       })
       .catch((error) => {
-        const errorCode = error.code;
         const errorMessage = error.message;
-        console.error(errorCode, errorMessage);
+        message.error(errorMessage);
       });
   };
 
@@ -41,6 +45,10 @@ const LoginEmailPasswordForm: React.FC = () => {
 
   const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(e.target.value);
+  };
+
+  const redirecttoUserPage = () => {
+    window.location.href = "/";
   };
 
   return (

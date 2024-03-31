@@ -1,12 +1,8 @@
 import React, { useState, useEffect } from "react";
-import {
-  sendPasswordResetEmail,
-  // sendEmailVerification,
-} from "firebase/auth";
+import { sendPasswordResetEmail } from "firebase/auth";
 import { auth } from "../../../Firebase/firebase";
-
 import { Link } from "react-router-dom";
-import { Card, Input } from "antd";
+import { Card, Input, message } from "antd"; // Import message component
 import { ArrowLeftOutlined, CloseOutlined } from "@ant-design/icons";
 import { ResetImage } from "../../../Assets/ResetImage/ResetImage";
 
@@ -17,25 +13,21 @@ const ResetForm: React.FC = () => {
   const handleForgotPassword = () => {
     sendPasswordResetEmail(auth, email)
       .then(() => {
-        // Password reset email sent successfully
-        // setMessage("Password reset email sent. Please check your inbox.");
-        // setError("");
+        message.success("Password reset email sent. Please check your inbox.");
       })
-      .catch(() => {
-        // Handle errors
-        // setMessage("");
-        // setError(error.message);
+      .catch((error) => {
+        message.error(error.message);
       });
   };
 
   useEffect(() => {
     const handleResize = () => {
-      setIsMobile(window.innerWidth <= 768); // Adjust the breakpoint as needed
+      setIsMobile(window.innerWidth <= 768);
     };
 
-    handleResize(); // Call the function to set initial state
-    window.addEventListener("resize", handleResize); // Listen for window resize events
-    return () => window.removeEventListener("resize", handleResize); // Cleanup function
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   return (

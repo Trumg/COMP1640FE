@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
-import { notification, Card } from "antd";
+import { message, Card } from "antd";
 import { CloseOutlined } from "@ant-design/icons";
 import { FaUser } from "react-icons/fa";
 import { auth } from "../../../Firebase/firebase";
 import { LoginImage } from "../../../Assets/LoginImage/LoginImage";
 import { GoogleImage } from "../../../Assets/GoogleImage/GoogleImage";
+import { motion } from "framer-motion"; // Import motion from framer-motion
 
 const LoginForm: React.FC = () => {
   const [isMobile, setIsMobile] = useState<boolean>(false);
@@ -28,9 +29,7 @@ const LoginForm: React.FC = () => {
         const user = result.user;
         console.log(user);
 
-        notification.success({
-          message: "Login Successful",
-        });
+        message.success("Login Successful");
 
         setTimeout(() => {
           redirecttoUserPage();
@@ -38,16 +37,10 @@ const LoginForm: React.FC = () => {
       })
       .catch((error) => {
         if (error.code === "auth/cancelled-popup-request") {
-          notification.info({
-            message: "Login Cancelled",
-            description: "Login process cancelled by the user.",
-          });
+          message.info("Login process cancelled by the user.");
           console.log("Login process cancelled by the user.");
         } else {
-          notification.error({
-            message: "Authentication Error",
-            description: error.message,
-          });
+          message.error(error.message);
           console.error("Authentication error:", error.message);
         }
       });
@@ -58,7 +51,10 @@ const LoginForm: React.FC = () => {
   };
 
   return (
-    <div
+    <motion.div // Wrap your main div with motion.div
+      initial={{ opacity: 0, x: -50 }} // Set initial opacity to 0 and x to -50 (off-screen to the left)
+      animate={{ opacity: 1, x: 0 }} // Animate opacity to 1 and x to 0 (original position)
+      transition={{ duration: 0.5 }} // Set transition duration
       className="h-screen flex justify-center items-center relative"
       style={{
         backgroundImage: `url('https://media.giphy.com/media/l0Iy3qmrODEarmfHq/giphy.gif')`,
@@ -112,7 +108,7 @@ const LoginForm: React.FC = () => {
             </button>
           </div>
         </div>
-        <div className="mt-4 text-center font-roboto">
+        <div className="mt-4 text-center ">
           <p>
             Don't have an account?{" "}
             <Link to="/signup" className="text-[#549b90] font-bold italic">
@@ -122,7 +118,7 @@ const LoginForm: React.FC = () => {
           </p>
         </div>
       </Card>
-    </div>
+    </motion.div>
   );
 };
 
