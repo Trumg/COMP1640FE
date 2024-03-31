@@ -68,7 +68,7 @@ const LoginEmailPasswordForm: React.FC = () => {
           backgroundColor: "#fafafa",
         }}
       >
-        <div className="flex justify-between">
+        <div className="flex justify-between font-roboto">
           <Link to="/login" className="text-[#549b90]">
             <button>
               <ArrowLeftOutlined />
@@ -86,7 +86,7 @@ const LoginEmailPasswordForm: React.FC = () => {
             <img src={LoginImage} width={200} height={200} alt="Login Image" />
           </div>
         </h3>
-        <div className="login-google mt-2">
+        <div className="login-google mt-2 font-roboto">
           <div>
             <div>
               <div className="mb-3">
@@ -136,7 +136,7 @@ const LoginEmailPasswordForm: React.FC = () => {
             </div>
           </div>
         </div>
-        <div className="mt-4 text-center">
+        <div className="mt-4 text-center font-roboto">
           <p>
             Forgot your password?{" "}
             <Link

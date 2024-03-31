@@ -63,7 +63,7 @@ const ResetForm: React.FC = () => {
           backgroundColor: "#fafafa",
         }}
       >
-        <div className="flex justify-between">
+        <div className="flex justify-between font-roboto">
           <Link to="/login-email" className="text-[#549b90]">
             <button>
               <ArrowLeftOutlined />
@@ -81,7 +81,7 @@ const ResetForm: React.FC = () => {
             <img src={ResetImage} width={200} height={200} alt="Login Image" />
           </div>
         </h3>
-        <div className="login-google mt-2">
+        <div className="login-google mt-2 font-roboto">
           <div>
             <div>
               <Input
@@ -103,7 +103,7 @@ const ResetForm: React.FC = () => {
             </div>
           </div>
         </div>
-        <div className="mt-4 text-center">
+        <div className="mt-4 text-center font-roboto">
           <p>
             Remembered your password?{" "}
             <Link to="/login" className="text-[#549b90] font-bold italic">

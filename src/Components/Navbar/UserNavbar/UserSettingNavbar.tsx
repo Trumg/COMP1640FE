@@ -2,13 +2,13 @@ import React, { useState, useEffect } from "react";
 import { MagazineImage } from "../../../Assets/MagazineImage/MagazineImage";
 import { Link, useNavigate } from "react-router-dom";
 import { Drawer, Avatar, Popover } from "antd";
-import { UserOutlined, PlusOutlined } from "@ant-design/icons"; // Import PlusOutlined for the create post icon
+import { UserOutlined } from "@ant-design/icons";
 import { AiOutlineMenu } from "react-icons/ai";
 import { signOut } from "firebase/auth";
 import { auth } from "../../../Firebase/firebase";
 import { useGetInfoUser } from "../../../Hooks/useToken";
 
-const UserNavbar: React.FC = () => {
+const UserSettingNavbar: React.FC = () => {
   const [isMobile, setIsMobile] = useState<boolean>(false);
   const [showDrawer, setShowDrawer] = useState<boolean>(false);
   const [avatarPopoverVisible, setAvatarPopoverVisible] =
@@ -75,12 +75,6 @@ const UserNavbar: React.FC = () => {
     </div>
   );
 
-  // Function to handle create post
-  const handleCreatePost = () => {
-    // Add your logic for creating a post
-    console.log("Creating a post...");
-  };
-
   return (
     <nav className="bg-white shadow-lg w-full fixed">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -134,16 +128,6 @@ const UserNavbar: React.FC = () => {
           )}
           <>
             <div className="ml-10 space-x-4 flex items-center">
-              {/* Create Post Icon */}
-              <Link to="/post">
-                <button
-                  onClick={handleCreatePost}
-                  className="p-2 rounded-full hover:bg-gray-200"
-                >
-                  <PlusOutlined className="text-2xl text-gray-700" />
-                </button>
-              </Link>
-
               {/* Avatar and Popover */}
               <div className="inline-flex mx-3">
                 <Popover
@@ -174,4 +158,4 @@ const UserNavbar: React.FC = () => {
   );
 };
 
-export default UserNavbar;
+export default UserSettingNavbar;

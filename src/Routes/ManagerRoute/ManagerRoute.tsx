@@ -6,7 +6,7 @@ import { User } from "firebase/auth";
 
 import PrivateRoute from "../PrivateRoute/PrivateRoute";
 import ManagerPage from "../../Pages/ManagerPage/ManagerPage";
-import ManagerDashboardPage from "./ManagerDashboardPage/ManagerDashboardPage";
+import ManagerDashboardPage from "../../Pages/ManagerPage/ManagerDashboardPage/ManagerDashboardPage";
 
 const ManagerRoute: React.FC = () => {
   const [user, setUser] = useState<User | null>(null);

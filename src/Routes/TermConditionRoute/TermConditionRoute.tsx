@@ -5,10 +5,9 @@ import { auth } from "../../Firebase/firebase";
 import { User } from "firebase/auth";
 
 import PrivateRoute from "../PrivateRoute/PrivateRoute";
-import AdminPage from "../../Pages/AdminPage/AdminPage";
-import AdminDashboardPage from "../../Pages/AdminPage/AdminDashboardPage/AdminDashboardPage";
+import TermConditionPage from "../../Pages/TermConditionPage/TermConditionPage";
 
-const AdminRoute: React.FC = () => {
+const TermConditionRoute: React.FC = () => {
   const [user, setUser] = useState<User | null>(null);
   const [isFetching, setIsFetching] = useState(true);
 
@@ -16,34 +15,25 @@ const AdminRoute: React.FC = () => {
     const unsubscribe = onAuthStateChanged(auth, (userData) => {
       if (userData) {
         setUser(userData);
-        setIsFetching(false);
       } else {
         setUser(null);
-        setIsFetching(false);
       }
+      setIsFetching(false);
     });
     return () => unsubscribe();
   }, []);
 
   if (isFetching) {
-    return <h2>Loading...</h2>;
+    return;
   }
 
   return (
     <Routes>
       <Route
-        path="/admin"
+        path="/terms-conditions"
         element={
           <PrivateRoute user={user}>
-            <AdminPage />
-          </PrivateRoute>
-        }
-      />
-      <Route
-        path="/admin/dashboard"
-        element={
-          <PrivateRoute user={user}>
-            <AdminDashboardPage />
+            <TermConditionPage />
           </PrivateRoute>
         }
       />
@@ -51,4 +41,4 @@ const AdminRoute: React.FC = () => {
   );
 };
 
-export default AdminRoute;
+export default TermConditionRoute;

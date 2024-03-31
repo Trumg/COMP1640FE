@@ -93,7 +93,7 @@ const LoginForm: React.FC = () => {
             <img src={LoginImage} width={200} height={200} alt="Login Image" />
           </div>
         </h3>
-        <div className="login-google mt-2">
+        <div className="login-google mt-2 font-roboto">
           <div>
             <Link to="/login-email">
               <button className="relative bg-white text-black  py-2 px-4 rounded-full w-full flex items-center justify-center border border-[#549b90] transition duration-300 hover:text-gray-600 hover:border-[#549b90] focus:outline-none hover:bg-gray-200">
@@ -112,7 +112,7 @@ const LoginForm: React.FC = () => {
             </button>
           </div>
         </div>
-        <div className="mt-4 text-center">
+        <div className="mt-4 text-center font-roboto">
           <p>
             Don't have an account?{" "}
             <Link to="/signup" className="text-[#549b90] font-bold italic">
