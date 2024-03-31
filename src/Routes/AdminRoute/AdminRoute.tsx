@@ -6,7 +6,7 @@ import { User } from "firebase/auth"; // Import User type from firebase/auth
 
 import PrivateRoute from "../PrivateRoute/PrivateRoute";
 import AdminPage from "../../Pages/AdminPage/AdminPage";
-import AdminDashboardPage from "../../Pages/AdminPage/AdminDashboard/AdminDashboardPage";
+import AdminDashboardPage from "../../Pages/AdminPage/AdminDashboardPage/AdminDashboardPage";
 
 const AdminRoute: React.FC = () => {
   const [user, setUser] = useState<User | null>(null); // Use User type from firebase/auth
