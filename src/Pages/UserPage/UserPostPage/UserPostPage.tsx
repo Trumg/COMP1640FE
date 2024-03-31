@@ -13,6 +13,7 @@ const UserPostPage: React.FC = () => {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const [activeTab, setActiveTab] = useState<string>("1");
   const [isMobile, setIsMobile] = useState<boolean>(false);
+  const [maxContentHeight, setMaxContentHeight] = useState<number>(0);
 
   useEffect(() => {
     document.body.style.backgroundColor = "transparent";
@@ -27,11 +28,18 @@ const UserPostPage: React.FC = () => {
     };
   }, []);
 
+  useEffect(() => {
+    if (textareaRef.current) {
+      setMaxContentHeight(textareaRef.current.scrollHeight);
+    }
+  }, [textareaRef]);
+
   const handleTextareaResize = () => {
     if (textareaRef.current) {
       textareaRef.current.style.height = "auto";
       textareaRef.current.style.height =
         textareaRef.current.scrollHeight + "px";
+      setMaxContentHeight(textareaRef.current.scrollHeight);
     }
   };
 
@@ -57,6 +65,7 @@ const UserPostPage: React.FC = () => {
     <Layout>
       <UserPostNavbar />
       <Content
+        className="font-roboto"
         style={{
           display: "flex",
           justifyContent: "center",
@@ -74,7 +83,7 @@ const UserPostPage: React.FC = () => {
             maxHeight: "100%",
             position: "relative",
             overflow: "hidden",
-            height: isMobile ? "500px" : "500px",
+            height: "500px",
           }}
         >
           <Tabs activeKey={activeTab} onChange={handleTabChange}>
@@ -96,7 +105,7 @@ const UserPostPage: React.FC = () => {
                   placeholder="Title"
                   className="border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500"
                   autoSize={{ minRows: 1, maxRows: 1 }}
-                  style={{ marginBottom: "20px" }}
+                  style={{ marginBottom: "10px" }}
                   onInput={handleTextareaResize}
                 />
                 <Input.TextArea
@@ -105,8 +114,7 @@ const UserPostPage: React.FC = () => {
                   className="border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500"
                   style={{
                     width: "100%",
-                    minHeight: "100px",
-                    maxHeight: "calc(100vh - 200px)",
+
                     overflowY: "auto",
                     marginBottom: "20px",
                   }}
@@ -133,13 +141,20 @@ const UserPostPage: React.FC = () => {
               }
               key="2"
             >
-              <div style={{ zIndex: 2, width: "100%", height: "280px" }}>
-                <Upload.Dragger>
+              <div style={{ zIndex: 2 }}>
+                <Upload.Dragger
+                  style={{
+                    minHeight: "250px", // Adjust the minHeight to match the input boxes
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "center",
+                  }}
+                >
                   <p className="ant-upload-drag-icon">
                     <InboxOutlined style={{ fontSize: "64px" }} />
                   </p>
                   <p className="ant-upload-text">
-                    Click or drag file to this area to upload
+                    Click or drag file to upload document
                   </p>
                 </Upload.Dragger>
               </div>
@@ -172,7 +187,11 @@ const UserPostPage: React.FC = () => {
             >
               <div
                 className="font-roboto"
-                style={{ textAlign: "left", padding: "20px" }}
+                style={{
+                  textAlign: "left",
+                  padding: "20px",
+                  height: maxContentHeight + "px",
+                }}
               >
                 <h1 style={{ fontSize: "20px" }}>User Terms and Conditions</h1>
                 <h4 style={{ fontSize: "20px" }}>
