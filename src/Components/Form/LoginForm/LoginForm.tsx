@@ -83,7 +83,7 @@ const LoginForm: React.FC = () => {
       >
         <div className="flex justify-end w-full">
           <Link to="/" className="text-[#549b90]">
-            <button>
+            <button aria-label="Go Back Homepage">
               <CloseOutlined />
             </button>
           </Link>

@@ -1,10 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { signInWithEmailAndPassword } from "firebase/auth";
 import { Link } from "react-router-dom";
 import { Card, Input } from "antd";
 import { ArrowLeftOutlined, CloseOutlined } from "@ant-design/icons";
 import { LoginImage } from "../../../../Assets/LoginImage/LoginImage";
-import { auth } from "../../../../Firebase/firebase";
+import { Api } from "../../../../Api";
 
 const LoginEmailPasswordForm: React.FC = () => {
   const [isMobile, setIsMobile] = useState<boolean>(false);
@@ -21,19 +20,24 @@ const LoginEmailPasswordForm: React.FC = () => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  const handleLogIn = () => {
+  const handleLogIn = async () => {
     if (!email || !password) return;
-    signInWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        const user = userCredential.user;
-        console.log(user);
-      })
-      .catch((error) => {
-        const errorCode = error.code;
-        const errorMessage = error.message;
-        console.error(errorCode, errorMessage);
-      });
+    const response = await apiClient.api.authLoginCreate({
+      username:  email,
+      password: password
+    });
+
+    const success = response.status === 200;
+      if (success)  {
+        window.location.href='./Admin';
+        return;
+      }
   };
+
+  const apiClient = new Api({
+    baseUrl: "https://localhost:7279"
+    
+  })
 
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
@@ -76,7 +80,7 @@ const LoginEmailPasswordForm: React.FC = () => {
             </button>
           </Link>
           <Link to="/" className="text-[#549b90]">
-            <button>
+            <button aria-label="Homepage">
               <CloseOutlined />
             </button>
           </Link>
