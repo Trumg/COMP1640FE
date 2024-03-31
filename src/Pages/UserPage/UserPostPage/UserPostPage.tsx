@@ -62,17 +62,19 @@ const UserPostPage: React.FC = () => {
           justifyContent: "center",
           alignItems: "center",
           backgroundColor: "white",
-          paddingTop: "150px",
-          paddingBottom: "20px", // Add padding to create space between the button and content area
+          paddingTop: isMobile ? "125px" : "150px",
+          paddingBottom: "25px",
         }}
       >
         <Card
           className="shadow-md rounded-md"
           style={{
             width: isMobile ? "90%" : "100%",
-            maxWidth: "1000px",
+            maxWidth: "80%",
             maxHeight: "100%",
             position: "relative",
+            overflow: "hidden",
+            height: isMobile ? "500px" : "500px",
           }}
         >
           <Tabs activeKey={activeTab} onChange={handleTabChange}>
@@ -148,7 +150,6 @@ const UserPostPage: React.FC = () => {
                 >
                   Previous
                 </button>{" "}
-                {/* Add Previous button */}
                 <button
                   className="bg-[#549b90] border-1 border-black hover:bg-gray-400 font-bold py-2 px-4 rounded-full shadow-md"
                   onClick={handleNextButtonClick}
