@@ -49,10 +49,10 @@ const UserPostPage: React.FC = () => {
 
   const handleUpload = () => {
     setUploading(true);
-    // Simulate upload process
     setTimeout(() => {
       setUploading(false);
       setUploadSuccess(true);
+      setActiveTab("3");
     }, 2000);
   };
 
