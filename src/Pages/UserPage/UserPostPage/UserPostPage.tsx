@@ -35,6 +35,20 @@ const UserPostPage: React.FC = () => {
     }
   };
 
+  const handleNextButtonClick = () => {
+    setActiveTab((prevTab) => {
+      const nextTab = parseInt(prevTab) + 1;
+      return nextTab.toString();
+    });
+  };
+
+  const handlePreviousButtonClick = () => {
+    setActiveTab((prevTab) => {
+      const previousTab = parseInt(prevTab) - 1;
+      return previousTab.toString();
+    });
+  };
+
   const handleTabChange = (key: string) => {
     setActiveTab(key);
   };
@@ -96,7 +110,10 @@ const UserPostPage: React.FC = () => {
                   }}
                 />
                 <div style={{ textAlign: "right" }}>
-                  <button className="bg-[#549b90] border-1 border-black hover:bg-gray-400 font-bold py-2 px-4 rounded-full shadow-md">
+                  <button
+                    className="bg-[#549b90] border-1 border-black hover:bg-gray-400 font-bold py-2 px-4 rounded-full shadow-md"
+                    onClick={handleNextButtonClick}
+                  >
                     Next
                   </button>
                 </div>
@@ -125,7 +142,17 @@ const UserPostPage: React.FC = () => {
                 </Upload.Dragger>
               </div>
               <div style={{ textAlign: "right", marginTop: "20px" }}>
-                <button className="bg-[#549b90] border-1 border-black hover:bg-gray-400 font-bold py-2 px-4 rounded-full shadow-md">
+                <button
+                  className="bg-[#549b90] border-1 border-black hover:bg-gray-400 font-bold py-2 px-4 rounded-full shadow-md"
+                  onClick={handlePreviousButtonClick}
+                >
+                  Previous
+                </button>{" "}
+                {/* Add Previous button */}
+                <button
+                  className="bg-[#549b90] border-1 border-black hover:bg-gray-400 font-bold py-2 px-4 rounded-full shadow-md"
+                  onClick={handleNextButtonClick}
+                >
                   Next
                 </button>
               </div>
@@ -169,6 +196,13 @@ const UserPostPage: React.FC = () => {
                   </label>
                 </div>
                 <div style={{ textAlign: "right", marginTop: "20px" }}>
+                  <button
+                    className="bg-[#549b90] border-1 border-black hover:bg-gray-400 font-bold py-2 px-4 rounded-full shadow-md"
+                    onClick={handlePreviousButtonClick}
+                  >
+                    Previous
+                  </button>{" "}
+                  {/* Add Previous button */}
                   <button className="bg-[#549b90] border-1 border-black hover:bg-gray-400 font-bold py-2 px-4 rounded-full shadow-md">
                     Post
                   </button>
