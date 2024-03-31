@@ -2,6 +2,9 @@ import React, { useEffect, useRef, useState } from "react";
 import { Layout, Card, Input, Tabs, Upload } from "antd";
 import UserPostNavbar from "../../../Components/Navbar/UserNavbar/UserPostNavbar";
 import { InboxOutlined } from "@ant-design/icons";
+import { FaUpload } from "react-icons/fa6";
+import { IoDocumentTextOutline } from "react-icons/io5";
+import { FaCheck } from "react-icons/fa";
 
 const { Content } = Layout;
 const { TabPane } = Tabs;
@@ -9,11 +12,18 @@ const { TabPane } = Tabs;
 const UserPostPage: React.FC = () => {
   const textareaRef = useRef<HTMLTextAreaElement>(null);
   const [activeTab, setActiveTab] = useState<string>("1");
+  const [isMobile, setIsMobile] = useState<boolean>(false);
 
   useEffect(() => {
     document.body.style.backgroundColor = "transparent";
+    const updateMediaQuery = () => {
+      setIsMobile(window.matchMedia("(max-width: 768px)").matches);
+    };
+    updateMediaQuery(); // Initial check
+    window.addEventListener("resize", updateMediaQuery); // Listen for window resize
     return () => {
       document.body.style.backgroundColor = "";
+      window.removeEventListener("resize", updateMediaQuery); // Clean up
     };
   }, []);
 
@@ -52,7 +62,18 @@ const UserPostPage: React.FC = () => {
           }}
         >
           <Tabs activeKey={activeTab} onChange={handleTabChange}>
-            <TabPane tab="Post" key="1">
+            <TabPane
+              tab={
+                isMobile ? (
+                  <span style={{ display: "flex", alignItems: "center" }}>
+                    <IoDocumentTextOutline style={{ marginRight: "8px" }} />
+                  </span>
+                ) : (
+                  "Ideas"
+                )
+              }
+              key="1"
+            >
               <div style={{ zIndex: 1 }}>
                 <Input.TextArea
                   ref={textareaRef}
@@ -81,7 +102,18 @@ const UserPostPage: React.FC = () => {
                 </div>
               </div>
             </TabPane>
-            <TabPane tab="Upload" key="2">
+            <TabPane
+              tab={
+                isMobile ? (
+                  <span style={{ display: "flex", alignItems: "center" }}>
+                    <FaUpload style={{ marginRight: "8px" }} />
+                  </span>
+                ) : (
+                  "Upload"
+                )
+              }
+              key="2"
+            >
               <div style={{ zIndex: 2, width: "100%", height: "280px" }}>
                 <Upload.Dragger>
                   <p className="ant-upload-drag-icon">
@@ -98,9 +130,22 @@ const UserPostPage: React.FC = () => {
                 </button>
               </div>
             </TabPane>
-            <TabPane tab="Terms and Conditions" key="3">
-              <div style={{ zIndex: 3 }}>
-                <p>Content of Tab 3</p>
+            <TabPane
+              tab={
+                isMobile ? (
+                  <span style={{ display: "flex", alignItems: "center" }}>
+                    <FaCheck style={{ marginRight: "8px" }} />
+                  </span>
+                ) : (
+                  "Terms and Conditions"
+                )
+              }
+              key="3"
+            >
+              <div style={{ textAlign: "right", marginTop: "20px" }}>
+                <button className="bg-[#549b90] border-1 border-black hover:bg-gray-400 font-bold py-2 px-4 rounded-full shadow-md">
+                  Post
+                </button>
               </div>
             </TabPane>
           </Tabs>
