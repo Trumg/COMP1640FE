@@ -79,6 +79,8 @@ const UserPostPage: React.FC = () => {
             position: "relative",
             overflow: "hidden",
             height: "500px",
+            border: "2px solid #549b90",
+            borderRadius: "8px",
           }}
         >
           <Steps
@@ -100,11 +102,12 @@ const UserPostPage: React.FC = () => {
               <TabPane
                 tab={
                   isMobile ? (
+                    <IoDocumentTextOutline style={{ fontSize: "24px" }} />
+                  ) : (
                     <span style={{ display: "flex", alignItems: "center" }}>
                       <IoDocumentTextOutline style={{ marginRight: "8px" }} />
+                      <span>Ideas</span>
                     </span>
-                  ) : (
-                    "Ideas"
                   )
                 }
                 key="1"
@@ -116,7 +119,11 @@ const UserPostPage: React.FC = () => {
                       placeholder="Title"
                       className="border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500"
                       autoSize={{ minRows: 1, maxRows: 1 }}
-                      style={{ marginBottom: "20px" }}
+                      style={{
+                        marginBottom: "20px",
+                        border: "1px solid #549b90",
+                        borderRadius: "8px",
+                      }}
                     />
                     <Input.TextArea
                       placeholder="Content"
@@ -128,6 +135,8 @@ const UserPostPage: React.FC = () => {
                         maxHeight: "calc(100vh - 200px)",
                         overflowY: "auto",
                         marginBottom: "20px",
+                        border: "1px solid #549b90",
+                        borderRadius: "8px",
                       }}
                     />
                   </div>
@@ -144,11 +153,12 @@ const UserPostPage: React.FC = () => {
               <TabPane
                 tab={
                   isMobile ? (
+                    <FaUpload style={{ fontSize: "24px" }} />
+                  ) : (
                     <span style={{ display: "flex", alignItems: "center" }}>
                       <FaUpload style={{ marginRight: "8px" }} />
+                      <span>Uploads</span>
                     </span>
-                  ) : (
-                    "Upload"
                   )
                 }
                 key="2"
@@ -212,11 +222,12 @@ const UserPostPage: React.FC = () => {
               <TabPane
                 tab={
                   isMobile ? (
+                    <FaCheck style={{ fontSize: "24px" }} />
+                  ) : (
                     <span style={{ display: "flex", alignItems: "center" }}>
                       <FaCheck style={{ marginRight: "8px" }} />
+                      <span>Policy</span>
                     </span>
-                  ) : (
-                    "Terms & Conditions"
                   )
                 }
                 key="3"
