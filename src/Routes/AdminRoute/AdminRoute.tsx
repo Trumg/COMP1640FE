@@ -2,14 +2,14 @@ import React, { useEffect, useState } from "react";
 import { Route, Routes } from "react-router-dom";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "../../Firebase/firebase";
-import { User } from "firebase/auth"; // Import User type from firebase/auth
+import { User } from "firebase/auth";
 
 import PrivateRoute from "../PrivateRoute/PrivateRoute";
 import AdminPage from "../../Pages/AdminPage/AdminPage";
 import AdminDashboardPage from "../../Pages/AdminPage/AdminDashboardPage/AdminDashboardPage";
 
 const AdminRoute: React.FC = () => {
-  const [user, setUser] = useState<User | null>(null); // Use User type from firebase/auth
+  const [user, setUser] = useState<User | null>(null);
   const [isFetching, setIsFetching] = useState(true);
 
   useEffect(() => {
@@ -19,7 +19,7 @@ const AdminRoute: React.FC = () => {
         setIsFetching(false);
       } else {
         setUser(null);
-        setIsFetching(false); // Fixed typo here
+        setIsFetching(false);
       }
     });
     return () => unsubscribe();

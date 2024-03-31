@@ -62,14 +62,14 @@ const UserPostPage: React.FC = () => {
                 minHeight: "100px",
                 maxHeight: "calc(100vh - 200px)",
                 overflowY: "auto",
-                marginBottom: "20px", // Add margin to create space between content input and button
+                marginBottom: "20px",
               }}
             />
-          </div>
-          <div>
-            <button className="bg-[#549b90] border-1 border-black hover:bg-gray-400 font-bold py-2 px-4 rounded-full shadow-md">
-              Post
-            </button>
+            <div style={{ textAlign: "right" }}>
+              <button className="bg-[#549b90] border-1 border-black hover:bg-gray-400 font-bold py-2 px-4 rounded-full shadow-md">
+                Next
+              </button>
+            </div>
           </div>
         </Card>
       </Content>
