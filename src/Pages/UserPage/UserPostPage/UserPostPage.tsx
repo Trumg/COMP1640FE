@@ -55,7 +55,7 @@ const UserPostPage: React.FC = () => {
         <Card
           className="shadow-md rounded-md"
           style={{
-            width: "100%",
+            width: isMobile ? "90%" : "100%",
             maxWidth: "1000px",
             maxHeight: "100%",
             position: "relative",
