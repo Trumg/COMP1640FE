@@ -48,7 +48,7 @@ const UserPostPage: React.FC = () => {
             width: "100%",
             maxWidth: "1000px",
             maxHeight: "100%",
-            position: "relative", // Required for relative positioning
+            position: "relative",
           }}
         >
           <Tabs activeKey={activeTab} onChange={handleTabChange}>
@@ -64,7 +64,7 @@ const UserPostPage: React.FC = () => {
                 />
                 <Input.TextArea
                   placeholder="Content"
-                  autoSize={{ minRows: 12, maxRows: 12 }}
+                  autoSize={{ minRows: 10, maxRows: 10 }}
                   className="border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500"
                   style={{
                     width: "100%",
@@ -82,10 +82,8 @@ const UserPostPage: React.FC = () => {
               </div>
             </TabPane>
             <TabPane tab="Upload" key="2">
-              <div style={{ zIndex: 2 }}>
-                <Upload.Dragger style={{ width: "100%", height: "300px" }}>
-                  {" "}
-                  {/* Adjust the height here */}
+              <div style={{ zIndex: 2, width: "100%", height: "280px" }}>
+                <Upload.Dragger>
                   <p className="ant-upload-drag-icon">
                     <InboxOutlined style={{ fontSize: "64px" }} />
                   </p>
@@ -100,14 +98,9 @@ const UserPostPage: React.FC = () => {
                 </button>
               </div>
             </TabPane>
-            <TabPane tab="Categories" key="3">
+            <TabPane tab="Terms and Conditions" key="3">
               <div style={{ zIndex: 3 }}>
                 <p>Content of Tab 3</p>
-              </div>
-            </TabPane>
-            <TabPane tab="Terms and Conditions" key="4">
-              <div style={{ zIndex: 4 }}>
-                <p>Content of Tab 4</p>
               </div>
             </TabPane>
           </Tabs>
