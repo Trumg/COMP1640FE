@@ -1,53 +1,19 @@
-import React, { useState, useEffect } from 'react';
+import { signOut } from "firebase/auth";
+import { auth } from "../../Firebase/firebase";
 
-
-const ManagerPage: React.FC = () => {
-  const [posts, setPosts] = useState([]);
-
-  useEffect(() => {
-    fetchPosts();
-  }, []);
-
-  const fetchPosts = async () => {
-    try {
-      // const response = await axios.get('/api/posts'); // Thay đổi đường dẫn API tương ứng
-      // setPosts(response.data);
-    } catch (error) {
-      console.error('Error fetching posts:', error);
-    } 
-  };
-
-  const handleEdit = async (postId: number) => {
-    // Xử lý chỉnh sửa bài đăng
-    console.log(`Chỉnh sửa bài đăng có id: ${postId}`);
-  };
-
-  const handleDelete = async (postId: number) => {
-    // Xử lý xóa bài đăng
-    console.log(`Xóa bài đăng có id: ${postId}`);
-    try {
-      // await axios.delete(`/api/posts/${postId}`); // Thay đổi đường dẫn API tương ứng
-      // fetchPosts(); // Lấy lại danh sách bài đăng sau khi xóa
-    } catch (error) {
-      console.error('Error deleting post:', error);
-    }
+function ManagerPage() {
+  const handleSignOut = () => {
+    signOut(auth)
+      .then(() => console.log("Sign Out"))
+      .catch((error) => console.log(error));
   };
 
   return (
     <div>
-      <h1>Manager Page</h1>
-      {/* <ul>
-        {posts.map((post: ) => (
-          <li key={post.id}>
-            <p>{post.title}</p>
-            <p>{post.content}</p>
-            <button onClick={() => handleEdit(post.id)}>Edit</button>
-            <button onClick={() => handleDelete(post.id)}>Delete</button>
-          </li>
-        ))}
-      </ul> */}
+      ManagerPage
+      <button onClick={handleSignOut}>Sign Out</button>
     </div>
   );
-};
+}
 
 export default ManagerPage;
