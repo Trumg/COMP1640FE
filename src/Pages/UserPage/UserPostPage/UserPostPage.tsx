@@ -142,10 +142,24 @@ const UserPostPage: React.FC = () => {
               }
               key="3"
             >
-              <div style={{ textAlign: "right", marginTop: "20px" }}>
-                <button className="bg-[#549b90] border-1 border-black hover:bg-gray-400 font-bold py-2 px-4 rounded-full shadow-md">
-                  Post
-                </button>
+              <div style={{ textAlign: "left", padding: "20px" }}>
+                <h1>User Terms and Conditions</h1>
+                <h4>
+                  By clicking "Accept" you agree to our website{" "}
+                  <a href="/terms-conditions">Terms and Conditions</a> as
+                  described in our policy.
+                </h4>
+                <div style={{ paddingLeft: "0px" }}>
+                  <label style={{ display: "block", marginBottom: "10px" }}>
+                    <input type="checkbox" />
+                    &nbsp;I agree to the terms and conditions
+                  </label>
+                </div>
+                <div style={{ textAlign: "right", marginTop: "20px" }}>
+                  <button className="bg-[#549b90] border-1 border-black hover:bg-gray-400 font-bold py-2 px-4 rounded-full shadow-md">
+                    Post
+                  </button>
+                </div>
               </div>
             </TabPane>
           </Tabs>
