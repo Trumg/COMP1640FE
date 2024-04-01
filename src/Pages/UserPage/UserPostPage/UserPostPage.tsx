@@ -6,7 +6,7 @@ import { FaUpload } from "react-icons/fa6";
 import { IoDocumentTextOutline } from "react-icons/io5";
 import { FaCheck } from "react-icons/fa";
 import { ref, set, push, onValue } from "firebase/database";
-import { database } from "../../../Firebase/firebase";
+import { auth, database } from "../../../Firebase/firebase";
 
 const { Content } = Layout;
 const { TabPane } = Tabs;
@@ -55,22 +55,31 @@ const UserPostPage: React.FC = () => {
   const handlePostButtonClick = () => {
     if (agreedToTerms) {
       if (title && content) {
-        const postData = {
-          title,
-          content,
-        };
+        // Assuming you have access to the user's display name and photo URL
+        const currentUser = auth.currentUser;
+        if (currentUser) {
+          const postData = {
+            title,
+            content,
+            email: currentUser.email || "user@example.com",
+            displayName: currentUser.displayName || "Anonymous",
+            photoURL: currentUser.photoURL || "default-photo-url",
+          };
 
-        const postsRef = ref(database, "posts");
-        const newPostRef = push(postsRef);
+          const postsRef = ref(database, "posts");
+          const newPostRef = push(postsRef);
 
-        set(newPostRef, postData)
-          .then(() => {
-            alert("Post successful!");
-          })
-          .catch((error: Error) => {
-            console.error("Error posting:", error);
-            alert("Failed to post. Please try again later.");
-          });
+          set(newPostRef, postData)
+            .then(() => {
+              alert("Post successful!");
+            })
+            .catch((error) => {
+              console.error("Error posting:", error);
+              alert("Failed to post. Please try again later.");
+            });
+        } else {
+          alert("User not logged in.");
+        }
       } else {
         alert("Please fill in title and content before posting.");
       }
@@ -95,6 +104,8 @@ const UserPostPage: React.FC = () => {
           postCard.innerHTML = `
             <h2>${postData.title}</h2>
             <p>${postData.content}</p>
+            <p>Posted by: ${postData.displayName}</p>
+            <img src="${postData.photoURL}" alt="User Photo">
           `;
           postsContainer.appendChild(postCard);
         });
