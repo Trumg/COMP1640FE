@@ -38,7 +38,7 @@ const LoginForm: React.FC = () => {
         setTimeout(() => {
           setShowConfetti(false); // Hide confetti after 2 seconds
           redirecttoUserPage();
-        }, 2000);
+        }, 3000);
       })
       .catch((error) => {
         if (error.code === "auth/cancelled-popup-request") {
@@ -56,10 +56,10 @@ const LoginForm: React.FC = () => {
   };
 
   return (
-    <motion.div // Wrap your main div with motion.div
-      initial={{ opacity: 0, x: -50 }} // Set initial opacity to 0 and x to -50 (off-screen to the left)
-      animate={{ opacity: 1, x: 0 }} // Animate opacity to 1 and x to 0 (original position)
-      transition={{ duration: 0.5 }} // Set transition duration
+    <motion.div
+      initial={{ opacity: 0, x: -50 }}
+      animate={{ opacity: 1, x: 0 }}
+      transition={{ duration: 0.5 }}
       className="h-screen flex justify-center items-center relative"
       style={{
         backgroundImage: `url('https://media.giphy.com/media/l0Iy3qmrODEarmfHq/giphy.gif')`,
@@ -68,7 +68,6 @@ const LoginForm: React.FC = () => {
       }}
     >
       {showConfetti && <Confetti />}{" "}
-      {/* Render confetti if showConfetti is true */}
       <div
         className="absolute inset-0 backdrop-filter backdrop-blur-md"
         style={{
@@ -98,10 +97,10 @@ const LoginForm: React.FC = () => {
         </h3>
         <div className="login-google mt-2 font-roboto">
           <div>
-            <motion.div // Wrap "Login with Email" button with motion.div
-              initial={{ opacity: 0, x: -50 }} // Set initial opacity to 0 and x to -50 (off-screen to the left)
-              animate={{ opacity: 1, x: 0 }} // Animate opacity to 1 and x to 0 (original position)
-              transition={{ duration: 0.5, delay: 0.3 }} // Set transition duration with delay
+            <motion.div
+              initial={{ opacity: 0, x: -50 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.5, delay: 0.3 }}
             >
               <Link to="/login-email">
                 <button className="relative bg-white text-black  py-2 px-4 rounded-full w-full flex items-center justify-center border border-[#549b90] transition duration-300 hover:text-gray-600 hover:border-[#549b90] focus:outline-none hover:bg-gray-200">
@@ -112,10 +111,10 @@ const LoginForm: React.FC = () => {
             </motion.div>
           </div>
           <div className="mt-3">
-            <motion.div // Wrap "Login with Google" button with motion.div
-              initial={{ opacity: 0, x: -50 }} // Set initial opacity to 0 and x to -50 (off-screen to the left)
-              animate={{ opacity: 1, x: 0 }} // Animate opacity to 1 and x to 0 (original position)
-              transition={{ duration: 0.5, delay: 0.5 }} // Set transition duration with delay
+            <motion.div
+              initial={{ opacity: 0, x: -50 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ duration: 0.5, delay: 0.5 }}
             >
               <button
                 className="relative bg-white text-black  py-2 px-4 rounded-full w-full flex items-center justify-center border border-[#549b90] transition duration-300 hover:text-gray-600 hover:border-[#549b90] focus:outline-none hover:bg-gray-200"
@@ -132,10 +131,10 @@ const LoginForm: React.FC = () => {
             </motion.div>
           </div>
         </div>
-        <motion.div // Wrap "SIGNUP" link with motion.div
-          initial={{ opacity: 0, x: -50 }} // Set initial opacity to 0 and x to -50 (off-screen to the left)
-          animate={{ opacity: 1, x: 0 }} // Animate opacity to 1 and x to 0 (original position)
-          transition={{ duration: 0.5 }} // Set transition duration with delay
+        <motion.div
+          initial={{ opacity: 0, x: -50 }}
+          animate={{ opacity: 1, x: 0 }}
+          transition={{ duration: 0.5 }}
           className="mt-4 text-center "
         >
           <p>
