@@ -1,9 +1,18 @@
 import { signOut } from "firebase/auth";
 import { auth } from "../../Firebase/firebase";
 import { Api } from "../../Api";
-import React, { ChangeEvent } from "react";
+import { ChangeEvent, useState } from "react";
 
 function AdminPage() {
+  const [formData, setFormData] = useState({
+    firstName: "",
+    lastName: "",
+    email: "",
+    password: "",
+    birthDate: "",
+    confirmPassword: "",
+  });
+
   const handleSignOut = () => {
     signOut(auth)
       .then(() => console.log("Sign Out"))
@@ -12,15 +21,14 @@ function AdminPage() {
 
   const handleSubmit = async (event: ChangeEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
     try {
       const response = await apiClient.api.authRegisterCreate({
-        firstName: data.get("first name")?.toString() ?? "",
-        lastName: data.get("last name")?.toString() ?? "",
-        username: data.get("email")?.toString() ?? "",
-        password: data.get("password")?.toString() ?? "",
-        birthDate: data.get("Birth Date")?.toString() ?? "",
-        confirmPassword: data.get("confirm password")?.toString() ?? "",
+        firstName: formData.firstName,
+        lastName: formData.lastName,
+        username: formData.email,
+        password: formData.password,
+        birthDate: formData.birthDate,
+        confirmPassword: formData.confirmPassword,
       });
       if (response.status === 200) {
         console.log("Account created successfully");
@@ -34,16 +42,59 @@ function AdminPage() {
     }
   };
 
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setFormData({ ...formData, [event.target.name]: event.target.value });
+  };
+
   const apiClient = new Api({
     baseUrl: "https://localhost:7279",
   });
 
-  // return (
-  //   <div>
-  //     AdminPage
-  //     <button onClick={handleSignOut}>Sign Out</button>
-  //   </div>
-  // );
+  return (
+    <div>
+      <h1>AdminPage</h1>
+      <button onClick={handleSignOut}>Sign Out</button>
+      <form onSubmit={handleSubmit}>
+        <input
+          type="text"
+          name="firstName"
+          placeholder="First Name"
+          onChange={handleChange}
+        />
+        <input
+          type="text"
+          name="lastName"
+          placeholder="Last Name"
+          onChange={handleChange}
+        />
+        <input
+          type="email"
+          name="email"
+          placeholder="Email"
+          onChange={handleChange}
+        />
+        <input
+          type="password"
+          name="password"
+          placeholder="Password"
+          onChange={handleChange}
+        />
+        <input
+          type="text"
+          name="birthDate"
+          placeholder="Birth Date"
+          onChange={handleChange}
+        />
+        <input
+          type="password"
+          name="confirmPassword"
+          placeholder="Confirm Password"
+          onChange={handleChange}
+        />
+        <button type="submit">Create Account</button>
+      </form>
+    </div>
+  );
 }
 
 export default AdminPage;
