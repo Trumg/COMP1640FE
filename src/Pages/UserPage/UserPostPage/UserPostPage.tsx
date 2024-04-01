@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Layout, Card, Input, Tabs, Upload, Steps, Spin } from "antd";
+import { Layout, Card, Input, Tabs, Upload, Spin } from "antd";
 import UserPostNavbar from "../../../Components/Navbar/UserNavbar/UserPostNavbar";
 import { InboxOutlined } from "@ant-design/icons";
 import { FaUpload } from "react-icons/fa6";
@@ -15,6 +15,7 @@ const UserPostPage: React.FC = () => {
   const [isMobile, setIsMobile] = useState<boolean>(false);
   const [uploading, setUploading] = useState<boolean>(false);
   const [uploadSuccess, setUploadSuccess] = useState<boolean>(false);
+  const [agreedToTerms, setAgreedToTerms] = useState<boolean>(false); // New state to track if user has agreed
 
   useEffect(() => {
     document.body.style.backgroundColor = "transparent";
@@ -29,31 +30,31 @@ const UserPostPage: React.FC = () => {
     };
   }, []);
 
-  const handleNextButtonClick = () => {
-    setActiveTab((prevTab) => {
-      const nextTab = parseInt(prevTab) + 1;
-      return nextTab.toString();
-    });
-  };
-
-  const handlePreviousButtonClick = () => {
-    setActiveTab((prevTab) => {
-      const previousTab = parseInt(prevTab) - 1;
-      return previousTab.toString();
-    });
-  };
-
   const handleTabChange = (key: string) => {
     setActiveTab(key);
   };
 
   const handleUpload = () => {
     setUploading(true);
+    setUploadSuccess(false);
     setTimeout(() => {
       setUploading(false);
       setUploadSuccess(true);
-      setActiveTab("3");
     }, 2000);
+  };
+
+  const handleTermsAgreementChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setAgreedToTerms(event.target.checked);
+  };
+
+  const handlePostButtonClick = () => {
+    if (agreedToTerms) {
+      alert("Post successful!");
+    } else {
+      alert("Please agree to the Terms and Conditions before posting.");
+    }
   };
 
   return (
@@ -83,22 +84,6 @@ const UserPostPage: React.FC = () => {
             borderRadius: "8px",
           }}
         >
-          {!isMobile && (
-            <Steps
-              current={parseInt(activeTab) - 1}
-              items={[
-                {
-                  title: "Step 1",
-                },
-                {
-                  title: "Step 2",
-                },
-                {
-                  title: "Step 3",
-                },
-              ]}
-            />
-          )}
           <Tabs activeKey={activeTab} onChange={handleTabChange} size="large">
             <>
               <TabPane
@@ -129,7 +114,7 @@ const UserPostPage: React.FC = () => {
                     />
                     <Input.TextArea
                       placeholder="Content"
-                      autoSize={{ minRows: 10, maxRows: 10 }}
+                      autoSize={{ minRows: 12, maxRows: 12 }}
                       className="border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500"
                       style={{
                         width: "100%",
@@ -141,14 +126,6 @@ const UserPostPage: React.FC = () => {
                         borderRadius: "8px",
                       }}
                     />
-                  </div>
-                  <div style={{ textAlign: "right" }}>
-                    <button
-                      className="bg-[#549b90] border-1 border-black hover:bg-gray-400 font-bold py-2 px-4 rounded-full shadow-md"
-                      onClick={handleNextButtonClick}
-                    >
-                      Next
-                    </button>
                   </div>
                 </div>
               </TabPane>
@@ -170,30 +147,38 @@ const UserPostPage: React.FC = () => {
                     style={{
                       width: "100%",
                       height: "300px",
+                      display: "flex",
+                      flexDirection: "column",
                     }}
                   >
-                    <Upload.Dragger
-                      showUploadList={false}
+                    <div
                       style={{
+                        zIndex: 2,
                         width: "100%",
-                        height: "300px",
-                        padding: "20px",
-                        display: "flex",
-                        flexDirection: "column",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        border: "2px dashed #549b90",
-                        borderRadius: "8px",
+                        maxHeight: "300px",
+                        overflowY: "auto",
+                        flex: 1,
                       }}
-                      beforeUpload={handleUpload}
                     >
-                      {uploading && <Spin />}{" "}
-                      {/* Show loading spinner while uploading */}
-                      {uploadSuccess && ( // Show success message when upload is successful
-                        <p style={{ color: "green" }}>Upload Successful!</p>
-                      )}
-                      {!uploading &&
-                        !uploadSuccess && ( // Show drag area when not uploading or after success
+                      <Upload.Dragger
+                        style={{
+                          width: "100%",
+                          padding: "20px",
+                          display: "flex",
+                          flexDirection: "column",
+                          alignItems: "center",
+                          justifyContent: "center",
+                          border: "2px dashed #549b90",
+                          borderRadius: "8px",
+                        }}
+                        beforeUpload={handleUpload}
+                      >
+                        {uploading && !uploadSuccess && <Spin />}{" "}
+                        {/* Show spinning loader only if not succeeded */}
+                        {uploadSuccess && (
+                          <p style={{ color: "green" }}>Upload Successful!</p>
+                        )}
+                        {!uploading && !uploadSuccess && (
                           <>
                             <p className="ant-upload-drag-icon">
                               <InboxOutlined style={{ fontSize: "50px" }} />
@@ -203,21 +188,8 @@ const UserPostPage: React.FC = () => {
                             </p>
                           </>
                         )}
-                    </Upload.Dragger>
-                  </div>
-                  <div style={{ textAlign: "right", marginTop: "20px" }}>
-                    <button
-                      className="bg-[#549b90] border-1 border-black hover:bg-gray-400 font-bold py-2 px-4 rounded-full shadow-md"
-                      onClick={handlePreviousButtonClick}
-                    >
-                      Previous
-                    </button>{" "}
-                    <button
-                      className="bg-[#549b90] border-1 border-black hover:bg-gray-400 font-bold py-2 px-4 rounded-full shadow-md"
-                      onClick={handleNextButtonClick}
-                    >
-                      Next
-                    </button>
+                      </Upload.Dragger>
+                    </div>
                   </div>
                 </div>
               </TabPane>
@@ -260,19 +232,22 @@ const UserPostPage: React.FC = () => {
                         marginTop: "20px",
                       }}
                     >
-                      <input type="checkbox" />
+                      <input
+                        type="checkbox"
+                        onChange={handleTermsAgreementChange}
+                      />
                       &nbsp;I agree to the Terms and Conditions.
                     </label>
                   </div>
                   <div style={{ textAlign: "right" }}>
                     <button
-                      className="bg-[#549b90] border-1 border-black hover:bg-gray-400 font-bold py-2 px-4 rounded-full shadow-md"
-                      onClick={handlePreviousButtonClick}
+                      className={`bg-[#549b90] border-1 border-black hover:bg-gray-400 font-bold py-2 px-4 rounded-full shadow-md ${
+                        agreedToTerms ? "" : "bg-red-700 cursor-not-allowed"
+                      }`}
+                      onClick={handlePostButtonClick}
+                      disabled={!agreedToTerms}
                     >
-                      Previous
-                    </button>{" "}
-                    <button className="bg-[#549b90] border-1 border-black hover:bg-gray-400 font-bold py-2 px-4 rounded-full shadow-md">
-                      Next
+                      Post
                     </button>
                   </div>
                 </div>

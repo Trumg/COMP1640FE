@@ -85,13 +85,17 @@ const AdminNavbar: React.FC = () => {
                   className="flex flex-col justify-center items-center text-center"
                 >
                   <div>
-                    <img
-                      src={MagazineImage}
-                      width={200}
-                      height={200}
-                      className="w-auto h-auto mt-0"
-                      alt="Magazine Logo"
-                    />
+                    <Link to="/">
+                      {" "}
+                      <img
+                        src={MagazineImage}
+                        width={200}
+                        height={200}
+                        className="w-auto h-auto mt-0"
+                        alt="Magazine Logo"
+                      />
+                    </Link>
+
                     <hr className="my-4 border-gray-400 w-full" />
                   </div>
                 </Drawer>

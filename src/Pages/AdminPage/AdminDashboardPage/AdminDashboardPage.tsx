@@ -1,5 +1,5 @@
-import React, { useEffect, useRef, useState } from "react";
-import { Layout, Card, Input, Tabs, Upload, Steps, Spin } from "antd";
+import React, { useEffect, useState } from "react";
+import { Layout, Card, Tabs, Upload, Spin, Table } from "antd";
 import { InboxOutlined } from "@ant-design/icons";
 import { FaUpload } from "react-icons/fa6";
 import { IoDocumentTextOutline } from "react-icons/io5";
@@ -10,7 +10,6 @@ import AdminNavbar from "../../../Components/Navbar/AdminNavbar/AdminNavbar";
 const { Content } = Layout;
 
 const AdminDashboardPage: React.FC = () => {
-  const textareaRef = useRef<HTMLTextAreaElement>(null);
   const [activeTab, setActiveTab] = useState<string>("1");
   const [isMobile, setIsMobile] = useState<boolean>(false);
   const [uploading, setUploading] = useState<boolean>(false);
@@ -29,20 +28,6 @@ const AdminDashboardPage: React.FC = () => {
     };
   }, []);
 
-  const handleNextButtonClick = () => {
-    setActiveTab((prevTab) => {
-      const nextTab = parseInt(prevTab) + 1;
-      return nextTab.toString();
-    });
-  };
-
-  const handlePreviousButtonClick = () => {
-    setActiveTab((prevTab) => {
-      const previousTab = parseInt(prevTab) - 1;
-      return previousTab.toString();
-    });
-  };
-
   const handleTabChange = (key: string) => {
     setActiveTab(key);
   };
@@ -55,6 +40,43 @@ const AdminDashboardPage: React.FC = () => {
       setActiveTab("3");
     }, 2000);
   };
+
+  const columns = [
+    {
+      title: "ID",
+      dataIndex: "id",
+      key: "id",
+    },
+    {
+      title: "Name",
+      dataIndex: "name",
+      key: "name",
+    },
+    {
+      title: "Age",
+      dataIndex: "age",
+      key: "age",
+    },
+    {
+      title: "Email",
+      dataIndex: "email",
+      key: "email",
+    },
+  ];
+
+  // Sample user data
+  const userData = [
+    { id: 1, name: "Jane Smith", age: 25, email: "jane@example.com" },
+    { id: 2, name: "Jane Smith", age: 25, email: "jane@example.com" },
+    { id: 3, name: "Jane Smith", age: 25, email: "jane@example.com" },
+    { id: 4, name: "Jane Smith", age: 25, email: "jane@example.com" },
+    { id: 5, name: "Jane Smith", age: 25, email: "jane@example.com" },
+    { id: 6, name: "Jane Smith", age: 25, email: "jane@example.com" },
+    { id: 7, name: "Jane Smith", age: 25, email: "jane@example.com" },
+    { id: 8, name: "Jane Smith", age: 25, email: "jane@example.com" },
+    { id: 9, name: "Jane Smith", age: 25, email: "jane@example.com" },
+    { id: 10, name: "Jane Smith", age: 25, email: "jane@example.com" },
+  ];
 
   return (
     <Layout>
@@ -83,22 +105,6 @@ const AdminDashboardPage: React.FC = () => {
             borderRadius: "8px",
           }}
         >
-          {!isMobile && (
-            <Steps
-              current={parseInt(activeTab) - 1}
-              items={[
-                {
-                  title: "Step 1",
-                },
-                {
-                  title: "Step 2",
-                },
-                {
-                  title: "Step 3",
-                },
-              ]}
-            />
-          )}
           <Tabs activeKey={activeTab} onChange={handleTabChange} size="large">
             <>
               <TabPane
@@ -108,48 +114,20 @@ const AdminDashboardPage: React.FC = () => {
                   ) : (
                     <span style={{ display: "flex", alignItems: "center" }}>
                       <IoDocumentTextOutline style={{ marginRight: "8px" }} />
-                      <span>Ideas</span>
+                      <span>Users</span>
                     </span>
                   )
                 }
                 key="1"
               >
-                <div>
-                  <div style={{ zIndex: 2, width: "100%", height: "320px" }}>
-                    <Input.TextArea
-                      ref={textareaRef}
-                      placeholder="Title"
-                      className="border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500"
-                      autoSize={{ minRows: 1, maxRows: 1 }}
-                      style={{
-                        marginBottom: "20px",
-                        border: "1px solid #549b90",
-                        borderRadius: "8px",
-                      }}
-                    />
-                    <Input.TextArea
-                      placeholder="Content"
-                      autoSize={{ minRows: 10, maxRows: 10 }}
-                      className="border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500"
-                      style={{
-                        width: "100%",
-                        minHeight: "100px",
-                        maxHeight: "calc(100vh - 200px)",
-                        overflowY: "auto",
-                        marginBottom: "20px",
-                        border: "1px solid #549b90",
-                        borderRadius: "8px",
-                      }}
-                    />
-                  </div>
-                  <div style={{ textAlign: "right" }}>
-                    <button
-                      className="bg-[#549b90] border-1 border-black hover:bg-gray-400 font-bold py-2 px-4 rounded-full shadow-md"
-                      onClick={handleNextButtonClick}
-                    >
-                      Next
-                    </button>
-                  </div>
+                <div style={{ zIndex: 2, width: "100%", height: "320px" }}>
+                  <Table
+                    columns={columns}
+                    dataSource={userData}
+                    scroll={{ x: "max-content" }}
+                    pagination={{ pageSize: 5 }}
+                    style={{ fontSize: "10px", padding: "0", margin: "0" }}
+                  />
                 </div>
               </TabPane>
               <TabPane
@@ -159,7 +137,7 @@ const AdminDashboardPage: React.FC = () => {
                   ) : (
                     <span style={{ display: "flex", alignItems: "center" }}>
                       <FaUpload style={{ marginRight: "8px" }} />
-                      <span>Uploads</span>
+                      <span>Date</span>
                     </span>
                   )
                 }
@@ -205,20 +183,6 @@ const AdminDashboardPage: React.FC = () => {
                         )}
                     </Upload.Dragger>
                   </div>
-                  <div style={{ textAlign: "right", marginTop: "20px" }}>
-                    <button
-                      className="bg-[#549b90] border-1 border-black hover:bg-gray-400 font-bold py-2 px-4 rounded-full shadow-md"
-                      onClick={handlePreviousButtonClick}
-                    >
-                      Previous
-                    </button>{" "}
-                    <button
-                      className="bg-[#549b90] border-1 border-black hover:bg-gray-400 font-bold py-2 px-4 rounded-full shadow-md"
-                      onClick={handleNextButtonClick}
-                    >
-                      Next
-                    </button>
-                  </div>
                 </div>
               </TabPane>
               <TabPane
@@ -228,7 +192,7 @@ const AdminDashboardPage: React.FC = () => {
                   ) : (
                     <span style={{ display: "flex", alignItems: "center" }}>
                       <FaCheck style={{ marginRight: "8px" }} />
-                      <span>Policy</span>
+                      <span>Topic</span>
                     </span>
                   )
                 }
@@ -263,17 +227,6 @@ const AdminDashboardPage: React.FC = () => {
                       <input type="checkbox" />
                       &nbsp;I agree to the Terms and Conditions.
                     </label>
-                  </div>
-                  <div style={{ textAlign: "right" }}>
-                    <button
-                      className="bg-[#549b90] border-1 border-black hover:bg-gray-400 font-bold py-2 px-4 rounded-full shadow-md"
-                      onClick={handlePreviousButtonClick}
-                    >
-                      Previous
-                    </button>{" "}
-                    <button className="bg-[#549b90] border-1 border-black hover:bg-gray-400 font-bold py-2 px-4 rounded-full shadow-md">
-                      Next
-                    </button>
                   </div>
                 </div>
               </TabPane>
