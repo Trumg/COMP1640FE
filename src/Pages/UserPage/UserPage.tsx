@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { Layout, Card, Input, Button, Modal } from "antd";
+import { Layout, Card, Button, Popover, Modal, Input } from "antd";
 import UserNavbar from "../../Components/Navbar/UserNavbar/UserNavbar";
-import { FaArrowUp } from "react-icons/fa";
+import { FaArrowUp, FaArrowDown, FaRegComment } from "react-icons/fa";
+import useToken from "../../Hooks/useToken";
+import { HiMenuAlt4 } from "react-icons/hi";
 import { ref, onValue, set, remove } from "firebase/database";
 import { database, auth } from "../../Firebase/firebase";
 
@@ -31,6 +33,9 @@ const UserPage: React.FC = () => {
   const [editingPostId, setEditingPostId] = useState<string | null>(null);
   const [editedTitle, setEditedTitle] = useState<string>("");
   const [editedContent, setEditedContent] = useState<string>("");
+
+  const token = useToken();
+  console.log(token);
 
   const handleScroll = () => {
     if (window.scrollY > 300) {
@@ -82,6 +87,16 @@ const UserPage: React.FC = () => {
 
     return () => {
       unsubscribeAuth();
+      window.removeEventListener("scroll", handleScroll);
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("resize", handleResize);
+    handleResize();
+    return () => {
       window.removeEventListener("scroll", handleScroll);
       window.removeEventListener("resize", handleResize);
     };
@@ -156,8 +171,26 @@ const UserPage: React.FC = () => {
     }
   };
 
+  const popoverContent = (
+    <div>
+      <Button
+        type="link"
+        icon={<FaArrowUp style={{ color: "#549b90", fontSize: "18px" }} />}
+      />
+      <Button
+        type="link"
+        icon={<FaArrowDown style={{ color: "#549b90", fontSize: "18px" }} />}
+      />
+      <Button
+        type="link"
+        icon={<FaRegComment style={{ color: "#549b90", fontSize: "18px" }} />}
+      />
+    </div>
+  );
+
   return (
     <Layout style={{ minHeight: "100vh" }}>
+      {/* Navbar */}
       <div
         style={{
           position: "fixed",
@@ -167,68 +200,153 @@ const UserPage: React.FC = () => {
       >
         <UserNavbar />
       </div>
-      <Content
-        style={{
-          padding: "24px 48px 0",
-          flexGrow: 1,
-          overflowY: "auto",
-          marginLeft: isMobileView ? 0 : "25%",
-        }}
-      >
-        {posts.map((post) => (
-          <Card
-            title={
-              editingPostId === post.id ? (
-                <Input
-                  value={editedTitle}
-                  onChange={(e) => setEditedTitle(e.target.value)}
-                />
-              ) : (
-                post.title
-              )
-            }
-            key={post.id}
-          >
-            {/* Post content */}
-            <p>{post.content}</p>
-            {/* Posted by and email */}
-            <p>Posted by: {post.displayName}</p>
-            <p>Email: {post.email}</p>
-            {/* Time ago */}
-            <p>Created at: {formatTimeDifference(post.createdAt)}</p>
-            {/* User photo */}
-            <img src={post.photoURL} alt="User Photo" />
-            {canEdit(post) ? (
-              editingPostId === post.id ? (
-                <>
-                  <Button onClick={saveChanges}>Save</Button>
-                  <Button onClick={cancelEditing}>Cancel</Button>
-                </>
-              ) : (
-                <>
-                  <Button
-                    onClick={() =>
-                      startEditing(post.id, post.title, post.content)
-                    }
-                  >
-                    Edit
-                  </Button>
-                  <Button onClick={() => confirmDelete(post.id)}>Delete</Button>
-                </>
-              )
-            ) : null}
-          </Card>
-        ))}
 
-        {showScrollButton && (
-          <button
-            className="bg-[#549b90] hover:bg-gray-400 text-white font-bold h-12 w-12 rounded-full fixed bottom-10 right-10 z-10 flex justify-center items-center"
-            onClick={scrollToTop}
-          >
-            <FaArrowUp />
-          </button>
-        )}
-      </Content>
+      {/* Main content */}
+      <Layout style={{ marginTop: "80px" }}>
+        <Content
+          style={{
+            padding: "24px 48px 0",
+            flexGrow: 1,
+            overflowY: "auto",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+          }}
+        >
+          <div>
+            {posts.map((post) => (
+              <Card
+                title={
+                  editingPostId === post.id ? (
+                    <Input
+                      value={editedTitle}
+                      onChange={(e) => setEditedTitle(e.target.value)}
+                    />
+                  ) : (
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                      }}
+                    >
+                      <span>{post.title}</span>
+                      {isMobileView ? (
+                        <Popover
+                          placement="bottomRight"
+                          content={popoverContent}
+                          trigger="click"
+                        >
+                          <Button
+                            type="link"
+                            icon={
+                              <HiMenuAlt4
+                                style={{
+                                  color: "#549b90",
+                                  fontSize: "18px",
+                                }}
+                              />
+                            }
+                          />
+                        </Popover>
+                      ) : (
+                        <div style={{ display: "flex" }}>
+                          <Button
+                            type="link"
+                            icon={
+                              <FaArrowUp
+                                style={{
+                                  color: "#549b90",
+                                  fontSize: "18px",
+                                  marginRight: "8px",
+                                }}
+                              />
+                            }
+                          />
+                          <Button
+                            type="link"
+                            icon={
+                              <FaArrowDown
+                                style={{
+                                  color: "#549b90",
+                                  fontSize: "18px",
+                                  marginRight: "8px", // Adjust the spacing here
+                                }}
+                              />
+                            }
+                          />
+                          <Button
+                            type="link"
+                            icon={
+                              <FaRegComment
+                                style={{
+                                  color: "#549b90",
+                                  fontSize: "18px",
+                                }}
+                              />
+                            }
+                          />
+                        </div>
+                      )}
+                    </div>
+                  )
+                }
+                bordered={true}
+                hoverable={true}
+                style={{
+                  width: isMobileView ? "300px" : "800px",
+                  height: "300px",
+                  marginBottom: "20px", // Adjust spacing between posts
+                }}
+                key={post.id}
+              >
+                {editingPostId === post.id ? (
+                  <Input.TextArea
+                    value={editedContent}
+                    onChange={(e) => setEditedContent(e.target.value)}
+                  />
+                ) : (
+                  <p>{post.content}</p>
+                )}
+                <p>Email: {post.email}</p>
+                <p>{formatTimeDifference(post.createdAt)}</p>
+                <p>Posted by: {post.displayName}</p>
+                <img src={post.photoURL} alt="User Photo" />
+                {canEdit(post) ? (
+                  editingPostId === post.id ? (
+                    <>
+                      <Button onClick={saveChanges}>Save</Button>
+                      <Button onClick={cancelEditing}>Cancel</Button>
+                    </>
+                  ) : (
+                    <>
+                      <Button
+                        onClick={() =>
+                          startEditing(post.id, post.title, post.content)
+                        }
+                      >
+                        Edit
+                      </Button>
+                      <Button onClick={() => confirmDelete(post.id)}>
+                        Delete
+                      </Button>
+                    </>
+                  )
+                ) : null}
+              </Card>
+            ))}
+          </div>
+          {/* Scroll to top button */}
+          {showScrollButton && (
+            <button
+              className="bg-[#549b90] hover:bg-gray-400 text-white font-bold h-12 w-12 rounded-full fixed bottom-10 right-10 z-10 flex justify-center items-center"
+              onClick={scrollToTop}
+            >
+              <FaArrowUp />
+            </button>
+          )}
+        </Content>
+      </Layout>
     </Layout>
   );
 };
