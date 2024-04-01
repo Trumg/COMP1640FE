@@ -38,12 +38,12 @@ function AdminPage() {
     baseUrl: "https://localhost:7279",
   });
 
-  return (
-    <div>
-      AdminPage
-      <button onClick={handleSignOut}>Sign Out</button>
-    </div>
-  );
+  // return (
+  //   <div>
+  //     AdminPage
+  //     <button onClick={handleSignOut}>Sign Out</button>
+  //   </div>
+  // );
 }
 
 export default AdminPage;
