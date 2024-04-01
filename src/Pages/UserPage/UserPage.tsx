@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Layout, Card, Button, Popover, Modal, Input } from "antd";
+import { Layout, Card, Button, Popover, Modal, Input, Avatar } from "antd";
 import UserNavbar from "../../Components/Navbar/UserNavbar/UserNavbar";
 import { FaArrowUp, FaArrowDown, FaRegComment } from "react-icons/fa";
 import useToken from "../../Hooks/useToken";
@@ -175,15 +175,15 @@ const UserPage: React.FC = () => {
     <div>
       <Button
         type="link"
-        icon={<FaArrowUp style={{ color: "#549b90", fontSize: "18px" }} />}
+        icon={<FaArrowUp style={{ color: "#549b90", fontSize: "14px" }} />}
       />
       <Button
         type="link"
-        icon={<FaArrowDown style={{ color: "#549b90", fontSize: "18px" }} />}
+        icon={<FaArrowDown style={{ color: "#549b90", fontSize: "14px" }} />}
       />
       <Button
         type="link"
-        icon={<FaRegComment style={{ color: "#549b90", fontSize: "18px" }} />}
+        icon={<FaRegComment style={{ color: "#549b90", fontSize: "14px" }} />}
       />
     </div>
   );
@@ -230,8 +230,30 @@ const UserPage: React.FC = () => {
                         alignItems: "center",
                       }}
                     >
-                      <span>{post.title}</span>
                       {isMobileView ? (
+                        // Render title without image in mobile view
+                        <p style={{ display: "flex", alignItems: "center" }}>
+                          <Avatar
+                            size={24}
+                            src={post.photoURL}
+                            style={{ marginRight: "10px" }}
+                          />
+                          {formatTimeDifference(post.createdAt)}
+                        </p>
+                      ) : (
+                        // Render title with image in desktop view
+                        <p style={{ display: "flex", alignItems: "center" }}>
+                          <Avatar
+                            size="large"
+                            src={post.photoURL}
+                            style={{ marginRight: "10px" }}
+                          />
+                          {post.displayName} -{" "}
+                          {formatTimeDifference(post.createdAt)}
+                        </p>
+                      )}
+                      {isMobileView ? (
+                        // Render menu icon for mobile view
                         <Popover
                           placement="bottomRight"
                           content={popoverContent}
@@ -243,13 +265,14 @@ const UserPage: React.FC = () => {
                               <HiMenuAlt4
                                 style={{
                                   color: "#549b90",
-                                  fontSize: "18px",
+                                  fontSize: "14px",
                                 }}
                               />
                             }
                           />
                         </Popover>
                       ) : (
+                        // Render action buttons for desktop view
                         <div style={{ display: "flex" }}>
                           <Button
                             type="link"
@@ -270,7 +293,7 @@ const UserPage: React.FC = () => {
                                 style={{
                                   color: "#549b90",
                                   fontSize: "18px",
-                                  marginRight: "8px", // Adjust the spacing here
+                                  marginRight: "8px",
                                 }}
                               />
                             }
@@ -296,7 +319,7 @@ const UserPage: React.FC = () => {
                 style={{
                   width: isMobileView ? "300px" : "800px",
                   height: "300px",
-                  marginBottom: "20px", // Adjust spacing between posts
+                  marginBottom: "25px",
                 }}
                 key={post.id}
               >
@@ -306,28 +329,42 @@ const UserPage: React.FC = () => {
                     onChange={(e) => setEditedContent(e.target.value)}
                   />
                 ) : (
-                  <p>{post.content}</p>
+                  <div>
+                    <p>{post.title}</p>
+                    <p>{post.content}</p>
+                  </div>
                 )}
-                <p>Email: {post.email}</p>
-                <p>{formatTimeDifference(post.createdAt)}</p>
-                <p>Posted by: {post.displayName}</p>
-                <img src={post.photoURL} alt="User Photo" />
+
                 {canEdit(post) ? (
                   editingPostId === post.id ? (
                     <>
-                      <Button onClick={saveChanges}>Save</Button>
-                      <Button onClick={cancelEditing}>Cancel</Button>
+                      <Button
+                        style={{ marginRight: "8px", color: "#549b90" }}
+                        onClick={saveChanges}
+                      >
+                        Save
+                      </Button>
+                      <Button
+                        style={{ color: "#549b90" }}
+                        onClick={cancelEditing}
+                      >
+                        Cancel
+                      </Button>
                     </>
                   ) : (
                     <>
                       <Button
+                        style={{ marginRight: "8px", color: "#549b90" }}
                         onClick={() =>
                           startEditing(post.id, post.title, post.content)
                         }
                       >
                         Edit
                       </Button>
-                      <Button onClick={() => confirmDelete(post.id)}>
+                      <Button
+                        style={{ color: "#549b90" }}
+                        onClick={() => confirmDelete(post.id)}
+                      >
                         Delete
                       </Button>
                     </>
