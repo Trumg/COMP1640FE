@@ -67,9 +67,6 @@ const GuestNavbar: React.FC = () => {
                     />
                   </Link>
                 </div>
-                <button className="p-2 rounded-full hover:bg-gray-200">
-                  <AiOutlineMenu className="w-8 h-8 text-gray-700" />
-                </button>
               </div>
             </>
           )}

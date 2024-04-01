@@ -83,13 +83,15 @@ const UserPostNavbar: React.FC = () => {
                   className="flex flex-col justify-center items-center text-center"
                 >
                   <div>
-                    <img
-                      src={MagazineImage}
-                      width={200}
-                      height={200}
-                      className="w-auto h-auto mt-0"
-                      alt="Magazine Logo"
-                    />
+                    <Link to="/">
+                      <img
+                        src={MagazineImage}
+                        width={200}
+                        height={200}
+                        alt="Magazine Logo"
+                        className="py-2"
+                      />
+                    </Link>
                     <hr className="my-4 border-gray-400 w-full" />
                   </div>
                 </Drawer>
@@ -109,9 +111,6 @@ const UserPostNavbar: React.FC = () => {
                     />
                   </Link>
                 </div>
-                <button className="p-2 rounded-full hover:bg-gray-200">
-                  <AiOutlineMenu className="w-8 h-8 text-gray-700" />
-                </button>
               </div>
             </>
           )}

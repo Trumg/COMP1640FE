@@ -116,9 +116,11 @@ const AdminNavbar: React.FC = () => {
           )}
           <>
             <div className="ml-10 space-x-4 flex items-center">
-              <button className="p-2 rounded-full hover:bg-gray-200">
-                <MdOutlineDashboardCustomize className="text-2xl text-gray-700" />
-              </button>
+              <Link to="/admin/dashboard">
+                <button className="p-2 rounded-full hover:bg-gray-200">
+                  <MdOutlineDashboardCustomize className="text-2xl text-gray-700" />
+                </button>
+              </Link>
               {/* Avatar and Popover */}
               <div className="inline-flex mx-3">
                 <Popover
