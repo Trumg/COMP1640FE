@@ -1,17 +1,22 @@
-import React, { useState } from "react";
-import { Layout } from "antd";
+import React, { useState, useEffect } from "react";
+import { Layout, Card } from "antd";
 import UserNavbar from "../../Components/Navbar/UserNavbar/UserNavbar";
 import { FaArrowUp } from "react-icons/fa";
-import useToken from "../../Hooks/useToken";
+import { ref, onValue } from "firebase/database";
+import { database } from "../../Firebase/firebase";
 
 const { Content } = Layout;
+
+interface Post {
+  id: string;
+  title: string;
+  content: string;
+}
 
 const UserPage: React.FC = () => {
   const [showScrollButton, setShowScrollButton] = useState(false);
   const [isMobileView, setIsMobileView] = useState(false);
-
-  const token = useToken();
-  console.log(token);
+  const [posts, setPosts] = useState<Post[]>([]);
 
   const handleScroll = () => {
     if (window.scrollY > 300) {
@@ -36,10 +41,20 @@ const UserPage: React.FC = () => {
     }
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     window.addEventListener("scroll", handleScroll);
     window.addEventListener("resize", handleResize);
     handleResize(); // Call handleResize initially to set the initial state
+
+    const postsRef = ref(database, "posts");
+    onValue(postsRef, (snapshot) => {
+      const postsData: Post[] = [];
+      snapshot.forEach((childSnapshot) => {
+        postsData.push({ id: childSnapshot.key, ...childSnapshot.val() });
+      });
+      setPosts(postsData);
+    });
+
     return () => {
       window.removeEventListener("scroll", handleScroll);
       window.removeEventListener("resize", handleResize);
@@ -65,6 +80,11 @@ const UserPage: React.FC = () => {
           marginLeft: isMobileView ? 0 : "25%",
         }}
       >
+        {posts.map((post) => (
+          <Card title={post.title}>
+            <p>{post.content}</p>
+          </Card>
+        ))}
         {showScrollButton && (
           <button
             className="bg-[#549b90] hover:bg-gray-400 text-white font-bold h-12 w-12 rounded-full fixed bottom-10 right-10 z-10 flex justify-center items-center"

@@ -1,32 +1,35 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Layout, Card, Input, Tabs, Upload, Spin } from "antd";
 import UserPostNavbar from "../../../Components/Navbar/UserNavbar/UserPostNavbar";
 import { InboxOutlined } from "@ant-design/icons";
 import { FaUpload } from "react-icons/fa6";
 import { IoDocumentTextOutline } from "react-icons/io5";
 import { FaCheck } from "react-icons/fa";
-import TabPane from "antd/es/tabs/TabPane";
+import { ref, set, push, onValue } from "firebase/database";
+import { database } from "../../../Firebase/firebase";
 
 const { Content } = Layout;
+const { TabPane } = Tabs;
 
 const UserPostPage: React.FC = () => {
-  const textareaRef = useRef<HTMLTextAreaElement>(null);
   const [activeTab, setActiveTab] = useState<string>("1");
   const [isMobile, setIsMobile] = useState<boolean>(false);
   const [uploading, setUploading] = useState<boolean>(false);
   const [uploadSuccess, setUploadSuccess] = useState<boolean>(false);
-  const [agreedToTerms, setAgreedToTerms] = useState<boolean>(false); // New state to track if user has agreed
+  const [agreedToTerms, setAgreedToTerms] = useState<boolean>(false);
+  const [title, setTitle] = useState<string>("");
+  const [content, setContent] = useState<string>("");
 
   useEffect(() => {
     document.body.style.backgroundColor = "transparent";
     const updateMediaQuery = () => {
       setIsMobile(window.matchMedia("(max-width: 768px)").matches);
     };
-    updateMediaQuery(); // Initial check
-    window.addEventListener("resize", updateMediaQuery); // Listen for window resize
+    updateMediaQuery();
+    window.addEventListener("resize", updateMediaQuery);
     return () => {
       document.body.style.backgroundColor = "";
-      window.removeEventListener("resize", updateMediaQuery); // Clean up
+      window.removeEventListener("resize", updateMediaQuery);
     };
   }, []);
 
@@ -51,9 +54,53 @@ const UserPostPage: React.FC = () => {
 
   const handlePostButtonClick = () => {
     if (agreedToTerms) {
-      alert("Post successful!");
+      if (title && content) {
+        const postData = {
+          title,
+          content,
+        };
+
+        const postsRef = ref(database, "posts");
+        const newPostRef = push(postsRef);
+
+        set(newPostRef, postData)
+          .then(() => {
+            alert("Post successful!");
+          })
+          .catch((error: Error) => {
+            console.error("Error posting:", error);
+            alert("Failed to post. Please try again later.");
+          });
+      } else {
+        alert("Please fill in title and content before posting.");
+      }
     } else {
       alert("Please agree to the Terms and Conditions before posting.");
+    }
+
+    // Fetch posts and display them on the homepage
+    const postsContainer = document.getElementById("posts-container");
+
+    if (postsContainer) {
+      // Check if postsContainer is not null
+      const postsRef = ref(database, "posts");
+
+      onValue(postsRef, (snapshot) => {
+        postsContainer.innerHTML = ""; // Clear previous posts
+
+        snapshot.forEach((childSnapshot) => {
+          const postData = childSnapshot.val();
+          const postCard = document.createElement("div");
+          postCard.classList.add("post-card");
+          postCard.innerHTML = `
+            <h2>${postData.title}</h2>
+            <p>${postData.content}</p>
+          `;
+          postsContainer.appendChild(postCard);
+        });
+      });
+    } else {
+      console.error("Posts container not found!");
     }
   };
 
@@ -102,7 +149,8 @@ const UserPostPage: React.FC = () => {
                 <div>
                   <div style={{ zIndex: 2, width: "100%", height: "320px" }}>
                     <Input.TextArea
-                      ref={textareaRef}
+                      value={title}
+                      onChange={(e) => setTitle(e.target.value)}
                       placeholder="Title"
                       className="border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500"
                       autoSize={{ minRows: 1, maxRows: 1 }}
@@ -112,10 +160,13 @@ const UserPostPage: React.FC = () => {
                         borderRadius: "8px",
                       }}
                     />
+
                     <Input.TextArea
+                      value={content}
+                      onChange={(e) => setContent(e.target.value)}
                       placeholder="Content"
-                      autoSize={{ minRows: 12, maxRows: 12 }}
                       className="border border-gray-300 rounded-md focus:outline-none focus:border-indigo-500"
+                      autoSize={{ minRows: 12, maxRows: 12 }}
                       style={{
                         width: "100%",
                         minHeight: "100px",
@@ -173,8 +224,7 @@ const UserPostPage: React.FC = () => {
                         }}
                         beforeUpload={handleUpload}
                       >
-                        {uploading && !uploadSuccess && <Spin />}{" "}
-                        {/* Show spinning loader only if not succeeded */}
+                        {uploading && !uploadSuccess && <Spin />}
                         {uploadSuccess && (
                           <p style={{ color: "green" }}>Upload Successful!</p>
                         )}
