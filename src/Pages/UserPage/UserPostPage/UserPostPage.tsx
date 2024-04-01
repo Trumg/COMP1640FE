@@ -5,7 +5,7 @@ import { InboxOutlined } from "@ant-design/icons";
 import { FaUpload } from "react-icons/fa6";
 import { IoDocumentTextOutline } from "react-icons/io5";
 import { FaCheck } from "react-icons/fa";
-import { ref, set, push, onValue } from "firebase/database";
+import { ref, set, push, serverTimestamp } from "firebase/database";
 import { auth, database } from "../../../Firebase/firebase";
 
 const { Content } = Layout;
@@ -64,6 +64,7 @@ const UserPostPage: React.FC = () => {
             email: currentUser.email || "user@example.com",
             displayName: currentUser.displayName || "Anonymous",
             photoURL: currentUser.photoURL || "default-photo-url",
+            createdAt: serverTimestamp(), // Timestamp when the post is created
           };
 
           const postsRef = ref(database, "posts");
@@ -85,33 +86,6 @@ const UserPostPage: React.FC = () => {
       }
     } else {
       alert("Please agree to the Terms and Conditions before posting.");
-    }
-
-    // Fetch posts and display them on the homepage
-    const postsContainer = document.getElementById("posts-container");
-
-    if (postsContainer) {
-      // Check if postsContainer is not null
-      const postsRef = ref(database, "posts");
-
-      onValue(postsRef, (snapshot) => {
-        postsContainer.innerHTML = ""; // Clear previous posts
-
-        snapshot.forEach((childSnapshot) => {
-          const postData = childSnapshot.val();
-          const postCard = document.createElement("div");
-          postCard.classList.add("post-card");
-          postCard.innerHTML = `
-            <h2>${postData.title}</h2>
-            <p>${postData.content}</p>
-            <p>Posted by: ${postData.displayName}</p>
-            <img src="${postData.photoURL}" alt="User Photo">
-          `;
-          postsContainer.appendChild(postCard);
-        });
-      });
-    } else {
-      console.error("Posts container not found!");
     }
   };
 

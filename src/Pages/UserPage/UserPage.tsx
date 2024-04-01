@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { Layout, Card, Input, Button } from "antd";
+import { Layout, Card, Input, Button, Modal } from "antd";
 import UserNavbar from "../../Components/Navbar/UserNavbar/UserNavbar";
 import { FaArrowUp } from "react-icons/fa";
-import { ref, onValue, set } from "firebase/database";
+import { ref, onValue, set, remove } from "firebase/database";
 import { database, auth } from "../../Firebase/firebase";
 
 const { Content } = Layout;
+const { confirm } = Modal;
 
 interface Post {
   id: string;
@@ -14,6 +15,7 @@ interface Post {
   displayName: string;
   photoURL: string;
   email: string;
+  createdAt: number;
 }
 
 interface CustomUser {
@@ -113,6 +115,47 @@ const UserPage: React.FC = () => {
     }
   };
 
+  const confirmDelete = (postId: string) => {
+    confirm({
+      title: "Do you want to delete this post?",
+      onOk() {
+        remove(ref(database, `posts/${postId}`));
+      },
+      onCancel() {},
+    });
+  };
+
+  const formatTimeDifference = (timestamp: number): string => {
+    const now = Date.now();
+    const diffInMs = now - timestamp;
+    const diffInSeconds = Math.floor(diffInMs / 1000);
+    const diffInMinutes = Math.floor(diffInSeconds / 60);
+    const diffInHours = Math.floor(diffInMinutes / 60);
+    const diffInDays = Math.floor(diffInHours / 24);
+    const diffInWeeks = Math.floor(diffInDays / 7);
+
+    if (diffInMinutes < 1) {
+      return "just now";
+    } else if (diffInMinutes === 1) {
+      return "1 minute ago";
+    } else if (diffInHours < 1) {
+      return `${diffInMinutes} minutes ago`;
+    } else if (diffInHours === 1) {
+      return "1 hour ago";
+    } else if (diffInDays < 1) {
+      return `${diffInHours} hours ago`;
+    } else if (diffInDays === 1) {
+      return "1 day ago";
+    } else if (diffInWeeks < 1) {
+      return `${diffInDays} days ago`;
+    } else if (diffInWeeks === 1) {
+      return "1 week ago";
+    } else {
+      const date = new Date(timestamp);
+      return date.toLocaleDateString();
+    }
+  };
+
   return (
     <Layout style={{ minHeight: "100vh" }}>
       <div
@@ -146,16 +189,14 @@ const UserPage: React.FC = () => {
             }
             key={post.id}
           >
-            {editingPostId === post.id ? (
-              <Input.TextArea
-                value={editedContent}
-                onChange={(e) => setEditedContent(e.target.value)}
-              />
-            ) : (
-              <p>{post.content}</p>
-            )}
+            {/* Post content */}
+            <p>{post.content}</p>
+            {/* Posted by and email */}
             <p>Posted by: {post.displayName}</p>
             <p>Email: {post.email}</p>
+            {/* Time ago */}
+            <p>Created at: {formatTimeDifference(post.createdAt)}</p>
+            {/* User photo */}
             <img src={post.photoURL} alt="User Photo" />
             {canEdit(post) ? (
               editingPostId === post.id ? (
@@ -164,17 +205,21 @@ const UserPage: React.FC = () => {
                   <Button onClick={cancelEditing}>Cancel</Button>
                 </>
               ) : (
-                <Button
-                  onClick={() =>
-                    startEditing(post.id, post.title, post.content)
-                  }
-                >
-                  Edit
-                </Button>
+                <>
+                  <Button
+                    onClick={() =>
+                      startEditing(post.id, post.title, post.content)
+                    }
+                  >
+                    Edit
+                  </Button>
+                  <Button onClick={() => confirmDelete(post.id)}>Delete</Button>
+                </>
               )
             ) : null}
           </Card>
         ))}
+
         {showScrollButton && (
           <button
             className="bg-[#549b90] hover:bg-gray-400 text-white font-bold h-12 w-12 rounded-full fixed bottom-10 right-10 z-10 flex justify-center items-center"
