@@ -6,8 +6,6 @@ import { User } from "firebase/auth";
 
 import PrivateRoute from "../PrivateRoute/PrivateRoute";
 import UserPostPage from "../../Pages/UserPage/UserPostPage/UserPostPage";
-import UserProfilePage from "../../Pages/UserPage/UserProfilePage/UserProfilePage";
-import UserSettingPage from "../../Pages/UserPage/UserSettingPage/UserSettingPage";
 
 const UserRoute: React.FC = () => {
   const [user, setUser] = useState<User | null>(null);
@@ -35,22 +33,6 @@ const UserRoute: React.FC = () => {
             element={
               <PrivateRoute user={user}>
                 <UserPostPage />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="/profile"
-            element={
-              <PrivateRoute user={user}>
-                <UserProfilePage />
-              </PrivateRoute>
-            }
-          />
-          <Route
-            path="/settings"
-            element={
-              <PrivateRoute user={user}>
-                <UserSettingPage />
               </PrivateRoute>
             }
           />

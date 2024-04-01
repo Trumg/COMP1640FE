@@ -45,7 +45,7 @@ const UserPostNavbar: React.FC = () => {
   // useGetInfoUser
   const infoUser = useGetInfoUser();
   const avatarContent = (
-    <div className="p-6" style={{ maxWidth: "300px" }}>
+    <div className="p-6 font-roboto" style={{ maxWidth: "300px" }}>
       <div className="flex items-center mb-2">
         <div>
           <p className="font-bold mb-2">{infoUser?.displayName}</p>
@@ -53,33 +53,16 @@ const UserPostNavbar: React.FC = () => {
         </div>
       </div>
       <hr className="border-t w-full my-2" />
-      <div className="mb-2">
-        <Link to="/profile" className="block">
-          <button className="w-full text-left">Profile</button>
-        </Link>
-      </div>
-      <div className="mb-2">
-        <Link to="/settings" className="block">
-          <button className="w-full text-left">Settings</button>
-        </Link>
-      </div>
-      <hr className="border-t w-full my-2" />
       <div>
         <button
           onClick={handleSignOut}
-          className="block text-red-600 cursor-pointer w-full text-left"
+          className="block text-red-600 cursor-pointer w-full text-left font-bold"
         >
           Log Out
         </button>
       </div>
     </div>
   );
-
-  // Function to handle create post
-  const handleCreatePost = () => {
-    // Add your logic for creating a post
-    console.log("Creating a post...");
-  };
 
   return (
     <nav className="bg-white shadow-lg w-full fixed">
@@ -136,10 +119,7 @@ const UserPostNavbar: React.FC = () => {
             <div className="ml-10 space-x-4 flex items-center">
               {/* Create Post Icon */}
               <Link to="/post">
-                <button
-                  onClick={handleCreatePost}
-                  className="p-2 rounded-full hover:bg-gray-200"
-                >
+                <button className="p-2 rounded-full hover:bg-gray-200">
                   <PlusOutlined className="text-2xl text-gray-700" />
                 </button>
               </Link>

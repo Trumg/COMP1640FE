@@ -53,17 +53,7 @@ const AdminNavbar: React.FC = () => {
           <p className="text-gray-600 mb-2">{infoUser?.email}</p>
         </div>
       </div>
-      <hr className="border-t w-full my-2" />
-      <div className="mb-2">
-        <Link to="/profile" className="block">
-          <button className="w-full text-left">Profile</button>
-        </Link>
-      </div>
-      <div className="mb-2">
-        <Link to="/settings" className="block">
-          <button className="w-full text-left">Settings</button>
-        </Link>
-      </div>
+
       <hr className="border-t w-full my-2" />
       <div>
         <button
@@ -75,12 +65,6 @@ const AdminNavbar: React.FC = () => {
       </div>
     </div>
   );
-
-  // Function to handle create post
-  const handleCreatePost = () => {
-    // Add your logic for creating a post
-    console.log("Creating a post...");
-  };
 
   return (
     <nav className="bg-white shadow-lg w-full fixed">
@@ -132,10 +116,7 @@ const AdminNavbar: React.FC = () => {
           )}
           <>
             <div className="ml-10 space-x-4 flex items-center">
-              <button
-                onClick={handleCreatePost}
-                className="p-2 rounded-full hover:bg-gray-200"
-              >
+              <button className="p-2 rounded-full hover:bg-gray-200">
                 <MdOutlineDashboardCustomize className="text-2xl text-gray-700" />
               </button>
               {/* Avatar and Popover */}
