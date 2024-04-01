@@ -4,11 +4,12 @@ import { signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import { message, Card } from "antd";
 import { CloseOutlined } from "@ant-design/icons";
 import { FaUser } from "react-icons/fa";
-import { auth } from "../../../Firebase/firebase";
+import { auth, database } from "../../../Firebase/firebase";
 import { LoginImage } from "../../../Assets/LoginImage/LoginImage";
 import { GoogleImage } from "../../../Assets/GoogleImage/GoogleImage";
-import { motion } from "framer-motion"; // Import motion from framer-motion
-import Confetti from "react-confetti"; // Import Confetti component
+import { motion } from "framer-motion";
+import Confetti from "react-confetti";
+import { ref, set } from "firebase/database";
 
 const LoginForm: React.FC = () => {
   const [isMobile, setIsMobile] = useState<boolean>(false);
@@ -29,7 +30,18 @@ const LoginForm: React.FC = () => {
     signInWithPopup(auth, provider)
       .then((result) => {
         const user = result.user;
-        console.log(user);
+
+        // Write user data to the Realtime Database
+        if (user) {
+          const userData = {
+            uid: user.uid,
+            displayName: user.displayName,
+            email: user.email,
+            photoURL: user.photoURL,
+          };
+
+          set(ref(database, `users/${user.uid}`), userData);
+        }
 
         message.success("Login Successful");
 
@@ -37,7 +49,7 @@ const LoginForm: React.FC = () => {
 
         setTimeout(() => {
           setShowConfetti(false); // Hide confetti after 2 seconds
-          redirecttoUserPage();
+          redirectToUserPage();
         }, 3000);
       })
       .catch((error) => {
@@ -51,7 +63,7 @@ const LoginForm: React.FC = () => {
       });
   };
 
-  const redirecttoUserPage = () => {
+  const redirectToUserPage = () => {
     window.location.href = "/";
   };
 
