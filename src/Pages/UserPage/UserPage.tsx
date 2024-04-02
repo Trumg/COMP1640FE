@@ -4,7 +4,7 @@ import UserNavbar from "../../Components/Navbar/UserNavbar/UserNavbar";
 import { FaArrowUp, FaArrowDown, FaRegComment } from "react-icons/fa";
 import useToken from "../../Hooks/useToken";
 import { HiMenuAlt4 } from "react-icons/hi";
-import { ref, onValue, set, remove } from "firebase/database";
+import { ref, onValue, set, remove, push } from "firebase/database";
 import { database, auth } from "../../Firebase/firebase";
 
 const { Content } = Layout;
@@ -20,6 +20,14 @@ interface Post {
   createdAt: number;
 }
 
+interface Comment {
+  id: string;
+  text: string;
+  user: string;
+  userId: string;
+  createdAt: number;
+}
+
 interface CustomUser {
   displayName: string | null;
   email: string | null;
@@ -29,6 +37,7 @@ const UserPage: React.FC = () => {
   const [showScrollButton, setShowScrollButton] = useState(false);
   const [isMobileView, setIsMobileView] = useState(false);
   const [posts, setPosts] = useState<Post[]>([]);
+  const [comments, setComments] = useState<{ [postId: string]: Comment[] }>({});
   const [currentUser, setCurrentUser] = useState<CustomUser | null>(null);
   const [editingPostId, setEditingPostId] = useState<string | null>(null);
   const [editedTitle, setEditedTitle] = useState<string>("");
@@ -93,14 +102,33 @@ const UserPage: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    window.addEventListener("scroll", handleScroll);
-    window.addEventListener("resize", handleResize);
-    handleResize();
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
+    posts.forEach((post) => fetchComments(post.id));
+  }, [posts]);
+
+  const fetchComments = (postId: string) => {
+    const commentsRef = ref(database, `comments/${postId}`);
+    onValue(commentsRef, (snapshot) => {
+      const commentsData: Comment[] = [];
+      snapshot.forEach((childSnapshot) => {
+        commentsData.push({ id: childSnapshot.key, ...childSnapshot.val() });
+      });
+      setComments((prevComments) => ({
+        ...prevComments,
+        [postId]: commentsData,
+      }));
+    });
+  };
+
+  const submitComment = (postId: string, comment: string) => {
+    const commentsRef = ref(database, `comments/${postId}`);
+    const newCommentRef = push(commentsRef);
+    set(newCommentRef, {
+      text: comment,
+      user: currentUser?.displayName || "Anonymous",
+      userId: currentUser?.email || "",
+      createdAt: Date.now(),
+    });
+  };
 
   const canEdit = (post: Post) => {
     return currentUser && currentUser.email === post.email;
@@ -370,6 +398,29 @@ const UserPage: React.FC = () => {
                     </>
                   )
                 ) : null}
+                <div>
+                  {/* Display existing comments */}
+                  {comments[post.id] &&
+                    comments[post.id].map((comment, index) => (
+                      <div key={index} style={{ marginBottom: "8px" }}>
+                        <p>
+                          <strong>{comment.user}: </strong>
+                          {comment.text}
+                        </p>
+                        <p>{formatTimeDifference(comment.createdAt)}</p>
+                      </div>
+                    ))}
+                </div>
+                {/* Add comment form */}
+                <Input
+                  placeholder="Write a comment..."
+                  onPressEnter={(e) => {
+                    const input = e.target as HTMLInputElement;
+                    submitComment(post.id, input.value);
+                    input.value = "";
+                  }}
+                  style={{ marginTop: "16px" }}
+                />
               </Card>
             ))}
           </div>
