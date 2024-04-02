@@ -1,3 +1,4 @@
+import { format } from "date-fns";
 import { signOut } from "firebase/auth";
 import { auth } from "../../Firebase/firebase";
 import { Api } from "../../Api";
@@ -22,12 +23,15 @@ function AdminPage() {
   const handleSubmit = async (event: ChangeEvent<HTMLFormElement>) => {
     event.preventDefault();
     try {
+      // Format birthDate using date-fns
+      const formattedBirthDate = format(new Date(formData.birthDate), "yyyy-MM-dd");
+
       const response = await apiClient.api.authRegisterCreate({
         firstName: formData.firstName,
         lastName: formData.lastName,
         username: formData.email,
         password: formData.password,
-        birthDate: formData.birthDate,
+        birthDate: formattedBirthDate,
         confirmPassword: formData.confirmPassword,
       });
       if (response.status === 200) {
@@ -80,7 +84,7 @@ function AdminPage() {
           onChange={handleChange}
         />
         <input
-          type="text"
+          type="date" // Change input type to date for birthDate
           name="birthDate"
           placeholder="Birth Date"
           onChange={handleChange}
