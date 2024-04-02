@@ -1,13 +1,16 @@
 import { useState } from "react";
 import { signOut } from "firebase/auth";
 import { auth } from "../../Firebase/firebase";
-
+import JSZip from 'jszip';
+import { saveAs } from 'file-saver';
 function ManagerPage() {
   const [topics, setTopics] = useState([
-    { id: 1, name: "Topic 1", description: "Description of Topic 1" },
-    { id: 2, name: "Topic 2", description: "Description of Topic 2" },
-    { id: 3, name: "Topic 3", description: "Description of Topic 3" }
+    { id: 1, name: "Topic 1", description: "Description of Topic 1", closureDate: new Date("2024-04-01"), selected: false, content: "Content of Topic 1" },
+    { id: 2, name: "Topic 2", description: "Description of Topic 2", closureDate: new Date("2024-04-05"), selected: false, content: "Content of Topic 2" },
+    { id: 3, name: "Topic 3", description: "Description of Topic 3", closureDate: new Date("2024-04-10"), selected: false, content: "Content of Topic 3" }
   ]);
+  
+  
   const [formData, setFormData] = useState({
     topicName: "",
     topicDescription: "",
@@ -52,10 +55,27 @@ function ManagerPage() {
     setFormData({ topicName: "", topicDescription: "" });
   };
 
+  const handleDownloadSelectedContributions = () => {
+    const selectedIds = topics.filter(topic => topic.selected).map(topic => topic.id);
+    const selectedContributions = topics.filter(topic => selectedIds.includes(topic.id) && new Date(topic.closureDate) < new Date());
+
+    const zip = new JSZip();
+    selectedContributions.forEach(contribution => {
+      // Assuming content is a string, you can add it to the zip file
+      zip.file(`Contribution_${contribution.id}.txt`, contribution.content);
+    });
+
+    zip.generateAsync({ type: "blob" }).then(content => {
+      // Using FileSaver.js to save the blob as a ZIP file
+      saveAs(content, "Selected_Contributions.zip");
+    });
+  };
+
   return (
     <div className="container mx-auto px-4 py-8">
       <h1 className="text-3xl font-bold mb-4">Manager Page</h1>
       <button className="bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded" onClick={handleSignOut}>Sign Out</button>
+      <button className="bg-blue-500 hover:bg-blue-600 text-white py-2 px-4 rounded ml-4" onClick={handleDownloadSelectedContributions}>Download Selected Contributions</button>
       <ul className="mt-8">
         {topics.map((topic) => (
           <li key={topic.id} className="flex justify-between items-center border-b border-gray-300 py-4">
@@ -93,6 +113,15 @@ function ManagerPage() {
                 <div className="flex space-x-2">
                   <button className="bg-green-500 hover:bg-green-600 text-white py-2 px-4 rounded" onClick={() => handleEdit(topic.id)}>Edit</button>
                   <button className="bg-red-500 hover:bg-red-600 text-white py-2 px-4 rounded" onClick={() => handleDelete(topic.id)}>Delete</button>
+                  <input type="checkbox" onChange={(e) => {
+                    const checked = e.target.checked;
+                    setTopics(topics.map(item => {
+                      if (item.id === topic.id) {
+                        return { ...item, selected: checked };
+                      }
+                      return item;
+                    }));
+                  }} />
                 </div>
               )}
             </div>
