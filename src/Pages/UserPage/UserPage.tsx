@@ -3,6 +3,7 @@ import { Layout, Card, Button, Popover, Modal, Input, Avatar } from "antd";
 import UserNavbar from "../../Components/Navbar/UserNavbar/UserNavbar";
 import { FaArrowUp, FaArrowDown, FaRegComment } from "react-icons/fa";
 import useToken from "../../Hooks/useToken";
+import { message } from "antd";
 import { HiMenuAlt4 } from "react-icons/hi";
 import {
   ref,
@@ -14,6 +15,9 @@ import {
   update,
 } from "firebase/database";
 import { database, auth } from "../../Firebase/firebase";
+import { FaLocationArrow } from "react-icons/fa";
+import { MdOutlineEdit, MdDelete, MdCancel } from "react-icons/md";
+import { BiSave } from "react-icons/bi";
 
 const { Content } = Layout;
 const { confirm } = Modal;
@@ -93,8 +97,47 @@ const UserPage: React.FC = () => {
         photoURL: currentUser.photoURL!,
         email: currentUser.email!,
         createdAt: serverTimestamp(),
-      });
+      })
+        .then(() => {
+          message.success("Comment added successfully");
+          setNewComment(""); // Clear the input field after successful addition
+        })
+        .catch((error) => {
+          message.error("Failed to add comment: " + error.message);
+        });
     }
+  };
+
+  const editCommentHandler = (
+    postId: string,
+    commentId: string,
+    content: string
+  ) => {
+    if (currentUser) {
+      const commentRef = ref(database, `comments/${postId}/${commentId}`);
+      update(commentRef, {
+        content: content,
+      })
+        .then(() => {
+          message.success("Comment edited successfully");
+          setEditingCommentId(null);
+          setEditedCommentContent("");
+        })
+        .catch((error) => {
+          message.error("Failed to edit comment: " + error.message);
+        });
+    }
+  };
+
+  const deleteCommentHandler = (postId: string, commentId: string) => {
+    const commentRef = ref(database, `comments/${postId}/${commentId}`);
+    remove(commentRef)
+      .then(() => {
+        message.success("Comment deleted successfully");
+      })
+      .catch((error) => {
+        message.error("Failed to delete comment: " + error.message);
+      });
   };
 
   useEffect(() => {
@@ -422,13 +465,13 @@ const UserPage: React.FC = () => {
                         style={{ marginRight: "8px", color: "#549b90" }}
                         onClick={saveChanges}
                       >
-                        Save
+                        <BiSave />
                       </Button>
                       <Button
                         style={{ color: "#549b90" }}
                         onClick={cancelEditing}
                       >
-                        Cancel
+                        <MdCancel />
                       </Button>
                     </>
                   ) : (
@@ -439,13 +482,13 @@ const UserPage: React.FC = () => {
                           startEditing(post.id, post.title, post.content)
                         }
                       >
-                        Edit
+                        <MdOutlineEdit />
                       </Button>
                       <Button
                         style={{ color: "#549b90" }}
                         onClick={() => confirmDelete(post.id)}
                       >
-                        Delete
+                        <MdDelete />
                       </Button>
                     </>
                   )
@@ -460,6 +503,8 @@ const UserPage: React.FC = () => {
               onCancel={closeModal}
               footer={null}
               closable={false}
+              width={800} // Set the width of the modal
+              bodyStyle={{ overflowY: "auto", maxHeight: "80vh" }} // Set the maximum height of the modal body
             >
               {selectedPost && (
                 <Card
@@ -474,65 +519,85 @@ const UserPage: React.FC = () => {
                   <div style={{ marginTop: "20px" }}>
                     {selectedPost.comments &&
                       selectedPost.comments.map((comment) => (
-                        <div key={comment.id} style={{ marginBottom: "10px" }}>
+                        <div
+                          key={comment.id}
+                          style={{
+                            marginBottom: "10px",
+                            display: "flex",
+                            alignItems: "center",
+                          }}
+                        >
                           <Avatar src={comment.photoURL} />
-                          <span style={{ marginLeft: "10px" }}>
-                            {comment.displayName} -{" "}
-                            {formatTimeDifference(comment.createdAt)}
-                          </span>
-                          {editingCommentId === comment.id ? (
-                            <div>
-                              <Input
-                                value={editedCommentContent}
-                                onChange={(e) =>
-                                  setEditedCommentContent(e.target.value)
-                                }
-                              />
-                              <Button
-                                onClick={() =>
-                                  editComment(
-                                    selectedPost.id,
-                                    comment.id,
-                                    editedCommentContent
-                                  )
-                                }
-                              >
-                                Save
-                              </Button>
-                              <Button onClick={() => setEditingCommentId(null)}>
-                                Cancel
-                              </Button>
-                            </div>
-                          ) : (
-                            <p style={{ marginLeft: "10px" }}>
-                              {comment.content}
-                              {currentUser &&
-                                currentUser.email === comment.email && (
-                                  <>
+                          <div style={{ marginLeft: "10px", flex: 1 }}>
+                            <span>
+                              {comment.displayName} -{" "}
+                              {formatTimeDifference(comment.createdAt)}:
+                            </span>
+                            <p>{comment.content}</p>
+                          </div>
+                          {currentUser &&
+                            currentUser.email === comment.email && (
+                              <div>
+                                {editingCommentId === comment.id ? (
+                                  <div style={{ display: "flex" }}>
+                                    <Input
+                                      style={{ marginLeft: "8px" }}
+                                      value={editedCommentContent}
+                                      onChange={(e) =>
+                                        setEditedCommentContent(e.target.value)
+                                      }
+                                    />
                                     <Button
+                                      style={{ marginLeft: "8px" }}
+                                      onClick={() =>
+                                        editComment(
+                                          selectedPost.id,
+                                          comment.id,
+                                          editedCommentContent
+                                        )
+                                      }
+                                      title="Save changes"
+                                    >
+                                      <BiSave />
+                                    </Button>
+                                    <Button
+                                      style={{ marginLeft: "8px" }}
+                                      onClick={() => setEditingCommentId(null)}
+                                      title="Cancel editing"
+                                    >
+                                      <MdCancel />
+                                    </Button>
+                                  </div>
+                                ) : (
+                                  <div>
+                                    <Button
+                                      style={{ marginLeft: "8px" }}
                                       onClick={() => {
                                         setEditingCommentId(comment.id);
                                         setEditedCommentContent(
                                           comment.content
                                         );
                                       }}
+                                      title="Edit comment"
                                     >
-                                      Edit
+                                      <MdOutlineEdit />
                                     </Button>
                                     <Button
+                                      style={{ marginLeft: "8px" }}
                                       onClick={() =>
                                         deleteComment(
                                           selectedPost.id,
                                           comment.id
                                         )
                                       }
+                                      title="Delete comment"
                                     >
-                                      Delete
+                                      <MdDelete />
                                     </Button>
-                                  </>
+                                  </div>
                                 )}
-                            </p>
-                          )}
+                              </div>
+                            )}
                         </div>
                       ))}
                     <Input
@@ -541,13 +606,14 @@ const UserPage: React.FC = () => {
                       onChange={(e) => setNewComment(e.target.value)}
                       onPressEnter={() => addComment(selectedPost.id)}
                       suffix={
-                        <Button
-                          type="primary"
+                        <button
+                          className="bg-[#549b90] border-1 border-black hover:bg-gray-400 font-bold py-2 px-4 rounded-full shadow-md"
                           onClick={() => addComment(selectedPost.id)}
                           disabled={!newComment.trim()}
+                          title="Post comment"
                         >
-                          Post
-                        </Button>
+                          <FaLocationArrow />
+                        </button>
                       }
                     />
                   </div>
