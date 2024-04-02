@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Layout, Card, Button, Popover, Modal, Input, Avatar } from "antd";
-import { FaArrowUp, FaArrowDown, FaRegComment } from "react-icons/fa";
+import { FaArrowUp, FaRegComment } from "react-icons/fa";
 import useToken from "../../Hooks/useToken";
 import { message } from "antd";
-import { HiMenuAlt4 } from "react-icons/hi";
 import {
   ref,
   onValue,
@@ -259,23 +258,6 @@ const UserPage: React.FC = () => {
     }
   };
 
-  const popoverContent = (
-    <div>
-      <Button
-        type="link"
-        icon={<FaArrowUp style={{ color: "#549b90", fontSize: "14px" }} />}
-      />
-      <Button
-        type="link"
-        icon={<FaArrowDown style={{ color: "#549b90", fontSize: "14px" }} />}
-      />
-      <Button
-        type="link"
-        icon={<FaRegComment style={{ color: "#549b90", fontSize: "14px" }} />}
-      />
-    </div>
-  );
-
   const openModal = (post: Post) => {
     setSelectedPost(post);
   };
@@ -356,50 +338,24 @@ const UserPage: React.FC = () => {
                       {/* Render the number of comments */}
                       {isMobileView ? (
                         // Render menu icon for mobile view
-                        <Popover
-                          placement="bottomRight"
-                          content={popoverContent}
-                          trigger="click"
-                        >
+                        <Popover placement="bottomRight" trigger="click">
                           <Button
                             type="link"
+                            onClick={() => openModal(post)}
                             icon={
-                              <HiMenuAlt4
+                              <FaRegComment
                                 style={{
                                   color: "#549b90",
-                                  fontSize: "14px",
+                                  fontSize: "18px",
                                 }}
                               />
                             }
                           />
+                          {post.comments ? post.comments.length : 0}
                         </Popover>
                       ) : (
                         // Render action buttons for desktop view
                         <div style={{ display: "flex" }}>
-                          <Button
-                            type="link"
-                            icon={
-                              <FaArrowUp
-                                style={{
-                                  color: "#549b90",
-                                  fontSize: "18px",
-                                  marginRight: "8px",
-                                }}
-                              />
-                            }
-                          />
-                          <Button
-                            type="link"
-                            icon={
-                              <FaArrowDown
-                                style={{
-                                  color: "#549b90",
-                                  fontSize: "18px",
-                                  marginRight: "8px",
-                                }}
-                              />
-                            }
-                          />
                           <Button
                             type="link"
                             onClick={() => openModal(post)}
