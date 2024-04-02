@@ -4,7 +4,15 @@ import UserNavbar from "../../Components/Navbar/UserNavbar/UserNavbar";
 import { FaArrowUp, FaArrowDown, FaRegComment } from "react-icons/fa";
 import useToken from "../../Hooks/useToken";
 import { HiMenuAlt4 } from "react-icons/hi";
-import { ref, onValue, set, remove, push } from "firebase/database";
+import {
+  ref,
+  onValue,
+  set,
+  remove,
+  push,
+  serverTimestamp,
+  update,
+} from "firebase/database";
 import { database, auth } from "../../Firebase/firebase";
 
 const { Content } = Layout;
@@ -32,6 +40,7 @@ interface Comment {
   content: string;
   displayName: string;
   photoURL: string;
+  email: string; // Add the email property
   createdAt: number;
 }
 
@@ -45,6 +54,8 @@ const UserPage: React.FC = () => {
   const [editedContent, setEditedContent] = useState<string>("");
   const [selectedPost, setSelectedPost] = useState<Post | null>(null);
   const [newComment, setNewComment] = useState<string>("");
+  const [editingCommentId, setEditingCommentId] = useState<string | null>(null); // Adding the missing state
+  const [editedCommentContent, setEditedCommentContent] = useState<string>("");
 
   const token = useToken();
   console.log(token);
@@ -78,9 +89,10 @@ const UserPage: React.FC = () => {
       const newCommentRef = push(commentRef);
       set(newCommentRef, {
         content: newComment,
-        displayName: currentUser.displayName,
-        photoURL: currentUser.photoURL,
-        createdAt: Date.now(),
+        displayName: currentUser.displayName!,
+        photoURL: currentUser.photoURL!,
+        email: currentUser.email!,
+        createdAt: serverTimestamp(),
       });
     }
   };
@@ -105,23 +117,31 @@ const UserPage: React.FC = () => {
     const postsRef = ref(database, "posts");
     onValue(postsRef, (snapshot) => {
       const postsData: Post[] = [];
+      const promises: Promise<void>[] = []; // Array to hold promises for fetching comments
       snapshot.forEach((childSnapshot) => {
         const postData = { id: childSnapshot.key, ...childSnapshot.val() };
         postsData.push(postData);
-        // Fetch comments for each post
-        const commentsData: Comment[] = [];
         const commentRef = ref(database, `comments/${postData.id}`);
-        onValue(commentRef, (commentSnapshot) => {
-          commentSnapshot.forEach((commentChildSnapshot) => {
-            commentsData.push({
-              id: commentChildSnapshot.key,
-              ...commentChildSnapshot.val(),
+        // Create a promise to fetch comments for each post and add it to the array
+        const promise = new Promise<void>((resolve) => {
+          onValue(commentRef, (commentSnapshot) => {
+            const commentsData: Comment[] = [];
+            commentSnapshot.forEach((commentChildSnapshot) => {
+              commentsData.push({
+                id: commentChildSnapshot.key,
+                ...commentChildSnapshot.val(),
+              });
             });
+            postData.comments = commentsData;
+            resolve(); // Resolve the promise once comments are fetched and added to the post
           });
-          postData.comments = commentsData;
         });
+        promises.push(promise);
       });
-      setPosts(postsData);
+      // Wait for all promises to resolve before updating the state with postsData
+      Promise.all(promises).then(() => {
+        setPosts(postsData);
+      });
     });
 
     return () => {
@@ -223,6 +243,23 @@ const UserPage: React.FC = () => {
 
   const closeModal = () => {
     setSelectedPost(null);
+  };
+
+  const editComment = (postId: string, commentId: string, content: string) => {
+    if (currentUser) {
+      const commentRef = ref(database, `comments/${postId}/${commentId}`);
+      update(commentRef, {
+        // Use update function to update comment content
+        content: content,
+      });
+    }
+    setEditingCommentId(null);
+    setEditedCommentContent("");
+  };
+
+  const deleteComment = (postId: string, commentId: string) => {
+    const commentRef = ref(database, `comments/${postId}/${commentId}`);
+    remove(commentRef);
   };
 
   return (
@@ -428,7 +465,7 @@ const UserPage: React.FC = () => {
                 <Card
                   title={
                     <>
-                      <span>{selectedPost.title}</span>
+                      <span>Comment</span>
                     </>
                   }
                   bodyStyle={{ overflowY: "auto", maxHeight: "70vh" }}
@@ -440,11 +477,62 @@ const UserPage: React.FC = () => {
                         <div key={comment.id} style={{ marginBottom: "10px" }}>
                           <Avatar src={comment.photoURL} />
                           <span style={{ marginLeft: "10px" }}>
-                            {comment.displayName}
+                            {comment.displayName} -{" "}
+                            {formatTimeDifference(comment.createdAt)}
                           </span>
-                          <p style={{ marginLeft: "10px" }}>
-                            {comment.content}
-                          </p>
+                          {editingCommentId === comment.id ? (
+                            <div>
+                              <Input
+                                value={editedCommentContent}
+                                onChange={(e) =>
+                                  setEditedCommentContent(e.target.value)
+                                }
+                              />
+                              <Button
+                                onClick={() =>
+                                  editComment(
+                                    selectedPost.id,
+                                    comment.id,
+                                    editedCommentContent
+                                  )
+                                }
+                              >
+                                Save
+                              </Button>
+                              <Button onClick={() => setEditingCommentId(null)}>
+                                Cancel
+                              </Button>
+                            </div>
+                          ) : (
+                            <p style={{ marginLeft: "10px" }}>
+                              {comment.content}
+                              {currentUser &&
+                                currentUser.email === comment.email && (
+                                  <>
+                                    <Button
+                                      onClick={() => {
+                                        setEditingCommentId(comment.id);
+                                        setEditedCommentContent(
+                                          comment.content
+                                        );
+                                      }}
+                                    >
+                                      Edit
+                                    </Button>
+                                    <Button
+                                      onClick={() =>
+                                        deleteComment(
+                                          selectedPost.id,
+                                          comment.id
+                                        )
+                                      }
+                                    >
+                                      Delete
+                                    </Button>
+                                  </>
+                                )}
+                            </p>
+                          )}
                         </div>
                       ))}
                     <Input
