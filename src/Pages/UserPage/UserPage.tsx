@@ -353,6 +353,7 @@ const UserPage: React.FC = () => {
                           {formatTimeDifference(post.createdAt)}
                         </p>
                       )}
+                      {/* Render the number of comments */}
                       {isMobileView ? (
                         // Render menu icon for mobile view
                         <Popover
@@ -411,6 +412,7 @@ const UserPage: React.FC = () => {
                               />
                             }
                           />
+                          {post.comments ? post.comments.length : 0}
                         </div>
                       )}
                     </div>
