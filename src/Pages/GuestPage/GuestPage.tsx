@@ -1,11 +1,24 @@
 import React, { useState, useEffect } from "react";
 import { Layout, Card, Button, Popover, Modal, Input, Avatar } from "antd";
-import GuestNavbar from "../../Components/Navbar/GuestNavbar/GuestNavbar";
 import { FaArrowUp, FaArrowDown, FaRegComment } from "react-icons/fa";
 import useToken from "../../Hooks/useToken";
+import { message } from "antd";
+import { useNavigate } from "react-router-dom";
 import { HiMenuAlt4 } from "react-icons/hi";
-import { ref, onValue, set, remove } from "firebase/database";
+import {
+  ref,
+  onValue,
+  set,
+  remove,
+  push,
+  serverTimestamp,
+  update,
+} from "firebase/database";
 import { database, auth } from "../../Firebase/firebase";
+import { FaLocationArrow } from "react-icons/fa";
+import { MdOutlineEdit, MdDelete, MdCancel } from "react-icons/md";
+import { BiSave } from "react-icons/bi";
+import GuestNavbar from "../../Components/Navbar/GuestNavbar/GuestNavbar";
 
 const { Content } = Layout;
 const { confirm } = Modal;
@@ -18,11 +31,22 @@ interface Post {
   photoURL: string;
   email: string;
   createdAt: number;
+  comments?: Comment[];
 }
 
 interface CustomUser {
   displayName: string | null;
   email: string | null;
+  photoURL: string | null;
+}
+
+interface Comment {
+  id: string;
+  content: string;
+  displayName: string;
+  photoURL: string;
+  email: string; // Add the email property
+  createdAt: number;
 }
 
 const GuestPage: React.FC = () => {
@@ -33,6 +57,10 @@ const GuestPage: React.FC = () => {
   const [editingPostId, setEditingPostId] = useState<string | null>(null);
   const [editedTitle, setEditedTitle] = useState<string>("");
   const [editedContent, setEditedContent] = useState<string>("");
+  const [selectedPost, setSelectedPost] = useState<Post | null>(null);
+  const [newComment, setNewComment] = useState<string>("");
+  const [editingCommentId, setEditingCommentId] = useState<string | null>(null); // Adding the missing state
+  const [editedCommentContent, setEditedCommentContent] = useState<string>("");
 
   const token = useToken();
   console.log(token);
@@ -52,6 +80,12 @@ const GuestPage: React.FC = () => {
     });
   };
 
+  const navigate = useNavigate();
+
+  const redirectToLogin = () => {
+    navigate("/login");
+  };
+
   const handleResize = () => {
     if (window.innerWidth <= 768) {
       setIsMobileView(true);
@@ -60,12 +94,62 @@ const GuestPage: React.FC = () => {
     }
   };
 
+  const addComment = (postId: string) => {
+    if (currentUser) {
+      const commentRef = ref(database, `comments/${postId}`);
+      const newCommentRef = push(commentRef);
+      set(newCommentRef, {
+        content: newComment,
+        displayName: currentUser.displayName!,
+        photoURL: currentUser.photoURL!,
+        email: currentUser.email!,
+        createdAt: serverTimestamp(),
+      })
+        .then(() => {
+          message.success("Comment added successfully");
+          setNewComment(""); // Clear the input field after successful addition
+        })
+        .catch((error) => {
+          message.error("Failed to add comment: " + error.message);
+        });
+    }
+  };
+
+  const editComment = (postId: string, commentId: string, content: string) => {
+    if (currentUser) {
+      const commentRef = ref(database, `comments/${postId}/${commentId}`);
+      update(commentRef, {
+        content: content,
+      })
+        .then(() => {
+          message.success("Comment edited successfully");
+          setEditingCommentId(null);
+          setEditedCommentContent("");
+        })
+        .catch((error) => {
+          message.error("Failed to edit comment: " + error.message);
+        });
+    }
+  };
+
+  const deleteComment = (postId: string, commentId: string) => {
+    const commentRef = ref(database, `comments/${postId}/${commentId}`);
+    remove(commentRef)
+      .then(() => {
+        message.success("Comment deleted successfully");
+      })
+      .catch((error) => {
+        message.error("Failed to delete comment: " + error.message);
+      });
+  };
+
   useEffect(() => {
     const unsubscribeAuth = auth.onAuthStateChanged((user) => {
       if (user) {
         setCurrentUser({
           displayName: user.displayName,
           email: user.email,
+          photoURL: user.photoURL || "",
         });
       } else {
         setCurrentUser(null);
@@ -79,24 +163,35 @@ const GuestPage: React.FC = () => {
     const postsRef = ref(database, "posts");
     onValue(postsRef, (snapshot) => {
       const postsData: Post[] = [];
+      const promises: Promise<void>[] = []; // Array to hold promises for fetching comments
       snapshot.forEach((childSnapshot) => {
-        postsData.push({ id: childSnapshot.key, ...childSnapshot.val() });
+        const postData = { id: childSnapshot.key, ...childSnapshot.val() };
+        postsData.push(postData);
+        const commentRef = ref(database, `comments/${postData.id}`);
+        // Create a promise to fetch comments for each post and add it to the array
+        const promise = new Promise<void>((resolve) => {
+          onValue(commentRef, (commentSnapshot) => {
+            const commentsData: Comment[] = [];
+            commentSnapshot.forEach((commentChildSnapshot) => {
+              commentsData.push({
+                id: commentChildSnapshot.key,
+                ...commentChildSnapshot.val(),
+              });
+            });
+            postData.comments = commentsData;
+            resolve(); // Resolve the promise once comments are fetched and added to the post
+          });
+        });
+        promises.push(promise);
       });
-      setPosts(postsData);
+      // Wait for all promises to resolve before updating the state with postsData
+      Promise.all(promises).then(() => {
+        setPosts(postsData);
+      });
     });
 
     return () => {
       unsubscribeAuth();
-      window.removeEventListener("scroll", handleScroll);
-      window.removeEventListener("resize", handleResize);
-    };
-  }, []);
-
-  useEffect(() => {
-    window.addEventListener("scroll", handleScroll);
-    window.addEventListener("resize", handleResize);
-    handleResize();
-    return () => {
       window.removeEventListener("scroll", handleScroll);
       window.removeEventListener("resize", handleResize);
     };
@@ -188,6 +283,14 @@ const GuestPage: React.FC = () => {
     </div>
   );
 
+  const openModal = (post: Post) => {
+    setSelectedPost(post);
+  };
+
+  const closeModal = () => {
+    setSelectedPost(null);
+  };
+
   return (
     <Layout style={{ minHeight: "100vh" }}>
       {/* Navbar */}
@@ -210,10 +313,15 @@ const GuestPage: React.FC = () => {
             overflowY: "auto",
             display: "flex",
             justifyContent: "center",
-            alignItems: "center",
           }}
         >
-          <div>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+          >
             {posts.map((post) => (
               <Card
                 title={
@@ -252,6 +360,7 @@ const GuestPage: React.FC = () => {
                           {formatTimeDifference(post.createdAt)}
                         </p>
                       )}
+                      {/* Render the number of comments */}
                       {isMobileView ? (
                         // Render menu icon for mobile view
                         <Popover
@@ -300,6 +409,7 @@ const GuestPage: React.FC = () => {
                           />
                           <Button
                             type="link"
+                            onClick={() => openModal(post)}
                             icon={
                               <FaRegComment
                                 style={{
@@ -309,6 +419,7 @@ const GuestPage: React.FC = () => {
                               />
                             }
                           />
+                          {post.comments ? post.comments.length : 0}
                         </div>
                       )}
                     </div>
@@ -342,13 +453,13 @@ const GuestPage: React.FC = () => {
                         style={{ marginRight: "8px", color: "#549b90" }}
                         onClick={saveChanges}
                       >
-                        Save
+                        <BiSave />
                       </Button>
                       <Button
                         style={{ color: "#549b90" }}
                         onClick={cancelEditing}
                       >
-                        Cancel
+                        <MdCancel />
                       </Button>
                     </>
                   ) : (
@@ -359,19 +470,144 @@ const GuestPage: React.FC = () => {
                           startEditing(post.id, post.title, post.content)
                         }
                       >
-                        Edit
+                        <MdOutlineEdit />
                       </Button>
                       <Button
                         style={{ color: "#549b90" }}
                         onClick={() => confirmDelete(post.id)}
                       >
-                        Delete
+                        <MdDelete />
                       </Button>
                     </>
                   )
                 ) : null}
               </Card>
             ))}
+
+            {/* Modal to display selected post */}
+            <Modal
+              title={null}
+              visible={selectedPost !== null}
+              onCancel={closeModal}
+              footer={null}
+              closable={false}
+              width={800} // Set the width of the modal
+              bodyStyle={{ overflowY: "auto", maxHeight: "80vh" }} // Set the maximum height of the modal body
+            >
+              {selectedPost && (
+                <Card
+                  title={
+                    <>
+                      <span>Comment</span>
+                    </>
+                  }
+                  bodyStyle={{ overflowY: "auto", maxHeight: "70vh" }}
+                >
+                  {/* Comment section */}
+                  <div style={{ marginTop: "20px" }}>
+                    {selectedPost.comments &&
+                      selectedPost.comments.map((comment) => (
+                        <div
+                          key={comment.id}
+                          style={{
+                            marginBottom: "10px",
+                            display: "flex",
+                            alignItems: "center",
+                          }}
+                        >
+                          <Avatar src={comment.photoURL} />
+                          <div style={{ marginLeft: "10px", flex: 1 }}>
+                            <span>
+                              {comment.displayName} -{" "}
+                              {formatTimeDifference(comment.createdAt)}:
+                            </span>
+                            <p>{comment.content}</p>
+                          </div>
+                          {currentUser &&
+                            currentUser.email === comment.email && (
+                              <div>
+                                {editingCommentId === comment.id ? (
+                                  <div style={{ display: "flex" }}>
+                                    <Input
+                                      style={{ marginLeft: "8px" }}
+                                      value={editedCommentContent}
+                                      onChange={(e) =>
+                                        setEditedCommentContent(e.target.value)
+                                      }
+                                    />
+                                    <Button
+                                      style={{ marginLeft: "8px" }}
+                                      onClick={() =>
+                                        editComment(
+                                          selectedPost.id,
+                                          comment.id,
+                                          editedCommentContent
+                                        )
+                                      }
+                                      title="Save changes"
+                                    >
+                                      <BiSave />
+                                    </Button>
+                                    <Button
+                                      style={{ marginLeft: "8px" }}
+                                      onClick={() => setEditingCommentId(null)}
+                                      title="Cancel editing"
+                                    >
+                                      <MdCancel />
+                                    </Button>
+                                  </div>
+                                ) : (
+                                  <div>
+                                    <Button
+                                      style={{ marginLeft: "8px" }}
+                                      onClick={() => {
+                                        setEditingCommentId(comment.id);
+                                        setEditedCommentContent(
+                                          comment.content
+                                        );
+                                      }}
+                                      title="Edit comment"
+                                    >
+                                      <MdOutlineEdit />
+                                    </Button>
+                                    <Button
+                                      style={{ marginLeft: "8px" }}
+                                      onClick={() =>
+                                        deleteComment(
+                                          selectedPost.id,
+                                          comment.id
+                                        )
+                                      }
+                                      title="Delete comment"
+                                    >
+                                      <MdDelete />
+                                    </Button>
+                                  </div>
+                                )}
+                              </div>
+                            )}
+                        </div>
+                      ))}
+                    <Input
+                      placeholder="Add a comment"
+                      value={newComment}
+                      onChange={(e) => setNewComment(e.target.value)}
+                      onPressEnter={() => addComment(selectedPost.id)}
+                      suffix={
+                        <button
+                          onClick={redirectToLogin}
+                          className="bg-[#549b90] border-1 border-black hover:bg-gray-400 font-bold py-2 px-4 rounded-full shadow-md"
+                          disabled={!newComment.trim()}
+                          title="Post comment"
+                        >
+                          <FaLocationArrow />
+                        </button>
+                      }
+                    />
+                  </div>
+                </Card>
+              )}
+            </Modal>
           </div>
           {/* Scroll to top button */}
           {showScrollButton && (

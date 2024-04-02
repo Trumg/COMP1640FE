@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { Layout, Card, Button, Popover, Modal, Input, Avatar } from "antd";
-import UserNavbar from "../../Components/Navbar/UserNavbar/UserNavbar";
 import { FaArrowUp, FaArrowDown, FaRegComment } from "react-icons/fa";
 import useToken from "../../Hooks/useToken";
 import { message } from "antd";
@@ -18,6 +17,7 @@ import { database, auth } from "../../Firebase/firebase";
 import { FaLocationArrow } from "react-icons/fa";
 import { MdOutlineEdit, MdDelete, MdCancel } from "react-icons/md";
 import { BiSave } from "react-icons/bi";
+import UserNavbar from "../../Components/Navbar/UserNavbar/UserNavbar";
 
 const { Content } = Layout;
 const { confirm } = Modal;
