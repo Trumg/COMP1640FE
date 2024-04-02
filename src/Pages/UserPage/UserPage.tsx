@@ -317,7 +317,7 @@ const UserPage: React.FC = () => {
                 bordered={true}
                 hoverable={true}
                 style={{
-                  width: isMobileView ? "300px" : "800px",
+                  width: isMobileView ? "350px" : "800px",
                   height: "300px",
                   marginBottom: "25px",
                 }}
