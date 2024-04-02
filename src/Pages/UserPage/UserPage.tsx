@@ -108,11 +108,7 @@ const UserPage: React.FC = () => {
     }
   };
 
-  const editCommentHandler = (
-    postId: string,
-    commentId: string,
-    content: string
-  ) => {
+  const editComment = (postId: string, commentId: string, content: string) => {
     if (currentUser) {
       const commentRef = ref(database, `comments/${postId}/${commentId}`);
       update(commentRef, {
@@ -129,7 +125,7 @@ const UserPage: React.FC = () => {
     }
   };
 
-  const deleteCommentHandler = (postId: string, commentId: string) => {
+  const deleteComment = (postId: string, commentId: string) => {
     const commentRef = ref(database, `comments/${postId}/${commentId}`);
     remove(commentRef)
       .then(() => {
@@ -286,23 +282,6 @@ const UserPage: React.FC = () => {
 
   const closeModal = () => {
     setSelectedPost(null);
-  };
-
-  const editComment = (postId: string, commentId: string, content: string) => {
-    if (currentUser) {
-      const commentRef = ref(database, `comments/${postId}/${commentId}`);
-      update(commentRef, {
-        // Use update function to update comment content
-        content: content,
-      });
-    }
-    setEditingCommentId(null);
-    setEditedCommentContent("");
-  };
-
-  const deleteComment = (postId: string, commentId: string) => {
-    const commentRef = ref(database, `comments/${postId}/${commentId}`);
-    remove(commentRef);
   };
 
   return (
