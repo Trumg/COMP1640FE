@@ -18,30 +18,33 @@ interface Post {
   photoURL: string;
   email: string;
   createdAt: number;
-}
-
-interface Comment {
-  id: string;
-  text: string;
-  user: string;
-  userId: string;
-  createdAt: number;
+  comments?: Comment[];
 }
 
 interface CustomUser {
   displayName: string | null;
   email: string | null;
+  photoURL: string | null;
+}
+
+interface Comment {
+  id: string;
+  content: string;
+  displayName: string;
+  photoURL: string;
+  createdAt: number;
 }
 
 const UserPage: React.FC = () => {
   const [showScrollButton, setShowScrollButton] = useState(false);
   const [isMobileView, setIsMobileView] = useState(false);
   const [posts, setPosts] = useState<Post[]>([]);
-  const [comments, setComments] = useState<{ [postId: string]: Comment[] }>({});
   const [currentUser, setCurrentUser] = useState<CustomUser | null>(null);
   const [editingPostId, setEditingPostId] = useState<string | null>(null);
   const [editedTitle, setEditedTitle] = useState<string>("");
   const [editedContent, setEditedContent] = useState<string>("");
+  const [selectedPost, setSelectedPost] = useState<Post | null>(null);
+  const [newComment, setNewComment] = useState<string>("");
 
   const token = useToken();
   console.log(token);
@@ -69,12 +72,26 @@ const UserPage: React.FC = () => {
     }
   };
 
+  const addComment = (postId: string) => {
+    if (currentUser) {
+      const commentRef = ref(database, `comments/${postId}`);
+      const newCommentRef = push(commentRef);
+      set(newCommentRef, {
+        content: newComment,
+        displayName: currentUser.displayName,
+        photoURL: currentUser.photoURL,
+        createdAt: Date.now(),
+      });
+    }
+  };
+
   useEffect(() => {
     const unsubscribeAuth = auth.onAuthStateChanged((user) => {
       if (user) {
         setCurrentUser({
           displayName: user.displayName,
           email: user.email,
+          photoURL: user.photoURL || "",
         });
       } else {
         setCurrentUser(null);
@@ -89,7 +106,20 @@ const UserPage: React.FC = () => {
     onValue(postsRef, (snapshot) => {
       const postsData: Post[] = [];
       snapshot.forEach((childSnapshot) => {
-        postsData.push({ id: childSnapshot.key, ...childSnapshot.val() });
+        const postData = { id: childSnapshot.key, ...childSnapshot.val() };
+        postsData.push(postData);
+        // Fetch comments for each post
+        const commentsData: Comment[] = [];
+        const commentRef = ref(database, `comments/${postData.id}`);
+        onValue(commentRef, (commentSnapshot) => {
+          commentSnapshot.forEach((commentChildSnapshot) => {
+            commentsData.push({
+              id: commentChildSnapshot.key,
+              ...commentChildSnapshot.val(),
+            });
+          });
+          postData.comments = commentsData;
+        });
       });
       setPosts(postsData);
     });
@@ -100,35 +130,6 @@ const UserPage: React.FC = () => {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
-
-  useEffect(() => {
-    posts.forEach((post) => fetchComments(post.id));
-  }, [posts]);
-
-  const fetchComments = (postId: string) => {
-    const commentsRef = ref(database, `comments/${postId}`);
-    onValue(commentsRef, (snapshot) => {
-      const commentsData: Comment[] = [];
-      snapshot.forEach((childSnapshot) => {
-        commentsData.push({ id: childSnapshot.key, ...childSnapshot.val() });
-      });
-      setComments((prevComments) => ({
-        ...prevComments,
-        [postId]: commentsData,
-      }));
-    });
-  };
-
-  const submitComment = (postId: string, comment: string) => {
-    const commentsRef = ref(database, `comments/${postId}`);
-    const newCommentRef = push(commentsRef);
-    set(newCommentRef, {
-      text: comment,
-      user: currentUser?.displayName || "Anonymous",
-      userId: currentUser?.email || "",
-      createdAt: Date.now(),
-    });
-  };
 
   const canEdit = (post: Post) => {
     return currentUser && currentUser.email === post.email;
@@ -216,6 +217,14 @@ const UserPage: React.FC = () => {
     </div>
   );
 
+  const openModal = (post: Post) => {
+    setSelectedPost(post);
+  };
+
+  const closeModal = () => {
+    setSelectedPost(null);
+  };
+
   return (
     <Layout style={{ minHeight: "100vh" }}>
       {/* Navbar */}
@@ -238,10 +247,15 @@ const UserPage: React.FC = () => {
             overflowY: "auto",
             display: "flex",
             justifyContent: "center",
-            alignItems: "center",
           }}
         >
-          <div>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+          >
             {posts.map((post) => (
               <Card
                 title={
@@ -328,6 +342,7 @@ const UserPage: React.FC = () => {
                           />
                           <Button
                             type="link"
+                            onClick={() => openModal(post)}
                             icon={
                               <FaRegComment
                                 style={{
@@ -398,31 +413,59 @@ const UserPage: React.FC = () => {
                     </>
                   )
                 ) : null}
-                <div>
-                  {/* Display existing comments */}
-                  {comments[post.id] &&
-                    comments[post.id].map((comment, index) => (
-                      <div key={index} style={{ marginBottom: "8px" }}>
-                        <p>
-                          <strong>{comment.user}: </strong>
-                          {comment.text}
-                        </p>
-                        <p>{formatTimeDifference(comment.createdAt)}</p>
-                      </div>
-                    ))}
-                </div>
-                {/* Add comment form */}
-                <Input
-                  placeholder="Write a comment..."
-                  onPressEnter={(e) => {
-                    const input = e.target as HTMLInputElement;
-                    submitComment(post.id, input.value);
-                    input.value = "";
-                  }}
-                  style={{ marginTop: "16px" }}
-                />
               </Card>
             ))}
+
+            {/* Modal to display selected post */}
+            <Modal
+              title={null}
+              visible={selectedPost !== null}
+              onCancel={closeModal}
+              footer={null}
+              closable={false}
+            >
+              {selectedPost && (
+                <Card
+                  title={
+                    <>
+                      <span>{selectedPost.title}</span>
+                    </>
+                  }
+                  bodyStyle={{ overflowY: "auto", maxHeight: "70vh" }}
+                >
+                  {/* Comment section */}
+                  <div style={{ marginTop: "20px" }}>
+                    {selectedPost.comments &&
+                      selectedPost.comments.map((comment) => (
+                        <div key={comment.id} style={{ marginBottom: "10px" }}>
+                          <Avatar src={comment.photoURL} />
+                          <span style={{ marginLeft: "10px" }}>
+                            {comment.displayName}
+                          </span>
+                          <p style={{ marginLeft: "10px" }}>
+                            {comment.content}
+                          </p>
+                        </div>
+                      ))}
+                    <Input
+                      placeholder="Add a comment"
+                      value={newComment}
+                      onChange={(e) => setNewComment(e.target.value)}
+                      onPressEnter={() => addComment(selectedPost.id)}
+                      suffix={
+                        <Button
+                          type="primary"
+                          onClick={() => addComment(selectedPost.id)}
+                          disabled={!newComment.trim()}
+                        >
+                          Post
+                        </Button>
+                      }
+                    />
+                  </div>
+                </Card>
+              )}
+            </Modal>
           </div>
           {/* Scroll to top button */}
           {showScrollButton && (
