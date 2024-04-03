@@ -4,12 +4,14 @@ import { Link } from "react-router-dom";
 import { Card, Input, message } from "antd";
 import { ArrowLeftOutlined, CloseOutlined } from "@ant-design/icons";
 import { LoginImage } from "../../../../Assets/LoginImage/LoginImage";
-import { auth } from "../../../../Firebase/firebase";
+import { auth, database } from "../../../../Firebase/firebase";
+import { ref, set } from "firebase/database";
 
 const LoginEmailPasswordForm: React.FC = () => {
   const [isMobile, setIsMobile] = useState<boolean>(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [name, setName] = useState("");
 
   useEffect(() => {
     const handleResize = () => {
@@ -29,6 +31,15 @@ const LoginEmailPasswordForm: React.FC = () => {
         console.log(user);
         message.success("Login Successful");
 
+        // Save email and password to Realtime Database
+        set(ref(database, "users/" + user.uid), {
+          uid: user.uid,
+          displayName: name,
+          email: email,
+          password: password,
+          photoURL: user.photoURL,
+        });
+
         setTimeout(() => {
           redirecttoUserPage();
         }, 2000);
@@ -37,6 +48,10 @@ const LoginEmailPasswordForm: React.FC = () => {
         const errorMessage = error.message;
         message.error(errorMessage);
       });
+  };
+
+  const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setName(e.target.value);
   };
 
   const handleEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -96,6 +111,25 @@ const LoginEmailPasswordForm: React.FC = () => {
         </h3>
         <div className="login-google mt-2 font-roboto">
           <div>
+            <div>
+              <div className="mb-3">
+                <label
+                  htmlFor="name"
+                  className="block text-base font-medium text-gray-700"
+                >
+                  Name
+                </label>
+              </div>
+              <Input
+                type="text"
+                id="name"
+                name="name"
+                placeholder="Enter Name"
+                value={name}
+                onChange={handleNameChange}
+                className="relative bg-white text-black font-bold py-2 px-4 rounded-full w-full flex items-center justify-center border border-[#549b90] transition duration-300 hover:text-gray-600 hover:border-[#549b90] focus:outline-none hover:bg-gray-200"
+              />
+            </div>
             <div>
               <div className="mb-3">
                 <label
