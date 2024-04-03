@@ -26,7 +26,7 @@ const UserPostPage: React.FC = () => {
   const [agreedToTerms, setAgreedToTerms] = useState<boolean>(false);
   const [title, setTitle] = useState<string>("");
   const [content, setContent] = useState<string>("");
-  const [file, setFile] = useState<UploadFile<any> | null>(null);
+  const [file, setFile] = useState<UploadFile<File> | null>(null);
 
   useEffect(() => {
     document.body.style.backgroundColor = "transparent";
@@ -88,7 +88,7 @@ const UserPostPage: React.FC = () => {
               photoURL: currentUser.photoURL || "default-photo-url",
               createdAt: serverTimestamp(),
               status: "pending",
-              fileUrl: downloadURL, // Add the file URL to the postData object
+              fileURL: downloadURL, // Add the file URL to the postData object
             };
             const postsRef = ref(database, "posts");
             const newPostRef = push(postsRef);

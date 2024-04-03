@@ -23,6 +23,18 @@ const LoginEmailPasswordForm: React.FC = () => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
+  const redirecttoUserPage = (role: string) => {
+    let redirectUrl = "/";
+    if (role === "Admin") {
+      redirectUrl = "/admin";
+    } else if (role === "Manager") {
+      redirectUrl = "/manager";
+    } else if (role === "Coordinator") {
+      redirectUrl = "/coordinator";
+    }
+    window.location.href = redirectUrl;
+  };
+
   const handleLogIn = () => {
     if (!email || !password || !name) return;
 
@@ -72,7 +84,7 @@ const LoginEmailPasswordForm: React.FC = () => {
                   set(ref(database, `users/${user.uid}`), userData);
                   message.success("Login Successful");
                   setTimeout(() => {
-                    redirecttoUserPage();
+                    redirecttoUserPage(formattedName);
                   }, 2000);
                 })
                 .catch((error) => {
@@ -105,10 +117,6 @@ const LoginEmailPasswordForm: React.FC = () => {
 
   const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(e.target.value);
-  };
-
-  const redirecttoUserPage = () => {
-    window.location.href = "/";
   };
 
   return (

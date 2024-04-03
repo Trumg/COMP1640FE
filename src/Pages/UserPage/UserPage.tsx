@@ -31,6 +31,8 @@ interface Post {
   comments?: Comment[];
 }
 
+// Define interfaces for Post and Comment
+
 interface CustomUser {
   displayName: string | null;
   email: string | null;
@@ -47,6 +49,7 @@ interface Comment {
 }
 
 const UserPage: React.FC = () => {
+  // State variables
   const [showScrollButton, setShowScrollButton] = useState(false);
   const [isMobileView, setIsMobileView] = useState(false);
   const [posts, setPosts] = useState<Post[]>([]);
@@ -56,12 +59,13 @@ const UserPage: React.FC = () => {
   const [editedContent, setEditedContent] = useState<string>("");
   const [selectedPost, setSelectedPost] = useState<Post | null>(null);
   const [newComment, setNewComment] = useState<string>("");
-  const [editingCommentId, setEditingCommentId] = useState<string | null>(null); // Adding the missing state
+  const [editingCommentId, setEditingCommentId] = useState<string | null>(null);
   const [editedCommentContent, setEditedCommentContent] = useState<string>("");
 
   const token = useToken();
   console.log(token);
 
+  // Scroll handling functions
   const handleScroll = () => {
     if (window.scrollY > 300) {
       setShowScrollButton(true);
@@ -77,6 +81,7 @@ const UserPage: React.FC = () => {
     });
   };
 
+  // Resize handling function
   const handleResize = () => {
     if (window.innerWidth <= 768) {
       setIsMobileView(true);
@@ -85,6 +90,7 @@ const UserPage: React.FC = () => {
     }
   };
 
+  // Function to add a comment to a post
   const addComment = (postId: string) => {
     if (currentUser) {
       const commentRef = ref(database, `comments/${postId}`);
@@ -106,6 +112,7 @@ const UserPage: React.FC = () => {
     }
   };
 
+  // Function to edit a comment
   const editComment = (postId: string, commentId: string, content: string) => {
     if (currentUser) {
       const commentRef = ref(database, `comments/${postId}/${commentId}`);
@@ -123,6 +130,7 @@ const UserPage: React.FC = () => {
     }
   };
 
+  // Function to delete a comment
   const deleteComment = (postId: string, commentId: string) => {
     const commentRef = ref(database, `comments/${postId}/${commentId}`);
     remove(commentRef)
@@ -134,7 +142,9 @@ const UserPage: React.FC = () => {
       });
   };
 
+  // Effect hook for setting up event listeners and fetching data
   useEffect(() => {
+    // Authentication listener
     const unsubscribeAuth = auth.onAuthStateChanged((user) => {
       if (user) {
         setCurrentUser({
@@ -147,21 +157,27 @@ const UserPage: React.FC = () => {
       }
     });
 
+    // Scroll and resize event listeners
     window.addEventListener("scroll", handleScroll);
     window.addEventListener("resize", handleResize);
-    handleResize();
+    handleResize(); // Check initial window size
 
+    // Fetching posts from Firebase Realtime Database
     const postsRef = ref(database, "posts");
     onValue(postsRef, (snapshot) => {
       const postsData: Post[] = [];
       const promises: Promise<void>[] = []; // Array to hold promises for fetching comments
+
+      // Iterate over each post in the snapshot
       snapshot.forEach((childSnapshot) => {
         const postData = { id: childSnapshot.key, ...childSnapshot.val() };
+
         // Fetch only approved posts
         if (postData.status === "approved") {
           postsData.push(postData);
+
+          // Fetch comments for each post
           const commentRef = ref(database, `comments/${postData.id}`);
-          // Create a promise to fetch comments for each post and add it to the array
           const promise = new Promise<void>((resolve) => {
             onValue(commentRef, (commentSnapshot) => {
               const commentsData: Comment[] = [];
@@ -172,18 +188,20 @@ const UserPage: React.FC = () => {
                 });
               });
               postData.comments = commentsData;
-              resolve(); // Resolve the promise once comments are fetched and added to the post
+              resolve();
             });
           });
           promises.push(promise);
         }
       });
+
       // Wait for all promises to resolve before updating the state with postsData
       Promise.all(promises).then(() => {
         setPosts(postsData);
       });
     });
 
+    // Cleanup function to remove event listeners
     return () => {
       unsubscribeAuth();
       window.removeEventListener("scroll", handleScroll);
@@ -191,22 +209,26 @@ const UserPage: React.FC = () => {
     };
   }, []);
 
+  // Function to check if the current user can edit a post
   const canEdit = (post: Post) => {
     return currentUser && currentUser.email === post.email;
   };
 
+  // Function to start editing a post
   const startEditing = (postId: string, title: string, content: string) => {
     setEditingPostId(postId);
     setEditedTitle(title);
     setEditedContent(content);
   };
 
+  // Function to cancel editing a post
   const cancelEditing = () => {
     setEditingPostId(null);
     setEditedTitle("");
     setEditedContent("");
   };
 
+  // Function to save changes to a post
   const saveChanges = () => {
     if (editingPostId) {
       const postRef = ref(database, `posts/${editingPostId}`);
@@ -224,6 +246,7 @@ const UserPage: React.FC = () => {
     }
   };
 
+  // Function to confirm and delete a post
   const confirmDelete = (postId: string) => {
     confirm({
       title: "Do you want to delete this post?",
@@ -240,6 +263,7 @@ const UserPage: React.FC = () => {
     });
   };
 
+  // Function to format the time difference between the current time and a timestamp
   const formatTimeDifference = (timestamp: number): string => {
     const now = Date.now();
     const diffInMs = now - timestamp;
@@ -271,14 +295,17 @@ const UserPage: React.FC = () => {
     }
   };
 
+  // Function to open the modal and display selected post
   const openModal = (post: Post) => {
     setSelectedPost(post);
   };
 
+  // Function to close the modal
   const closeModal = () => {
     setSelectedPost(null);
   };
 
+  // JSX rendering
   return (
     <Layout style={{ minHeight: "100vh" }}>
       {/* Navbar */}
@@ -391,8 +418,9 @@ const UserPage: React.FC = () => {
                 hoverable={true}
                 style={{
                   width: isMobileView ? "350px" : "800px",
-                  height: "300px",
+                  height: "auto", // Adjust height to auto to accommodate varying content
                   marginBottom: "25px",
+                  overflowY: "auto", // Enable vertical scrolling for excessive content
                 }}
                 key={post.id}
               >

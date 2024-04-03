@@ -85,8 +85,7 @@ const AdminNavbar: React.FC = () => {
                   className="flex flex-col justify-center items-center text-center"
                 >
                   <div>
-                    <Link to="/">
-                      {" "}
+                    <Link to="/admin">
                       <img
                         src={MagazineImage}
                         width={200}
@@ -105,7 +104,7 @@ const AdminNavbar: React.FC = () => {
             <>
               <div className="flex items-center">
                 <div className="flex-shrink-0">
-                  <Link to="/">
+                  <Link to="/admin">
                     <img
                       src={MagazineImage}
                       width={200}
@@ -120,7 +119,7 @@ const AdminNavbar: React.FC = () => {
           )}
           <>
             <div className="ml-10 space-x-4 flex items-center">
-              <Link to="/admin/dashboard">
+              <Link to="/admin">
                 <button className="p-2 rounded-full hover:bg-gray-200">
                   <MdOutlineDashboardCustomize className="text-2xl text-gray-700" />
                 </button>
