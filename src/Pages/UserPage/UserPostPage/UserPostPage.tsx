@@ -2,11 +2,18 @@ import React, { useEffect, useState } from "react";
 import { Layout, Card, Input, Tabs, Upload, Spin } from "antd";
 import UserPostNavbar from "../../../Components/Navbar/UserNavbar/UserPostNavbar";
 import { InboxOutlined } from "@ant-design/icons";
-import { FaUpload } from "react-icons/fa6";
 import { IoDocumentTextOutline } from "react-icons/io5";
+import { FaUpload } from "react-icons/fa";
 import { FaCheck } from "react-icons/fa";
 import { ref, set, push, serverTimestamp } from "firebase/database";
-import { auth, database } from "../../../Firebase/firebase";
+import { auth, database, storage } from "../../../Firebase/firebase"; // Import storage
+import {
+  ref as storageRef,
+  uploadBytesResumable,
+  getDownloadURL,
+  UploadTask,
+} from "firebase/storage";
+import { UploadFile } from "antd/lib/upload/interface"; // Import UploadFile type
 
 const { Content } = Layout;
 const { TabPane } = Tabs;
@@ -19,6 +26,7 @@ const UserPostPage: React.FC = () => {
   const [agreedToTerms, setAgreedToTerms] = useState<boolean>(false);
   const [title, setTitle] = useState<string>("");
   const [content, setContent] = useState<string>("");
+  const [file, setFile] = useState<UploadFile<any> | null>(null); // Use UploadFile type
 
   useEffect(() => {
     document.body.style.backgroundColor = "transparent";
@@ -37,13 +45,72 @@ const UserPostPage: React.FC = () => {
     setActiveTab(key);
   };
 
-  const handleUpload = () => {
+  const handleUpload = async () => {
+    if (!file || !file.originFileObj) {
+      alert("Please select a file to upload.");
+      return;
+    }
     setUploading(true);
     setUploadSuccess(false);
-    setTimeout(() => {
-      setUploading(false);
-      setUploadSuccess(true);
-    }, 2000);
+
+    // Create a storage reference
+    const storageRefInstance = storageRef(storage, `uploads/${file.name}`); // Use storageRef with storage instance
+
+    // Upload file
+    const uploadTask: UploadTask = uploadBytesResumable(
+      storageRefInstance,
+      file.originFileObj
+    );
+
+    // Listen for state changes, errors, and completion of the upload
+    uploadTask.on(
+      "state_changed",
+      () => {},
+      (error) => {
+        console.error("Error uploading:", error);
+        alert("Failed to upload. Please try again later.");
+        setUploading(false);
+      },
+      () => {
+        // Upload completed successfully, get download URL
+        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+          setUploading(false);
+          setUploadSuccess(true);
+          // Now you can use the downloadURL to store it in the database along with other data
+          // For example, you can add it to the postData object
+          const currentUser = auth.currentUser;
+          if (currentUser) {
+            const postData = {
+              title,
+              content,
+              email: currentUser.email || "user@example.com",
+              displayName: currentUser.displayName || "Anonymous",
+              photoURL: currentUser.photoURL || "default-photo-url",
+              createdAt: serverTimestamp(),
+              status: "pending",
+              fileUrl: downloadURL, // Add the file URL to the postData object
+            };
+            const postsRef = ref(database, "posts");
+            const newPostRef = push(postsRef);
+
+            set(newPostRef, postData)
+              .then(() => {
+                // Instead of redirecting, show a notification to the user
+                alert("Post submitted for review.");
+                // Optionally, clear the form fields
+                setTitle("");
+                setContent("");
+              })
+              .catch((error) => {
+                console.error("Error posting:", error);
+                alert("Failed to post. Please try again later.");
+              });
+          } else {
+            alert("Please sign in to post.");
+          }
+        });
+      }
+    );
   };
 
   const handleTermsAgreementChange = (
@@ -55,36 +122,7 @@ const UserPostPage: React.FC = () => {
   const handlePostButtonClick = () => {
     if (agreedToTerms) {
       if (title && content) {
-        const currentUser = auth.currentUser;
-        if (currentUser) {
-          const postData = {
-            title,
-            content,
-            email: currentUser.email || "user@example.com",
-            displayName: currentUser.displayName || "Anonymous",
-            photoURL: currentUser.photoURL || "default-photo-url",
-            createdAt: serverTimestamp(),
-            status: "pending",
-          };
-
-          const postsRef = ref(database, "posts");
-          const newPostRef = push(postsRef);
-
-          set(newPostRef, postData)
-            .then(() => {
-              // Instead of redirecting, show a notification to the user
-              alert("Post submitted for review.");
-              // Optionally, clear the form fields
-              setTitle("");
-              setContent("");
-            })
-            .catch((error) => {
-              console.error("Error posting:", error);
-              alert("Failed to post. Please try again later.");
-            });
-        } else {
-          alert("Please sign in to post.");
-        }
+        handleUpload();
       } else {
         alert("Please fill in title and content before posting.");
       }
@@ -211,7 +249,21 @@ const UserPostPage: React.FC = () => {
                           border: "2px dashed #549b90",
                           borderRadius: "8px",
                         }}
-                        beforeUpload={handleUpload}
+                        fileList={file ? [file] : []}
+                        customRequest={({ file: uploadedFile }) => {
+                          // Rename 'file' to 'uploadedFile'
+                          if (uploadedFile instanceof File) {
+                            setFile({
+                              uid: Math.random().toString(),
+                              name: uploadedFile.name,
+                              status: "done",
+                              size: uploadedFile.size,
+                              type: uploadedFile.type,
+                              percent: 100,
+                              originFileObj: uploadedFile,
+                            });
+                          }
+                        }}
                       >
                         {uploading && !uploadSuccess && <Spin />}
                         {uploadSuccess && (
