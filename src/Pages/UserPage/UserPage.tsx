@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Layout, Card, Button, Popover, Modal, Input, Avatar } from "antd";
-import { FaArrowUp, FaRegComment } from "react-icons/fa";
+import { FaArrowUp, FaRegComment, FaLocationArrow } from "react-icons/fa";
 import useToken from "../../Hooks/useToken";
 import { message } from "antd";
 import {
@@ -13,7 +13,6 @@ import {
   update,
 } from "firebase/database";
 import { database, auth } from "../../Firebase/firebase";
-import { FaLocationArrow } from "react-icons/fa";
 import { MdOutlineEdit, MdDelete, MdCancel } from "react-icons/md";
 import { BiSave } from "react-icons/bi";
 import UserNavbar from "../../Components/Navbar/UserNavbar/UserNavbar";
@@ -405,7 +404,29 @@ const UserPage: React.FC = () => {
                 ) : (
                   <div>
                     <p>{post.title}</p>
-                    <p>{post.content}</p>
+                    {/* Check if the post content is an image */}
+                    {post.content.toLowerCase().endsWith(".jpg") ||
+                    post.content.toLowerCase().endsWith(".png") ? (
+                      <img
+                        src={post.content}
+                        alt="Post Image"
+                        style={{ maxWidth: "100%", maxHeight: "200px" }}
+                      />
+                    ) : post.content.toLowerCase().endsWith(".docx") ? (
+                      <a
+                        href={post.content}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        Download Word Document
+                      </a>
+                    ) : (
+                      <img
+                        src="document-icon.png"
+                        alt="Document Icon"
+                        style={{ maxWidth: "50px", maxHeight: "50px" }}
+                      />
+                    )}
                   </div>
                 )}
 

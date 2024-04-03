@@ -26,7 +26,7 @@ const UserPostPage: React.FC = () => {
   const [agreedToTerms, setAgreedToTerms] = useState<boolean>(false);
   const [title, setTitle] = useState<string>("");
   const [content, setContent] = useState<string>("");
-  const [file, setFile] = useState<UploadFile<any> | null>(null); // Use UploadFile type
+  const [file, setFile] = useState<UploadFile<any> | null>(null);
 
   useEffect(() => {
     document.body.style.backgroundColor = "transparent";
@@ -54,7 +54,7 @@ const UserPostPage: React.FC = () => {
     setUploadSuccess(false);
 
     // Create a storage reference
-    const storageRefInstance = storageRef(storage, `uploads/${file.name}`); // Use storageRef with storage instance
+    const storageRefInstance = storageRef(storage, `Uploads/${file.name}`); // Use storageRef with storage instance
 
     // Upload file
     const uploadTask: UploadTask = uploadBytesResumable(
@@ -260,7 +260,7 @@ const UserPostPage: React.FC = () => {
                               size: uploadedFile.size,
                               type: uploadedFile.type,
                               percent: 100,
-                              originFileObj: uploadedFile,
+                              originFileObj: uploadedFile as File,
                             });
                           }
                         }}
