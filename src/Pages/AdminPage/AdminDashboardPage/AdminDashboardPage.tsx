@@ -1,17 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  Layout,
-  Card,
-  Tabs,
-  Upload,
-  Spin,
-  Table,
-  Button,
-  Space,
-  Tag,
-} from "antd";
-import { InboxOutlined } from "@ant-design/icons";
-import { FaUpload } from "react-icons/fa";
+import { Layout, Card, Tabs, Table, Space, Tag } from "antd";
 import { IoDocumentTextOutline } from "react-icons/io5";
 import { FaCheck } from "react-icons/fa";
 import AdminNavbar from "../../../Components/Navbar/AdminNavbar/AdminNavbar";
@@ -31,8 +19,6 @@ interface Post {
 const AdminDashboardPage: React.FC = () => {
   const [activeTab, setActiveTab] = useState<string>("1");
   const [isMobile, setIsMobile] = useState<boolean>(false);
-  const [uploading, setUploading] = useState<boolean>(false);
-  const [uploadSuccess, setUploadSuccess] = useState<boolean>(false);
   const [posts, setPosts] = useState<Post[]>([]);
 
   useEffect(() => {
@@ -71,15 +57,6 @@ const AdminDashboardPage: React.FC = () => {
 
   const handleTabChange = (key: string) => {
     setActiveTab(key);
-  };
-
-  const handleUpload = () => {
-    setUploading(true);
-    setTimeout(() => {
-      setUploading(false);
-      setUploadSuccess(true);
-      setActiveTab("3");
-    }, 2000);
   };
 
   const handleApprove = (postId: string) => {
@@ -150,18 +127,12 @@ const AdminDashboardPage: React.FC = () => {
         <Space size="middle">
           {record.status === "pending" && (
             <>
-              <Button
-                type="primary"
-                onClick={() => handleApprove(record.postId)}
-              >
+              <button onClick={() => handleApprove(record.postId)}>
                 Approve
-              </Button>
-              <Button
-                type="primary"
-                onClick={() => handleReject(record.postId)}
-              >
+              </button>
+              <button onClick={() => handleReject(record.postId)}>
                 Reject
-              </Button>
+              </button>
             </>
           )}
         </Space>
@@ -222,70 +193,15 @@ const AdminDashboardPage: React.FC = () => {
               <TabPane
                 tab={
                   isMobile ? (
-                    <FaUpload style={{ fontSize: "24px" }} />
+                    <FaCheck style={{ fontSize: "24px" }} />
                   ) : (
                     <span style={{ display: "flex", alignItems: "center" }}>
-                      <FaUpload style={{ marginRight: "8px" }} />
+                      <FaCheck style={{ marginRight: "8px" }} />
                       <span>Date</span>
                     </span>
                   )
                 }
                 key="2"
-              >
-                <div style={{ zIndex: 2 }}>
-                  <div
-                    style={{
-                      width: "100%",
-                      height: "300px",
-                    }}
-                  >
-                    <Upload.Dragger
-                      showUploadList={false}
-                      style={{
-                        width: "100%",
-                        height: "300px",
-                        padding: "20px",
-                        display: "flex",
-                        flexDirection: "column",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        border: "2px dashed #549b90",
-                        borderRadius: "8px",
-                      }}
-                      beforeUpload={handleUpload}
-                    >
-                      {uploading && <Spin />}{" "}
-                      {/* Show loading spinner while uploading */}
-                      {uploadSuccess && ( // Show success message when upload is successful
-                        <p style={{ color: "green" }}>Upload Successful!</p>
-                      )}
-                      {!uploading &&
-                        !uploadSuccess && ( // Show drag area when not uploading or after success
-                          <>
-                            <p className="ant-upload-drag-icon">
-                              <InboxOutlined style={{ fontSize: "50px" }} />
-                            </p>
-                            <p className="ant-upload-text">
-                              Click or drag file to this area to upload
-                            </p>
-                          </>
-                        )}
-                    </Upload.Dragger>
-                  </div>
-                </div>
-              </TabPane>
-              <TabPane
-                tab={
-                  isMobile ? (
-                    <FaCheck style={{ fontSize: "24px" }} />
-                  ) : (
-                    <span style={{ display: "flex", alignItems: "center" }}>
-                      <FaCheck style={{ marginRight: "8px" }} />
-                      <span>Topic</span>
-                    </span>
-                  )
-                }
-                key="3"
               >
                 <div style={{ zIndex: 3 }}>
                   <div
@@ -294,29 +210,7 @@ const AdminDashboardPage: React.FC = () => {
                       height: "320px",
                       alignItems: "center",
                     }}
-                  >
-                    <h1 style={{ fontSize: "22px" }}>
-                      User Terms and Conditions
-                    </h1>
-                    <h4 style={{ fontSize: "22px" }}>
-                      By clicking "Accept" you agree to our website{" "}
-                      <a href="/terms-conditions" style={{ color: "#549b90" }}>
-                        {" "}
-                        Terms and Conditions{" "}
-                      </a>
-                      as described in our policy.
-                    </h4>
-                    <label
-                      style={{
-                        display: "block",
-                        fontSize: "22px",
-                        marginTop: "20px",
-                      }}
-                    >
-                      <input type="checkbox" />
-                      &nbsp;I agree to the Terms and Conditions.
-                    </label>
-                  </div>
+                  ></div>
                 </div>
               </TabPane>
             </>

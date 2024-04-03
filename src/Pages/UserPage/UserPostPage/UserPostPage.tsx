@@ -7,7 +7,6 @@ import { IoDocumentTextOutline } from "react-icons/io5";
 import { FaCheck } from "react-icons/fa";
 import { ref, set, push, serverTimestamp } from "firebase/database";
 import { auth, database } from "../../../Firebase/firebase";
-import { useNavigate } from "react-router-dom"; // Import useNavigate for redirection
 
 const { Content } = Layout;
 const { TabPane } = Tabs;
@@ -20,7 +19,6 @@ const UserPostPage: React.FC = () => {
   const [agreedToTerms, setAgreedToTerms] = useState<boolean>(false);
   const [title, setTitle] = useState<string>("");
   const [content, setContent] = useState<string>("");
-  const navigate = useNavigate(); // Initialize useNavigate for redirection
 
   useEffect(() => {
     document.body.style.backgroundColor = "transparent";
@@ -57,7 +55,6 @@ const UserPostPage: React.FC = () => {
   const handlePostButtonClick = () => {
     if (agreedToTerms) {
       if (title && content) {
-        // Assuming you have access to the user's display name and photo URL
         const currentUser = auth.currentUser;
         if (currentUser) {
           const postData = {
@@ -66,8 +63,8 @@ const UserPostPage: React.FC = () => {
             email: currentUser.email || "user@example.com",
             displayName: currentUser.displayName || "Anonymous",
             photoURL: currentUser.photoURL || "default-photo-url",
-            createdAt: serverTimestamp(), // Timestamp when the post is created
-            status: "pending", // Add status field to mark posts as pending initially
+            createdAt: serverTimestamp(),
+            status: "pending",
           };
 
           const postsRef = ref(database, "posts");
@@ -75,15 +72,18 @@ const UserPostPage: React.FC = () => {
 
           set(newPostRef, postData)
             .then(() => {
-              alert("Post submitted for review!"); // Notify user that post is submitted for review
-              navigate("/admin/dashboard"); // Redirect to Admin Dashboard for review
+              // Instead of redirecting, show a notification to the user
+              alert("Post submitted for review.");
+              // Optionally, clear the form fields
+              setTitle("");
+              setContent("");
             })
             .catch((error) => {
               console.error("Error posting:", error);
               alert("Failed to post. Please try again later.");
             });
         } else {
-          alert("User not logged in.");
+          alert("Please sign in to post.");
         }
       } else {
         alert("Please fill in title and content before posting.");
