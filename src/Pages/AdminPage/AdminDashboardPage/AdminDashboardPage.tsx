@@ -182,7 +182,14 @@ const AdminDashboardPage: React.FC = () => {
                 }
                 key="1"
               >
-                <div style={{ zIndex: 2, width: "100%", height: "320px" }}>
+                <div
+                  style={{
+                    zIndex: 2,
+                    width: "100%",
+                    height: isMobile ? "320px" : "auto", // Set fixed height for mobile, auto for desktop
+                    overflowY: isMobile ? "auto" : "visible", // Enable vertical scrolling for mobile only
+                  }}
+                >
                   <Table
                     columns={columns}
                     dataSource={posts}

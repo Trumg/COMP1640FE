@@ -304,260 +304,274 @@ const UserPage: React.FC = () => {
             justifyContent: "center",
           }}
         >
-          {posts.map((post) => (
-            <Card
-              title={
-                editingPostId === post.id ? (
-                  <Input
-                    value={editedTitle}
-                    onChange={(e) => setEditedTitle(e.target.value)}
-                  />
-                ) : (
-                  <div
-                    style={{
-                      display: "flex",
-                      justifyContent: "space-between",
-                      alignItems: "center",
-                    }}
-                  >
-                    {isMobileView ? (
-                      // Render title without image in mobile view
-                      <p style={{ display: "flex", alignItems: "center" }}>
-                        <Avatar
-                          size={24}
-                          src={post.photoURL}
-                          style={{ marginRight: "10px" }}
-                        />
-                        {formatTimeDifference(post.createdAt)}
-                      </p>
-                    ) : (
-                      // Render title with image in desktop view
-                      <p style={{ display: "flex", alignItems: "center" }}>
-                        <Avatar
-                          size="large"
-                          src={post.photoURL}
-                          style={{ marginRight: "10px" }}
-                        />
-                        {post.displayName} -{" "}
-                        {formatTimeDifference(post.createdAt)}
-                      </p>
-                    )}
-                    {/* Render the number of comments */}
-                    {isMobileView ? (
-                      // Render menu icon for mobile view
-                      <Popover placement="bottomRight" trigger="click">
-                        <Button
-                          type="link"
-                          onClick={() => openModal(post)}
-                          icon={
-                            <FaRegComment
-                              style={{
-                                color: "#549b90",
-                                fontSize: "18px",
-                              }}
-                            />
-                          }
-                        />
-                        {post.comments ? post.comments.length : 0}
-                      </Popover>
-                    ) : (
-                      // Render action buttons for desktop view
-                      <div style={{ display: "flex" }}>
-                        <Button
-                          type="link"
-                          onClick={() => openModal(post)}
-                          icon={
-                            <FaRegComment
-                              style={{
-                                color: "#549b90",
-                                fontSize: "18px",
-                              }}
-                            />
-                          }
-                        />
-                        {post.comments ? post.comments.length : 0}
-                      </div>
-                    )}
-                  </div>
-                )
-              }
-              bordered={true}
-              hoverable={true}
-              style={{
-                width: isMobileView ? "350px" : "800px",
-                height: "300px",
-                marginBottom: "25px",
-              }}
-              key={post.id}
-            >
-              {editingPostId === post.id ? (
-                <Input.TextArea
-                  value={editedContent}
-                  onChange={(e) => setEditedContent(e.target.value)}
-                />
-              ) : (
-                <div>
-                  <p>{post.title}</p>
-                  <p>{post.content}</p>
-                </div>
-              )}
-
-              {canEdit(post) ? (
-                editingPostId === post.id ? (
-                  <>
-                    <Button
-                      style={{ marginRight: "8px", color: "#549b90" }}
-                      onClick={saveChanges}
-                    >
-                      <BiSave />
-                    </Button>
-                    <Button
-                      style={{ color: "#549b90" }}
-                      onClick={cancelEditing}
-                    >
-                      <MdCancel />
-                    </Button>
-                  </>
-                ) : (
-                  <>
-                    <Button
-                      style={{ marginRight: "8px", color: "#549b90" }}
-                      onClick={() =>
-                        startEditing(post.id, post.title, post.content)
-                      }
-                    >
-                      <MdOutlineEdit />
-                    </Button>
-                    <Button
-                      style={{ color: "#549b90" }}
-                      onClick={() => confirmDelete(post.id)}
-                    >
-                      <MdDelete />
-                    </Button>
-                  </>
-                )
-              ) : null}
-            </Card>
-          ))}
-
-          {/* Modal to display selected post */}
-          <Modal
-            title={null}
-            visible={selectedPost !== null}
-            onCancel={closeModal}
-            footer={null}
-            closable={false}
-            width={800} // Set the width of the modal
-            bodyStyle={{ overflowY: "auto", maxHeight: "80vh" }} // Set the maximum height of the modal body
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
           >
-            {selectedPost && (
+            {posts.map((post) => (
               <Card
                 title={
-                  <>
-                    <span>Comment</span>
-                  </>
-                }
-                bodyStyle={{ overflowY: "auto", maxHeight: "70vh" }}
-              >
-                {/* Comment section */}
-                <div style={{ marginTop: "20px" }}>
-                  {selectedPost.comments &&
-                    selectedPost.comments.map((comment) => (
-                      <div
-                        key={comment.id}
-                        style={{
-                          marginBottom: "10px",
-                          display: "flex",
-                          alignItems: "center",
-                        }}
-                      >
-                        <Avatar src={comment.photoURL} />
-                        <div style={{ marginLeft: "10px", flex: 1 }}>
-                          <span>
-                            {comment.displayName} -{" "}
-                            {formatTimeDifference(comment.createdAt)}:
-                          </span>
-                          <p>{comment.content}</p>
+                  editingPostId === post.id ? (
+                    <Input
+                      value={editedTitle}
+                      onChange={(e) => setEditedTitle(e.target.value)}
+                    />
+                  ) : (
+                    <div
+                      style={{
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                      }}
+                    >
+                      {isMobileView ? (
+                        // Render title without image in mobile view
+                        <p style={{ display: "flex", alignItems: "center" }}>
+                          <Avatar
+                            size={24}
+                            src={post.photoURL}
+                            style={{ marginRight: "10px" }}
+                          />
+                          {formatTimeDifference(post.createdAt)}
+                        </p>
+                      ) : (
+                        // Render title with image in desktop view
+                        <p style={{ display: "flex", alignItems: "center" }}>
+                          <Avatar
+                            size="large"
+                            src={post.photoURL}
+                            style={{ marginRight: "10px" }}
+                          />
+                          {post.displayName} -{" "}
+                          {formatTimeDifference(post.createdAt)}
+                        </p>
+                      )}
+                      {/* Render the number of comments */}
+                      {isMobileView ? (
+                        // Render menu icon for mobile view
+                        <Popover placement="bottomRight" trigger="click">
+                          <Button
+                            type="link"
+                            onClick={() => openModal(post)}
+                            icon={
+                              <FaRegComment
+                                style={{
+                                  color: "#549b90",
+                                  fontSize: "18px",
+                                }}
+                              />
+                            }
+                          />
+                          {post.comments ? post.comments.length : 0}
+                        </Popover>
+                      ) : (
+                        // Render action buttons for desktop view
+                        <div style={{ display: "flex" }}>
+                          <Button
+                            type="link"
+                            onClick={() => openModal(post)}
+                            icon={
+                              <FaRegComment
+                                style={{
+                                  color: "#549b90",
+                                  fontSize: "18px",
+                                }}
+                              />
+                            }
+                          />
+                          {post.comments ? post.comments.length : 0}
                         </div>
-                        {currentUser && currentUser.email === comment.email && (
-                          <div>
-                            {editingCommentId === comment.id ? (
-                              <div style={{ display: "flex" }}>
-                                <Input
-                                  style={{ marginLeft: "8px" }}
-                                  value={editedCommentContent}
-                                  onChange={(e) =>
-                                    setEditedCommentContent(e.target.value)
-                                  }
-                                />
-                                <Button
-                                  style={{ marginLeft: "8px" }}
-                                  onClick={() =>
-                                    editComment(
-                                      selectedPost.id,
-                                      comment.id,
-                                      editedCommentContent
-                                    )
-                                  }
-                                  title="Save changes"
-                                >
-                                  <BiSave />
-                                </Button>
-                                <Button
-                                  style={{ marginLeft: "8px" }}
-                                  onClick={() => setEditingCommentId(null)}
-                                  title="Cancel editing"
-                                >
-                                  <MdCancel />
-                                </Button>
-                              </div>
-                            ) : (
+                      )}
+                    </div>
+                  )
+                }
+                bordered={true}
+                hoverable={true}
+                style={{
+                  width: isMobileView ? "350px" : "800px",
+                  height: "300px",
+                  marginBottom: "25px",
+                }}
+                key={post.id}
+              >
+                {editingPostId === post.id ? (
+                  <Input.TextArea
+                    value={editedContent}
+                    onChange={(e) => setEditedContent(e.target.value)}
+                  />
+                ) : (
+                  <div>
+                    <p>{post.title}</p>
+                    <p>{post.content}</p>
+                  </div>
+                )}
+
+                {canEdit(post) ? (
+                  editingPostId === post.id ? (
+                    <>
+                      <Button
+                        style={{ marginRight: "8px", color: "#549b90" }}
+                        onClick={saveChanges}
+                      >
+                        <BiSave />
+                      </Button>
+                      <Button
+                        style={{ color: "#549b90" }}
+                        onClick={cancelEditing}
+                      >
+                        <MdCancel />
+                      </Button>
+                    </>
+                  ) : (
+                    <>
+                      <Button
+                        style={{ marginRight: "8px", color: "#549b90" }}
+                        onClick={() =>
+                          startEditing(post.id, post.title, post.content)
+                        }
+                      >
+                        <MdOutlineEdit />
+                      </Button>
+                      <Button
+                        style={{ color: "#549b90" }}
+                        onClick={() => confirmDelete(post.id)}
+                      >
+                        <MdDelete />
+                      </Button>
+                    </>
+                  )
+                ) : null}
+              </Card>
+            ))}
+
+            {/* Modal to display selected post */}
+            <Modal
+              title={null}
+              visible={selectedPost !== null}
+              onCancel={closeModal}
+              footer={null}
+              closable={false}
+              width={800} // Set the width of the modal
+              bodyStyle={{ overflowY: "auto", maxHeight: "80vh" }} // Set the maximum height of the modal body
+            >
+              {selectedPost && (
+                <Card
+                  title={
+                    <>
+                      <span>Comment</span>
+                    </>
+                  }
+                  bodyStyle={{ overflowY: "auto", maxHeight: "70vh" }}
+                >
+                  {/* Comment section */}
+                  <div style={{ marginTop: "20px" }}>
+                    {selectedPost.comments &&
+                      selectedPost.comments.map((comment) => (
+                        <div
+                          key={comment.id}
+                          style={{
+                            marginBottom: "10px",
+                            display: "flex",
+                            alignItems: "center",
+                          }}
+                        >
+                          <Avatar src={comment.photoURL} />
+                          <div style={{ marginLeft: "10px", flex: 1 }}>
+                            <span>
+                              {comment.displayName} -{" "}
+                              {formatTimeDifference(comment.createdAt)}:
+                            </span>
+                            <p>{comment.content}</p>
+                          </div>
+                          {currentUser &&
+                            currentUser.email === comment.email && (
                               <div>
-                                <Button
-                                  style={{ marginLeft: "8px" }}
-                                  onClick={() => {
-                                    setEditingCommentId(comment.id);
-                                    setEditedCommentContent(comment.content);
-                                  }}
-                                  title="Edit comment"
-                                >
-                                  <MdOutlineEdit />
-                                </Button>
-                                <Button
-                                  style={{ marginLeft: "8px" }}
-                                  onClick={() =>
-                                    deleteComment(selectedPost.id, comment.id)
-                                  }
-                                  title="Delete comment"
-                                >
-                                  <MdDelete />
-                                </Button>
+                                {editingCommentId === comment.id ? (
+                                  <div style={{ display: "flex" }}>
+                                    <Input
+                                      style={{ marginLeft: "8px" }}
+                                      value={editedCommentContent}
+                                      onChange={(e) =>
+                                        setEditedCommentContent(e.target.value)
+                                      }
+                                    />
+                                    <Button
+                                      style={{ marginLeft: "8px" }}
+                                      onClick={() =>
+                                        editComment(
+                                          selectedPost.id,
+                                          comment.id,
+                                          editedCommentContent
+                                        )
+                                      }
+                                      title="Save changes"
+                                    >
+                                      <BiSave />
+                                    </Button>
+                                    <Button
+                                      style={{ marginLeft: "8px" }}
+                                      onClick={() => setEditingCommentId(null)}
+                                      title="Cancel editing"
+                                    >
+                                      <MdCancel />
+                                    </Button>
+                                  </div>
+                                ) : (
+                                  <div>
+                                    <Button
+                                      style={{ marginLeft: "8px" }}
+                                      onClick={() => {
+                                        setEditingCommentId(comment.id);
+                                        setEditedCommentContent(
+                                          comment.content
+                                        );
+                                      }}
+                                      title="Edit comment"
+                                    >
+                                      <MdOutlineEdit />
+                                    </Button>
+                                    <Button
+                                      style={{ marginLeft: "8px" }}
+                                      onClick={() =>
+                                        deleteComment(
+                                          selectedPost.id,
+                                          comment.id
+                                        )
+                                      }
+                                      title="Delete comment"
+                                    >
+                                      <MdDelete />
+                                    </Button>
+                                  </div>
+                                )}
                               </div>
                             )}
-                          </div>
-                        )}
-                      </div>
-                    ))}
-                  <Input
-                    placeholder="Add a comment"
-                    value={newComment}
-                    onChange={(e) => setNewComment(e.target.value)}
-                    onPressEnter={() => addComment(selectedPost.id)}
-                    suffix={
-                      <button
-                        className="bg-[#549b90] border-1 border-black hover:bg-gray-400 font-bold py-2 px-4 rounded-full shadow-md"
-                        onClick={() => addComment(selectedPost.id)}
-                        disabled={!newComment.trim()}
-                        title="Post comment"
-                      >
-                        <FaLocationArrow />
-                      </button>
-                    }
-                  />
-                </div>
-              </Card>
-            )}
-          </Modal>
+                        </div>
+                      ))}
+                    <Input
+                      placeholder="Add a comment"
+                      value={newComment}
+                      onChange={(e) => setNewComment(e.target.value)}
+                      onPressEnter={() => addComment(selectedPost.id)}
+                      suffix={
+                        <button
+                          className="bg-[#549b90] border-1 border-black hover:bg-gray-400 font-bold py-2 px-4 rounded-full shadow-md"
+                          onClick={() => addComment(selectedPost.id)}
+                          disabled={!newComment.trim()}
+                          title="Post comment"
+                        >
+                          <FaLocationArrow />
+                        </button>
+                      }
+                    />
+                  </div>
+                </Card>
+              )}
+            </Modal>
+          </div>
           {/* Scroll to top button */}
           {showScrollButton && (
             <button
