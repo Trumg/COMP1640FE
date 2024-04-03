@@ -31,7 +31,10 @@ const UserRoute: React.FC = () => {
           <Route
             path="/post"
             element={
-              <PrivateRoute user={user}>
+              <PrivateRoute
+                allowedRoles={["Admin", "Manager", "Coordinator"]}
+                user={user} // Pass 'user' state directly here
+              >
                 <UserPostPage />
               </PrivateRoute>
             }

@@ -7,6 +7,7 @@ import { IoDocumentTextOutline } from "react-icons/io5";
 import { FaCheck } from "react-icons/fa";
 import { ref, set, push, serverTimestamp } from "firebase/database";
 import { auth, database } from "../../../Firebase/firebase";
+import { useNavigate } from "react-router-dom"; // Import useNavigate for redirection
 
 const { Content } = Layout;
 const { TabPane } = Tabs;
@@ -19,6 +20,7 @@ const UserPostPage: React.FC = () => {
   const [agreedToTerms, setAgreedToTerms] = useState<boolean>(false);
   const [title, setTitle] = useState<string>("");
   const [content, setContent] = useState<string>("");
+  const navigate = useNavigate(); // Initialize useNavigate for redirection
 
   useEffect(() => {
     document.body.style.backgroundColor = "transparent";
@@ -65,6 +67,7 @@ const UserPostPage: React.FC = () => {
             displayName: currentUser.displayName || "Anonymous",
             photoURL: currentUser.photoURL || "default-photo-url",
             createdAt: serverTimestamp(), // Timestamp when the post is created
+            status: "pending", // Add status field to mark posts as pending initially
           };
 
           const postsRef = ref(database, "posts");
@@ -72,7 +75,8 @@ const UserPostPage: React.FC = () => {
 
           set(newPostRef, postData)
             .then(() => {
-              alert("Post successful!");
+              alert("Post submitted for review!"); // Notify user that post is submitted for review
+              navigate("/admin/dashboard"); // Redirect to Admin Dashboard for review
             })
             .catch((error) => {
               console.error("Error posting:", error);

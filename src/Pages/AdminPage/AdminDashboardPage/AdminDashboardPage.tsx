@@ -1,30 +1,71 @@
 import React, { useEffect, useState } from "react";
-import { Layout, Card, Tabs, Upload, Spin, Table } from "antd";
+import {
+  Layout,
+  Card,
+  Tabs,
+  Upload,
+  Spin,
+  Table,
+  Button,
+  Space,
+  Tag,
+} from "antd";
 import { InboxOutlined } from "@ant-design/icons";
-import { FaUpload } from "react-icons/fa6";
+import { FaUpload } from "react-icons/fa";
 import { IoDocumentTextOutline } from "react-icons/io5";
 import { FaCheck } from "react-icons/fa";
-import TabPane from "antd/es/tabs/TabPane";
 import AdminNavbar from "../../../Components/Navbar/AdminNavbar/AdminNavbar";
+import { ref, onValue, update, remove } from "firebase/database";
+import { database } from "../../../Firebase/firebase";
 
 const { Content } = Layout;
+const { TabPane } = Tabs;
+
+interface Post {
+  postId: string;
+  title: string;
+  content: string;
+  status: "pending" | "approved" | "rejected";
+}
 
 const AdminDashboardPage: React.FC = () => {
   const [activeTab, setActiveTab] = useState<string>("1");
   const [isMobile, setIsMobile] = useState<boolean>(false);
   const [uploading, setUploading] = useState<boolean>(false);
   const [uploadSuccess, setUploadSuccess] = useState<boolean>(false);
+  const [posts, setPosts] = useState<Post[]>([]);
 
   useEffect(() => {
     document.body.style.backgroundColor = "transparent";
     const updateMediaQuery = () => {
       setIsMobile(window.matchMedia("(max-width: 768px)").matches);
     };
-    updateMediaQuery(); // Initial check
-    window.addEventListener("resize", updateMediaQuery); // Listen for window resize
+    updateMediaQuery();
+    window.addEventListener("resize", updateMediaQuery);
     return () => {
       document.body.style.backgroundColor = "";
-      window.removeEventListener("resize", updateMediaQuery); // Clean up
+      window.removeEventListener("resize", updateMediaQuery);
+    };
+  }, []);
+
+  useEffect(() => {
+    const fetchPosts = () => {
+      const postsRef = ref(database, "posts");
+      onValue(postsRef, (snapshot) => {
+        const posts: Post[] = [];
+        snapshot.forEach((childSnapshot) => {
+          const post = childSnapshot.val();
+          posts.push({ ...post, postId: childSnapshot.key });
+        });
+        setPosts(posts);
+      });
+    };
+
+    fetchPosts();
+
+    // Cleanup
+    return () => {
+      // Remove listeners if needed
     };
   }, []);
 
@@ -41,41 +82,91 @@ const AdminDashboardPage: React.FC = () => {
     }, 2000);
   };
 
+  const handleApprove = (postId: string) => {
+    // Update the post status to "approved"
+    const postRef = ref(database, `posts/${postId}`);
+    onValue(postRef, (snapshot) => {
+      const post = snapshot.val();
+      if (post) {
+        update(postRef, { status: "approved" })
+          .then(() => {
+            // Handle success
+            console.log("Post approved successfully");
+          })
+          .catch((error) => {
+            // Handle error
+            console.error("Error approving post:", error);
+          });
+      } else {
+        console.error("Post not found");
+      }
+    });
+  };
+
+  const handleReject = (postId: string) => {
+    // Remove the post
+    const postRef = ref(database, `posts/${postId}`);
+    onValue(postRef, (snapshot) => {
+      const post = snapshot.val();
+      if (post) {
+        remove(postRef)
+          .then(() => {
+            // Handle success
+            console.log("Post rejected successfully");
+          })
+          .catch((error) => {
+            // Handle error
+            console.error("Error rejecting post:", error);
+          });
+      } else {
+        console.error("Post not found");
+      }
+    });
+  };
+
   const columns = [
     {
-      title: "ID",
-      dataIndex: "id",
-      key: "id",
+      title: "Title",
+      dataIndex: "title",
+      key: "title",
     },
     {
-      title: "Name",
-      dataIndex: "name",
-      key: "name",
+      title: "Content",
+      dataIndex: "content",
+      key: "content",
     },
     {
-      title: "Age",
-      dataIndex: "age",
-      key: "age",
+      title: "Status",
+      dataIndex: "status",
+      key: "status",
+      render: (status: string) => (
+        <Tag color={status === "approved" ? "green" : "orange"}>{status}</Tag>
+      ),
     },
     {
-      title: "Email",
-      dataIndex: "email",
-      key: "email",
+      title: "Action",
+      key: "action",
+      render: (_: string, record: Post) => (
+        <Space size="middle">
+          {record.status === "pending" && (
+            <>
+              <Button
+                type="primary"
+                onClick={() => handleApprove(record.postId)}
+              >
+                Approve
+              </Button>
+              <Button
+                type="primary"
+                onClick={() => handleReject(record.postId)}
+              >
+                Reject
+              </Button>
+            </>
+          )}
+        </Space>
+      ),
     },
-  ];
-
-  // Sample user data
-  const userData = [
-    { id: 1, name: "Jane Smith", age: 25, email: "jane@example.com" },
-    { id: 2, name: "Jane Smith", age: 25, email: "jane@example.com" },
-    { id: 3, name: "Jane Smith", age: 25, email: "jane@example.com" },
-    { id: 4, name: "Jane Smith", age: 25, email: "jane@example.com" },
-    { id: 5, name: "Jane Smith", age: 25, email: "jane@example.com" },
-    { id: 6, name: "Jane Smith", age: 25, email: "jane@example.com" },
-    { id: 7, name: "Jane Smith", age: 25, email: "jane@example.com" },
-    { id: 8, name: "Jane Smith", age: 25, email: "jane@example.com" },
-    { id: 9, name: "Jane Smith", age: 25, email: "jane@example.com" },
-    { id: 10, name: "Jane Smith", age: 25, email: "jane@example.com" },
   ];
 
   return (
@@ -114,7 +205,7 @@ const AdminDashboardPage: React.FC = () => {
                   ) : (
                     <span style={{ display: "flex", alignItems: "center" }}>
                       <IoDocumentTextOutline style={{ marginRight: "8px" }} />
-                      <span>Users</span>
+                      <span>Posts</span>
                     </span>
                   )
                 }
@@ -123,10 +214,8 @@ const AdminDashboardPage: React.FC = () => {
                 <div style={{ zIndex: 2, width: "100%", height: "320px" }}>
                   <Table
                     columns={columns}
-                    dataSource={userData}
-                    scroll={{ x: "max-content" }}
+                    dataSource={posts}
                     pagination={{ pageSize: 5 }}
-                    style={{ fontSize: "10px", padding: "0", margin: "0" }}
                   />
                 </div>
               </TabPane>

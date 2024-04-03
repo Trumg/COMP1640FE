@@ -2,7 +2,7 @@ import { User } from "firebase/auth";
 import { ReactNode } from "react";
 import { Navigate } from "react-router-dom";
 
-interface PrivateRouteProps {
+export interface PrivateRouteProps {
   children: ReactNode;
   user?: User | null;
 }
