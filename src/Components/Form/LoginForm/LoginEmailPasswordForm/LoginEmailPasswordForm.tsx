@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { signInWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { Link } from "react-router-dom";
 import { Card, Input, message } from "antd";
 import { ArrowLeftOutlined, CloseOutlined } from "@ant-design/icons";
@@ -24,25 +24,41 @@ const LoginEmailPasswordForm: React.FC = () => {
   }, []);
 
   const handleLogIn = () => {
-    if (!email || !password) return;
+    if (!email || !password || !name) return;
+
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         const user = userCredential.user;
-        console.log(user);
-        message.success("Login Successful");
+        if (user) {
+          const currentUser = auth.currentUser;
+          if (currentUser) {
+            const updateProfilePromise = updateProfile(currentUser, {
+              displayName: name,
+            });
 
-        // Save email and password to Realtime Database
-        set(ref(database, "users/" + user.uid), {
-          uid: user.uid,
-          displayName: name,
-          email: email,
-          password: password,
-          photoURL: user.photoURL,
-        });
-
-        setTimeout(() => {
-          redirecttoUserPage();
-        }, 2000);
+            updateProfilePromise
+              .then(() => {
+                const userData = {
+                  uid: user.uid,
+                  displayName: name,
+                  email: user.email,
+                };
+                // Set user data to the database
+                set(ref(database, `users/${user.uid}`), userData);
+                console.log(user);
+                message.success("Login Successful");
+                setTimeout(() => {
+                  redirecttoUserPage();
+                }, 2000);
+              })
+              .catch((error) => {
+                console.log(error);
+                message.error("Error updating profile");
+              });
+          } else {
+            message.error("User is not authenticated");
+          }
+        }
       })
       .catch((error) => {
         const errorMessage = error.message;
