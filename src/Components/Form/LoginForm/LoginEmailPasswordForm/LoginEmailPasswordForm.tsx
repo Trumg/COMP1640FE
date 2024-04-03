@@ -26,44 +26,73 @@ const LoginEmailPasswordForm: React.FC = () => {
   const handleLogIn = () => {
     if (!email || !password || !name) return;
 
-    signInWithEmailAndPassword(auth, email, password)
-      .then((userCredential) => {
-        const user = userCredential.user;
-        if (user) {
-          const currentUser = auth.currentUser;
-          if (currentUser) {
-            const updateProfilePromise = updateProfile(currentUser, {
-              displayName: name,
-            });
+    // Convert name to lowercase and capitalize the first letter
+    const formattedName =
+      name.charAt(0).toUpperCase() + name.slice(1).toLowerCase();
 
-            updateProfilePromise
-              .then(() => {
-                const userData = {
-                  uid: user.uid,
-                  displayName: name,
-                  email: user.email,
-                };
-                // Set user data to the database
-                set(ref(database, `users/${user.uid}`), userData);
-                console.log(user);
-                message.success("Login Successful");
-                setTimeout(() => {
-                  redirecttoUserPage();
-                }, 2000);
-              })
-              .catch((error) => {
-                console.log(error);
-                message.error("Error updating profile");
+    // Define email and password combinations for Admin, Manager, and Coordinator
+    const credentials: Record<string, { email: string; password: string }> = {
+      Admin: { email: "admin@gmail.com", password: "admin@123" },
+      Manager: { email: "manager@gmail.com", password: "manager@123" },
+      Coordinator: {
+        email: "coordinator@gmail.com",
+        password: "coordinator@123",
+      },
+    };
+
+    // Check if the entered name matches either Admin, Manager, or Coordinator and the credentials are correct
+    if (
+      (formattedName === "Admin" ||
+        formattedName === "Manager" ||
+        formattedName === "Coordinator") &&
+      credentials[formattedName as keyof typeof credentials] &&
+      email === credentials[formattedName as keyof typeof credentials].email &&
+      password ===
+        credentials[formattedName as keyof typeof credentials].password
+    ) {
+      signInWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+          const user = userCredential.user;
+          if (user) {
+            const currentUser = auth.currentUser;
+            if (currentUser) {
+              const updateProfilePromise = updateProfile(currentUser, {
+                displayName: formattedName,
               });
-          } else {
-            message.error("User is not authenticated");
+
+              updateProfilePromise
+                .then(() => {
+                  const userData = {
+                    uid: user.uid,
+                    displayName: formattedName,
+                    email: user.email,
+                    photoURL: user.photoURL,
+                  };
+                  // Set user data to the database
+                  set(ref(database, `users/${user.uid}`), userData);
+                  message.success("Login Successful");
+                  setTimeout(() => {
+                    redirecttoUserPage();
+                  }, 2000);
+                })
+                .catch((error) => {
+                  console.log(error);
+                  message.error("Error updating profile");
+                });
+            } else {
+              message.error("User is not authenticated");
+            }
           }
-        }
-      })
-      .catch((error) => {
-        const errorMessage = error.message;
-        message.error(errorMessage);
-      });
+        })
+        .catch((error) => {
+          const errorMessage = error.message;
+          message.error(errorMessage);
+        });
+    } else {
+      message.error(
+        "Invalid credentials. Please enter the correct email, password, and name."
+      );
+    }
   };
 
   const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {

@@ -1,5 +1,11 @@
+import AdminNavbar from "../../Components/Navbar/AdminNavbar/AdminNavbar";
+
 function CoordinatorPage() {
-  return <div>CoordinatorPage</div>;
+  return (
+    <div>
+      <AdminNavbar />
+    </div>
+  );
 }
 
 export default CoordinatorPage;

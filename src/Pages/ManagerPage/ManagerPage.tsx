@@ -1,17 +1,9 @@
-import { signOut } from "firebase/auth";
-import { auth } from "../../Firebase/firebase";
+import AdminNavbar from "../../Components/Navbar/AdminNavbar/AdminNavbar";
 
 function ManagerPage() {
-  const handleSignOut = () => {
-    signOut(auth)
-      .then(() => console.log("Sign Out"))
-      .catch((error) => console.log(error));
-  };
-
   return (
     <div>
-      ManagerPage
-      <button onClick={handleSignOut}>Sign Out</button>
+      <AdminNavbar />
     </div>
   );
 }

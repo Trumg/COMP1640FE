@@ -8,6 +8,7 @@ import AdminRoute from "./Routes/AdminRoute/AdminRoute";
 import ManagerRoute from "./Routes/ManagerRoute/ManagerRoute";
 import AccessDeniedRoute from "./Routes/AccessDeniedRoute/AccessDeniedRoute";
 import TermConditionRoute from "./Routes/TermConditionRoute/TermConditionRoute";
+import CoordinatorRoute from "./Routes/CoordinatorRoute/CoordinatorRoute";
 
 const App: React.FC = () => {
   return (
@@ -19,6 +20,7 @@ const App: React.FC = () => {
       <ManagerRoute />
       <AccessDeniedRoute />
       <TermConditionRoute />
+      <CoordinatorRoute />
     </Router>
   );
 };
