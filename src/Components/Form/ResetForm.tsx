@@ -29,7 +29,7 @@ const ResetForm: React.FC = () => {
       transition={{ duration: 0.5 }}
       className="h-screen flex justify-center items-center relative"
       style={{
-        backgroundImage: `url('https://media.giphy.com/media/l0Iy3qmrODEarmfHq/giphy.gif')`,
+        backgroundImage: `url('https://media.giphy.com/media/l4FGGYrtfJP7qpcDC/giphy.gif')`,
         backgroundSize: "100% auto",
         backgroundPosition: "center",
       }}
