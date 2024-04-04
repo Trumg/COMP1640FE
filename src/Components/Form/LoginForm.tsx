@@ -1,11 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
 import { Card } from "antd";
-import {
-  CloseOutlined,
-  EyeOutlined,
-  EyeInvisibleOutlined,
-} from "@ant-design/icons";
+import { EyeOutlined, EyeInvisibleOutlined } from "@ant-design/icons";
 import { motion } from "framer-motion";
 import { LoginImage } from "../../Assets/LoginImage/LoginImage";
 
@@ -57,19 +52,8 @@ const LoginForm: React.FC = () => {
     >
       <Card
         className={`w-full max-w-md p-2 ${isMobile ? "max-w-xs" : ""}`}
-        style={{
-          border: "3px solid #549b90",
-          borderRadius: "5px",
-          backgroundColor: "#fafafa",
-        }}
+        style={{ borderColor: "#549b90" }} // Adding border color here
       >
-        <div className="flex justify-end w-full">
-          <Link to="/" className="text-[#549b90]">
-            <button>
-              <CloseOutlined />
-            </button>
-          </Link>
-        </div>
         <h3 className="text-lg font-medium leading-6 text-gray-900 text-center mb-1">
           <div className="flex items-center justify-center">
             <img src={LoginImage} width={200} height={200} alt="Login Image" />
@@ -83,7 +67,7 @@ const LoginForm: React.FC = () => {
               value={email}
               onChange={handleEmailChange}
               className="relative bg-white text-black py-2 px-4 rounded-full w-full flex items-center justify-center border border-[#549b90] transition duration-300 hover:text-gray-600 hover:border-[#549b90] focus:outline-none hover:bg-gray-200"
-              style={{ marginBottom: "10px" }} // Add margin bottom here
+              style={{ marginBottom: "10px" }}
             />
             <div className="relative">
               <input
@@ -92,28 +76,24 @@ const LoginForm: React.FC = () => {
                 value={password}
                 onChange={handlePasswordChange}
                 className="relative bg-white text-black py-2 px-4 rounded-full w-full flex items-center justify-center border border-[#549b90] transition duration-300 hover:text-gray-600 hover:border-[#549b90] focus:outline-none hover:bg-gray-200"
-                style={{ marginBottom: "10px" }} // Add margin bottom here
+                style={{ marginBottom: "10px" }}
               />
               <button
                 onClick={toggleShowPassword}
-                className="absolute top-1/2 right-2 transform -translate-y-1/2"
+                className="absolute top-1/2 right-4 transform -translate-y-1/2 pr-2"
               >
                 {showPassword ? <EyeInvisibleOutlined /> : <EyeOutlined />}
               </button>
             </div>
-            <motion.div
-              initial={{ opacity: 0, x: -50 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.5, delay: 0.3 }}
-            >
+            <div>
               <button
                 onClick={handleLogin}
                 className="relative bg-white text-black  py-2 px-4 rounded-full w-full flex items-center justify-center border border-[#549b90] transition duration-300 hover:text-gray-600 hover:border-[#549b90] focus:outline-none hover:bg-gray-200"
-                style={{ marginTop: "10px" }} // Add margin top here
+                style={{ marginTop: "10px" }}
               >
-                <span className="inline-block ml-6">Login</span>
+                <span className="inline-block">Login</span>
               </button>
-            </motion.div>
+            </div>
           </div>
         </div>
       </Card>
