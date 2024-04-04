@@ -1,20 +1,30 @@
 import React from "react";
-import { BrowserRouter as Router } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
-import AuthRoute from "./Routes/AuthRoute/AuthRoute";
-import UserRoute from "./Routes/UserRoute/UserRoute";
-import AdminRoute from "./Routes/AdminRoute/AdminRoute";
-import ManagerRoute from "./Routes/ManagerRoute/ManagerRoute";
-import CoordinatorRoute from "./Routes/CoordinatorRoute/CoordinatorRoute";
+import LoginPage from "./Pages/LoginPage/LoginPage";
+import AdminPage from "./Pages/AdminPage/AdminPage";
+import ManagerPage from "./Pages/ManagerPage/ManagerPage";
+import CoordinatorPage from "./Pages/CoordinatorPage/CoordinatorPage";
 
 const App: React.FC = () => {
   return (
     <Router>
-      <AuthRoute />
-      <UserRoute />
-      <AdminRoute />
-      <ManagerRoute />
-      <CoordinatorRoute />
+      <Routes>
+        {/* Default */}
+        <Route path="/" element={<LoginPage />} />
+
+        {/* Admin */}
+        <Route path="/admin" element={<AdminPage />} />
+
+        {/* Manager */}
+        <Route path="/manager" element={<ManagerPage />} />
+
+        {/* Coordinator */}
+        <Route path="/coordinator" element={<CoordinatorPage />} />
+
+        {/* Student */}
+        <Route path="/student" element={<CoordinatorPage />} />
+      </Routes>
     </Router>
   );
 };
