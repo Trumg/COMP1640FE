@@ -52,7 +52,7 @@ function AdminPage() {
           style={{ overflowX: isMobile ? "scroll" : "hidden" }}
         >
           <div className="bg-white border border-gray-200 rounded-lg shadow-md p-6">
-            <h1 className="text-xl font-bold mb-3">User Management</h1>
+            <h1 className="text-xl font-bold mb-3">Create</h1>
             <div
               className="table-container relative" // Added relative position
               style={{
@@ -104,19 +104,13 @@ function AdminPage() {
                                 className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mb-2 w-full"
                                 style={{ width: "100px" }}
                               >
-                                Add
+                                Create
                               </button>
                               <button
                                 className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-2 w-full"
                                 style={{ width: "100px" }}
                               >
                                 Edit
-                              </button>
-                              <button
-                                className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded w-full"
-                                style={{ width: "100px" }}
-                              >
-                                Delete
                               </button>
                             </div>
                           ) : (
@@ -125,19 +119,13 @@ function AdminPage() {
                                 className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mr-2"
                                 style={{ width: "100px" }}
                               >
-                                Add
+                                Create
                               </button>
                               <button
                                 className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2"
                                 style={{ width: "100px" }}
                               >
                                 Edit
-                              </button>
-                              <button
-                                className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
-                                style={{ width: "100px" }}
-                              >
-                                Delete
                               </button>
                             </>
                           )}

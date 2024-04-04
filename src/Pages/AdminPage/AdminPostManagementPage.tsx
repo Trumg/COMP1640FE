@@ -77,7 +77,7 @@ function AdminPostManagementPage() {
           <div className="bg-white border border-gray-200 rounded-lg shadow-md p-6">
             <h1 className="text-xl font-bold mb-3">Post Management</h1>
             <div
-              className="table-container relative" // Added relative position
+              className="table-container relative"
               style={{
                 overflow: "auto",
                 maxHeight: "500px",
