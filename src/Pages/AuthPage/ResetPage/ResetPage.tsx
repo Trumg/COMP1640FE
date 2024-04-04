@@ -1,4 +1,4 @@
-import ResetForm from "../../../Components/Form/ResetForm/ResetForm";
+import ResetForm from "../../../Components/Form/ResetForm";
 
 function ResetPage() {
   return (

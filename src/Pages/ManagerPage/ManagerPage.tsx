@@ -1,4 +1,4 @@
-import AdminNavbar from "../../Components/Navbar/AdminNavbar/AdminNavbar";
+import AdminNavbar from "../../Components/Navbar/AdminNavbar";
 
 function ManagerPage() {
   return (

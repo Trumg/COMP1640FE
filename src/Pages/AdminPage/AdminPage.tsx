@@ -1,5 +1,5 @@
-import AdminNavbar from "../../Components/Navbar/AdminNavbar/AdminNavbar";
-import AdminDashboardPage from "./AdminDashboardPage/AdminDashboardPage";
+import AdminNavbar from "../../Components/Navbar/AdminNavbar";
+import AdminDashboardPage from "./AdminDashboardPage";
 
 function AdminPage() {
   return (
