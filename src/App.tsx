@@ -43,13 +43,19 @@ const App: React.FC = () => {
 
         {/* Manager */}
         <Route path="/manager" element={<ManagerPage />} />
+        <Route path="/manage/profile" />
+        <Route path="/manage/settings" />
 
         {/* Coordinator */}
         <Route path="/coordinator" element={<CoordinatorPage />} />
-        <Route path="/coordinator/faculty" />
+        <Route path="/coordinator/profile" />
+        <Route path="/coordinator/settings" />
+        <Route path="/coordinator/faculty-management" />
 
         {/* Student */}
         <Route path="/student" element={<StudentPage />} />
+        <Route path="/student/profile" />
+        <Route path="/student/settings" />
         <Route
           path="/student/post-management"
           element={<StudentPostManagementPage />}

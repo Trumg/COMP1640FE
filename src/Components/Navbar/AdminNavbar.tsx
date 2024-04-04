@@ -37,14 +37,33 @@ const AdminNavbar: React.FC = () => {
 
   const contentProfile = (
     <div className="font-roboto">
-      <Link to="/admin/profile">
-        <button style={{ display: "flex", alignItems: "center" }}>
+      <style>
+        {`
+      .link-button:hover {
+        text-decoration: none;
+      }
+    `}
+      </style>
+      <Link to="/admin/profile" className="link-button">
+        <button
+          style={{
+            display: "flex",
+            alignItems: "center",
+            marginBottom: "10px",
+          }}
+        >
           <CgProfile style={{ marginRight: "5px", fontSize: iconSize }} />
           Profile
         </button>
       </Link>
-      <Link to="/admin/settings">
-        <button style={{ display: "flex", alignItems: "center" }}>
+      <Link to="/admin/settings" className="link-button">
+        <button
+          style={{
+            display: "flex",
+            alignItems: "center",
+            marginBottom: "10px",
+          }}
+        >
           <IoSettingsOutline
             style={{ marginRight: "5px", fontSize: iconSize }}
           />
@@ -52,7 +71,7 @@ const AdminNavbar: React.FC = () => {
         </button>
       </Link>
       <button
-        className="text-red-500"
+        className="text-red-500 link-button"
         onClick={handleLogout}
         style={{ display: "flex", alignItems: "center" }}
       >
@@ -78,13 +97,14 @@ const AdminNavbar: React.FC = () => {
               </div>
             ) : (
               <div>
-                <Link to="/admin"></Link>
-                <img
-                  src={MagazineImage}
-                  width={200}
-                  alt="Magazine Logo"
-                  className="my-4"
-                />
+                <Link to="/admin">
+                  <img
+                    src={MagazineImage}
+                    width={200}
+                    alt="Magazine Logo"
+                    className="my-4"
+                  />
+                </Link>
               </div>
             )}
             <>
@@ -138,15 +158,14 @@ const AdminNavbar: React.FC = () => {
         <div className="flex flex-col items-center justify-center">
           {isMobile && (
             <div>
-              <Link to="/admin"></Link>
-              <div className="flex items-center justify-center my-4">
+              <Link to="/admin">
                 <img
                   src={MagazineImage}
                   width={200}
                   alt="Magazine Logo"
-                  className=" magazine-logo"
+                  className="my-4"
                 />
-              </div>
+              </Link>
             </div>
           )}
           <Link to="/admin" className="block cursor-pointer">
