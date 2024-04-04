@@ -60,8 +60,9 @@ const LoginForm: React.FC = () => {
       }}
     >
       <Card
-        className={`w-full max-w-md p-2 ${isMobile ? "max-w-xs" : ""}`}
-        style={{ borderColor: "#549b90" }} // Adding border color here
+        className={`border-[#549b90] border-2 w-full max-w-md p-2 ${
+          isMobile ? "max-w-xs" : ""
+        }`}
       >
         <h3 className="text-lg font-medium leading-6 text-gray-900 text-center mb-1">
           <div className="flex items-center justify-center">
@@ -97,7 +98,7 @@ const LoginForm: React.FC = () => {
             <div>
               <button
                 onClick={handleLogin}
-                className="relative bg-white text-black  py-2 px-4 rounded-full w-full flex items-center justify-center border border-[#549b90] transition duration-300 hover:text-gray-600 hover:border-[#549b90] focus:outline-none hover:bg-gray-200"
+                className="relative bg-[#549b90] text-black  py-2 px-4 rounded-full w-full flex items-center justify-center border border-[#549b90] transition duration-300 hover:text-gray-600 hover:border-[#549b90] focus:outline-none hover:bg-gray-200"
                 style={{ marginTop: "10px" }}
               >
                 <span className="inline-block">Login</span>

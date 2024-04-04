@@ -43,6 +43,26 @@ const AdminNavbar: React.FC = () => {
                 <div className="flex-shrink-0 mr-4">
                   <img src={MagazineImage} width={200} alt="Magazine Logo" />
                 </div>
+                <div className="hidden md:block">
+                  <ul className="flex space-x-4">
+                    <li>
+                      <Link
+                        to="/admin/post-management"
+                        className="text-gray-700 hover:text-gray-900"
+                      >
+                        Post Management
+                      </Link>
+                    </li>
+                    <li>
+                      <Link
+                        to="/admin/user-management"
+                        className="text-gray-700 hover:text-gray-900"
+                      >
+                        User Management
+                      </Link>
+                    </li>
+                  </ul>
+                </div>
               </>
             )}
             <>
@@ -70,23 +90,25 @@ const AdminNavbar: React.FC = () => {
           className=" flex flex-col justify-center items-center text-center"
         >
           <div>
-            <img src={MagazineImage} width={200} alt="Magazine Logo" />
-            <hr className="my-4 border-gray-400 w-full" />
-          </div>
-          <div className="my-12">
-            <Link to="/admin/dashboard" className="block cursor-pointer">
-              <button className="flex items-center justify-center w-full py-2 bg-white rounded-md shadow-md hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-300">
-                <AiOutlineDashboard className="mr-2" />
-                Dashboard
-              </button>
-            </Link>
-            <div className="my-4"></div>
-            <Link to="/admin/management" className="block cursor-pointer">
-              <button className="flex items-center justify-center w-full py-2 bg-white rounded-md shadow-md hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-300">
-                <MdOutlineManageAccounts className="mr-2" />
-                Management
-              </button>
-            </Link>
+            <div>
+              <img src={MagazineImage} width={200} alt="Magazine Logo" />
+              <hr className="my-4 border-gray-400 w-full" />
+            </div>
+            <div className="my-12">
+              <Link to="/admin/dashboard" className="block cursor-pointer">
+                <button className="flex items-center justify-center w-full py-2 bg-white rounded-md shadow-md hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-300">
+                  <AiOutlineDashboard className="mr-2" />
+                  Dashboard
+                </button>
+              </Link>
+              <div className="my-4"></div>
+              <Link to="/admin/management" className="block cursor-pointer">
+                <button className="flex items-center justify-center w-full py-2 bg-white rounded-md shadow-md hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-300">
+                  <MdOutlineManageAccounts className="mr-2" />
+                  Management
+                </button>
+              </Link>
+            </div>
           </div>
         </Drawer>
       )}

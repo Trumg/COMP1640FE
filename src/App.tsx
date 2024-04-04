@@ -29,25 +29,14 @@ const App: React.FC = () => {
 
         {/* Manager */}
         <Route path="/manager" element={<ManagerPage />} />
-        <Route path="/manager/profile" />
-        <Route path="/manager/settings" />
-        <Route path="/manager/dashboard" />
-        <Route path="/manager/management" />
 
         {/* Coordinator */}
         <Route path="/coordinator" element={<CoordinatorPage />} />
-        <Route path="/coordinator/profile" />
-        <Route path="/coordinator/settings" />
-        <Route path="/coordinator/dashboard" />
-        <Route path="/coordinator/management" />
-        <Route path="/coordinator/management/faculty" />
+        <Route path="/coordinator/faculty" />
 
         {/* Student */}
         <Route path="/student" element={<CoordinatorPage />} />
-        <Route path="/student/profile" />
-        <Route path="/student/settings" />
-        <Route path="/student/management" />
-        <Route path="/student/management/post" />
+        <Route path="/student/post" />
       </Routes>
     </Router>
   );
