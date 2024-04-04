@@ -1,16 +1,18 @@
 import React, { useState, useEffect } from "react";
-import { Card } from "antd";
+import { Card, message } from "antd"; // Import message from Ant Design
 import { EyeOutlined, EyeInvisibleOutlined } from "@ant-design/icons";
 import { motion } from "framer-motion";
 import { LoginImage } from "../../Assets/LoginImage/LoginImage";
 import { Api } from "../../Api";
-import { Link } from "react-router-dom"; // Import Link here
+import { Link } from "react-router-dom";
+import Confetti from "react-confetti"; // Import Confetti
 
 const LoginForm: React.FC = () => {
   const [isMobile, setIsMobile] = useState<boolean>(false);
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [showPassword, setShowPassword] = useState<boolean>(false);
+  const [showConfetti, setShowConfetti] = useState<boolean>(false); // State for confetti
 
   useEffect(() => {
     const handleResize = () => {
@@ -36,23 +38,30 @@ const LoginForm: React.FC = () => {
 
   const handleLogIn = async () => {
     if (!email || !password) return;
-    const response = await apiClient.api.authLoginCreate({
-      username:  email,
-      password: password
-    });
+    try {
+      const response = await apiClient.api.authLoginCreate({
+        username: email,
+        password: password,
+      });
 
-    const success = response.status === 200;
-      if (success)  {
-        window.location.href='/admin';
-        return;
+      if (response.status === 200) {
+        message.success("Login Successful"); // Show success message
+        setShowConfetti(true); // Show confetti
+        setTimeout(() => {
+          window.location.href = "/admin";
+        }, 3000); // Redirect after 3 seconds
+      } else {
+        message.error("Login Failed. Please try again."); // Show error message
       }
+    } catch (error) {
+      console.error("Error:", error);
+      message.error("Something went wrong. Please try again.");
+    }
   };
 
   const apiClient = new Api({
-    baseUrl: "https://localhost:7279"
-    
-  })
-
+    baseUrl: "https://localhost:7279",
+  });
 
   return (
     <motion.div
@@ -66,10 +75,13 @@ const LoginForm: React.FC = () => {
         backgroundPosition: "center",
       }}
     >
+      {showConfetti && <Confetti />}{" "}
+      {/* Render confetti when showConfetti is true */}
       <Card
         className={`border-[#549b90] border-2 w-full max-w-md p-2 ${
           isMobile ? "max-w-xs" : ""
         }`}
+        style={{ position: "sticky", top: "50px" }}
       >
         <h3 className="text-lg font-medium leading-6 text-gray-900 text-center mb-1">
           <div className="flex items-center justify-center">

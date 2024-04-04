@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { MagazineImage } from "../../Assets/MagazineImage/MagazineImage";
-import { Drawer } from "antd";
+import { Drawer, Popover } from "antd"; // Import Popover and Button from Ant Design
 import { AiOutlineMenu } from "react-icons/ai";
 import { FaRegBell, FaRegUser } from "react-icons/fa";
 import { Link } from "react-router-dom";
+import { CgProfile } from "react-icons/cg";
+import { IoSettingsOutline } from "react-icons/io5";
+import { MdOutlineLogout } from "react-icons/md";
 
 const AdminNavbar: React.FC = () => {
   const [isMobile, setIsMobile] = useState<boolean>(false);
@@ -22,6 +25,31 @@ const AdminNavbar: React.FC = () => {
   const toggleMenu = () => {
     setShowDrawer(!showDrawer);
   };
+
+  const handleLogout = () => {
+    console.log("Logout logic goes here");
+  };
+
+  const content = (
+    <div className="font-roboto">
+      <button style={{ display: "flex", alignItems: "center" }}>
+        <CgProfile style={{ marginRight: "5px" }} />
+        Profile
+      </button>
+      <button style={{ display: "flex", alignItems: "center" }}>
+        <IoSettingsOutline style={{ marginRight: "5px" }} />
+        Settings
+      </button>
+      <button
+        className="text-red-500"
+        onClick={handleLogout}
+        style={{ display: "flex", alignItems: "center" }}
+      >
+        <MdOutlineLogout style={{ marginRight: "5px" }} />
+        Logout
+      </button>
+    </div>
+  );
 
   return (
     <>
@@ -51,9 +79,16 @@ const AdminNavbar: React.FC = () => {
                   <FaRegBell className="text-2xl text-gray-700" />
                 </button>
                 <div className="inline-flex">
-                  <button className="p-2 rounded-full hover:bg-gray-200">
-                    <FaRegUser className="text-2xl text-gray-700" />
-                  </button>
+                  <Popover
+                    content={content}
+                    placement="bottomRight"
+                    trigger="click"
+                    style={{ width: "300px", height: "400px" }}
+                  >
+                    <button className="p-2 rounded-full hover:bg-gray-200">
+                      <FaRegUser className="text-2xl text-gray-700" />
+                    </button>
+                  </Popover>
                 </div>
                 {!isMobile && (
                   <button
