@@ -15,15 +15,38 @@ const App: React.FC = () => {
 
         {/* Admin */}
         <Route path="/admin" element={<AdminPage />} />
+        <Route path="/admin/profile" />
+        <Route path="/admin/settings" />
+        <Route path="/admin/dashboard" />
+        <Route path="/admin/dashboard/statistic" />
+        <Route path="/admin/dashboard/statistic/user" />
+        <Route path="/admin/dashboard/statistic/post" />
+        <Route path="/admin/dashboard/statistic/academic-year" />
+        <Route path="/admin/management" />
+        <Route path="/admin/management/post" />
+        <Route path="/admin/management/user" />
 
         {/* Manager */}
         <Route path="/manager" element={<ManagerPage />} />
+        <Route path="/manager/profile" />
+        <Route path="/manager/settings" />
+        <Route path="/manager/dashboard" />
+        <Route path="/manager/management" />
 
         {/* Coordinator */}
         <Route path="/coordinator" element={<CoordinatorPage />} />
+        <Route path="/coordinator/profile" />
+        <Route path="/coordinator/settings" />
+        <Route path="/coordinator/dashboard" />
+        <Route path="/coordinator/management" />
+        <Route path="/coordinator/management/faculty" />
 
         {/* Student */}
         <Route path="/student" element={<CoordinatorPage />} />
+        <Route path="/student/profile" />
+        <Route path="/student/settings" />
+        <Route path="/student/management" />
+        <Route path="/student/management/post" />
       </Routes>
     </Router>
   );

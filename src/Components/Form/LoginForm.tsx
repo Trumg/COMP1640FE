@@ -3,6 +3,7 @@ import { Card } from "antd";
 import { EyeOutlined, EyeInvisibleOutlined } from "@ant-design/icons";
 import { motion } from "framer-motion";
 import { LoginImage } from "../../Assets/LoginImage/LoginImage";
+import axios from "axios"; // Import Axios library
 
 const LoginForm: React.FC = () => {
   const [isMobile, setIsMobile] = useState<boolean>(false);
@@ -33,9 +34,17 @@ const LoginForm: React.FC = () => {
   };
 
   const handleLogin = () => {
-    // Add login logic here
-    console.log("Email:", email);
-    console.log("Password:", password);
+    // Fetch data from API
+    axios
+      .post("https://localhost:7279/api/login", { email, password })
+      .then((response) => {
+        // Handle successful response
+        console.log("Login successful:", response.data);
+      })
+      .catch((error) => {
+        // Handle error
+        console.error("Login failed:", error);
+      });
   };
 
   return (
