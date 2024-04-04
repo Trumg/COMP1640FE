@@ -4,7 +4,7 @@ import { format } from "date-fns";
 import { Api } from "../../Api";
 import { message, Card } from "antd";
 
-function AdminPage() {
+function AdminAcademicYearManagementPage() {
   const [isMobile, setIsMobile] = useState(false);
 
   const apiClient = new Api({
@@ -161,4 +161,4 @@ function AdminPage() {
   );
 }
 
-export default AdminPage;
+export default AdminAcademicYearManagementPage;

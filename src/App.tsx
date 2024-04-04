@@ -2,15 +2,19 @@ import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 import LoginPage from "./Pages/LoginPage/LoginPage";
-import ManagerPage from "./Pages/ManagerPage/ManagerPage";
-import CoordinatorPage from "./Pages/CoordinatorPage/CoordinatorPage";
+import ResetPage from "./Pages/LoginPage/ResetPage";
 
 import AdminPage from "./Pages/AdminPage/AdminPage";
 import AdminPostManagementPage from "./Pages/AdminPage/AdminPostManagementPage";
 import AdminUserManagementPage from "./Pages/AdminPage/AdminUserManagementPage";
+import AdminProfilePage from "./Pages/AdminPage/AdminProfilePage";
+import AdminSettingsPage from "./Pages/AdminPage/AdminSettingsPage";
+
+import ManagerPage from "./Pages/ManagerPage/ManagerPage";
+import CoordinatorPage from "./Pages/CoordinatorPage/CoordinatorPage";
 import StudentPage from "./Pages/StudentPage/StudentPage";
 import StudentPostManagementPage from "./Pages/StudentPage/StudentPostManagement";
-import ResetPage from "./Pages/LoginPage/ResetPage";
+import AdminAcademicYearManagementPage from "./Pages/AdminPage/AdminAcademicYearManagementPage";
 
 const App: React.FC = () => {
   return (
@@ -22,6 +26,8 @@ const App: React.FC = () => {
 
         {/* Admin */}
         <Route path="/admin" element={<AdminPage />} />
+        <Route path="/admin/profile" element={<AdminProfilePage />} />
+        <Route path="/admin/settings" element={<AdminSettingsPage />} />
         <Route
           path="/admin/post-management"
           element={<AdminPostManagementPage />}
@@ -29,6 +35,10 @@ const App: React.FC = () => {
         <Route
           path="/admin/user-management"
           element={<AdminUserManagementPage />}
+        />
+        <Route
+          path="/admin/academic-year-management"
+          element={<AdminAcademicYearManagementPage />}
         />
 
         {/* Manager */}

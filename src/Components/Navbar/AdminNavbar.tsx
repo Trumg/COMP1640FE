@@ -7,6 +7,9 @@ import { Link } from "react-router-dom";
 import { CgProfile } from "react-icons/cg";
 import { IoSettingsOutline } from "react-icons/io5";
 import { MdOutlineLogout } from "react-icons/md";
+import { FaPlus } from "react-icons/fa6";
+import { MdOutlinePostAdd } from "react-icons/md";
+import { FaUserCog, FaRegCalendar } from "react-icons/fa";
 
 const AdminNavbar: React.FC = () => {
   const [isMobile, setIsMobile] = useState<boolean>(false);
@@ -30,22 +33,30 @@ const AdminNavbar: React.FC = () => {
     console.log("Logout logic goes here");
   };
 
-  const content = (
+  const iconSize = "24px"; // Set the size for the icons
+
+  const contentProfile = (
     <div className="font-roboto">
-      <button style={{ display: "flex", alignItems: "center" }}>
-        <CgProfile style={{ marginRight: "5px" }} />
-        Profile
-      </button>
-      <button style={{ display: "flex", alignItems: "center" }}>
-        <IoSettingsOutline style={{ marginRight: "5px" }} />
-        Settings
-      </button>
+      <Link to="/admin/profile">
+        <button style={{ display: "flex", alignItems: "center" }}>
+          <CgProfile style={{ marginRight: "5px", fontSize: iconSize }} />
+          Profile
+        </button>
+      </Link>
+      <Link to="/admin/settings">
+        <button style={{ display: "flex", alignItems: "center" }}>
+          <IoSettingsOutline
+            style={{ marginRight: "5px", fontSize: iconSize }}
+          />
+          Settings
+        </button>
+      </Link>
       <button
         className="text-red-500"
         onClick={handleLogout}
         style={{ display: "flex", alignItems: "center" }}
       >
-        <MdOutlineLogout style={{ marginRight: "5px" }} />
+        <MdOutlineLogout style={{ marginRight: "5px", fontSize: iconSize }} />
         Logout
       </button>
     </div>
@@ -59,7 +70,10 @@ const AdminNavbar: React.FC = () => {
             {isMobile ? (
               <div className="flex">
                 <button onClick={toggleMenu} className="p-2 ml-2">
-                  <AiOutlineMenu className="w-8 h-8" />
+                  <AiOutlineMenu
+                    className="w-8 h-8"
+                    style={{ fontSize: iconSize }}
+                  />
                 </button>
               </div>
             ) : (
@@ -75,27 +89,37 @@ const AdminNavbar: React.FC = () => {
             )}
             <>
               <div className="ml-auto space-x-4 flex items-center">
-                <button className="p-2 rounded-full hover:bg-gray-200">
-                  <FaRegBell className="text-2xl text-gray-700" />
+                <button className="p-2 rounded-full hover:bg-[#549b90]">
+                  <FaRegBell
+                    className="text-2xl text-gray-700"
+                    style={{ fontSize: iconSize }}
+                  />
                 </button>
+
                 <div className="inline-flex">
                   <Popover
-                    content={content}
+                    content={contentProfile}
                     placement="bottomRight"
                     trigger="click"
-                    style={{ width: "300px", height: "400px" }}
+                    style={{ width: "800px" }}
                   >
-                    <button className="p-2 rounded-full hover:bg-gray-200">
-                      <FaRegUser className="text-2xl text-gray-700" />
+                    <button className="p-2 rounded-full hover:bg-[#549b90]">
+                      <FaRegUser
+                        className="text-2xl text-gray-700"
+                        style={{ fontSize: iconSize }}
+                      />
                     </button>
                   </Popover>
                 </div>
                 {!isMobile && (
                   <button
                     onClick={toggleMenu}
-                    className="p-2 rounded-full hover:bg-gray-200"
+                    className="p-2 rounded-full hover:bg-[#549b90]"
                   >
-                    <AiOutlineMenu className="w-8 h-8" />
+                    <AiOutlineMenu
+                      className="w-8 h-8"
+                      style={{ fontSize: iconSize }}
+                    />
                   </button>
                 )}
               </div>
@@ -111,29 +135,59 @@ const AdminNavbar: React.FC = () => {
         closable={false}
         className="flex flex-col justify-center items-center text-center"
       >
-        <div>
+        <div className="flex flex-col items-center justify-center">
           {isMobile && (
             <div>
               <Link to="/admin"></Link>
-              <img
-                src={MagazineImage}
-                width={200}
-                alt="Magazine Logo"
-                className="my-4"
-              />
+              <div className="flex items-center justify-center my-4">
+                <img
+                  src={MagazineImage}
+                  width={200}
+                  alt="Magazine Logo"
+                  className=" magazine-logo"
+                />
+              </div>
             </div>
           )}
-          <Link to="/admin/post-management" className="block cursor-pointer">
-            <button className="flex items-center justify-center w-full py-2 bg-white rounded-md shadow-md hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-300">
+          <Link to="/admin" className="block cursor-pointer">
+            <button className="flex items-center justify-center w-64 py-2 bg-[#549b90] rounded-md shadow-md hover:bg-[#549b90] hover:text-white focus:outline-none focus:bg-gray-100 transition duration-300">
+              <FaPlus className="mr-2" style={{ fontSize: iconSize }} />
+              Create User
+            </button>
+          </Link>
+          <Link
+            to="/admin/post-management"
+            className="block cursor-pointer mt-2"
+          >
+            <button className="flex items-center justify-center w-64 py-2 bg-[#549b90] rounded-md shadow-md hover:bg-[#549b90] hover:text-white focus:outline-none focus:bg-gray-100 transition duration-100">
+              <MdOutlinePostAdd
+                className="mr-2"
+                style={{ fontSize: iconSize }}
+              />{" "}
               Post Management
             </button>
           </Link>
-          <div className="my-4"></div>
-          <Link to="/admin/user-management" className="block cursor-pointer">
-            <button className="flex items-center justify-center w-full py-2 bg-white rounded-md shadow-md hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-300">
-              User Management
+          <Link
+            to="/admin/user-management"
+            className="block cursor-pointer mt-2"
+          >
+            <button className="flex items-center justify-center w-64 py-2 bg-[#549b90] rounded-md shadow-md hover:bg-[#549b90] hover:text-white focus:outline-none focus:bg-gray-100 transition duration-100">
+              <FaUserCog className="mr-2" style={{ fontSize: iconSize }} /> User
+              Management
             </button>
           </Link>
+          <Link
+            to="/admin/academic-year-management"
+            className="block cursor-pointer mt-2"
+          >
+            <button className="flex items-center justify-center w-64 py-2 bg-[#549b90] rounded-md shadow-md hover:bg-[#549b90] hover:text-white focus:outline-none focus:bg-gray-100 transition duration-100">
+              <FaRegCalendar className="mr-2" style={{ fontSize: iconSize }} />{" "}
+              Academic Year Management
+            </button>
+          </Link>
+        </div>
+        <div className="mt-auto p-4 pt-16 text-gray-600 text-base text-center">
+          {`© ${new Date().getFullYear()} Magazine. All Rights Reserved.`}
         </div>
       </Drawer>
     </>
