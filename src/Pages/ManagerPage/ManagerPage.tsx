@@ -55,6 +55,7 @@ function ManagerPage() {
     setFormData({ topicName: "", topicDescription: "" });
   };
 
+  
   const handleDownloadSelectedContributions = () => {
     const selectedIds = topics.filter(topic => topic.selected).map(topic => topic.id);
     const selectedContributions = topics.filter(topic => selectedIds.includes(topic.id) && new Date(topic.closureDate) < new Date());

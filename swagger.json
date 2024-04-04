@@ -110,6 +110,555 @@
                 }
             }
         },
+        "/api/contributions": {
+            "post": {
+                "tags": [
+                    "Contribution"
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateContributionRequestDto"
+                            }
+                        },
+                        "text/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateContributionRequestDto"
+                            }
+                        },
+                        "application/*+json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateContributionRequestDto"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            },
+            "get": {
+                "tags": [
+                    "Contribution"
+                ],
+                "parameters": [{
+                        "name": "searchBy",
+                        "in": "query",
+                        "style": "form",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "searchQuery",
+                        "in": "query",
+                        "style": "form",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "orderBy",
+                        "in": "query",
+                        "style": "form",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "isAscending",
+                        "in": "query",
+                        "style": "form",
+                        "schema": {
+                            "type": "boolean",
+                            "default": true
+                        }
+                    },
+                    {
+                        "name": "facultyId",
+                        "in": "query",
+                        "style": "form",
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    },
+                    {
+                        "name": "userId",
+                        "in": "query",
+                        "style": "form",
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    },
+                    {
+                        "name": "pageNumber",
+                        "in": "query",
+                        "style": "form",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32",
+                            "default": 1
+                        }
+                    },
+                    {
+                        "name": "pageSize",
+                        "in": "query",
+                        "style": "form",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32",
+                            "default": 10
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+        },
+        "/api/contributions/{id}": {
+            "get": {
+                "tags": [
+                    "Contribution"
+                ],
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "required": true,
+                    "style": "simple",
+                    "schema": {
+                        "type": "string",
+                        "format": "uuid"
+                    }
+                }],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Contribution"
+                ],
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "required": true,
+                    "style": "simple",
+                    "schema": {
+                        "type": "string",
+                        "format": "uuid"
+                    }
+                }],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateContributionDto"
+                            }
+                        },
+                        "text/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateContributionDto"
+                            }
+                        },
+                        "application/*+json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateContributionDto"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Contribution"
+                ],
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "required": true,
+                    "style": "simple",
+                    "schema": {
+                        "type": "string",
+                        "format": "uuid"
+                    }
+                }],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+        },
+        "/api/Faculty": {
+            "get": {
+                "tags": [
+                    "Faculty"
+                ],
+                "summary": "Get list of Facultys in system (Require ADMIN right to perform)",
+                "description": "Available fields for searchBy:\r\n- name\r\n\r\nAvailable fields for orderBy:\r\n- name\r\n- number of users",
+                "parameters": [{
+                        "name": "searchBy",
+                        "in": "query",
+                        "style": "form",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "searchQuery",
+                        "in": "query",
+                        "style": "form",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "orderBy",
+                        "in": "query",
+                        "style": "form",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "isAscending",
+                        "in": "query",
+                        "style": "form",
+                        "schema": {
+                            "type": "boolean",
+                            "default": true
+                        }
+                    },
+                    {
+                        "name": "pageNumber",
+                        "in": "query",
+                        "style": "form",
+                        "schema": {
+                            "maximum": 2147483647,
+                            "minimum": 1,
+                            "type": "integer",
+                            "format": "int32",
+                            "default": 1
+                        }
+                    },
+                    {
+                        "name": "pageSize",
+                        "in": "query",
+                        "style": "form",
+                        "schema": {
+                            "maximum": 2147483647,
+                            "minimum": 1,
+                            "type": "integer",
+                            "format": "int32",
+                            "default": 10
+                        }
+                    },
+                    {
+                        "name": "userId",
+                        "in": "query",
+                        "style": "form",
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Faculty"
+                ],
+                "summary": "Create a new Faculty (Require ADMIN right to perform)",
+                "requestBody": {
+                    "description": "",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateFacultyRequestDto"
+                            }
+                        },
+                        "text/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateFacultyRequestDto"
+                            }
+                        },
+                        "application/*+json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateFacultyRequestDto"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+        },
+        "/api/Faculty/{id}": {
+            "get": {
+                "tags": [
+                    "Faculty"
+                ],
+                "summary": "Get Faculty by Id (Require ADMIN right to perform)",
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "description": "Enter Faculty's Id",
+                    "required": true,
+                    "style": "simple",
+                    "schema": {
+                        "type": "string",
+                        "format": "uuid"
+                    }
+                }],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Faculty"
+                ],
+                "summary": "Update an existing Faculty by Id (Require ADMIN right to perform)",
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "description": "Enter Faculty's Id",
+                    "required": true,
+                    "style": "simple",
+                    "schema": {
+                        "type": "string",
+                        "format": "uuid"
+                    }
+                }],
+                "requestBody": {
+                    "description": "",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateFacultyRequestDto"
+                            }
+                        },
+                        "text/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateFacultyRequestDto"
+                            }
+                        },
+                        "application/*+json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateFacultyRequestDto"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "204": {
+                        "description": "No Content"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Faculty"
+                ],
+                "summary": "Delete the existing Faculty by Id (Require ADMIN right to perform)",
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "description": "Enter Faculty's Id",
+                    "required": true,
+                    "style": "simple",
+                    "schema": {
+                        "type": "string",
+                        "format": "uuid"
+                    }
+                }],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "204": {
+                        "description": "No Content"
+                    }
+                }
+            }
+        },
+        "/api/Faculty/{facultyId}/users/{userId}": {
+            "post": {
+                "tags": [
+                    "Faculty"
+                ],
+                "summary": "Assign Faculty to User (Require ADMIN right to perform)",
+                "description": "Entering FacultyId and userId you want to assign Faculty for",
+                "parameters": [{
+                        "name": "facultyId",
+                        "in": "path",
+                        "description": "Faculty Id",
+                        "required": true,
+                        "style": "simple",
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    },
+                    {
+                        "name": "userId",
+                        "in": "path",
+                        "description": "User Id",
+                        "required": true,
+                        "style": "simple",
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+        },
+        "/api/Faculty/{FacultyId}/users/{userId}": {
+            "delete": {
+                "tags": [
+                    "Faculty"
+                ],
+                "summary": "Remove User from Faculty (Require ADMIN right to perform",
+                "description": "Entering userId and FacultyId you want to remove from user",
+                "parameters": [{
+                        "name": "facultyId",
+                        "in": "path",
+                        "description": "Faculty Id",
+                        "required": true,
+                        "style": "simple",
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    },
+                    {
+                        "name": "userId",
+                        "in": "path",
+                        "description": "User Id",
+                        "required": true,
+                        "style": "simple",
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "204": {
+                        "description": "No Content"
+                    }
+                }
+            }
+        },
+        "/api/File/UploadFile": {
+            "post": {
+                "tags": [
+                    "File"
+                ],
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "file": {
+                                        "type": "string",
+                                        "format": "binary"
+                                    }
+                                }
+                            },
+                            "encoding": {
+                                "file": {
+                                    "style": "form"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            },
+                            "application/json": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            },
+                            "text/json": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/File/DownloadFile": {
+            "get": {
+                "tags": [
+                    "File"
+                ],
+                "parameters": [{
+                    "name": "filename",
+                    "in": "query",
+                    "style": "form",
+                    "schema": {
+                        "type": "string"
+                    }
+                }],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+        },
         "/api/Roles": {
             "get": {
                 "tags": [
@@ -632,10 +1181,103 @@
                     }
                 }
             }
+        },
+        "/api/Users/change-password": {
+            "put": {
+                "tags": [
+                    "Users"
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ChangePasswordRequestDto"
+                            }
+                        },
+                        "text/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ChangePasswordRequestDto"
+                            }
+                        },
+                        "application/*+json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ChangePasswordRequestDto"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
         }
     },
     "components": {
         "schemas": {
+            "ChangePasswordRequestDto": {
+                "type": "object",
+                "properties": {
+                    "oldPassword": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "newPassword": {
+                        "type": "string",
+                        "nullable": true
+                    }
+                },
+                "additionalProperties": false
+            },
+            "CreateContributionRequestDto": {
+                "type": "object",
+                "properties": {
+                    "title": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "facultyId": {
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    "userId": {
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    "status": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "approval": {
+                        "type": "boolean"
+                    },
+                    "images": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "documents": {
+                        "type": "string",
+                        "nullable": true
+                    }
+                },
+                "additionalProperties": false
+            },
+            "CreateFacultyRequestDto": {
+                "required": [
+                    "name"
+                ],
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "minLength": 1,
+                        "type": "string",
+                        "description": "Name of Faculty",
+                        "example": "Admin"
+                    }
+                },
+                "additionalProperties": false
+            },
             "CreateRoleRequestDto": {
                 "required": [
                     "name"
@@ -679,13 +1321,13 @@
                         "minLength": 1,
                         "type": "string",
                         "description": "First name",
-                        "example": "Lee Nguyen"
+                        "example": "Le Duy"
                     },
                     "lastName": {
                         "minLength": 1,
                         "type": "string",
                         "description": "Last name",
-                        "example": "Khang"
+                        "example": "Trong"
                     },
                     "birthDate": {
                         "type": "string",
@@ -703,7 +1345,7 @@
                         "type": "string",
                         "description": "User Name",
                         "nullable": true,
-                        "example": "tranthehao246810@gmail.com"
+                        "example": "hao@gmail.com"
                     },
                     "password": {
                         "type": "string",
@@ -767,6 +1409,53 @@
                 },
                 "additionalProperties": false
             },
+            "UpdateContributionDto": {
+                "type": "object",
+                "properties": {
+                    "title": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "submissionDate": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "closureDate": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "images": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "documents": {
+                        "type": "string",
+                        "nullable": true
+                    }
+                },
+                "additionalProperties": false
+            },
+            "UpdateFacultyRequestDto": {
+                "required": [
+                    "name"
+                ],
+                "type": "object",
+                "properties": {
+                    "lastUpdatedAt": {
+                        "type": "string",
+                        "description": "The recent Update time",
+                        "format": "date-time",
+                        "readOnly": true
+                    },
+                    "name": {
+                        "minLength": 1,
+                        "type": "string",
+                        "description": "Name of Faculty",
+                        "example": "Admin"
+                    }
+                },
+                "additionalProperties": false
+            },
             "UpdateRoleRequestDto": {
                 "required": [
                     "name"
@@ -805,13 +1494,13 @@
                         "minLength": 1,
                         "type": "string",
                         "description": "First name",
-                        "example": "Lee Nguyen"
+                        "example": "Le Duy"
                     },
                     "lastName": {
                         "minLength": 1,
                         "type": "string",
                         "description": "Last name",
-                        "example": "Khang"
+                        "example": "Trong"
                     },
                     "bio": {
                         "maxLength": 500,

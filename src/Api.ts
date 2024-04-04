@@ -9,6 +9,32 @@
  * ---------------------------------------------------------------
  */
 
+export interface ChangePasswordRequestDto {
+  oldPassword?: string | null;
+  newPassword?: string | null;
+}
+
+export interface CreateContributionRequestDto {
+  title?: string | null;
+  /** @format uuid */
+  facultyId?: string;
+  /** @format uuid */
+  userId?: string;
+  status?: string | null;
+  approval?: boolean;
+  images?: string | null;
+  documents?: string | null;
+}
+
+export interface CreateFacultyRequestDto {
+  /**
+   * Name of Faculty
+   * @minLength 1
+   * @example "Admin"
+   */
+  name: string;
+}
+
 export interface CreateRoleRequestDto {
   /**
    * Name of Role
@@ -36,13 +62,13 @@ export interface CreateUserRequestDto {
   /**
    * First name
    * @minLength 1
-   * @example "Lee Nguyen"
+   * @example "Le Duy"
    */
   firstName: string;
   /**
    * Last name
    * @minLength 1
-   * @example "Khang"
+   * @example "Trong"
    */
   lastName: string;
   /**
@@ -56,7 +82,7 @@ export interface CreateUserRequestDto {
 export interface LoginRequestDto {
   /**
    * User Name
-   * @example "tranthehao246810@gmail.com"
+   * @example "hao@gmail.com"
    */
   username?: string | null;
   /**
@@ -108,6 +134,30 @@ export interface RegisterRequestDto {
   birthDate: string;
 }
 
+export interface UpdateContributionDto {
+  title?: string | null;
+  /** @format date-time */
+  submissionDate?: string;
+  /** @format date-time */
+  closureDate?: string;
+  images?: string | null;
+  documents?: string | null;
+}
+
+export interface UpdateFacultyRequestDto {
+  /**
+   * The recent Update time
+   * @format date-time
+   */
+  lastUpdatedAt?: string;
+  /**
+   * Name of Faculty
+   * @minLength 1
+   * @example "Admin"
+   */
+  name: string;
+}
+
 export interface UpdateRoleRequestDto {
   /**
    * The recent Update time
@@ -131,13 +181,13 @@ export interface UpdateUserRequestDto {
   /**
    * First name
    * @minLength 1
-   * @example "Lee Nguyen"
+   * @example "Le Duy"
    */
   firstName: string;
   /**
    * Last name
    * @minLength 1
-   * @example "Khang"
+   * @example "Trong"
    */
   lastName: string;
   /**
@@ -438,6 +488,309 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
       }),
 
     /**
+     * No description
+     *
+     * @tags Contribution
+     * @name ContributionsCreate
+     * @request POST:/api/contributions
+     * @secure
+     */
+    contributionsCreate: (data: CreateContributionRequestDto, params: RequestParams = {}) =>
+      this.request<void, any>({
+        path: `/api/contributions`,
+        method: "POST",
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Contribution
+     * @name ContributionsList
+     * @request GET:/api/contributions
+     * @secure
+     */
+    contributionsList: (
+      query?: {
+        searchBy?: string;
+        searchQuery?: string;
+        orderBy?: string;
+        /** @default true */
+        isAscending?: boolean;
+        /** @format uuid */
+        facultyId?: string;
+        /** @format uuid */
+        userId?: string;
+        /**
+         * @format int32
+         * @default 1
+         */
+        pageNumber?: number;
+        /**
+         * @format int32
+         * @default 10
+         */
+        pageSize?: number;
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<void, any>({
+        path: `/api/contributions`,
+        method: "GET",
+        query: query,
+        secure: true,
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Contribution
+     * @name ContributionsDetail
+     * @request GET:/api/contributions/{id}
+     * @secure
+     */
+    contributionsDetail: (id: string, params: RequestParams = {}) =>
+      this.request<void, any>({
+        path: `/api/contributions/${id}`,
+        method: "GET",
+        secure: true,
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Contribution
+     * @name ContributionsUpdate
+     * @request PUT:/api/contributions/{id}
+     * @secure
+     */
+    contributionsUpdate: (id: string, data: UpdateContributionDto, params: RequestParams = {}) =>
+      this.request<void, any>({
+        path: `/api/contributions/${id}`,
+        method: "PUT",
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Contribution
+     * @name ContributionsDelete
+     * @request DELETE:/api/contributions/{id}
+     * @secure
+     */
+    contributionsDelete: (id: string, params: RequestParams = {}) =>
+      this.request<void, any>({
+        path: `/api/contributions/${id}`,
+        method: "DELETE",
+        secure: true,
+        ...params,
+      }),
+
+    /**
+     * @description Available fields for searchBy: - name Available fields for orderBy: - name - number of users
+     *
+     * @tags Faculty
+     * @name FacultyList
+     * @summary Get list of Facultys in system (Require ADMIN right to perform)
+     * @request GET:/api/Faculty
+     * @secure
+     */
+    facultyList: (
+      query?: {
+        searchBy?: string;
+        searchQuery?: string;
+        orderBy?: string;
+        /** @default true */
+        isAscending?: boolean;
+        /**
+         * @format int32
+         * @min 1
+         * @max 2147483647
+         * @default 1
+         */
+        pageNumber?: number;
+        /**
+         * @format int32
+         * @min 1
+         * @max 2147483647
+         * @default 10
+         */
+        pageSize?: number;
+        /** @format uuid */
+        userId?: string;
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<void, any>({
+        path: `/api/Faculty`,
+        method: "GET",
+        query: query,
+        secure: true,
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Faculty
+     * @name FacultyCreate
+     * @summary Create a new Faculty (Require ADMIN right to perform)
+     * @request POST:/api/Faculty
+     * @secure
+     */
+    facultyCreate: (data: CreateFacultyRequestDto, params: RequestParams = {}) =>
+      this.request<void, any>({
+        path: `/api/Faculty`,
+        method: "POST",
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Faculty
+     * @name FacultyDetail
+     * @summary Get Faculty by Id (Require ADMIN right to perform)
+     * @request GET:/api/Faculty/{id}
+     * @secure
+     */
+    facultyDetail: (id: string, params: RequestParams = {}) =>
+      this.request<void, any>({
+        path: `/api/Faculty/${id}`,
+        method: "GET",
+        secure: true,
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Faculty
+     * @name FacultyUpdate
+     * @summary Update an existing Faculty by Id (Require ADMIN right to perform)
+     * @request PUT:/api/Faculty/{id}
+     * @secure
+     */
+    facultyUpdate: (id: string, data: UpdateFacultyRequestDto, params: RequestParams = {}) =>
+      this.request<void, any>({
+        path: `/api/Faculty/${id}`,
+        method: "PUT",
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Faculty
+     * @name FacultyDelete
+     * @summary Delete the existing Faculty by Id (Require ADMIN right to perform)
+     * @request DELETE:/api/Faculty/{id}
+     * @secure
+     */
+    facultyDelete: (id: string, params: RequestParams = {}) =>
+      this.request<void, any>({
+        path: `/api/Faculty/${id}`,
+        method: "DELETE",
+        secure: true,
+        ...params,
+      }),
+
+    /**
+     * @description Entering FacultyId and userId you want to assign Faculty for
+     *
+     * @tags Faculty
+     * @name FacultyUsersCreate
+     * @summary Assign Faculty to User (Require ADMIN right to perform)
+     * @request POST:/api/Faculty/{facultyId}/users/{userId}
+     * @secure
+     */
+    facultyUsersCreate: (facultyId: string, userId: string, params: RequestParams = {}) =>
+      this.request<void, any>({
+        path: `/api/Faculty/${facultyId}/users/${userId}`,
+        method: "POST",
+        secure: true,
+        ...params,
+      }),
+
+    /**
+     * @description Entering userId and FacultyId you want to remove from user
+     *
+     * @tags Faculty
+     * @name FacultyUsersDelete
+     * @summary Remove User from Faculty (Require ADMIN right to perform
+     * @request DELETE:/api/Faculty/{FacultyId}/users/{userId}
+     * @secure
+     */
+    facultyUsersDelete: (facultyId: string, userId: string, params: RequestParams = {}) =>
+      this.request<void, any>({
+        path: `/api/Faculty/${facultyId}/users/${userId}`,
+        method: "DELETE",
+        secure: true,
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags File
+     * @name FileUploadFileCreate
+     * @request POST:/api/File/UploadFile
+     * @secure
+     */
+    fileUploadFileCreate: (
+      data: {
+        /** @format binary */
+        file?: File;
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<void, string>({
+        path: `/api/File/UploadFile`,
+        method: "POST",
+        body: data,
+        secure: true,
+        type: ContentType.FormData,
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags File
+     * @name FileDownloadFileList
+     * @request GET:/api/File/DownloadFile
+     * @secure
+     */
+    fileDownloadFileList: (
+      query?: {
+        filename?: string;
+      },
+      params: RequestParams = {},
+    ) =>
+      this.request<void, any>({
+        path: `/api/File/DownloadFile`,
+        method: "GET",
+        query: query,
+        secure: true,
+        ...params,
+      }),
+
+    /**
      * @description Available fields for searchBy: - name Available fields for orderBy: - name - number of users
      *
      * @tags Roles
@@ -713,6 +1066,24 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     usersSelfUpdate: (data: UpdateUserRequestDto, params: RequestParams = {}) =>
       this.request<void, any>({
         path: `/api/Users/self`,
+        method: "PUT",
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Users
+     * @name UsersChangePasswordUpdate
+     * @request PUT:/api/Users/change-password
+     * @secure
+     */
+    usersChangePasswordUpdate: (data: ChangePasswordRequestDto, params: RequestParams = {}) =>
+      this.request<void, any>({
+        path: `/api/Users/change-password`,
         method: "PUT",
         body: data,
         secure: true,
