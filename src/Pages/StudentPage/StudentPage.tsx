@@ -124,7 +124,12 @@ function StudentPage(): ReactNode {
               </Button>
               <Button
                 type="primary"
-                onClick={activeTab === "3" ? handleSubmit : handleNextTab}
+                onClick={
+                  activeTab === "3" && acceptTerms
+                    ? handleSubmit
+                    : handleNextTab
+                }
+                disabled={activeTab !== "3" || !acceptTerms} // Disable the button if not on the terms tab or terms not accepted
               >
                 {activeTab === "3" ? "Submit" : "Next"}
               </Button>
