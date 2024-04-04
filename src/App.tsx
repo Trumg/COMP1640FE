@@ -2,9 +2,12 @@ import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 import LoginPage from "./Pages/LoginPage/LoginPage";
-import AdminPage from "./Pages/AdminPage/AdminPage";
 import ManagerPage from "./Pages/ManagerPage/ManagerPage";
 import CoordinatorPage from "./Pages/CoordinatorPage/CoordinatorPage";
+
+import AdminPage from "./Pages/AdminPage/AdminPage";
+import AdminDashboardPage from "./Pages/AdminPage/AdminDashboardPage";
+import AdminManagementPage from "./Pages/AdminPage/AdminManagementPage";
 
 const App: React.FC = () => {
   return (
@@ -15,14 +18,12 @@ const App: React.FC = () => {
 
         {/* Admin */}
         <Route path="/admin" element={<AdminPage />} />
-        <Route path="/admin/profile" />
-        <Route path="/admin/settings" />
-        <Route path="/admin/dashboard" />
+        <Route path="/admin/dashboard" element={<AdminDashboardPage />} />
         <Route path="/admin/dashboard/statistic" />
         <Route path="/admin/dashboard/statistic/user" />
         <Route path="/admin/dashboard/statistic/post" />
         <Route path="/admin/dashboard/statistic/academic-year" />
-        <Route path="/admin/management" />
+        <Route path="/admin/management" element={<AdminManagementPage />} />
         <Route path="/admin/management/post" />
         <Route path="/admin/management/user" />
 
