@@ -96,14 +96,12 @@ const StudentNavbar: React.FC = () => {
               </div>
             ) : (
               <div>
-                <Link to="/admin">
-                  <img
-                    src={MagazineImage}
-                    width={200}
-                    alt="Magazine Logo"
-                    className="my-4"
-                  />
-                </Link>
+                <img
+                  src={MagazineImage}
+                  width={200}
+                  alt="Magazine Logo"
+                  className="my-4"
+                />
               </div>
             )}
             <>
@@ -157,24 +155,22 @@ const StudentNavbar: React.FC = () => {
         <div className="flex flex-col items-center justify-center">
           {isMobile && (
             <div>
-              <Link to="/admin">
-                <img
-                  src={MagazineImage}
-                  width={200}
-                  alt="Magazine Logo"
-                  className="my-4"
-                />
-              </Link>
+              <img
+                src={MagazineImage}
+                width={200}
+                alt="Magazine Logo"
+                className="my-4"
+              />
             </div>
           )}
-          <Link to="/admin" className="block cursor-pointer">
+          <Link to="/student" className="block cursor-pointer">
             <button className="flex items-center justify-center w-64 py-2 bg-[#549b90] rounded-md shadow-md hover:bg-[#549b90] hover:text-white focus:outline-none focus:bg-gray-100 transition duration-300">
               <FaPlus className="mr-2" style={{ fontSize: iconSize }} />
               Create Post
             </button>
           </Link>
           <Link
-            to="/admin/post-management"
+            to="/student/post-management"
             className="block cursor-pointer mt-2"
           >
             <button className="flex items-center justify-center w-64 py-2 bg-[#549b90] rounded-md shadow-md hover:bg-[#549b90] hover:text-white focus:outline-none focus:bg-gray-100 transition duration-100">

@@ -97,14 +97,12 @@ const AdminNavbar: React.FC = () => {
               </div>
             ) : (
               <div>
-                <Link to="/admin">
-                  <img
-                    src={MagazineImage}
-                    width={200}
-                    alt="Magazine Logo"
-                    className="my-4"
-                  />
-                </Link>
+                <img
+                  src={MagazineImage}
+                  width={200}
+                  alt="Magazine Logo"
+                  className="my-4"
+                />
               </div>
             )}
             <>
@@ -158,14 +156,12 @@ const AdminNavbar: React.FC = () => {
         <div className="flex flex-col items-center justify-center">
           {isMobile && (
             <div>
-              <Link to="/admin">
-                <img
-                  src={MagazineImage}
-                  width={200}
-                  alt="Magazine Logo"
-                  className="my-4"
-                />
-              </Link>
+              <img
+                src={MagazineImage}
+                width={200}
+                alt="Magazine Logo"
+                className="my-4"
+              />
             </div>
           )}
           <Link to="/admin" className="block cursor-pointer">
