@@ -3,9 +3,6 @@ import { MagazineImage } from "../../Assets/MagazineImage/MagazineImage";
 import { Drawer } from "antd";
 import { AiOutlineMenu } from "react-icons/ai";
 import { FaRegBell, FaRegUser } from "react-icons/fa";
-import { Link } from "react-router-dom";
-import { AiOutlineDashboard } from "react-icons/ai";
-import { MdOutlineManageAccounts } from "react-icons/md";
 
 const CoordinatorNavbar: React.FC = () => {
   const [isMobile, setIsMobile] = useState<boolean>(false);
@@ -72,21 +69,6 @@ const CoordinatorNavbar: React.FC = () => {
           <div>
             <img src={MagazineImage} width={200} alt="Magazine Logo" />
             <hr className="my-4 border-gray-400 w-full" />
-          </div>
-          <div className="my-12">
-            <Link to="/admin/dashboard" className="block cursor-pointer">
-              <button className="flex items-center justify-center w-full py-2 bg-white rounded-md shadow-md hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-300">
-                <AiOutlineDashboard className="mr-2" />
-                Dashboard
-              </button>
-            </Link>
-            <div className="my-4"></div>
-            <Link to="/admin/management" className="block cursor-pointer">
-              <button className="flex items-center justify-center w-full py-2 bg-white rounded-md shadow-md hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-300">
-                <MdOutlineManageAccounts className="mr-2" />
-                Management
-              </button>
-            </Link>
           </div>
         </Drawer>
       )}

@@ -8,6 +8,9 @@ import CoordinatorPage from "./Pages/CoordinatorPage/CoordinatorPage";
 import AdminPage from "./Pages/AdminPage/AdminPage";
 import AdminPostManagementPage from "./Pages/AdminPage/AdminPostManagementPage";
 import AdminUserManagementPage from "./Pages/AdminPage/AdminUserManagementPage";
+import StudentPage from "./Pages/StudentPage/StudentPage";
+import StudentPostManagementPage from "./Pages/StudentPage/StudentPostManagement";
+import ResetPage from "./Pages/LoginPage/ResetPage";
 
 const App: React.FC = () => {
   return (
@@ -15,6 +18,7 @@ const App: React.FC = () => {
       <Routes>
         {/* Default */}
         <Route path="/" element={<LoginPage />} />
+        <Route path="/reset-password" element={<ResetPage />} />
 
         {/* Admin */}
         <Route path="/admin" element={<AdminPage />} />
@@ -29,25 +33,17 @@ const App: React.FC = () => {
 
         {/* Manager */}
         <Route path="/manager" element={<ManagerPage />} />
-        <Route path="/manager/profile" />
-        <Route path="/manager/settings" />
-        <Route path="/manager/dashboard" />
-        <Route path="/manager/management" />
 
         {/* Coordinator */}
         <Route path="/coordinator" element={<CoordinatorPage />} />
-        <Route path="/coordinator/profile" />
-        <Route path="/coordinator/settings" />
-        <Route path="/coordinator/dashboard" />
-        <Route path="/coordinator/management" />
-        <Route path="/coordinator/management/faculty" />
+        <Route path="/coordinator/faculty" />
 
         {/* Student */}
-        <Route path="/student" element={<CoordinatorPage />} />
-        <Route path="/student/profile" />
-        <Route path="/student/settings" />
-        <Route path="/student/management" />
-        <Route path="/student/management/post" />
+        <Route path="/student" element={<StudentPage />} />
+        <Route
+          path="/student/post-management"
+          element={<StudentPostManagementPage />}
+        />
       </Routes>
     </Router>
   );

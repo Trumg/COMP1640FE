@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
-import AdminNavbar from "../../Components/Navbar/AdminNavbar";
+import StudentNavbar from "../../Components/Navbar/StudentNavbar";
 
-function AdminPostManagementPage() {
+function StudentPostManagementPage() {
   const [posts] = useState([
     { id: 1, title: "Post 1", content: "Content of Post 1", status: "Pending" },
     {
@@ -63,7 +63,7 @@ function AdminPostManagementPage() {
 
   return (
     <div>
-      <AdminNavbar />
+      <StudentNavbar />
       {/* Main Content */}
       <div className="flex justify-center items-center min-h-screen font-roboto pt-24">
         <div
@@ -75,9 +75,9 @@ function AdminPostManagementPage() {
           style={{ overflowX: isMobile ? "scroll" : "hidden" }}
         >
           <div className="bg-white border border-gray-200 rounded-lg shadow-md p-6">
-            <h1 className="text-xl font-bold mb-3">Post Management</h1>
+            <h1 className="text-xl font-bold mb-3">Post Status</h1>
             <div
-              className="table-container relative" // Added relative position
+              className="table-container relative"
               style={{
                 overflow: "auto",
                 maxHeight: "500px",
@@ -98,9 +98,6 @@ function AdminPostManagementPage() {
                     </th>
                     <th className="border border-gray-200 px-4 py-2 sticky top-0 bg-gray-100 z-10">
                       Status
-                    </th>
-                    <th className="border border-gray-200 px-6 py-3 sticky top-0 bg-gray-100 z-10 text-lg">
-                      Action
                     </th>
                   </tr>
                 </thead>
@@ -131,41 +128,6 @@ function AdminPostManagementPage() {
                           {post.status}
                         </span>
                       </td>
-                      <td className="border border-gray-200 px-4 py-2">
-                        <div className="flex justify-center items-center">
-                          {isMobile ? (
-                            <div>
-                              <button
-                                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-2 w-full"
-                                style={{ width: "100px" }}
-                              >
-                                Approve
-                              </button>
-                              <button
-                                className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded w-full"
-                                style={{ width: "100px" }}
-                              >
-                                Reject
-                              </button>
-                            </div>
-                          ) : (
-                            <>
-                              <button
-                                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2"
-                                style={{ width: "100px" }}
-                              >
-                                Approve
-                              </button>
-                              <button
-                                className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
-                                style={{ width: "100px" }}
-                              >
-                                Reject
-                              </button>
-                            </>
-                          )}
-                        </div>
-                      </td>
                     </tr>
                   ))}
                 </tbody>
@@ -178,4 +140,4 @@ function AdminPostManagementPage() {
   );
 }
 
-export default AdminPostManagementPage;
+export default StudentPostManagementPage;
