@@ -66,7 +66,7 @@ const AdminNavbar: React.FC = () => {
               </>
             )}
             <>
-              <div className="ml-10 space-x-4 flex items-center">
+              <div className="ml-auto space-x-4 flex items-center">
                 <button className="p-2 rounded-full hover:bg-gray-200">
                   <FaRegBell className="text-2xl text-gray-700" />
                 </button>
@@ -75,6 +75,11 @@ const AdminNavbar: React.FC = () => {
                     <FaRegUser className="text-2xl text-gray-700" />
                   </button>
                 </div>
+                {!isMobile && (
+                  <button onClick={toggleMenu} className="p-2 ml-2">
+                    <AiOutlineMenu className="w-8 h-8" />
+                  </button>
+                )}
               </div>
             </>
           </div>

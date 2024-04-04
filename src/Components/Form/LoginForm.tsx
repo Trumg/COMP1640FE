@@ -3,6 +3,7 @@ import { Card } from "antd";
 import { EyeOutlined, EyeInvisibleOutlined } from "@ant-design/icons";
 import { motion } from "framer-motion";
 import { LoginImage } from "../../Assets/LoginImage/LoginImage";
+import { Link } from "react-router-dom";
 import axios from "axios"; // Import Axios library
 
 const LoginForm: React.FC = () => {
@@ -103,6 +104,18 @@ const LoginForm: React.FC = () => {
               >
                 <span className="inline-block">Login</span>
               </button>
+            </div>
+            <div className="mt-4 text-center font-roboto">
+              <p>
+                Forgot your password?{" "}
+                <Link
+                  to="/reset-password"
+                  className="text-[#549b90] font-bold italic"
+                >
+                  RESET
+                </Link>
+                .
+              </p>
             </div>
           </div>
         </div>
