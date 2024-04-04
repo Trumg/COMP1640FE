@@ -14,6 +14,8 @@ function AdminPage() {
     birthDate: "",
     confirmPassword: "",
   });
+
+
   const [showCreateAccount, setShowCreateAccount] = useState(false); // State to control visibility of the create account form
   const [userList, setUserList] = useState([]); // State để lưu trữ danh sách người dùng
 
@@ -40,6 +42,7 @@ function AdminPage() {
       if (response.status === 200) {
         console.log("Account created successfully");
         // Redirect to admin page or perform other actions as needed
+        
       } else {
         console.error("Failed to create account:", response.data);
         // Handle failed account creation
