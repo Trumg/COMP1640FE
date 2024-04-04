@@ -1,16 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { MagazineImage } from "../../Assets/MagazineImage/MagazineImage";
 import { Link } from "react-router-dom";
-import { Drawer, Avatar, Popover } from "antd";
-import { UserOutlined } from "@ant-design/icons";
+import { Drawer } from "antd";
 import { AiOutlineMenu } from "react-icons/ai";
-import { FaBell } from "react-icons/fa";
+import { FaRegBell, FaRegUser } from "react-icons/fa";
 
 const AdminNavbar: React.FC = () => {
   const [isMobile, setIsMobile] = useState<boolean>(false);
   const [showDrawer, setShowDrawer] = useState<boolean>(false);
-  const [avatarPopoverVisible, setAvatarPopoverVisible] =
-    useState<boolean>(false);
 
   useEffect(() => {
     const handleResize = () => {
@@ -54,7 +51,6 @@ const AdminNavbar: React.FC = () => {
                         alt="Magazine Logo"
                       />
                     </Link>
-
                     <hr className="my-4 border-gray-400 w-full" />
                   </div>
                 </Drawer>
@@ -64,7 +60,7 @@ const AdminNavbar: React.FC = () => {
             <>
               <div className="flex items-center">
                 <div className="flex-shrink-0">
-                  <Link to="/">
+                  <Link to="/admin">
                     <img
                       src={MagazineImage}
                       width={200}
@@ -80,26 +76,12 @@ const AdminNavbar: React.FC = () => {
           <>
             <div className="ml-10 space-x-4 flex items-center">
               <button className="p-2 rounded-full hover:bg-gray-200">
-                <FaBell className="text-2xl text-gray-700" />
+                <FaRegBell className="text-2xl text-gray-700" />
               </button>
-
-              <div className="inline-flex mx-3">
-                <Popover
-                  trigger="click"
-                  open={avatarPopoverVisible}
-                  onOpenChange={setAvatarPopoverVisible}
-                  placement="bottomRight"
-                  overlayStyle={{ width: "300px" }}
-                >
-                  <div style={{ display: "flex", alignItems: "center" }}>
-                    <Avatar
-                      size={45}
-                      icon={<UserOutlined />}
-                      style={{ cursor: "pointer" }}
-                    />
-                    <div style={{ flex: 1 }}></div>
-                  </div>
-                </Popover>
+              <div className="inline-flex">
+                <button className="p-2 rounded-full hover:bg-gray-200">
+                  <FaRegUser className="text-2xl text-gray-700" />
+                </button>
               </div>
             </div>
           </>
