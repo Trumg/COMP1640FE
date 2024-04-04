@@ -4,8 +4,6 @@ import { Drawer } from "antd";
 import { AiOutlineMenu } from "react-icons/ai";
 import { FaRegBell, FaRegUser } from "react-icons/fa";
 import { Link } from "react-router-dom";
-import { AiOutlineDashboard } from "react-icons/ai";
-import { MdOutlineManageAccounts } from "react-icons/md";
 
 const AdminNavbar: React.FC = () => {
   const [isMobile, setIsMobile] = useState<boolean>(false);
@@ -31,39 +29,21 @@ const AdminNavbar: React.FC = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-20">
             {isMobile ? (
-              <>
-                <div className="flex">
-                  <button onClick={toggleMenu} className="p-2 ml-2">
-                    <AiOutlineMenu className="w-8 h-8" />
-                  </button>
-                </div>
-              </>
+              <div className="flex">
+                <button onClick={toggleMenu} className="p-2 ml-2">
+                  <AiOutlineMenu className="w-8 h-8" />
+                </button>
+              </div>
             ) : (
-              <>
-                <div className="flex-shrink-0 mr-4">
-                  <img src={MagazineImage} width={200} alt="Magazine Logo" />
-                </div>
-                <div className="hidden md:block">
-                  <ul className="flex space-x-4">
-                    <li>
-                      <Link
-                        to="/admin/post-management"
-                        className="text-gray-700 hover:text-gray-900"
-                      >
-                        Post Management
-                      </Link>
-                    </li>
-                    <li>
-                      <Link
-                        to="/admin/user-management"
-                        className="text-gray-700 hover:text-gray-900"
-                      >
-                        User Management
-                      </Link>
-                    </li>
-                  </ul>
-                </div>
-              </>
+              <div>
+                <Link to="/admin"></Link>
+                <img
+                  src={MagazineImage}
+                  width={200}
+                  alt="Magazine Logo"
+                  className="my-4"
+                />
+              </div>
             )}
             <>
               <div className="ml-auto space-x-4 flex items-center">
@@ -76,7 +56,10 @@ const AdminNavbar: React.FC = () => {
                   </button>
                 </div>
                 {!isMobile && (
-                  <button onClick={toggleMenu} className="p-2 ml-2">
+                  <button
+                    onClick={toggleMenu}
+                    className="p-2 rounded-full hover:bg-gray-200"
+                  >
                     <AiOutlineMenu className="w-8 h-8" />
                   </button>
                 )}
@@ -85,38 +68,39 @@ const AdminNavbar: React.FC = () => {
           </div>
         </div>
       </nav>
-      {isMobile && (
-        <Drawer
-          placement="left"
-          onClose={() => setShowDrawer(false)}
-          open={showDrawer}
-          width="70%"
-          closable={false}
-          className=" flex flex-col justify-center items-center text-center"
-        >
-          <div>
+      <Drawer
+        placement={isMobile ? "left" : "right"}
+        onClose={() => setShowDrawer(false)}
+        open={showDrawer}
+        width={isMobile ? "75%" : "20%"}
+        closable={false}
+        className="flex flex-col justify-center items-center text-center"
+      >
+        <div>
+          {isMobile && (
             <div>
-              <img src={MagazineImage} width={200} alt="Magazine Logo" />
-              <hr className="my-4 border-gray-400 w-full" />
+              <Link to="/admin"></Link>
+              <img
+                src={MagazineImage}
+                width={200}
+                alt="Magazine Logo"
+                className="my-4"
+              />
             </div>
-            <div className="my-12">
-              <Link to="/admin/dashboard" className="block cursor-pointer">
-                <button className="flex items-center justify-center w-full py-2 bg-white rounded-md shadow-md hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-300">
-                  <AiOutlineDashboard className="mr-2" />
-                  Dashboard
-                </button>
-              </Link>
-              <div className="my-4"></div>
-              <Link to="/admin/management" className="block cursor-pointer">
-                <button className="flex items-center justify-center w-full py-2 bg-white rounded-md shadow-md hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-300">
-                  <MdOutlineManageAccounts className="mr-2" />
-                  Management
-                </button>
-              </Link>
-            </div>
-          </div>
-        </Drawer>
-      )}
+          )}
+          <Link to="/admin/post-management" className="block cursor-pointer">
+            <button className="flex items-center justify-center w-full py-2 bg-white rounded-md shadow-md hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-300">
+              Post Management
+            </button>
+          </Link>
+          <div className="my-4"></div>
+          <Link to="/admin/user-management" className="block cursor-pointer">
+            <button className="flex items-center justify-center w-full py-2 bg-white rounded-md shadow-md hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-300">
+              User Management
+            </button>
+          </Link>
+        </div>
+      </Drawer>
     </>
   );
 };

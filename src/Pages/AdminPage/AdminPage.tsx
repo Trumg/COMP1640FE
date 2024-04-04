@@ -1,92 +1,189 @@
-import { ChangeEvent, useState } from "react";
+import { useState, useEffect } from "react";
 import AdminNavbar from "../../Components/Navbar/AdminNavbar";
-import { format } from "date-fns";
-import { Api } from "../../Api";
+
 
 function AdminPage() {
+  const [users, setUsers] = useState([
+    { id: 1, name: "User 1", email: "user1@example.com", role: "Admin" },
+    { id: 2, name: "User 2", email: "user2@example.com", role: "User" },
+    { id: 3, name: "User 3", email: "user3@example.com", role: "User" },
+    { id: 4, name: "User 4", email: "user4@example.com", role: "Admin" },
+    { id: 5, name: "User 5", email: "user5@example.com", role: "User" },
+  ]);
 
-  const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
-    email: "",
-    password: "",
-    birthDate: "",
-    confirmPassword: "",
-  });
+  const [isMobile, setIsMobile] = useState(false);
+  const [newUserName, setNewUserName] = useState("");
+  const [newUserEmail, setNewUserEmail] = useState("");
+  const [newUserRole, setNewUserRole] = useState("User");
 
-  const [showForm, setShowForm] = useState(false);
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768); // Adjust the breakpoint as needed
+    };
+    handleResize(); // Call initially to set the initial state
+    window.addEventListener("resize", handleResize); // Listen for window resize
+    return () => window.removeEventListener("resize", handleResize); // Clean up
+  }, []);
 
-  const handleSubmit = async (event: ChangeEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    try {
-      // Format birthDate using date-fns
-      const formattedBirthDate = format(new Date(formData.birthDate), "yyyy-MM-dd");
-
-      const response = await apiClient.api.authRegisterCreate({
-        firstName: formData.firstName,
-        lastName: formData.lastName,
-        username: formData.email,
-        password: formData.password,
-        birthDate: formattedBirthDate,
-        confirmPassword: formData.confirmPassword,
-      });
-      if (response.status === 200) {
-        console.log("Account created successfully");
-        // Redirect to admin page or perform other actions as needed
-      } else {
-        console.error("Failed to create account:", response.data);
-        // Handle failed account creation
-      }
-    } catch (error) {
-      console.error("Error occurred during account creation:", error);
-    }
+  const handleCreateUser = () => {
+    const newUser = {
+      id: users.length + 1,
+      name: newUserName,
+      email: newUserEmail,
+      role: newUserRole,
+    };
+    setUsers([...users, newUser]);
+    // Clear input fields after creating the user
+    setNewUserName("");
+    setNewUserEmail("");
+    setNewUserRole("User");
   };
-
-  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setFormData({ ...formData, [event.target.name]: event.target.value });
-  };
-
-  const toggleForm = () => {
-    setShowForm(!showForm);
-  };
-
-  const apiClient = new Api({
-    baseUrl: "https://localhost:7279",
-  });
 
   return (
     <div>
-      <AdminNavbar/>
-      <button onClick={toggleForm}>Create Account</button>
-      {showForm && (
-        <form onSubmit={handleSubmit}>
-          <label>
-            First Name:
-            <input type="text" name="firstName" value={formData.firstName} onChange={handleChange} />
-          </label>
-          <label>
-            Last Name:
-            <input type="text" name="lastName" value={formData.lastName} onChange={handleChange} />
-          </label>
-          <label>
-            Email:
-            <input type="email" name="email" value={formData.email} onChange={handleChange} />
-          </label>
-          <label>
-            Password:
-            <input type="password" name="password" value={formData.password} onChange={handleChange} />
-          </label>
-          <label>
-            Birth Date:
-            <input type="date" name="birthDate" value={formData.birthDate} onChange={handleChange} />
-          </label>
-          <label>
-            Confirm Password:
-            <input type="password" name="confirmPassword" value={formData.confirmPassword} onChange={handleChange} />
-          </label>
-          <button type="submit">Create Account</button>
-        </form>
-      )}
+      <AdminNavbar />
+      {/* Main Content */}
+      <div className="flex justify-center items-center min-h-screen font-roboto pt-24">
+        <div
+          className={
+            isMobile
+              ? "w-full p-4 overflow-x-auto sticky top-24"
+              : "w-full max-w-4xl p-4"
+          }
+          style={{ overflowX: isMobile ? "scroll" : "hidden" }}
+        >
+          <div className="bg-white border border-gray-200 rounded-lg shadow-md p-6">
+            <h1 className="text-xl font-bold mb-3">User Management</h1>
+            <div
+              className="table-container relative" // Added relative position
+              style={{
+                overflow: "auto",
+                maxHeight: "500px",
+                maxWidth: "1000px",
+              }}
+            >
+              <table className="w-full border-collapse border border-gray-200">
+                <thead>
+                  <tr className="bg-gray-100">
+                    <th className="border border-gray-200 px-6 py-3 sticky top-0 bg-gray-100 z-10 text-lg">
+                      ID
+                    </th>
+                    <th className="border border-gray-200 px-6 py-3 sticky top-0 bg-gray-100 z-10 text-lg">
+                      Name
+                    </th>
+                    <th className="border border-gray-200 px-6 py-3 sticky top-0 bg-gray-100 z-10 text-lg">
+                      Email
+                    </th>
+                    <th className="border border-gray-200 px-6 py-3 sticky top-0 bg-gray-100 z-10 text-lg">
+                      Role
+                    </th>
+                    <th className="border border-gray-200 px-6 py-3 sticky top-0 bg-gray-100 z-10 text-lg">
+                      Action
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {users.map((user) => (
+                    <tr key={user.id}>
+                      <td className="border border-gray-200 px-4 py-2 text-center">
+                        {user.id}
+                      </td>
+                      <td className="border border-gray-200 px-4 py-2 text-center">
+                        {user.name}
+                      </td>
+                      <td className="border border-gray-200 px-4 py-2 text-center">
+                        {user.email}
+                      </td>
+                      <td className="border border-gray-200 px-4 py-2 text-center">
+                        {user.role}
+                      </td>
+                      <td className="border border-gray-200 px-4 py-2">
+                        <div className="flex justify-center items-center">
+                          {isMobile ? (
+                            <div>
+                              <button
+                                className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mb-2 w-full"
+                                style={{ width: "100px" }}
+                              >
+                                Add
+                              </button>
+                              <button
+                                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-2 w-full"
+                                style={{ width: "100px" }}
+                              >
+                                Edit
+                              </button>
+                              <button
+                                className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded w-full"
+                                style={{ width: "100px" }}
+                              >
+                                Delete
+                              </button>
+                            </div>
+                          ) : (
+                            <>
+                              <button
+                                className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mr-2"
+                                style={{ width: "100px" }}
+                              >
+                                Add
+                              </button>
+                              <button
+                                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2"
+                                style={{ width: "100px" }}
+                              >
+                                Edit
+                              </button>
+                              <button
+                                className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+                                style={{ width: "100px" }}
+                              >
+                                Delete
+                              </button>
+                            </>
+                          )}
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            {/* Form to create a new user */}
+            <div className="mt-4">
+              <h2 className="text-lg font-bold mb-2">Create New User</h2>
+              <input
+                type="text"
+                placeholder="Name"
+                value={newUserName}
+                onChange={(e) => setNewUserName(e.target.value)}
+                className="block w-full p-2 border border-gray-300 rounded mb-2"
+              />
+              <input
+                type="email"
+                placeholder="Email"
+                value={newUserEmail}
+                onChange={(e) => setNewUserEmail(e.target.value)}
+                className="block w-full p-2 border border-gray-300 rounded mb-2"
+              />
+              <select
+                value={newUserRole}
+                onChange={(e) => setNewUserRole(e.target.value)}
+                className="block w-full p-2 border border-gray-300 rounded mb-2"
+              >
+                <option value="User">User</option>
+                <option value="Admin">Admin</option>
+              </select>
+              <button
+                onClick={handleCreateUser}
+                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+              >
+                Create User
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
