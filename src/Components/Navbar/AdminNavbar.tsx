@@ -60,27 +60,6 @@ const AdminNavbar: React.FC = () => {
           </div>
         </div>
       </nav>
-      {!isMobile && (
-        <div className="fixed left-0 top-20 h-full bg-slate-100 w-64 flex flex-col justify-start font-roboto">
-          <div className="my-16 px-4">
-            <div>Dashboard</div>
-            <Link to="/admin/dashboard" className="block cursor-pointer">
-              <button className="flex items-center justify-center w-full py-2 bg-white rounded-md shadow-md hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-300">
-                <AiOutlineDashboard className="mr-2" />
-                Dashboard
-              </button>
-            </Link>
-            <div className="my-4"></div>
-            <div>Management</div>
-            <Link to="/admin/management" className="block cursor-pointer">
-              <button className="flex items-center justify-center w-full py-2 bg-white rounded-md shadow-md hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-300">
-                <MdOutlineManageAccounts className="mr-2" />
-                User
-              </button>
-            </Link>
-          </div>
-        </div>
-      )}
       {isMobile && (
         <Drawer
           placement="left"

@@ -6,8 +6,8 @@ import ManagerPage from "./Pages/ManagerPage/ManagerPage";
 import CoordinatorPage from "./Pages/CoordinatorPage/CoordinatorPage";
 
 import AdminPage from "./Pages/AdminPage/AdminPage";
-import AdminDashboardPage from "./Pages/AdminPage/AdminDashboardPage";
-import AdminManagementPage from "./Pages/AdminPage/AdminManagementPage";
+import AdminPostManagementPage from "./Pages/AdminPage/AdminPostManagementPage";
+import AdminUserManagementPage from "./Pages/AdminPage/AdminUserManagementPage";
 
 const App: React.FC = () => {
   return (
@@ -18,14 +18,14 @@ const App: React.FC = () => {
 
         {/* Admin */}
         <Route path="/admin" element={<AdminPage />} />
-        <Route path="/admin/dashboard" element={<AdminDashboardPage />} />
-        <Route path="/admin/dashboard/statistic" />
-        <Route path="/admin/dashboard/statistic/user" />
-        <Route path="/admin/dashboard/statistic/post" />
-        <Route path="/admin/dashboard/statistic/academic-year" />
-        <Route path="/admin/management" element={<AdminManagementPage />} />
-        <Route path="/admin/management/post" />
-        <Route path="/admin/management/user" />
+        <Route
+          path="/admin/post-management"
+          element={<AdminPostManagementPage />}
+        />
+        <Route
+          path="/admin/user-management"
+          element={<AdminUserManagementPage />}
+        />
 
         {/* Manager */}
         <Route path="/manager" element={<ManagerPage />} />
