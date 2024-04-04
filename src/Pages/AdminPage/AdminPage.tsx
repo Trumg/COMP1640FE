@@ -2,7 +2,7 @@ import { useState, useEffect, ChangeEvent, FormEvent } from "react";
 import AdminNavbar from "../../Components/Navbar/AdminNavbar";
 import { format } from "date-fns";
 import { Api } from "../../Api";
-import { message } from "antd";
+import { message, Card } from "antd";
 
 function AdminPage() {
   const [isMobile, setIsMobile] = useState(false);
@@ -76,80 +76,84 @@ function AdminPage() {
           }
           style={{ overflowX: isMobile ? "scroll" : "hidden" }}
         >
-          <div className="bg-white border border-gray-200 rounded-lg shadow-md p-6">
-            <h1 className="text-xl font-bold mb-3">Create User</h1>
-            <form onSubmit={handleSubmit}>
-              <div className="mt-4">
-                <label className="block mb-2">
-                  <input
-                    placeholder="First Name"
-                    type="text"
-                    name="firstName"
-                    value={formData.firstName}
-                    onChange={handleChange}
-                    className="relative bg-white text-black py-2 px-4 rounded-full w-full flex justify-center border border-[#549b90] transition duration-300 hover:text-gray-600 hover:border-[#549b90] focus:outline-none hover:bg-gray-200"
-                  />
-                </label>
-                <label className="block mb-2">
-                  <input
-                    placeholder="Last Name"
-                    type="text"
-                    name="lastName"
-                    value={formData.lastName}
-                    onChange={handleChange}
-                    className="relative bg-white text-black py-2 px-4 rounded-full w-full flex justify-center border border-[#549b90] transition duration-300 hover:text-gray-600 hover:border-[#549b90] focus:outline-none hover:bg-gray-200"
-                  />
-                </label>
-                <label className="block mb-2">
-                  <input
-                    placeholder="Email"
-                    type="email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                    className="relative bg-white text-black py-2 px-4 rounded-full w-full flex justify-center border border-[#549b90] transition duration-300 hover:text-gray-600 hover:border-[#549b90] focus:outline-none hover:bg-gray-200"
-                  />
-                </label>
-                <label className="block mb-2">
-                  <input
-                    placeholder="Password"
-                    type="password"
-                    name="password"
-                    value={formData.password}
-                    onChange={handleChange}
-                    className="relative bg-white text-black py-2 px-4 rounded-full w-full flex justify-center border border-[#549b90] transition duration-300 hover:text-gray-600 hover:border-[#549b90] focus:outline-none hover:bg-gray-200"
-                  />
-                </label>
-                <label className="block mb-2">
-                  <input
-                    placeholder="Birth Date"
-                    type="text"
-                    name="birthDate"
-                    value={formData.birthDate}
-                    onChange={handleChange}
-                    className="relative bg-white text-black py-2 px-4 rounded-full w-full flex justify-start border border-[#549b90] transition duration-300 hover:text-gray-600 hover:border-[#549b90] focus:outline-none hover:bg-gray-200"
-                  />
-                </label>
-                <label className="block mb-2">
-                  <input
-                    placeholder="Confirm Password"
-                    type="password"
-                    name="confirmPassword"
-                    value={formData.confirmPassword}
-                    onChange={handleChange}
-                    className="relative bg-white text-black py-2 px-4 rounded-full w-full flex justify-center border border-[#549b90] transition duration-300 hover:text-gray-600 hover:border-[#549b90] focus:outline-none hover:bg-gray-200"
-                  />
-                </label>
-                <div className="flex justify-end">
-                  <button
-                    type="submit"
-                    className="relative bg-[#549b90] text-black py-2 px-4 rounded-full w-full flex justify-center border border-[#549b90] transition duration-300 hover:text-gray-600 hover:border-[#549b90] focus:outline-none hover:bg-gray-200"
-                  >
-                    Create User
-                  </button>
-                </div>
+          <div className="flex justify-center">
+            <Card className="transparent border-none rounded-lg p-6 w-full">
+              <div className="bg-white border border-gray-200 rounded-lg shadow-md p-6">
+                <h1 className="text-xl font-bold mb-3">Create User</h1>
+                <form onSubmit={handleSubmit}>
+                  <div className="mt-4">
+                    <label className="block mb-2">
+                      <input
+                        placeholder="First Name"
+                        type="text"
+                        name="firstName"
+                        value={formData.firstName}
+                        onChange={handleChange}
+                        className="relative bg-white text-black py-2 px-4 rounded-full w-full flex justify-center border border-[#549b90] transition duration-300 hover:text-gray-600 hover:border-[#549b90] focus:outline-none hover:bg-gray-200"
+                      />
+                    </label>
+                    <label className="block mb-2">
+                      <input
+                        placeholder="Last Name"
+                        type="text"
+                        name="lastName"
+                        value={formData.lastName}
+                        onChange={handleChange}
+                        className="relative bg-white text-black py-2 px-4 rounded-full w-full flex justify-center border border-[#549b90] transition duration-300 hover:text-gray-600 hover:border-[#549b90] focus:outline-none hover:bg-gray-200"
+                      />
+                    </label>
+                    <label className="block mb-2">
+                      <input
+                        placeholder="Email"
+                        type="email"
+                        name="email"
+                        value={formData.email}
+                        onChange={handleChange}
+                        className="relative bg-white text-black py-2 px-4 rounded-full w-full flex justify-center border border-[#549b90] transition duration-300 hover:text-gray-600 hover:border-[#549b90] focus:outline-none hover:bg-gray-200"
+                      />
+                    </label>
+                    <label className="block mb-2">
+                      <input
+                        placeholder="Password"
+                        type="password"
+                        name="password"
+                        value={formData.password}
+                        onChange={handleChange}
+                        className="relative bg-white text-black py-2 px-4 rounded-full w-full flex justify-center border border-[#549b90] transition duration-300 hover:text-gray-600 hover:border-[#549b90] focus:outline-none hover:bg-gray-200"
+                      />
+                    </label>
+                    <label className="block mb-2">
+                      <input
+                        placeholder="Birth Date"
+                        type="text"
+                        name="birthDate"
+                        value={formData.birthDate}
+                        onChange={handleChange}
+                        className="relative bg-white text-black py-2 px-4 rounded-full w-full flex justify-start border border-[#549b90] transition duration-300 hover:text-gray-600 hover:border-[#549b90] focus:outline-none hover:bg-gray-200"
+                      />
+                    </label>
+                    <label className="block mb-2">
+                      <input
+                        placeholder="Confirm Password"
+                        type="password"
+                        name="confirmPassword"
+                        value={formData.confirmPassword}
+                        onChange={handleChange}
+                        className="relative bg-white text-black py-2 px-4 rounded-full w-full flex justify-center border border-[#549b90] transition duration-300 hover:text-gray-600 hover:border-[#549b90] focus:outline-none hover:bg-gray-200"
+                      />
+                    </label>
+                    <div className="flex justify-end">
+                      <button
+                        type="submit"
+                        className="relative bg-[#549b90] text-black py-2 px-4 rounded-full w-full flex justify-center border border-[#549b90] transition duration-300 hover:text-gray-600 hover:border-[#549b90] focus:outline-none hover:bg-gray-200"
+                      >
+                        Create User
+                      </button>
+                    </div>
+                  </div>
+                </form>
               </div>
-            </form>
+            </Card>
           </div>
         </div>
       </div>
