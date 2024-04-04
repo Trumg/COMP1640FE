@@ -1,11 +1,11 @@
 import AdminNavbar from "../../Components/Navbar/AdminNavbar";
 
-function AdminPage() {
+function AdminPostManagementPage() {
   return (
     <div>
-      <AdminNavbar/>
+      <AdminNavbar />
     </div>
   );
 }
 
-export default AdminPage;
+export default AdminPostManagementPage;

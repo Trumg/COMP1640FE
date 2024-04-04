@@ -423,6 +423,9 @@ export class HttpClient<SecurityDataType = unknown> {
  * Web API for Collection application
  */
 export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDataType> {
+  authLoginCreate(arg0: { username: string; password: string; }) {
+    throw new Error("Method not implemented.");
+  }
   api = {
     /**
      * No description

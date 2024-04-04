@@ -1,11 +1,11 @@
 import AdminNavbar from "../../Components/Navbar/AdminNavbar";
 
-function ManagerPage() {
+function AdminUserManagementPage() {
   return (
-    <div>
+    <div style={{ display: "flex" }}>
       <AdminNavbar />
     </div>
   );
 }
 
-export default ManagerPage;
+export default AdminUserManagementPage;
