@@ -41,12 +41,21 @@ const App: React.FC = () => {
   const [userRole, setUserRole] = useState<string | null>(null);
 
   useEffect(() => {
-    // Fetch user role from JWT or session storage and set it to state
-    const role = sessionStorage.getItem("userRole");
-    if (role) {
-      setUserRole(role);
+    const token = sessionStorage.getItem("Token");
+    if (token) {
+      const userRole = extractUserRole(token);
+      setUserRole(userRole);
     }
   }, []);
+
+  const extractUserRole = (jwtToken: string) => {
+    const base64Url = jwtToken.split(".")[1];
+    const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
+    const decodedData = JSON.parse(atob(base64));
+    return decodedData[
+      "http://schemas.microsoft.com/ws/2008/06/identity/claims/role"
+    ];
+  };
 
   return (
     <Router>
