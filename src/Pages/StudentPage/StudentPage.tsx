@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Checkbox, Select, Upload, Button, List } from "antd";
+import { Checkbox, Select, Upload, Button } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
 import StudentNavbar from "../../Components/Navbar/StudentNavbar";
 import { CheckboxChangeEvent } from "antd/lib/checkbox";
@@ -9,7 +9,7 @@ const { Option } = Select;
 function StudentPage() {
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
-  const [imageFiles, setImageFiles] = useState<File[]>([]);
+  const [imageFile, setImageFile] = useState<File | undefined>(undefined);
   const [docFile, setDocFile] = useState<File | undefined>(undefined);
   const [acceptTerms, setAcceptTerms] = useState(false);
   const [selectedAcademicYear, setSelectedAcademicYear] = useState("");
@@ -23,14 +23,12 @@ function StudentPage() {
     setContent(e.target.value);
   };
 
-  const handleImageUpload = (files: File[]) => {
-    setImageFiles(files);
+  const handleImageUpload = (file: File) => {
+    setImageFile(file);
   };
 
-  const handleDocUpload = (file: File | null) => {
-    if (file) {
-      setDocFile(file);
-    }
+  const handleDocUpload = (file: File) => {
+    setDocFile(file);
   };
 
   const handleTermsChange = (e: CheckboxChangeEvent) => {
@@ -48,7 +46,7 @@ function StudentPage() {
   const handleSubmit = () => {
     console.log("Title:", title);
     console.log("Content:", content);
-    console.log("Image Files:", imageFiles);
+    console.log("Image File:", imageFile);
     console.log("Doc File:", docFile);
     console.log("Academic Year:", selectedAcademicYear);
     console.log("Faculty:", selectedFaculty);
@@ -95,53 +93,26 @@ function StudentPage() {
                   Image Upload:
                 </label>
                 <Upload
+                  beforeUpload={handleImageUpload}
                   accept="image/*"
-                  maxCount={5} // Set maximum number of images
-                  fileList={imageFiles.map((file, index) => ({
-                    uid: `${index}`,
-                    name: file.name,
-                    status: "done",
-                    url: URL.createObjectURL(file),
-                  }))}
-                  onChange={(info) => {
-                    if (info.fileList.length <= 5) {
-                      handleImageUpload(
-                        info.fileList.map((file) => file.originFileObj as File)
-                      );
-                    }
-                  }}
+                  fileList={[]}
+                  showUploadList={false}
                 >
-                  <Button icon={<UploadOutlined />}>Upload Image</Button>
+                  <Button icon={<UploadOutlined />}>Upload</Button>
                 </Upload>
-                <List
-                  style={{ marginTop: "1rem" }}
-                  size="small"
-                  bordered
-                  dataSource={imageFiles}
-                  renderItem={(item) => (
-                    <List.Item>
-                      <img
-                        src={URL.createObjectURL(item)}
-                        alt={item.name}
-                        style={{ width: "100px", marginRight: "1rem" }}
-                      />
-                      {item.name}
-                    </List.Item>
-                  )}
-                />
               </div>
               <div className="mb-4">
                 <label htmlFor="docUpload" className="block">
                   Document Upload:
                 </label>
-                <input
-                  type="file"
+                <Upload
+                  beforeUpload={handleDocUpload}
                   accept=".doc,.docx"
-                  id="docUpload"
-                  onChange={(e) =>
-                    handleDocUpload(e.target.files ? e.target.files[0] : null)
-                  }
-                />
+                  fileList={[]}
+                  showUploadList={false}
+                >
+                  <Button icon={<UploadOutlined />}>Upload</Button>
+                </Upload>
               </div>
               <div className="mb-4">
                 <label htmlFor="academicYear" className="block">
