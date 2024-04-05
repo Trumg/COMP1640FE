@@ -51,12 +51,12 @@ const ResetForm: React.FC = () => {
               placeholder="Email"
               value={email}
               onChange={handleEmailChange}
-              className="relative bg-white text-black py-2 px-4 rounded-full w-full flex items-center justify-center border border-[#549b90] transition duration-300 hover:text-gray-600 hover:border-[#549b90] focus:outline-none hover:bg-gray-200"
+              className="relative bg-white text-black py-2 px-4 rounded-lg w-full flex items-center justify-center border border-[#549b90] transition duration-300 hover:text-gray-600 hover:border-[#549b90] focus:outline-none hover:bg-gray-200"
               style={{ marginBottom: "10px" }}
             />
             <div>
               <button
-                className="relative bg-[#549b90] text-black  py-2 px-4 rounded-full w-full flex items-center justify-center border border-[#549b90] transition duration-300 hover:text-gray-600 hover:border-[#549b90] focus:outline-none hover:bg-gray-200"
+                className="relative bg-[#549b90] text-black  py-2 px-4 rounded-lg w-full flex items-center justify-center border border-[#549b90] transition duration-300 hover:text-gray-600 hover:border-[#549b90] focus:outline-none hover:bg-gray-200"
                 style={{ marginTop: "10px" }}
               >
                 <span className="inline-block">Reset Password</span>
