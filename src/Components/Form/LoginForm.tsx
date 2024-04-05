@@ -6,7 +6,6 @@ import { LoginImage } from "../../Assets/LoginImage/LoginImage";
 import { Api } from "../../Api";
 import { Link } from "react-router-dom";
 import Confetti from "react-confetti"; // Import Confetti
-import Cookies from "js-cookie"; // Import js-cookie for managing cookies
 
 const LoginForm: React.FC = () => {
   const [isMobile, setIsMobile] = useState<boolean>(false);
@@ -61,7 +60,7 @@ const LoginForm: React.FC = () => {
         console.log("Response data:", data);
 
         if (data.jwtToken) {
-          Cookies.set("Token", data.jwtToken); // Store JWT token in cookie
+          localStorage.setItem("Token", data.jwtToken);
           const userRole = extractUserRole(data.jwtToken);
 
           switch (userRole) {
