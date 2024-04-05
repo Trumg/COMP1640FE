@@ -1,18 +1,19 @@
 import React, { useState, useEffect } from "react";
-import { Card, message } from "antd"; // Import message from Ant Design
+import { Card, message } from "antd";
 import { EyeOutlined, EyeInvisibleOutlined } from "@ant-design/icons";
 import { motion } from "framer-motion";
 import { LoginImage } from "../../Assets/LoginImage/LoginImage";
 import { Api } from "../../Api";
 import { Link } from "react-router-dom";
-import Confetti from "react-confetti"; // Import Confetti
+import Confetti from "react-confetti";
 
 const LoginForm: React.FC = () => {
   const [isMobile, setIsMobile] = useState<boolean>(false);
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [showPassword, setShowPassword] = useState<boolean>(false);
-  const [showConfetti, setShowConfetti] = useState<boolean>(false); // State for confetti
+  const [showConfetti, setShowConfetti] = useState<boolean>(false);
+  const [token, setToken] = useState<string | null>(null); // State to hold token
 
   useEffect(() => {
     const handleResize = () => {
@@ -36,8 +37,7 @@ const LoginForm: React.FC = () => {
     setShowPassword(!showPassword);
   };
 
-  const handleLogIn = async () => {
-    if (!email || !password) return;
+  const getTokenFromBackend = async () => {
     try {
       const response = await apiClient.api.authLoginCreate({
         username: email,
@@ -45,19 +45,47 @@ const LoginForm: React.FC = () => {
       });
 
       if (response.status === 200) {
+        const data = await response.json();
+        console.log("Data received:", data);
+        const token = data.token;
+        console.log("Token received:", token);
+        localStorage.setItem("token", token);
+        setToken(token);
+        return token;
+      } else {
+        message.error("Login Failed. Please try again.");
+        return null;
+      }
+    } catch (error) {
+      console.error("Error:", error);
+      message.error("Something went wrong. Please try again.");
+      return null;
+    }
+  };
+
+  const handleLogIn = async () => {
+    if (!email || !password) return;
+
+    try {
+      const token = await getTokenFromBackend();
+
+      if (token) {
         message.success("Login Successful");
         setShowConfetti(true);
         setTimeout(() => {
           window.location.href = "/admin";
         }, 2000);
-      } else {
-        message.error("Login Failed. Please try again.");
       }
     } catch (error) {
-      console.error("Error:", error);
+      console.error("Error during login:", error);
       message.error("Something went wrong. Please try again.");
     }
   };
+
+  useEffect(() => {
+    // Log token whenever it changes
+    console.log("Token:", token);
+  }, [token]); // This effect runs whenever token changes
 
   const apiClient = new Api({
     baseUrl: "https://localhost:7279",
