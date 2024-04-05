@@ -12,7 +12,7 @@ const LoginForm: React.FC = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [showPassword, setShowPassword] = useState<boolean>(false);
-  const [showConfetti, setShowConfetti] = useState<boolean>(false); // State for confetti
+  const [showConfetti, setShowConfetti] = useState<boolean>(false);
 
   useEffect(() => {
     const handleResize = () => {
@@ -60,9 +60,9 @@ const LoginForm: React.FC = () => {
         console.log("Response data:", data);
 
         if (data.jwtToken) {
-          localStorage.setItem("Token", data.jwtToken);
-          const userRole = extractUserRole(data.jwtToken);
+          sessionStorage.setItem("Token", data.jwtToken);
 
+          const userRole = extractUserRole(data.jwtToken);
           switch (userRole) {
             case "ADMIN":
               message.success("Login Successful");
