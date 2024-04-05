@@ -37,6 +37,15 @@ const LoginForm: React.FC = () => {
     setShowPassword(!showPassword);
   };
 
+  const extractUserRole = (jwtToken: string): string => {
+    const base64Url = jwtToken.split(".")[1];
+    const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
+    const decodedData = JSON.parse(atob(base64));
+    return decodedData[
+      "http://schemas.microsoft.com/ws/2008/06/identity/claims/role"
+    ];
+  };
+
   const handleLogIn = async () => {
     if (!email || !password) return;
     try {
@@ -51,12 +60,41 @@ const LoginForm: React.FC = () => {
         console.log("Response data:", data);
 
         if (data.jwtToken) {
-          localStorage.setItem("token", data.jwtToken);
-          message.success("Login Successful");
-          setShowConfetti(true);
-          setTimeout(() => {
-            window.location.href = "/";
-          }, 2000);
+          localStorage.setItem("Token", data.jwtToken);
+          const userRole = extractUserRole(data.jwtToken);
+
+          switch (userRole) {
+            case "ADMIN":
+              message.success("Login Successful");
+              setShowConfetti(true);
+              setTimeout(() => {
+                window.location.href = "/admin";
+              }, 2000);
+              break;
+            case "MANAGER":
+              message.success("Login Successful");
+              setShowConfetti(true);
+              setTimeout(() => {
+                window.location.href = "/manager";
+              }, 2000);
+              break;
+            case "COORDINATOR":
+              message.success("Login Successful");
+              setShowConfetti(true);
+              setTimeout(() => {
+                window.location.href = "/coordinator";
+              }, 2000);
+              break;
+            case "STUDENT":
+              message.success("Login Successful");
+              setShowConfetti(true);
+              setTimeout(() => {
+                window.location.href = "/student";
+              }, 2000);
+              break;
+            default:
+              message.error("Unknown role found in JWT token");
+          }
         } else {
           message.error("Token not found in response");
         }
