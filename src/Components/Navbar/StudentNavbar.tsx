@@ -9,6 +9,7 @@ import { IoSettingsOutline } from "react-icons/io5";
 import { MdOutlineLogout } from "react-icons/md";
 import { FaPlus } from "react-icons/fa6";
 import { MdOutlinePostAdd } from "react-icons/md";
+import { MdOutlineFeed } from "react-icons/md";
 
 const StudentNavbar: React.FC = () => {
   const [isMobile, setIsMobile] = useState<boolean>(false);
@@ -32,7 +33,7 @@ const StudentNavbar: React.FC = () => {
     console.log("Logout logic goes here");
   };
 
-  const iconSize = "24px"; // Set the size for the icons
+  const iconSize = "24px";
 
   const contentProfile = (
     <div className="font-roboto">
@@ -169,15 +170,21 @@ const StudentNavbar: React.FC = () => {
               Create Post
             </button>
           </Link>
-          <Link
-            to="/student/post-management"
-            className="block cursor-pointer mt-2"
-          >
+          <Link to="/student/post-status" className="block cursor-pointer mt-2">
             <button className="flex items-center justify-center w-64 py-2 bg-[#549b90] rounded-md shadow-md hover:bg-[#549b90] hover:text-white focus:outline-none focus:bg-gray-100 transition duration-100">
               <MdOutlinePostAdd
                 className="mr-2"
                 style={{ fontSize: iconSize }}
               />{" "}
+              New Post Status
+            </button>
+          </Link>
+          <Link
+            to="/student/post-management"
+            className="block cursor-pointer mt-2"
+          >
+            <button className="flex items-center justify-center w-64 py-2 bg-[#549b90] rounded-md shadow-md hover:bg-[#549b90] hover:text-white focus:outline-none focus:bg-gray-100 transition duration-100">
+              <MdOutlineFeed className="mr-2" style={{ fontSize: iconSize }} />{" "}
               Post Management
             </button>
           </Link>

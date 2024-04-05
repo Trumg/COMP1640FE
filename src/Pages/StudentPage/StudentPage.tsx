@@ -60,26 +60,35 @@ function StudentPage(): ReactNode {
       <div className="flex justify-center items-center min-h-screen font-roboto pt-24">
         <div className="w-full max-w-4xl p-4">
           <div className="bg-white border-2 border-[#549b90] rounded-lg shadow-md p-6">
-            <h1 className="text-xl font-bold mb-3">Share your Ideas</h1>
+            <h1 className="text-xl font-bold mb-3">Share Your Ideas</h1>
             <Tabs activeKey={activeTab} onChange={handleTabChange}>
-              <TabPane tab="Input" key="1">
+              <TabPane tab="Ideas" key="1">
                 <div style={{ height: "300px" }}>
-                  <label htmlFor="title">Title:</label>
-                  <input
-                    type="text"
-                    id="title"
-                    value={title}
-                    onChange={handleTitleChange}
-                    className="block border border-gray-300 rounded-md p-2 mt-1 w-full"
-                  />
-                  <div className="mt-4">
-                    <label htmlFor="content">Content:</label>
-                    <textarea
-                      id="content"
-                      value={content}
-                      onChange={handleContentChange}
-                      className="block border border-gray-300 rounded-md p-2 mt-1 w-full h-32 resize-none overflow-auto"
-                    ></textarea>
+                  <div className="flex flex-col">
+                    <div className="mb-4">
+                      <label htmlFor="title" className="block">
+                        Title:
+                      </label>
+                      <input
+                        type="text"
+                        id="title"
+                        value={title}
+                        onChange={handleTitleChange}
+                        className="block border-[#549b90] text-black py-2 px-4 rounded w-full resize-none overflow-auto flex justify-center border border-[#549b90] transition duration-200 hover:text-gray-600 hover:border-[#549b90] focus:outline-none"
+                      />
+                    </div>
+                    <div className="mb-4">
+                      <label htmlFor="content" className="block">
+                        Content:
+                      </label>
+                      <textarea
+                        id="content"
+                        value={content}
+                        onChange={handleContentChange}
+                        className="block border-[#549b90] text-black py-2 px-4 rounded w-full resize-none overflow-auto flex justify-center border border-[#549b90] transition duration-200 hover:text-gray-600 hover:border-[#549b90] focus:outline-none"
+                        style={{ height: "200px" }}
+                      ></textarea>
+                    </div>
                   </div>
                 </div>
               </TabPane>
@@ -94,6 +103,7 @@ function StudentPage(): ReactNode {
                         handleFileUpload(originFileObj);
                       }
                     }}
+                    style={{ border: "2px dashed #549b90" }}
                   >
                     <p className="ant-upload-text">
                       Click or drag file to this area to upload
@@ -101,10 +111,16 @@ function StudentPage(): ReactNode {
                   </Dragger>
                 </div>
               </TabPane>
-              <TabPane tab="Terms & Conditions" key="3">
+              <TabPane tab="Policy" key="3">
                 <div style={{ height: "300px" }}>
                   <Checkbox checked={acceptTerms} onChange={handleTermsChange}>
-                    I agree to the terms and conditions
+                    I agree to the{" "}
+                    <a
+                      href="/terms-conditions"
+                      style={{ color: "#549b90", fontWeight: "bold" }}
+                    >
+                      Terms and Conditions
+                    </a>
                   </Checkbox>
                 </div>
               </TabPane>
@@ -113,7 +129,7 @@ function StudentPage(): ReactNode {
               {activeTab !== "1" && (
                 <button
                   onClick={handlePrevTab}
-                  className="bg-[#549b90] text-white font-bold py-2 px-4 rounded"
+                  className="relative bg-[#549b90] text-black py-2 px-4 rounded w-full flex justify-center border border-[#549b90] transition duration-200 hover:text-gray-600 hover:border-[#549b90] focus:outline-none hover:bg-gray-200"
                 >
                   Previous
                 </button>
@@ -125,7 +141,7 @@ function StudentPage(): ReactNode {
                       handleSubmit();
                     } else {
                       alert(
-                        "Please agree to the terms and conditions to submit."
+                        "Please agree to the Terms and Conditions to submit."
                       );
                     }
                   } else {
@@ -133,7 +149,7 @@ function StudentPage(): ReactNode {
                   }
                 }}
                 disabled={activeTab === "3" && !acceptTerms}
-                className={`bg-[#549b90] text-white font-bold py-2 px-4 rounded ${
+                className={`relative bg-[#549b90] text-black py-2 px-4 rounded w-full flex justify-center border border-[#549b90] transition duration-200 hover:text-gray-600 hover:border-[#549b90] focus:outline-none hover:bg-gray-200 ${
                   activeTab === "3" && !acceptTerms
                     ? "cursor-not-allowed opacity-50"
                     : ""

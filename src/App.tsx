@@ -1,20 +1,31 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
+// Auth Page
 import LoginPage from "./Pages/LoginPage/LoginPage";
 import ResetPage from "./Pages/LoginPage/ResetPage";
 
+// Admin Page
 import AdminPage from "./Pages/AdminPage/AdminPage";
 import AdminPostManagementPage from "./Pages/AdminPage/AdminPostManagementPage";
 import AdminUserManagementPage from "./Pages/AdminPage/AdminUserManagementPage";
 import AdminProfilePage from "./Pages/AdminPage/AdminProfilePage";
 import AdminSettingsPage from "./Pages/AdminPage/AdminSettingsPage";
+import AdminAcademicYearManagementPage from "./Pages/AdminPage/AdminAcademicYearManagementPage";
 
-import ManagerPage from "./Pages/ManagerPage/ManagerPage";
-import CoordinatorPage from "./Pages/CoordinatorPage/CoordinatorPage";
+// Student Page
 import StudentPage from "./Pages/StudentPage/StudentPage";
 import StudentPostManagementPage from "./Pages/StudentPage/StudentPostManagement";
-import AdminAcademicYearManagementPage from "./Pages/AdminPage/AdminAcademicYearManagementPage";
+import StudentPostStatusPage from "./Pages/StudentPage/StudentPostStatusPage";
+import StudentProfilePage from "./Pages/StudentPage/StudentProfilePage";
+import StudentSettingsPage from "./Pages/StudentPage/StudentSettingsPage";
+
+// Coordinator Page
+import CoordinatorPage from "./Pages/CoordinatorPage/CoordinatorPage";
+
+// Manager Page
+import ManagerPage from "./Pages/ManagerPage/ManagerPage";
+import TermsConditionsPage from "./Pages/TermsConditionsPage";
 
 const App: React.FC = () => {
   return (
@@ -54,11 +65,16 @@ const App: React.FC = () => {
 
         {/* Student */}
         <Route path="/student" element={<StudentPage />} />
-        <Route path="/student/profile" />
-        <Route path="/student/settings" />
+        <Route path="/terms-conditions" element={<TermsConditionsPage />} />
+        <Route path="/student/profile" element={<StudentProfilePage />} />
+        <Route path="/student/settings" element={<StudentSettingsPage />} />
         <Route
           path="/student/post-management"
           element={<StudentPostManagementPage />}
+        />
+        <Route
+          path="/student/post-status"
+          element={<StudentPostStatusPage />}
         />
       </Routes>
     </Router>

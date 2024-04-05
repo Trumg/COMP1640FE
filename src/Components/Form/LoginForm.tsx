@@ -45,13 +45,13 @@ const LoginForm: React.FC = () => {
       });
 
       if (response.status === 200) {
-        message.success("Login Successful"); // Show success message
-        setShowConfetti(true); // Show confetti
+        message.success("Login Successful");
+        setShowConfetti(true);
         setTimeout(() => {
           window.location.href = "/admin";
-        }, 3000); // Redirect after 3 seconds
+        }, 2000);
       } else {
-        message.error("Login Failed. Please try again."); // Show error message
+        message.error("Login Failed. Please try again.");
       }
     } catch (error) {
       console.error("Error:", error);
@@ -76,7 +76,6 @@ const LoginForm: React.FC = () => {
       }}
     >
       {showConfetti && <Confetti />}{" "}
-      {/* Render confetti when showConfetti is true */}
       <Card
         className={`border-[#549b90] border-2 w-full max-w-md p-2 ${
           isMobile ? "max-w-xs" : ""

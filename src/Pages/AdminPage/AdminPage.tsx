@@ -89,7 +89,7 @@ function AdminPage() {
                         name="firstName"
                         value={formData.firstName}
                         onChange={handleChange}
-                        className="relative bg-white text-black py-2 px-4 rounded-full w-full flex justify-center border border-[#549b90] transition duration-300 hover:text-gray-600 hover:border-[#549b90] focus:outline-none hover:bg-gray-200"
+                        className="relative bg-white text-black py-2 px-4 rounded w-full flex justify-center border border-[#549b90] transition duration-200 hover:text-gray-600 hover:border-[#549b90] focus:outline-none hover:bg-gray-200"
                       />
                     </label>
                     <label className="block mb-2">
@@ -99,7 +99,7 @@ function AdminPage() {
                         name="lastName"
                         value={formData.lastName}
                         onChange={handleChange}
-                        className="relative bg-white text-black py-2 px-4 rounded-full w-full flex justify-center border border-[#549b90] transition duration-300 hover:text-gray-600 hover:border-[#549b90] focus:outline-none hover:bg-gray-200"
+                        className="relative bg-white text-black py-2 px-4 rounded w-full flex justify-center border border-[#549b90] transition duration-200 hover:text-gray-600 hover:border-[#549b90] focus:outline-none hover:bg-gray-200"
                       />
                     </label>
                     <label className="block mb-2">
@@ -109,7 +109,7 @@ function AdminPage() {
                         name="email"
                         value={formData.email}
                         onChange={handleChange}
-                        className="relative bg-white text-black py-2 px-4 rounded-full w-full flex justify-center border border-[#549b90] transition duration-300 hover:text-gray-600 hover:border-[#549b90] focus:outline-none hover:bg-gray-200"
+                        className="relative bg-white text-black py-2 px-4 rounded w-full flex justify-center border border-[#549b90] transition duration-200 hover:text-gray-600 hover:border-[#549b90] focus:outline-none hover:bg-gray-200"
                       />
                     </label>
                     <label className="block mb-2">
@@ -119,7 +119,7 @@ function AdminPage() {
                         name="birthDate"
                         value={formData.birthDate}
                         onChange={handleChange}
-                        className="relative bg-white text-black py-2 px-4 rounded-full w-full flex justify-start border border-[#549b90] transition duration-300 hover:text-gray-600 hover:border-[#549b90] focus:outline-none hover:bg-gray-200"
+                        className="relative bg-white text-black py-2 px-4 rounded w-full flex justify-start border border-[#549b90] transition duration-200 hover:text-gray-600 hover:border-[#549b90] focus:outline-none hover:bg-gray-200"
                       />
                     </label>
                     <label className="block mb-2">
@@ -129,7 +129,7 @@ function AdminPage() {
                         name="password"
                         value={formData.password}
                         onChange={handleChange}
-                        className="relative bg-white text-black py-2 px-4 rounded-full w-full flex justify-center border border-[#549b90] transition duration-300 hover:text-gray-600 hover:border-[#549b90] focus:outline-none hover:bg-gray-200"
+                        className="relative bg-white text-black py-2 px-4 rounded w-full flex justify-center border border-[#549b90] transition duration-200 hover:text-gray-600 hover:border-[#549b90] focus:outline-none hover:bg-gray-200"
                       />
                     </label>
                     <label className="block mb-2">
@@ -139,13 +139,13 @@ function AdminPage() {
                         name="confirmPassword"
                         value={formData.confirmPassword}
                         onChange={handleChange}
-                        className="relative bg-white text-black py-2 px-4 rounded-full w-full flex justify-center border border-[#549b90] transition duration-300 hover:text-gray-600 hover:border-[#549b90] focus:outline-none hover:bg-gray-200"
+                        className="relative bg-white text-black py-2 px-4 rounded w-full flex justify-center border border-[#549b90] transition duration-200 hover:text-gray-600 hover:border-[#549b90] focus:outline-none hover:bg-gray-200"
                       />
                     </label>
                     <div className="flex justify-end">
                       <button
                         type="submit"
-                        className="relative bg-[#549b90] text-black py-2 px-4 rounded-full w-full flex justify-center border border-[#549b90] transition duration-300 hover:text-gray-600 hover:border-[#549b90] focus:outline-none hover:bg-gray-200"
+                        className="relative bg-[#549b90] text-black py-2 px-4 rounded w-full flex justify-center border border-[#549b90] transition duration-200 hover:text-gray-600 hover:border-[#549b90] focus:outline-none hover:bg-gray-200"
                       >
                         Create User
                       </button>

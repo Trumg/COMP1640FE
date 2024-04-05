@@ -33,7 +33,7 @@ const AdminNavbar: React.FC = () => {
     console.log("Logout logic goes here");
   };
 
-  const iconSize = "24px"; // Set the size for the icons
+  const iconSize = "24px";
 
   const contentProfile = (
     <div className="font-roboto">
