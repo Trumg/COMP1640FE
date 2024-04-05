@@ -2,15 +2,11 @@ import React, { useState, useEffect } from "react";
 import { MagazineImage } from "../../Assets/MagazineImage/MagazineImage";
 import { Drawer, Popover } from "antd"; // Import Popover and Button from Ant Design
 import { AiOutlineMenu } from "react-icons/ai";
-import { FaRegBell, FaRegUser } from "react-icons/fa";
+import { FaRegBell, FaRegUser, FaPlus } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { CgProfile } from "react-icons/cg";
+import { MdOutlineLogout, MdOutlineDashboard } from "react-icons/md";
 import { IoSettingsOutline } from "react-icons/io5";
-import { MdOutlineLogout } from "react-icons/md";
-import { FaPlus } from "react-icons/fa6";
-import { MdOutlinePostAdd } from "react-icons/md";
-import { MdOutlineFeed } from "react-icons/md";
-import { AiOutlineDashboard } from "react-icons/ai";
 
 const StudentNavbar: React.FC = () => {
   const [isMobile, setIsMobile] = useState<boolean>(false);
@@ -55,20 +51,6 @@ const StudentNavbar: React.FC = () => {
         >
           <CgProfile style={{ marginRight: "5px", fontSize: iconSize }} />
           Profile
-        </button>
-      </Link>
-      <Link to="/student/settings" className="link-button">
-        <button
-          style={{
-            display: "flex",
-            alignItems: "center",
-            marginBottom: "10px",
-          }}
-        >
-          <IoSettingsOutline
-            style={{ marginRight: "5px", fontSize: iconSize }}
-          />
-          Settings
         </button>
       </Link>
       <button
@@ -165,36 +147,30 @@ const StudentNavbar: React.FC = () => {
               />
             </div>
           )}
-          <Link to="/student" className="block cursor-pointer">
-            <button className="flex items-center justify-center w-64 py-2 bg-[#549b90] rounded-md shadow-md hover:bg-[#549b90] hover:text-white focus:outline-none focus:bg-gray-100 transition duration-300">
-              <FaPlus className="mr-2" style={{ fontSize: iconSize }} />
-              Create Post
-            </button>
-          </Link>
-          <Link to="/student/post-status" className="block cursor-pointer mt-2">
-            <button className="flex items-center justify-center w-64 py-2 bg-[#549b90] rounded-md shadow-md hover:bg-[#549b90] hover:text-white focus:outline-none focus:bg-gray-100 transition duration-100">
-              <MdOutlinePostAdd
-                className="mr-2"
-                style={{ fontSize: iconSize }}
-              />{" "}
-              New Post Status
+          <Link to="/student" className="block cursor-pointer mt-2">
+            <button className="flex items-center justify-start w-64 py-2 pl-4 bg-[#549b90] rounded-md shadow-md hover:bg-[#549b90] hover:text-white focus:outline-none focus:bg-gray-100 transition duration-300">
+              <FaPlus className="mr-2" style={{ fontSize: iconSize }} /> Create
+              Post
             </button>
           </Link>
           <Link
             to="/student/post-management"
             className="block cursor-pointer mt-2"
           >
-            <button className="flex items-center justify-center w-64 py-2 bg-[#549b90] rounded-md shadow-md hover:bg-[#549b90] hover:text-white focus:outline-none focus:bg-gray-100 transition duration-100">
-              <MdOutlineFeed className="mr-2" style={{ fontSize: iconSize }} />{" "}
+            <button className="flex items-center justify-start w-64 py-2 pl-4 bg-[#549b90] rounded-md shadow-md hover:bg-[#549b90] hover:text-white focus:outline-none focus:bg-gray-100 transition duration-100">
+              <IoSettingsOutline
+                className="mr-2"
+                style={{ fontSize: iconSize }}
+              />
               Post Management
             </button>
           </Link>
           <Link to="/student/dashboard" className="block cursor-pointer mt-2">
-            <button className="flex items-center justify-center w-64 py-2 bg-[#549b90] rounded-md shadow-md hover:bg-[#549b90] hover:text-white focus:outline-none focus:bg-gray-100 transition duration-100">
-              <AiOutlineDashboard
+            <button className="flex items-center justify-start w-64 py-2 pl-4 bg-[#549b90] rounded-md shadow-md hover:bg-[#549b90] hover:text-white focus:outline-none focus:bg-gray-100 transition duration-100">
+              <MdOutlineDashboard
                 className="mr-2"
                 style={{ fontSize: iconSize }}
-              />{" "}
+              />
               Student Dashboard
             </button>
           </Link>

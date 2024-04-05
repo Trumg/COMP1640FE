@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import StudentNavbar from "../../Components/Navbar/StudentNavbar";
 
-function StudentPostStatusPage() {
+function StudentPostManagementPage() {
   const [posts] = useState([
     { id: 1, title: "Post 1", content: "Content of Post 1", status: "Pending" },
     {
@@ -134,4 +134,4 @@ function StudentPostStatusPage() {
   );
 }
 
-export default StudentPostStatusPage;
+export default StudentPostManagementPage;

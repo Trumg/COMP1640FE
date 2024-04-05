@@ -5,10 +5,8 @@ import { AiOutlineMenu } from "react-icons/ai";
 import { FaRegBell, FaRegUser } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { CgProfile } from "react-icons/cg";
+import { MdOutlineLogout, MdOutlineDashboard } from "react-icons/md";
 import { IoSettingsOutline } from "react-icons/io5";
-import { MdOutlineLogout } from "react-icons/md";
-import { FaPlus } from "react-icons/fa6";
-import { FaUserCog, FaRegCalendar } from "react-icons/fa";
 
 const AdminNavbar: React.FC = () => {
   const [isMobile, setIsMobile] = useState<boolean>(false);
@@ -49,30 +47,21 @@ const AdminNavbar: React.FC = () => {
             display: "flex",
             alignItems: "center",
             marginBottom: "10px",
+            paddingLeft: "10px", // Added padding
           }}
         >
           <CgProfile style={{ marginRight: "5px", fontSize: iconSize }} />
           Profile
         </button>
       </Link>
-      <Link to="/admin/settings" className="link-button">
-        <button
-          style={{
-            display: "flex",
-            alignItems: "center",
-            marginBottom: "10px",
-          }}
-        >
-          <IoSettingsOutline
-            style={{ marginRight: "5px", fontSize: iconSize }}
-          />
-          Settings
-        </button>
-      </Link>
       <button
         className="text-red-500 link-button"
         onClick={handleLogout}
-        style={{ display: "flex", alignItems: "center" }}
+        style={{
+          display: "flex",
+          alignItems: "center",
+          paddingLeft: "10px", // Added padding
+        }}
       >
         <MdOutlineLogout style={{ marginRight: "5px", fontSize: iconSize }} />
         Logout
@@ -164,45 +153,42 @@ const AdminNavbar: React.FC = () => {
             </div>
           )}
           <Link to="/admin" className="block cursor-pointer">
-            <button className="flex items-center justify-center w-64 py-2 bg-[#549b90] rounded-md shadow-md hover:bg-[#549b90] hover:text-white focus:outline-none focus:bg-gray-100 transition duration-300">
-              <FaPlus className="mr-2" style={{ fontSize: iconSize }} />
-              Create User
-            </button>
-          </Link>
-          <Link
-            to="/admin/user-management"
-            className="block cursor-pointer mt-2"
-          >
-            <button className="flex items-center justify-center w-64 py-2 bg-[#549b90] rounded-md shadow-md hover:bg-[#549b90] hover:text-white focus:outline-none focus:bg-gray-100 transition duration-100">
-              <FaUserCog className="mr-2" style={{ fontSize: iconSize }} /> User
-              Management
+            <button className="flex items-center justify-start w-64 py-2 pl-4 bg-[#549b90] rounded-md shadow-md hover:bg-[#549b90] hover:text-white focus:outline-none focus:bg-gray-100 transition duration-300">
+              <IoSettingsOutline style={{ fontSize: iconSize }} />
+              <span className="ml-2">User Management</span>
             </button>
           </Link>
           <Link
             to="/admin/academic-year-management"
             className="block cursor-pointer mt-2"
           >
-            <button className="flex items-center justify-center w-64 py-2 bg-[#549b90] rounded-md shadow-md hover:bg-[#549b90] hover:text-white focus:outline-none focus:bg-gray-100 transition duration-100">
-              <FaRegCalendar className="mr-2" style={{ fontSize: iconSize }} />{" "}
-              Academic Year Management
+            <button className="flex items-center justify-start w-64 py-2 pl-4 bg-[#549b90] rounded-md shadow-md hover:bg-[#549b90] hover:text-white focus:outline-none focus:bg-gray-100 transition duration-100">
+              <IoSettingsOutline style={{ fontSize: iconSize }} />
+              <span className="ml-2">Academic Year Management</span>
             </button>
           </Link>
           <Link
             to="/admin/faculty-management"
             className="block cursor-pointer mt-2"
           >
-            <button className="flex items-center justify-center w-64 py-2 bg-[#549b90] rounded-md shadow-md hover:bg-[#549b90] hover:text-white focus:outline-none focus:bg-gray-100 transition duration-100">
-              <FaRegCalendar className="mr-2" style={{ fontSize: iconSize }} />{" "}
-              Faculty Management
+            <button className="flex items-center justify-start w-64 py-2 pl-4 bg-[#549b90] rounded-md shadow-md hover:bg-[#549b90] hover:text-white focus:outline-none focus:bg-gray-100 transition duration-100">
+              <IoSettingsOutline style={{ fontSize: iconSize }} />
+              <span className="ml-2">Faculty Management</span>
             </button>
           </Link>
           <Link
             to="/admin/closure-date-management"
             className="block cursor-pointer mt-2"
           >
-            <button className="flex items-center justify-center w-64 py-2 bg-[#549b90] rounded-md shadow-md hover:bg-[#549b90] hover:text-white focus:outline-none focus:bg-gray-100 transition duration-100">
-              <FaRegCalendar className="mr-2" style={{ fontSize: iconSize }} />{" "}
-              Closure Date Management
+            <button className="flex items-center justify-start w-64 py-2 pl-4 bg-[#549b90] rounded-md shadow-md hover:bg-[#549b90] hover:text-white focus:outline-none focus:bg-gray-100 transition duration-100">
+              <IoSettingsOutline style={{ fontSize: iconSize }} />
+              <span className="ml-2">Closure Date Management</span>
+            </button>
+          </Link>
+          <Link to="/admin/dashboard" className="block cursor-pointer mt-2">
+            <button className="flex items-center justify-start w-64 py-2 pl-4 bg-[#549b90] rounded-md shadow-md hover:bg-[#549b90] hover:text-white focus:outline-none focus:bg-gray-100 transition duration-100">
+              <MdOutlineDashboard style={{ fontSize: iconSize }} />
+              <span className="ml-2">Admin Dashboard</span>
             </button>
           </Link>
         </div>

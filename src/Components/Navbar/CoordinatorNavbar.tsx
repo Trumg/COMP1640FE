@@ -5,9 +5,8 @@ import { AiOutlineMenu } from "react-icons/ai";
 import { FaRegBell, FaRegUser } from "react-icons/fa";
 import { Link } from "react-router-dom";
 import { CgProfile } from "react-icons/cg";
+import { MdOutlineLogout, MdOutlineDashboard } from "react-icons/md";
 import { IoSettingsOutline } from "react-icons/io5";
-import { MdOutlineLogout } from "react-icons/md";
-import { FaUserCog } from "react-icons/fa";
 
 const CoordinatorNavbar: React.FC = () => {
   const [isMobile, setIsMobile] = useState<boolean>(false);
@@ -42,7 +41,7 @@ const CoordinatorNavbar: React.FC = () => {
       }
     `}
       </style>
-      <Link to="/admin/profile" className="link-button">
+      <Link to="/coordinator/profile" className="link-button">
         <button
           style={{
             display: "flex",
@@ -52,20 +51,6 @@ const CoordinatorNavbar: React.FC = () => {
         >
           <CgProfile style={{ marginRight: "5px", fontSize: iconSize }} />
           Profile
-        </button>
-      </Link>
-      <Link to="/admin/settings" className="link-button">
-        <button
-          style={{
-            display: "flex",
-            alignItems: "center",
-            marginBottom: "10px",
-          }}
-        >
-          <IoSettingsOutline
-            style={{ marginRight: "5px", fontSize: iconSize }}
-          />
-          Settings
         </button>
       </Link>
       <button
@@ -163,17 +148,23 @@ const CoordinatorNavbar: React.FC = () => {
             </div>
           )}
           <Link to="/coordinator" className="block cursor-pointer mt-2">
-            <button className="flex items-center justify-center w-64 py-2 bg-[#549b90] rounded-md shadow-md hover:bg-[#549b90] hover:text-white focus:outline-none focus:bg-gray-100 transition duration-100">
-              <FaUserCog className="mr-2" style={{ fontSize: iconSize }} /> Post
-              Management
+            <button className="flex items-center justify-start w-64 py-2 pl-4 bg-[#549b90] rounded-md shadow-md hover:bg-[#549b90] hover:text-white focus:outline-none focus:bg-gray-100 transition duration-100">
+              <IoSettingsOutline
+                className="mr-2"
+                style={{ fontSize: iconSize }}
+              />
+              Post Management
             </button>
           </Link>
           <Link
             to="/coordinator/dashboard"
             className="block cursor-pointer mt-2"
           >
-            <button className="flex items-center justify-center w-64 py-2 bg-[#549b90] rounded-md shadow-md hover:bg-[#549b90] hover:text-white focus:outline-none focus:bg-gray-100 transition duration-100">
-              <FaUserCog className="mr-2" style={{ fontSize: iconSize }} />{" "}
+            <button className="flex items-center justify-start w-64 py-2 pl-4 bg-[#549b90] rounded-md shadow-md hover:bg-[#549b90] hover:text-white focus:outline-none focus:bg-gray-100 transition duration-100">
+              <MdOutlineDashboard
+                className="mr-2"
+                style={{ fontSize: iconSize }}
+              />
               Coordinator Dashboard
             </button>
           </Link>
