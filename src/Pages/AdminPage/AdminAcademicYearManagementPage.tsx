@@ -1,58 +1,22 @@
-import { useState, useEffect, ChangeEvent, FormEvent } from "react";
+import { useState, useEffect } from "react";
 import AdminNavbar from "../../Components/Navbar/AdminNavbar";
-import { format } from "date-fns";
-import { Api } from "../../Api";
-import { message, Card } from "antd";
+import { Card, Select, Tabs, DatePicker } from "antd";
+
+const { Option } = Select;
+const { TabPane } = Tabs;
 
 function AdminAcademicYearManagementPage() {
-  const [isMobile, setIsMobile] = useState(false);
+  const [isMobile, setIsMobile] = useState<boolean>(false);
+  const [selectedAcademicYear, setSelectedAcademicYear] = useState<string>("");
+  const [activeTab, setActiveTab] = useState<string>("academicYear");
+  const [closureDate, setClosureDate] = useState<string | null>(null);
 
-  const apiClient = new Api({
-    baseUrl: "https://localhost:7279",
-  });
-
-  const [formData, setFormData] = useState({
-    firstName: "",
-    lastName: "",
-    email: "",
-    password: "",
-    birthDate: "",
-    confirmPassword: "",
-  });
-
-  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setFormData({ ...formData, [event.target.name]: event.target.value });
+  const handleAcademicYearChange = (value: string) => {
+    setSelectedAcademicYear(value);
   };
 
-  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    try {
-      // Format birthDate using date-fns
-      const formattedBirthDate = format(
-        new Date(formData.birthDate),
-        "yyyy-MM-dd"
-      );
-
-      const response = await apiClient.api.authRegisterCreate({
-        firstName: formData.firstName,
-        lastName: formData.lastName,
-        username: formData.email,
-        password: formData.password,
-        birthDate: formattedBirthDate,
-        confirmPassword: formData.confirmPassword,
-      });
-
-      if (response.status === 200) {
-        message.success("Account created successfully");
-        console.log("Account created successfully");
-      } else {
-        message.error("Failed to create account");
-        console.error("Failed to create account:", response.data);
-      }
-    } catch (error) {
-      message.error("Error occurred during account creation");
-      console.error("Error occurred during account creation:", error);
-    }
+  const handleClosureDateChange = (date: string | null) => {
+    setClosureDate(date);
   };
 
   useEffect(() => {
@@ -64,10 +28,14 @@ function AdminAcademicYearManagementPage() {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
+  const handleTabChange = (key: string) => {
+    setActiveTab(key);
+  };
+
   return (
     <div>
       <AdminNavbar />
-      <div className="flex justify-center min-h-screen font-roboto pt-32">
+      <div className="flex justify-center items-center min-h-screen font-roboto">
         <div
           className={
             isMobile
@@ -77,81 +45,53 @@ function AdminAcademicYearManagementPage() {
           style={{ overflowX: isMobile ? "scroll" : "hidden" }}
         >
           <div className="flex justify-center">
-            <Card className="transparent border-none rounded-lg p-6 w-full">
-              <div className="bg-white border border-gray-200 rounded-lg shadow-md p-6">
-                <h1 className="text-xl font-bold mb-3">Create User</h1>
-                <form onSubmit={handleSubmit}>
-                  <div className="mt-4">
-                    <label className="block mb-2">
-                      <input
-                        placeholder="First Name"
-                        type="text"
-                        name="firstName"
-                        value={formData.firstName}
-                        onChange={handleChange}
-                        className="relative bg-white text-black py-2 px-4 rounded-full w-full flex justify-center border border-[#549b90] transition duration-300 hover:text-gray-600 hover:border-[#549b90] focus:outline-none hover:bg-gray-200"
+            <Card
+              className="transparent border-none rounded-lg p-6"
+              style={{ width: "80%" }}
+            >
+              <div className="border-[#549b90] border-2 rounded-lg shadow-md p-6">
+                <h1 className="text-xl font-bold mb-3">
+                  Academic Year Management
+                </h1>
+                <Tabs activeKey={activeTab} onChange={handleTabChange}>
+                  <TabPane tab="Academic Year" key="academicYear">
+                    <form>
+                      <div className="mt-4">
+                        <label className="block mb-2">
+                          <Select
+                            placeholder="Select Academic Year"
+                            onChange={handleAcademicYearChange}
+                            className="w-full"
+                            value={selectedAcademicYear}
+                          >
+                            <Option value="2023">2023</Option>
+                            <Option value="2024">2024</Option>
+                          </Select>
+                        </label>
+                        <div className="flex justify-end mt-4">
+                          <button className="relative bg-[#549b90] text-black py-2 px-4 rounded-full w-full flex justify-center border border-[#549b90] transition duration-300 hover:text-gray-600 hover:border-[#549b90] focus:outline-none hover:bg-gray-200">
+                            Publish
+                          </button>
+                        </div>
+                      </div>
+                    </form>
+                  </TabPane>
+                  <TabPane tab="Closure Dates" key="closureDates">
+                    <div className="mt-4">
+                      <DatePicker
+                        onChange={handleClosureDateChange}
+                        value={closureDate}
+                        placeholder="Select Closure Date"
+                        className="w-full"
                       />
-                    </label>
-                    <label className="block mb-2">
-                      <input
-                        placeholder="Last Name"
-                        type="text"
-                        name="lastName"
-                        value={formData.lastName}
-                        onChange={handleChange}
-                        className="relative bg-white text-black py-2 px-4 rounded-full w-full flex justify-center border border-[#549b90] transition duration-300 hover:text-gray-600 hover:border-[#549b90] focus:outline-none hover:bg-gray-200"
-                      />
-                    </label>
-                    <label className="block mb-2">
-                      <input
-                        placeholder="Email"
-                        type="email"
-                        name="email"
-                        value={formData.email}
-                        onChange={handleChange}
-                        className="relative bg-white text-black py-2 px-4 rounded-full w-full flex justify-center border border-[#549b90] transition duration-300 hover:text-gray-600 hover:border-[#549b90] focus:outline-none hover:bg-gray-200"
-                      />
-                    </label>
-                    <label className="block mb-2">
-                      <input
-                        placeholder="Birth Date"
-                        type="text"
-                        name="birthDate"
-                        value={formData.birthDate}
-                        onChange={handleChange}
-                        className="relative bg-white text-black py-2 px-4 rounded-full w-full flex justify-start border border-[#549b90] transition duration-300 hover:text-gray-600 hover:border-[#549b90] focus:outline-none hover:bg-gray-200"
-                      />
-                    </label>
-                    <label className="block mb-2">
-                      <input
-                        placeholder="Password"
-                        type="password"
-                        name="password"
-                        value={formData.password}
-                        onChange={handleChange}
-                        className="relative bg-white text-black py-2 px-4 rounded-full w-full flex justify-center border border-[#549b90] transition duration-300 hover:text-gray-600 hover:border-[#549b90] focus:outline-none hover:bg-gray-200"
-                      />
-                    </label>
-                    <label className="block mb-2">
-                      <input
-                        placeholder="Confirm Password"
-                        type="password"
-                        name="confirmPassword"
-                        value={formData.confirmPassword}
-                        onChange={handleChange}
-                        className="relative bg-white text-black py-2 px-4 rounded-full w-full flex justify-center border border-[#549b90] transition duration-300 hover:text-gray-600 hover:border-[#549b90] focus:outline-none hover:bg-gray-200"
-                      />
-                    </label>
-                    <div className="flex justify-end">
-                      <button
-                        type="submit"
-                        className="relative bg-[#549b90] text-black py-2 px-4 rounded-full w-full flex justify-center border border-[#549b90] transition duration-300 hover:text-gray-600 hover:border-[#549b90] focus:outline-none hover:bg-gray-200"
-                      >
-                        Create User
+                    </div>
+                    <div className="flex justify-end mt-4">
+                      <button className="relative bg-[#549b90] text-black py-2 px-4 rounded-full w-full flex justify-center border border-[#549b90] transition duration-300 hover:text-gray-600 hover:border-[#549b90] focus:outline-none hover:bg-gray-200">
+                        Publish
                       </button>
                     </div>
-                  </div>
-                </form>
+                  </TabPane>
+                </Tabs>
               </div>
             </Card>
           </div>

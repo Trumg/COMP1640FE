@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import AdminNavbar from "../../Components/Navbar/AdminNavbar";
+import { Link } from "react-router-dom";
 
 function AdminUserManagementPage() {
   const [users] = useState([
@@ -34,10 +35,10 @@ function AdminUserManagementPage() {
           }
           style={{ overflowX: isMobile ? "scroll" : "hidden" }}
         >
-          <div className="bg-white border border-gray-200 rounded-lg shadow-md p-6">
+          <div className="border-[#549b90] border-2 rounded-lg shadow-md p-6">
             <h1 className="text-xl font-bold mb-3">User Management</h1>
             <div
-              className="table-container relative" // Added relative position
+              className="table-container relative"
               style={{
                 overflow: "auto",
                 maxHeight: "500px",
@@ -81,49 +82,26 @@ function AdminUserManagementPage() {
                       </td>
                       <td className="border border-gray-200 px-4 py-2">
                         <div className="flex justify-center items-center">
-                          {isMobile ? (
-                            <div>
-                              <button
-                                className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mb-2 w-full"
-                                style={{ width: "100px" }}
-                              >
-                                Add
-                              </button>
-                              <button
-                                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-2 w-full"
-                                style={{ width: "100px" }}
-                              >
-                                Edit
-                              </button>
-                              <button
-                                className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded w-full"
-                                style={{ width: "100px" }}
-                              >
-                                Delete
-                              </button>
-                            </div>
-                          ) : (
-                            <>
-                              <button
-                                className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mr-2"
-                                style={{ width: "100px" }}
-                              >
-                                Add
-                              </button>
-                              <button
-                                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2"
-                                style={{ width: "100px" }}
-                              >
-                                Edit
-                              </button>
-                              <button
-                                className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
-                                style={{ width: "100px" }}
-                              >
-                                Delete
-                              </button>
-                            </>
-                          )}
+                          <Link to="/admin">
+                            <button
+                              className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded mr-2"
+                              style={{ width: "100px" }}
+                            >
+                              Add
+                            </button>
+                          </Link>
+                          <button
+                            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2"
+                            style={{ width: "100px" }}
+                          >
+                            Edit
+                          </button>
+                          <button
+                            className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
+                            style={{ width: "100px" }}
+                          >
+                            Delete
+                          </button>
                         </div>
                       </td>
                     </tr>

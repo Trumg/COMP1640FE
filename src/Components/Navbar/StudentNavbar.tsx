@@ -10,6 +10,7 @@ import { MdOutlineLogout } from "react-icons/md";
 import { FaPlus } from "react-icons/fa6";
 import { MdOutlinePostAdd } from "react-icons/md";
 import { MdOutlineFeed } from "react-icons/md";
+import { AiOutlineDashboard } from "react-icons/ai";
 
 const StudentNavbar: React.FC = () => {
   const [isMobile, setIsMobile] = useState<boolean>(false);
@@ -186,6 +187,15 @@ const StudentNavbar: React.FC = () => {
             <button className="flex items-center justify-center w-64 py-2 bg-[#549b90] rounded-md shadow-md hover:bg-[#549b90] hover:text-white focus:outline-none focus:bg-gray-100 transition duration-100">
               <MdOutlineFeed className="mr-2" style={{ fontSize: iconSize }} />{" "}
               Post Management
+            </button>
+          </Link>
+          <Link to="/student/dashboard" className="block cursor-pointer mt-2">
+            <button className="flex items-center justify-center w-64 py-2 bg-[#549b90] rounded-md shadow-md hover:bg-[#549b90] hover:text-white focus:outline-none focus:bg-gray-100 transition duration-100">
+              <AiOutlineDashboard
+                className="mr-2"
+                style={{ fontSize: iconSize }}
+              />{" "}
+              Student Dashboard
             </button>
           </Link>
         </div>

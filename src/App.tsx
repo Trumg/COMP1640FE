@@ -19,19 +19,25 @@ import StudentPostManagementPage from "./Pages/StudentPage/StudentPostManagement
 import StudentPostStatusPage from "./Pages/StudentPage/StudentPostStatusPage";
 import StudentProfilePage from "./Pages/StudentPage/StudentProfilePage";
 import StudentSettingsPage from "./Pages/StudentPage/StudentSettingsPage";
+import StudentDashboardPage from "./Pages/StudentPage/StudentDashboardPage";
 
 // Coordinator Page
 import CoordinatorPage from "./Pages/CoordinatorPage/CoordinatorPage";
+import CoordinatorDashboardPage from "./Pages/CoordinatorPage/CoordinatorDashboardPage";
+import CoordinatorFacultyManagementPage from "./Pages/CoordinatorPage/CoordinatorFacultyManagementPage";
 
 // Manager Page
 import ManagerPage from "./Pages/ManagerPage/ManagerPage";
+import ManagerDashboardPage from "./Pages/ManagerPage/ManagerDashboardPage";
+
+// Terms & Conditions Page
 import TermsConditionsPage from "./Pages/TermsConditionsPage";
 
 const App: React.FC = () => {
   return (
     <Router>
       <Routes>
-        {/* Default */}
+        {/* Main */}
         <Route path="/" element={<LoginPage />} />
         <Route path="/reset-password" element={<ResetPage />} />
 
@@ -51,21 +57,29 @@ const App: React.FC = () => {
           path="/admin/academic-year-management"
           element={<AdminAcademicYearManagementPage />}
         />
+        <Route path="/admin/dashboard" />
 
         {/* Manager */}
         <Route path="/manager" element={<ManagerPage />} />
-        <Route path="/manage/profile" />
-        <Route path="/manage/settings" />
+        <Route path="/manager/profile" />
+        <Route path="/manager/settings" />
+        <Route path="/manager/dashboard" element={<ManagerDashboardPage />} />
 
         {/* Coordinator */}
         <Route path="/coordinator" element={<CoordinatorPage />} />
         <Route path="/coordinator/profile" />
         <Route path="/coordinator/settings" />
-        <Route path="/coordinator/faculty-management" />
+        <Route
+          path="/coordinator/faculty-management"
+          element={<CoordinatorFacultyManagementPage />}
+        />
+        <Route
+          path="/coordinator/dashboard"
+          element={<CoordinatorDashboardPage />}
+        />
 
         {/* Student */}
         <Route path="/student" element={<StudentPage />} />
-        <Route path="/terms-conditions" element={<TermsConditionsPage />} />
         <Route path="/student/profile" element={<StudentProfilePage />} />
         <Route path="/student/settings" element={<StudentSettingsPage />} />
         <Route
@@ -76,6 +90,10 @@ const App: React.FC = () => {
           path="/student/post-status"
           element={<StudentPostStatusPage />}
         />
+        <Route path="/student/dashboard" element={<StudentDashboardPage />} />
+
+        {/* Terms & Conditions */}
+        <Route path="/terms-conditions" element={<TermsConditionsPage />} />
       </Routes>
     </Router>
   );
