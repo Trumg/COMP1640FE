@@ -1,5 +1,10 @@
-import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
 
 // Auth Page
 import LoginPage from "./Pages/LoginPage/LoginPage";
@@ -33,6 +38,16 @@ import ManagerProfilePage from "./Pages/ManagerPage/ManagerProfilePage";
 import TermsConditionsPage from "./Pages/TermsConditionsPage";
 
 const App: React.FC = () => {
+  const [userRole, setUserRole] = useState<string | null>(null);
+
+  useEffect(() => {
+    // Fetch user role from JWT or session storage and set it to state
+    const role = sessionStorage.getItem("userRole");
+    if (role) {
+      setUserRole(role);
+    }
+  }, []);
+
   return (
     <Router>
       <Routes>
@@ -41,84 +56,74 @@ const App: React.FC = () => {
         <Route path="/reset-password" element={<ResetPage />} />
 
         {/* Admin Routes */}
-        <Route path="/admin" element={<AdminPage />} />
-        <Route
-          path="/admin/profile"
-          element={<AdminProfilePage />}
-          // role="ADMIN"
-        />
-        <Route
-          path="/admin/academic-year-management"
-          element={<AdminAcademicYearManagementPage />}
-          // role="ADMIN"
-        />
-        <Route
-          path="/admin/faculty-management"
-          element={<AdminFacultyManagementPage />}
-          // role="ADMIN"
-        />
-        <Route
-          path="/admin/closure-date-management"
-          element={<AdminClosureDateManagement />}
-          // role="ADMIN"
-        />
-        <Route
-          path="/admin/dashboard"
-          element={<AdminDashboardPage />}
-          // role="ADMIN"
-        />
+        {userRole === "ADMIN" ? (
+          <>
+            <Route path="/admin" element={<AdminPage />} />
+            <Route path="/admin/profile" element={<AdminProfilePage />} />
+            <Route
+              path="/admin/academic-year-management"
+              element={<AdminAcademicYearManagementPage />}
+            />
+            <Route
+              path="/admin/faculty-management"
+              element={<AdminFacultyManagementPage />}
+            />
+            <Route
+              path="/admin/closure-date-management"
+              element={<AdminClosureDateManagement />}
+            />
+            <Route path="/admin/dashboard" element={<AdminDashboardPage />} />
+          </>
+        ) : null}
 
         {/* Manager Routes */}
-        <Route path="/manager" element={<ManagerPage />} />
-        <Route
-          path="/manager/profile"
-          element={<ManagerProfilePage />}
-          // role="MANAGER"
-        />
-        <Route
-          path="/manager/dashboard"
-          element={<ManagerDashboardPage />}
-          // role="MANAGER"
-        />
+        {userRole === "MANAGER" ? (
+          <>
+            <Route path="/manager" element={<ManagerPage />} />
+            <Route path="/manager/profile" element={<ManagerProfilePage />} />
+            <Route
+              path="/manager/dashboard"
+              element={<ManagerDashboardPage />}
+            />
+          </>
+        ) : null}
 
         {/* Coordinator Routes */}
-        <Route
-          path="/coordinator"
-          element={<CoordinatorPage />}
-          // role="COORDINATOR"
-        />
-        <Route
-          path="/coordinator/profile"
-          element={<CoordinatorProfilePage />}
-          // role="COORDINATOR"
-        />
-        <Route
-          path="/coordinator/dashboard"
-          element={<CoordinatorDashboardPage />}
-          // role="COORDINATOR"
-        />
+        {userRole === "COORDINATOR" ? (
+          <>
+            <Route path="/coordinator" element={<CoordinatorPage />} />
+            <Route
+              path="/coordinator/profile"
+              element={<CoordinatorProfilePage />}
+            />
+            <Route
+              path="/coordinator/dashboard"
+              element={<CoordinatorDashboardPage />}
+            />
+          </>
+        ) : null}
 
         {/* Student Routes */}
-        <Route path="/student" element={<StudentPage />} />
-        <Route
-          path="/student/profile"
-          element={<StudentProfilePage />}
-          // role="STUDENT"
-        />
-        <Route
-          path="/student/post-management"
-          element={<StudentPostManagementPage />}
-          // role="STUDENT"
-        />
-        <Route
-          path="/student/dashboard"
-          element={<StudentDashboardPage />}
-          // role="STUDENT"
-        />
+        {userRole === "STUDENT" ? (
+          <>
+            <Route path="/student" element={<StudentPage />} />
+            <Route path="/student/profile" element={<StudentProfilePage />} />
+            <Route
+              path="/student/post-management"
+              element={<StudentPostManagementPage />}
+            />
+            <Route
+              path="/student/dashboard"
+              element={<StudentDashboardPage />}
+            />
+          </>
+        ) : null}
 
         {/* Terms & Conditions */}
         <Route path="/terms-conditions" element={<TermsConditionsPage />} />
       </Routes>
+      {/* Redirect to login if user role is not set */}
+      {userRole === null && <Navigate to="/" />}
     </Router>
   );
 };
