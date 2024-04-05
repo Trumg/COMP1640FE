@@ -71,13 +71,19 @@ const AdminNavbar: React.FC = () => {
   const iconSize = "24px";
 
   const contentProfile = (
-    <div className="font-roboto">
+    <div className="font-roboto text-center py-4">
       <style>
         {`
-      .link-button:hover {
-        text-decoration: none;
-      }
-    `}
+          .link-button:hover {
+            text-decoration: none;
+          }
+          .profile-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px; /* Adjust padding as needed */
+          }
+        `}
       </style>
       {currentUser && (
         <>
@@ -85,28 +91,16 @@ const AdminNavbar: React.FC = () => {
         </>
       )}
       <Link to="/admin/profile" className="link-button">
-        <button
-          style={{
-            display: "flex",
-            alignItems: "center",
-            marginBottom: "10px",
-            paddingLeft: "10px",
-          }}
-        >
-          <CgProfile style={{ marginRight: "5px", fontSize: iconSize }} />
+        <button className="profile-button">
+          <CgProfile style={{ marginRight: "10px", fontSize: iconSize }} />
           Profile
         </button>
       </Link>
       <button
-        className="text-red-500 link-button"
+        className="text-red-500 link-button profile-button"
         onClick={handleLogout}
-        style={{
-          display: "flex",
-          alignItems: "center",
-          paddingLeft: "10px", // Added padding
-        }}
       >
-        <MdOutlineLogout style={{ marginRight: "5px", fontSize: iconSize }} />
+        <MdOutlineLogout style={{ marginRight: "10px", fontSize: iconSize }} />
         Logout
       </button>
     </div>
