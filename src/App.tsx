@@ -6,66 +6,49 @@ import {
   Navigate,
 } from "react-router-dom";
 
-// Auth Page
+// Import all the necessary pages/components
 import LoginPage from "./Pages/LoginPage/LoginPage";
 import ResetPage from "./Pages/LoginPage/ResetPage";
-
-// Admin Page
 import AdminPage from "./Pages/AdminPage/AdminPage";
 import AdminProfilePage from "./Pages/AdminPage/AdminProfilePage";
 import AdminAcademicYearManagementPage from "./Pages/AdminPage/AdminAcademicYearManagementPage";
 import AdminFacultyManagementPage from "./Pages/AdminPage/AdminFacultyManagementPage";
 import AdminClosureDateManagement from "./Pages/AdminPage/AdminClosureDateManagement";
 import AdminDashboardPage from "./Pages/AdminPage/AdminDashboardPage";
-
-// Student Page
 import StudentPage from "./Pages/StudentPage/StudentPage";
 import StudentProfilePage from "./Pages/StudentPage/StudentProfilePage";
 import StudentDashboardPage from "./Pages/StudentPage/StudentDashboardPage";
 import StudentPostManagementPage from "./Pages/StudentPage/StudentPostManagementPage";
-
-// Coordinator Page
 import CoordinatorPage from "./Pages/CoordinatorPage/CoordinatorPage";
 import CoordinatorDashboardPage from "./Pages/CoordinatorPage/CoordinatorDashboardPage";
 import CoordinatorProfilePage from "./Pages/CoordinatorPage/CoordinatorProfilePage";
-
-// Manager Page
 import ManagerPage from "./Pages/ManagerPage/ManagerPage";
 import ManagerDashboardPage from "./Pages/ManagerPage/ManagerDashboardPage";
 import ManagerProfilePage from "./Pages/ManagerPage/ManagerProfilePage";
-
-// Terms & Conditions Page
 import TermsConditionsPage from "./Pages/TermsConditionsPage";
 
 const App: React.FC = () => {
+  // State to store the user's role
   const [userRole, setUserRole] = useState<string | null>(null);
 
+  // Function to extract user role from JWT token
   useEffect(() => {
-    const token = sessionStorage.getItem("Token");
-    if (token) {
-      const userRole = extractUserRole(token);
-      setUserRole(userRole);
+    // Fetch user role from JWT or session storage and set it to state
+    const role = sessionStorage.getItem("userRole");
+    if (role) {
+      setUserRole(role);
     }
   }, []);
-
-  const extractUserRole = (jwtToken: string) => {
-    const base64Url = jwtToken.split(".")[1];
-    const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
-    const decodedData = JSON.parse(atob(base64));
-    return decodedData[
-      "http://schemas.microsoft.com/ws/2008/06/identity/claims/role"
-    ];
-  };
 
   return (
     <Router>
       <Routes>
-        {/* Main */}
+        {/* Main routes */}
         <Route path="/" element={<LoginPage />} />
         <Route path="/reset-password" element={<ResetPage />} />
 
-        {/* Admin Routes */}
-        {userRole === "ADMIN" ? (
+        {/* Admin routes */}
+        {userRole === "ADMIN" && (
           <>
             <Route path="/admin" element={<AdminPage />} />
             <Route path="/admin/profile" element={<AdminProfilePage />} />
@@ -83,10 +66,10 @@ const App: React.FC = () => {
             />
             <Route path="/admin/dashboard" element={<AdminDashboardPage />} />
           </>
-        ) : null}
+        )}
 
-        {/* Manager Routes */}
-        {userRole === "MANAGER" ? (
+        {/* Manager routes */}
+        {userRole === "MANAGER" && (
           <>
             <Route path="/manager" element={<ManagerPage />} />
             <Route path="/manager/profile" element={<ManagerProfilePage />} />
@@ -95,10 +78,10 @@ const App: React.FC = () => {
               element={<ManagerDashboardPage />}
             />
           </>
-        ) : null}
+        )}
 
-        {/* Coordinator Routes */}
-        {userRole === "COORDINATOR" ? (
+        {/* Coordinator routes */}
+        {userRole === "COORDINATOR" && (
           <>
             <Route path="/coordinator" element={<CoordinatorPage />} />
             <Route
@@ -110,10 +93,10 @@ const App: React.FC = () => {
               element={<CoordinatorDashboardPage />}
             />
           </>
-        ) : null}
+        )}
 
-        {/* Student Routes */}
-        {userRole === "STUDENT" ? (
+        {/* Student routes */}
+        {userRole === "STUDENT" && (
           <>
             <Route path="/student" element={<StudentPage />} />
             <Route path="/student/profile" element={<StudentProfilePage />} />
@@ -126,7 +109,7 @@ const App: React.FC = () => {
               element={<StudentDashboardPage />}
             />
           </>
-        ) : null}
+        )}
 
         {/* Terms & Conditions */}
         <Route path="/terms-conditions" element={<TermsConditionsPage />} />
