@@ -89,6 +89,36 @@ function StudentPage() {
                 ></textarea>
               </div>
               <div className="flex mb-4">
+                <div className="card mr-4">
+                  <label htmlFor="imageUpload" className="block">
+                    Image Upload:
+                  </label>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    id="imageUpload"
+                    onChange={(e) =>
+                      handleImageUpload(
+                        e.target.files ? e.target.files[0] : null
+                      )
+                    }
+                  />
+                </div>
+                <div className="card">
+                  <label htmlFor="docUpload" className="block">
+                    Document Upload:
+                  </label>
+                  <input
+                    type="file"
+                    accept=".doc,.docx"
+                    id="docUpload"
+                    onChange={(e) =>
+                      handleDocUpload(e.target.files ? e.target.files[0] : null)
+                    }
+                  />
+                </div>
+              </div>
+              <div className="flex mb-4">
                 <div style={{ marginRight: "1rem" }}>
                   <label htmlFor="academicYear" className="block">
                     Academic Year:
@@ -120,38 +150,6 @@ function StudentPage() {
                     <Option value="business">Business</Option>
                     <Option value="law">Law</Option>
                   </Select>
-                </div>
-              </div>
-              <div className="mb-4">
-                <div>
-                  <label htmlFor="imageUpload" className="block">
-                    High-Quality Image Upload:
-                  </label>
-                  <input
-                    type="file"
-                    accept="image/*"
-                    id="imageUpload"
-                    onChange={(e) =>
-                      handleImageUpload(
-                        e.target.files ? e.target.files[0] : null
-                      )
-                    }
-                  />
-                </div>
-              </div>
-              <div className="mb-4">
-                <div>
-                  <label htmlFor="docUpload" className="block">
-                    Document Upload:
-                  </label>
-                  <input
-                    type="file"
-                    accept=".doc,.docx"
-                    id="docUpload"
-                    onChange={(e) =>
-                      handleDocUpload(e.target.files ? e.target.files[0] : null)
-                    }
-                  />
                 </div>
               </div>
               <Checkbox
