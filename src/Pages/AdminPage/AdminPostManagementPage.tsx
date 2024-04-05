@@ -64,20 +64,14 @@ function AdminPostManagementPage() {
   return (
     <div>
       <AdminNavbar />
-      {/* Main Content */}
       <div className="flex justify-center items-center min-h-screen font-roboto pt-24">
         <div
-          className={
-            isMobile
-              ? "w-full p-4 overflow-x-auto sticky top-24"
-              : "w-full max-w-4xl p-4"
-          }
-          style={{ overflowX: isMobile ? "scroll" : "hidden" }}
+          className={`${isMobile ? "w-full p-4 px-6" : "w-full max-w-4xl p-4"}`}
         >
-          <div className="border-[#549b90] border-2 rounded-lg shadow-md p-6">
+          <div className="bg-white border-2 border-[#549b90] rounded-lg shadow-md p-6">
             <h1 className="text-xl font-bold mb-3">Post Management</h1>
             <div
-              className="table-container relative" // Added relative position
+              className="table-container relative"
               style={{
                 overflow: "auto",
                 maxHeight: "500px",

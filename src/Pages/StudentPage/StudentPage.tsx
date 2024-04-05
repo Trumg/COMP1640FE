@@ -59,7 +59,9 @@ function StudentPage() {
     <div>
       <StudentNavbar />
       <div className="flex justify-center items-center min-h-screen font-roboto pt-24">
-        <div className={`w-full max-w-4xl p-4 ${isMobile ? "px-6" : ""}`}>
+        <div
+          className={`${isMobile ? "w-full p-4 px-6" : "w-full max-w-4xl p-4"}`}
+        >
           <div className="bg-white border-2 border-[#549b90] rounded-lg shadow-md p-6">
             <h1 className="text-xl font-bold mb-3">Share Your Ideas</h1>
             <div>

@@ -15,27 +15,19 @@ function AdminUserManagementPage() {
 
   useEffect(() => {
     const handleResize = () => {
-      setIsMobile(window.innerWidth <= 768); // Adjust the breakpoint as needed
+      setIsMobile(window.innerWidth <= 768);
     };
-    handleResize(); // Call initially to set the initial state
-    window.addEventListener("resize", handleResize); // Listen for window resize
-    return () => window.removeEventListener("resize", handleResize); // Clean up
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   return (
     <div>
       <AdminNavbar />
-      {/* Main Content */}
       <div className="flex justify-center items-center min-h-screen font-roboto pt-24">
-        <div
-          className={
-            isMobile
-              ? "w-full p-4 overflow-x-auto sticky top-24"
-              : "w-full max-w-4xl p-4"
-          }
-          style={{ overflowX: isMobile ? "scroll" : "hidden" }}
-        >
-          <div className="border-[#549b90] border-2 rounded-lg shadow-md p-6">
+        <div className={`w-full max-w-4xl p-4 ${isMobile ? "px-6" : ""}`}>
+          <div className="bg-white border-2 border-[#549b90] rounded-lg shadow-md p-6">
             <h1 className="text-xl font-bold mb-3">User Management</h1>
             <div
               className="table-container relative"
