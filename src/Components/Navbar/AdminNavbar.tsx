@@ -8,7 +8,6 @@ import { CgProfile } from "react-icons/cg";
 import { IoSettingsOutline } from "react-icons/io5";
 import { MdOutlineLogout } from "react-icons/md";
 import { FaPlus } from "react-icons/fa6";
-import { MdOutlinePostAdd } from "react-icons/md";
 import { FaUserCog, FaRegCalendar } from "react-icons/fa";
 
 const AdminNavbar: React.FC = () => {
@@ -171,18 +170,6 @@ const AdminNavbar: React.FC = () => {
             </button>
           </Link>
           <Link
-            to="/admin/post-management"
-            className="block cursor-pointer mt-2"
-          >
-            <button className="flex items-center justify-center w-64 py-2 bg-[#549b90] rounded-md shadow-md hover:bg-[#549b90] hover:text-white focus:outline-none focus:bg-gray-100 transition duration-100">
-              <MdOutlinePostAdd
-                className="mr-2"
-                style={{ fontSize: iconSize }}
-              />{" "}
-              Post Management
-            </button>
-          </Link>
-          <Link
             to="/admin/user-management"
             className="block cursor-pointer mt-2"
           >
@@ -198,6 +185,24 @@ const AdminNavbar: React.FC = () => {
             <button className="flex items-center justify-center w-64 py-2 bg-[#549b90] rounded-md shadow-md hover:bg-[#549b90] hover:text-white focus:outline-none focus:bg-gray-100 transition duration-100">
               <FaRegCalendar className="mr-2" style={{ fontSize: iconSize }} />{" "}
               Academic Year Management
+            </button>
+          </Link>
+          <Link
+            to="/admin/faculty-management"
+            className="block cursor-pointer mt-2"
+          >
+            <button className="flex items-center justify-center w-64 py-2 bg-[#549b90] rounded-md shadow-md hover:bg-[#549b90] hover:text-white focus:outline-none focus:bg-gray-100 transition duration-100">
+              <FaRegCalendar className="mr-2" style={{ fontSize: iconSize }} />{" "}
+              Faculty Management
+            </button>
+          </Link>
+          <Link
+            to="/admin/closure-date-management"
+            className="block cursor-pointer mt-2"
+          >
+            <button className="flex items-center justify-center w-64 py-2 bg-[#549b90] rounded-md shadow-md hover:bg-[#549b90] hover:text-white focus:outline-none focus:bg-gray-100 transition duration-100">
+              <FaRegCalendar className="mr-2" style={{ fontSize: iconSize }} />{" "}
+              Closure Date Management
             </button>
           </Link>
         </div>

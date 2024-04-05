@@ -7,11 +7,12 @@ import ResetPage from "./Pages/LoginPage/ResetPage";
 
 // Admin Page
 import AdminPage from "./Pages/AdminPage/AdminPage";
-import AdminPostManagementPage from "./Pages/AdminPage/AdminPostManagementPage";
 import AdminUserManagementPage from "./Pages/AdminPage/AdminUserManagementPage";
 import AdminProfilePage from "./Pages/AdminPage/AdminProfilePage";
 import AdminSettingsPage from "./Pages/AdminPage/AdminSettingsPage";
 import AdminAcademicYearManagementPage from "./Pages/AdminPage/AdminAcademicYearManagementPage";
+import AdminFacultyManagementPage from "./Pages/AdminPage/AdminFacultyManagementPage";
+import AdminClosureDateManagement from "./Pages/AdminPage/AdminClosureDateManagement";
 
 // Student Page
 import StudentPage from "./Pages/StudentPage/StudentPage";
@@ -24,7 +25,6 @@ import StudentDashboardPage from "./Pages/StudentPage/StudentDashboardPage";
 // Coordinator Page
 import CoordinatorPage from "./Pages/CoordinatorPage/CoordinatorPage";
 import CoordinatorDashboardPage from "./Pages/CoordinatorPage/CoordinatorDashboardPage";
-import CoordinatorFacultyManagementPage from "./Pages/CoordinatorPage/CoordinatorFacultyManagementPage";
 
 // Manager Page
 import ManagerPage from "./Pages/ManagerPage/ManagerPage";
@@ -46,16 +46,20 @@ const App: React.FC = () => {
         <Route path="/admin/profile" element={<AdminProfilePage />} />
         <Route path="/admin/settings" element={<AdminSettingsPage />} />
         <Route
-          path="/admin/post-management"
-          element={<AdminPostManagementPage />}
-        />
-        <Route
           path="/admin/user-management"
           element={<AdminUserManagementPage />}
         />
         <Route
           path="/admin/academic-year-management"
           element={<AdminAcademicYearManagementPage />}
+        />
+        <Route
+          path="/admin/faculty-management"
+          element={<AdminFacultyManagementPage />}
+        />
+        <Route
+          path="/admin/closure-date-management"
+          element={<AdminClosureDateManagement />}
         />
         <Route path="/admin/dashboard" />
 
@@ -69,10 +73,6 @@ const App: React.FC = () => {
         <Route path="/coordinator" element={<CoordinatorPage />} />
         <Route path="/coordinator/profile" />
         <Route path="/coordinator/settings" />
-        <Route
-          path="/coordinator/faculty-management"
-          element={<CoordinatorFacultyManagementPage />}
-        />
         <Route
           path="/coordinator/dashboard"
           element={<CoordinatorDashboardPage />}
