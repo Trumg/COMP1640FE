@@ -53,13 +53,13 @@ function StudentPage() {
     alert("Submission successful!");
   };
 
-  const isMobile = window.innerWidth <= 768; // Define your threshold for mobile here
+  const isMobile = window.innerWidth <= 768;
 
   return (
     <div>
       <StudentNavbar />
       <div className="flex justify-center items-center min-h-screen font-roboto pt-24">
-        <div className={`w-full max-w-4xl p-4 ${isMobile ? "px-2" : ""}`}>
+        <div className={`w-full max-w-4xl p-4 ${isMobile ? "px-6" : ""}`}>
           <div className="bg-white border-2 border-[#549b90] rounded-lg shadow-md p-6">
             <h1 className="text-xl font-bold mb-3">Share Your Ideas</h1>
             <div>
@@ -87,32 +87,6 @@ function StudentPage() {
                   className="block border-[#549b90] text-black py-2 px-4 rounded w-full resize-none overflow-auto justify-center border transition duration-200 hover:text-gray-600 hover:border-[#549b90] focus:outline-none focus:border-[#549b90] focus:ring-0"
                   style={{ maxHeight: "150px", minHeight: "100px" }}
                 ></textarea>
-              </div>
-              <div className="mb-4">
-                <label htmlFor="imageUpload" className="block">
-                  Image Upload:
-                </label>
-                <Upload
-                  beforeUpload={handleImageUpload}
-                  accept="image/*"
-                  fileList={[]}
-                  showUploadList={false}
-                >
-                  <Button icon={<UploadOutlined />}>Upload</Button>
-                </Upload>
-              </div>
-              <div className="mb-4">
-                <label htmlFor="docUpload" className="block">
-                  Document Upload:
-                </label>
-                <Upload
-                  beforeUpload={handleDocUpload}
-                  accept=".doc,.docx"
-                  fileList={[]}
-                  showUploadList={false}
-                >
-                  <Button icon={<UploadOutlined />}>Upload</Button>
-                </Upload>
               </div>
               <div className="mb-4">
                 <label htmlFor="academicYear" className="block">
@@ -146,6 +120,33 @@ function StudentPage() {
                   <Option value="law">Law</Option>
                 </Select>
               </div>
+              <div className="mb-4">
+                <label htmlFor="imageUpload" className="block">
+                  Image Upload:
+                </label>
+                <Upload
+                  beforeUpload={handleImageUpload}
+                  accept="image/*"
+                  fileList={[]}
+                  showUploadList={false}
+                >
+                  <Button icon={<UploadOutlined />}>Upload</Button>
+                </Upload>
+              </div>
+              <div className="mb-4">
+                <label htmlFor="docUpload" className="block">
+                  Document Upload:
+                </label>
+                <Upload
+                  beforeUpload={handleDocUpload}
+                  accept=".doc,.docx"
+                  fileList={[]}
+                  showUploadList={false}
+                >
+                  <Button icon={<UploadOutlined />}>Upload</Button>
+                </Upload>
+              </div>
+
               <Checkbox
                 checked={acceptTerms}
                 onChange={handleTermsChange}
