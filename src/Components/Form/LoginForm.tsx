@@ -1,19 +1,18 @@
 import React, { useState, useEffect } from "react";
-import { Card, message } from "antd";
+import { Card, message } from "antd"; // Import message from Ant Design
 import { EyeOutlined, EyeInvisibleOutlined } from "@ant-design/icons";
 import { motion } from "framer-motion";
 import { LoginImage } from "../../Assets/LoginImage/LoginImage";
 import { Api } from "../../Api";
 import { Link } from "react-router-dom";
-import Confetti from "react-confetti";
+import Confetti from "react-confetti"; // Import Confetti
 
 const LoginForm: React.FC = () => {
   const [isMobile, setIsMobile] = useState<boolean>(false);
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [showPassword, setShowPassword] = useState<boolean>(false);
-  const [showConfetti, setShowConfetti] = useState<boolean>(false);
-  const [token, setToken] = useState<string | null>(null); // State to hold token
+  const [showConfetti, setShowConfetti] = useState<boolean>(false); // State for confetti
 
   useEffect(() => {
     const handleResize = () => {
@@ -22,6 +21,7 @@ const LoginForm: React.FC = () => {
 
     handleResize();
     window.addEventListener("resize", handleResize);
+
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
@@ -37,7 +37,8 @@ const LoginForm: React.FC = () => {
     setShowPassword(!showPassword);
   };
 
-  const getTokenFromBackend = async () => {
+  const handleLogIn = async () => {
+    if (!email || !password) return;
     try {
       const response = await apiClient.api.authLoginCreate({
         username: email,
@@ -46,46 +47,27 @@ const LoginForm: React.FC = () => {
 
       if (response.status === 200) {
         const data = await response.json();
-        console.log("Data received:", data);
-        const token = data.token;
-        console.log("Token received:", token);
-        localStorage.setItem("token", token);
-        setToken(token);
-        return token;
+
+        console.log("Response data:", data);
+
+        if (data.jwtToken) {
+          localStorage.setItem("token", data.jwtToken);
+          message.success("Login Successful");
+          setShowConfetti(true);
+          setTimeout(() => {
+            window.location.href = "/";
+          }, 2000);
+        } else {
+          message.error("Token not found in response");
+        }
       } else {
         message.error("Login Failed. Please try again.");
-        return null;
       }
     } catch (error) {
       console.error("Error:", error);
       message.error("Something went wrong. Please try again.");
-      return null;
     }
   };
-
-  const handleLogIn = async () => {
-    if (!email || !password) return;
-
-    try {
-      const token = await getTokenFromBackend();
-
-      if (token) {
-        message.success("Login Successful");
-        setShowConfetti(true);
-        setTimeout(() => {
-          window.location.href = "/admin";
-        }, 2000);
-      }
-    } catch (error) {
-      console.error("Error during login:", error);
-      message.error("Something went wrong. Please try again.");
-    }
-  };
-
-  useEffect(() => {
-    // Log token whenever it changes
-    console.log("Token:", token);
-  }, [token]); // This effect runs whenever token changes
 
   const apiClient = new Api({
     baseUrl: "https://localhost:7279",
