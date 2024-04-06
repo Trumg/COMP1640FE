@@ -100,7 +100,7 @@ const AdminNavbar: React.FC = () => {
             )}
             <>
               <div className="ml-auto space-x-4 flex items-center font-roboto">
-                <button className="p-2 rounded-full hover:bg-[#549b90]">
+                <button className="p-2 rounded-full">
                   <FaRegBell
                     className="text-2xl text-gray-700"
                     style={{ fontSize: iconSize }}
@@ -113,7 +113,7 @@ const AdminNavbar: React.FC = () => {
                     trigger="click"
                     style={{ width: "800px" }}
                   >
-                    <button className="p-2 rounded-full hover:bg-[#549b90]">
+                    <button className="p-2 rounded-full">
                       <FaRegUser
                         className="text-2xl text-gray-700"
                         style={{ fontSize: iconSize }}
@@ -122,10 +122,7 @@ const AdminNavbar: React.FC = () => {
                   </Popover>
                 </div>
                 {!isMobile && (
-                  <button
-                    onClick={toggleMenu}
-                    className="p-2 rounded-full hover:bg-[#549b90]"
-                  >
+                  <button onClick={toggleMenu} className="p-2 rounded-full">
                     <AiOutlineMenu
                       className="w-8 h-8"
                       style={{ fontSize: iconSize }}

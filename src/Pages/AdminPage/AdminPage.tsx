@@ -2,10 +2,11 @@ import { useState, useEffect, ChangeEvent, FormEvent } from "react";
 import AdminNavbar from "../../Components/Navbar/AdminNavbar";
 import { format } from "date-fns";
 import { Api } from "../../Api";
-import { message, Card } from "antd";
+import { message, Table } from "antd";
 
 function AdminPage() {
   const [isMobile, setIsMobile] = useState(false);
+  // const [userList, setUserList] = useState([]);
 
   const apiClient = new Api({
     baseUrl: "https://localhost:7279",
@@ -45,6 +46,7 @@ function AdminPage() {
       if (response.status === 200) {
         message.success("Account created successfully");
         console.log("Account created successfully");
+        // fetchUserList();
       } else {
         message.error("Failed to create account");
         console.error("Failed to create account:", response.data);
@@ -55,14 +57,49 @@ function AdminPage() {
     }
   };
 
+  // const fetchUserList = async () => {
+  //   try {
+  //     const response = await apiClient.api.getUserList();
+  //     if (response.status === 200) {
+  //       setUserList(response.data);
+  //     }
+  //   } catch (error) {
+  //     console.error("Error fetching user list:", error);
+  //   }
+  // };
+
   useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth <= 768);
     };
     handleResize();
     window.addEventListener("resize", handleResize);
+    // fetchUserList();
     return () => window.removeEventListener("resize", handleResize);
   }, []);
+
+  const columns = [
+    {
+      title: "First Name",
+      dataIndex: "firstName",
+      key: "firstName",
+    },
+    {
+      title: "Last Name",
+      dataIndex: "lastName",
+      key: "lastName",
+    },
+    {
+      title: "Email",
+      dataIndex: "email",
+      key: "email",
+    },
+    {
+      title: "Birth Date",
+      dataIndex: "birthDate",
+      key: "birthDate",
+    },
+  ];
 
   return (
     <div>
@@ -76,84 +113,87 @@ function AdminPage() {
           }
           style={{ overflowX: isMobile ? "scroll" : "hidden" }}
         >
-          <div className="flex justify-center">
-            <Card className="transparent border-none rounded-lg p-6 w-full">
-              <div className="border-[#549b90] border-2 rounded-lg shadow-md p-6">
-                <h1 className="text-xl font-bold mb-3">Create User</h1>
-                <form onSubmit={handleSubmit}>
-                  <div className="mt-4">
-                    <label className="block mb-2">
-                      <input
-                        placeholder="First Name"
-                        type="text"
-                        name="firstName"
-                        value={formData.firstName}
-                        onChange={handleChange}
-                        className="border border-[#549b90] relative bg-white text-black py-2 px-4 rounded w-full flex justify-center transition duration-200 hover:text-gray-600 focus:outline-none hover:border-[#549b90] hover:bg-gray-200"
-                      />
-                    </label>
-                    <label className="block mb-2">
-                      <input
-                        placeholder="Last Name"
-                        type="text"
-                        name="lastName"
-                        value={formData.lastName}
-                        onChange={handleChange}
-                        className="border border-[#549b90] relative bg-white text-black py-2 px-4 rounded w-full flex justify-center transition duration-200 hover:text-gray-600 focus:outline-none hover:border-[#549b90] hover:bg-gray-200"
-                      />
-                    </label>
-                    <label className="block mb-2">
-                      <input
-                        placeholder="Email"
-                        type="email"
-                        name="email"
-                        value={formData.email}
-                        onChange={handleChange}
-                        className="border border-[#549b90] relative bg-white text-black py-2 px-4 rounded w-full flex justify-center transition duration-200 hover:text-gray-600 focus:outline-none hover:border-[#549b90] hover:bg-gray-200"
-                      />
-                    </label>
-                    <label className="block mb-2">
-                      <input
-                        placeholder="Birth Date"
-                        type="text"
-                        name="birthDate"
-                        value={formData.birthDate}
-                        onChange={handleChange}
-                        className="border border-[#549b90] relative bg-white text-black py-2 px-4 rounded w-full flex justify-start transition duration-200 hover:text-gray-600 focus:outline-none hover:border-[#549b90] hover:bg-gray-200"
-                      />
-                    </label>
-                    <label className="block mb-2">
-                      <input
-                        placeholder="Password"
-                        type="password"
-                        name="password"
-                        value={formData.password}
-                        onChange={handleChange}
-                        className="border border-[#549b90] relative bg-white text-black py-2 px-4 rounded w-full flex justify-center transition duration-200 hover:text-gray-600 focus:outline-none hover:border-[#549b90] hover:bg-gray-200"
-                      />
-                    </label>
-                    <label className="block mb-2">
-                      <input
-                        placeholder="Confirm Password"
-                        type="password"
-                        name="confirmPassword"
-                        value={formData.confirmPassword}
-                        onChange={handleChange}
-                        className="border border-[#549b90] relative bg-white text-black py-2 px-4 rounded w-full flex justify-center transition duration-200 hover:text-gray-600 focus:outline-none hover:border-[#549b90] hover:bg-gray-200"
-                      />
-                    </label>
-                    <div className="flex justify-end">
-                      <button
-                        type="submit"
-                        className="border border-[#549b90] relative bg-[#549b90] text-black py-2 px-4 rounded w-full flex justify-center transition duration-200 hover:text-gray-600 focus:outline-none hover:border-[#549b90] hover:bg-gray-200"
-                      >
-                        Create User
-                      </button>
-                    </div>
-                  </div>
-                </form>
+          <div className="border-[#549b90] border-2 rounded-lg shadow-md p-6">
+            <h1 className="text-xl font-bold mb-3">Create User</h1>
+            <form onSubmit={handleSubmit}>
+              <div className="mt-4">
+                <label className="block mb-2">
+                  <input
+                    placeholder="First Name"
+                    type="text"
+                    name="firstName"
+                    value={formData.firstName}
+                    onChange={handleChange}
+                    className="border border-[#549b90] relative bg-white text-black py-2 px-4 rounded w-full flex justify-center transition duration-200 hover:text-gray-600 focus:outline-none hover:border-[#549b90] hover:bg-gray-200"
+                  />
+                </label>
+                <label className="block mb-2">
+                  <input
+                    placeholder="Last Name"
+                    type="text"
+                    name="lastName"
+                    value={formData.lastName}
+                    onChange={handleChange}
+                    className="border border-[#549b90] relative bg-white text-black py-2 px-4 rounded w-full flex justify-center transition duration-200 hover:text-gray-600 focus:outline-none hover:border-[#549b90] hover:bg-gray-200"
+                  />
+                </label>
+                <label className="block mb-2">
+                  <input
+                    placeholder="Email"
+                    type="email"
+                    name="email"
+                    value={formData.email}
+                    onChange={handleChange}
+                    className="border border-[#549b90] relative bg-white text-black py-2 px-4 rounded w-full flex justify-center transition duration-200 hover:text-gray-600 focus:outline-none hover:border-[#549b90] hover:bg-gray-200"
+                  />
+                </label>
+                <label className="block mb-2">
+                  <input
+                    placeholder="Birth Date"
+                    type="text"
+                    name="birthDate"
+                    value={formData.birthDate}
+                    onChange={handleChange}
+                    className="border border-[#549b90] relative bg-white text-black py-2 px-4 rounded w-full flex justify-start transition duration-200 hover:text-gray-600 focus:outline-none hover:border-[#549b90] hover:bg-gray-200"
+                  />
+                </label>
+                <label className="block mb-2">
+                  <input
+                    placeholder="Password"
+                    type="password"
+                    name="password"
+                    value={formData.password}
+                    onChange={handleChange}
+                    className="border border-[#549b90] relative bg-white text-black py-2 px-4 rounded w-full flex justify-center transition duration-200 hover:text-gray-600 focus:outline-none hover:border-[#549b90] hover:bg-gray-200"
+                  />
+                </label>
+                <label className="block mb-2">
+                  <input
+                    placeholder="Confirm Password"
+                    type="password"
+                    name="confirmPassword"
+                    value={formData.confirmPassword}
+                    onChange={handleChange}
+                    className="border border-[#549b90] relative bg-white text-black py-2 px-4 rounded w-full flex justify-center transition duration-200 hover:text-gray-600 focus:outline-none hover:border-[#549b90] hover:bg-gray-200"
+                  />
+                </label>
+                <div className="flex justify-end">
+                  <button
+                    type="submit"
+                    className="border border-[#549b90] relative bg-[#549b90] text-black py-2 px-4 rounded w-full flex justify-center transition duration-200 hover:text-gray-600 focus:outline-none hover:border-[#549b90] hover:bg-gray-200"
+                  >
+                    Create User
+                  </button>
+                </div>
               </div>
-            </Card>
+            </form>
+
+            {/* User List Table */}
+            <div className="mt-8">
+              <h2 className="text-xl font-bold mb-3">User List</h2>
+              {/* <Table dataSource={userList} columns={columns} /> */}
+              <Table columns={columns} />
+            </div>
           </div>
         </div>
       </div>
