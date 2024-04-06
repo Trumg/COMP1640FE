@@ -29,10 +29,8 @@ const AdminNavbar: React.FC = () => {
   }, []);
 
   useEffect(() => {
-    // Fetch current user data
     const fetchCurrentUser = async () => {
       try {
-        // Decode JWT token to get user's role
         const token = localStorage.getItem("token");
         if (token) {
           const tokenData = token.split(".")[1];
@@ -86,9 +84,7 @@ const AdminNavbar: React.FC = () => {
         `}
       </style>
       {currentUser && (
-        <>
-          <p>Role: {currentUser.role}</p>
-        </>
+        <h1 className="text-lg font-bold text-gray-800">{currentUser.role}</h1>
       )}
       <Link to="/admin/profile" className="link-button">
         <button className="profile-button">

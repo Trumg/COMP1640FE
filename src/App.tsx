@@ -30,7 +30,20 @@ import TermsConditionsPage from "./Pages/TermsConditionsPage";
 
 const App: React.FC = () => {
   // State to store the user's role
-  const [userRole, setUserRole] = useState<string | null>(null);
+  const [userRole, setUserRole] = useState<string | null>(() => {
+    // Get user role from sessionStorage if available
+    return sessionStorage.getItem("userRole");
+  });
+
+  // Function to set user role in sessionStorage
+  const setUserRoleInSessionStorage = (role: string | null) => {
+    setUserRole(role);
+    if (role) {
+      sessionStorage.setItem("userRole", role);
+    } else {
+      sessionStorage.removeItem("userRole");
+    }
+  };
 
   // Function to extract user role from JWT token
   useEffect(() => {
@@ -47,8 +60,8 @@ const App: React.FC = () => {
           "http://schemas.microsoft.com/ws/2008/06/identity/claims/role"
         ];
 
-      // Set user role to state
-      setUserRole(role);
+      // Set user role to state and sessionStorage
+      setUserRoleInSessionStorage(role);
     }
   }, []);
 
