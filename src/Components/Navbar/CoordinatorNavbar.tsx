@@ -11,6 +11,7 @@ import { IoSettingsOutline } from "react-icons/io5";
 const CoordinatorNavbar: React.FC = () => {
   const [isMobile, setIsMobile] = useState<boolean>(false);
   const [showDrawer, setShowDrawer] = useState<boolean>(false);
+  const [userRole, setUserRole] = useState<string>("");
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -21,6 +22,13 @@ const CoordinatorNavbar: React.FC = () => {
     handleResize();
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  useEffect(() => {
+    const role = sessionStorage.getItem("Role");
+    if (role) {
+      setUserRole(role);
+    }
   }, []);
 
   const toggleMenu = () => {
@@ -91,7 +99,7 @@ const CoordinatorNavbar: React.FC = () => {
               </div>
             )}
             <>
-              <div className="ml-auto space-x-4 flex items-center">
+              <div className="ml-auto space-x-4 flex items-center font-roboto">
                 <button className="p-2 rounded-full hover:bg-[#549b90]">
                   <FaRegBell
                     className="text-2xl text-gray-700"
@@ -149,6 +157,11 @@ const CoordinatorNavbar: React.FC = () => {
               />
             </div>
           )}
+          <div className="w-64 h-10 py-2 bg-[#549b90] rounded-md shadow-md hover:bg-[#549b90] hover:text-white focus:outline-none focus:bg-gray-100 transition duration-100">
+            <div className="flex items-center justify-start px-4">
+              <div className="text-black">{`Welcome back, ${userRole}!`}</div>
+            </div>
+          </div>
           <Link to="/coordinator" className="block cursor-pointer mt-2">
             <button className="flex items-center justify-start w-64 py-2 pl-4 bg-[#549b90] rounded-md shadow-md hover:bg-[#549b90] hover:text-white focus:outline-none focus:bg-gray-100 transition duration-100">
               <IoSettingsOutline

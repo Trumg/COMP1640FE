@@ -95,7 +95,7 @@ const LoginForm: React.FC = () => {
                 message.success("Login Successful");
                 setShowConfetti(true);
                 setTimeout(() => {
-                  window.location.href = "/guest";
+                  window.location.href = "/student";
                 }, 2000);
                 break;
               default:

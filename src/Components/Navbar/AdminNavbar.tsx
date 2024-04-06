@@ -11,7 +11,8 @@ import { MagazineImage } from "../../Assets/MagazineImage/MagazineImage";
 const AdminNavbar: React.FC = () => {
   const [isMobile, setIsMobile] = useState<boolean>(false);
   const [showDrawer, setShowDrawer] = useState<boolean>(false);
-  const navigate = useNavigate(); // Initialize useNavigate
+  const [userRole, setUserRole] = useState<string>("");
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleResize = () => {
@@ -21,6 +22,13 @@ const AdminNavbar: React.FC = () => {
     handleResize();
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  useEffect(() => {
+    const role = sessionStorage.getItem("Role");
+    if (role) {
+      setUserRole(role);
+    }
   }, []);
 
   const toggleMenu = () => {
@@ -91,14 +99,13 @@ const AdminNavbar: React.FC = () => {
               </div>
             )}
             <>
-              <div className="ml-auto space-x-4 flex items-center">
+              <div className="ml-auto space-x-4 flex items-center font-roboto">
                 <button className="p-2 rounded-full hover:bg-[#549b90]">
                   <FaRegBell
                     className="text-2xl text-gray-700"
                     style={{ fontSize: iconSize }}
                   />
                 </button>
-
                 <div className="inline-flex">
                   <Popover
                     content={contentProfile}
@@ -149,7 +156,12 @@ const AdminNavbar: React.FC = () => {
               />
             </div>
           )}
-          <Link to="/admin" className="block cursor-pointer">
+          <div className="w-64 h-10 py-2 bg-[#549b90] rounded-md shadow-md hover:bg-[#549b90] hover:text-white focus:outline-none focus:bg-gray-100 transition duration-100">
+            <div className="flex items-center justify-start px-4">
+              <div className="text-black">{`Welcome back, ${userRole}!`}</div>
+            </div>
+          </div>
+          <Link to="/admin" className="block cursor-pointer mt-2">
             <button className="flex items-center justify-start w-64 py-2 pl-4 bg-[#549b90] rounded-md shadow-md hover:bg-[#549b90] hover:text-white focus:outline-none focus:bg-gray-100 transition duration-300">
               <IoSettingsOutline style={{ fontSize: iconSize }} />
               <span className="ml-2">User Management</span>

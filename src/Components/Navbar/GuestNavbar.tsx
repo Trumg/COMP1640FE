@@ -9,6 +9,7 @@ import { MagazineImage } from "../../Assets/MagazineImage/MagazineImage";
 const GuestNavbar: React.FC = () => {
   const [isMobile, setIsMobile] = useState<boolean>(false);
   const [showDrawer, setShowDrawer] = useState<boolean>(false);
+  const [userRole, setUserRole] = useState<string>("");
   const navigate = useNavigate(); // Initialize useNavigate
 
   useEffect(() => {
@@ -19,6 +20,13 @@ const GuestNavbar: React.FC = () => {
     handleResize();
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  useEffect(() => {
+    const role = sessionStorage.getItem("Role");
+    if (role) {
+      setUserRole(role);
+    }
   }, []);
 
   const toggleMenu = () => {
@@ -141,6 +149,11 @@ const GuestNavbar: React.FC = () => {
               />
             </div>
           )}
+        </div>
+        <div className="w-64 h-10 py-2 bg-[#549b90] rounded-md shadow-md hover:bg-[#549b90] hover:text-white focus:outline-none focus:bg-gray-100 transition duration-100">
+          <div className="flex items-center justify-start px-4">
+            <div className="text-black">{`Welcome back, ${userRole}!`}</div>
+          </div>
         </div>
         <div className="mt-auto p-4 pt-16 text-gray-600 text-base text-center">
           {`© ${new Date().getFullYear()} Magazine. All Rights Reserved.`}
