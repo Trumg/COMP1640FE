@@ -2,12 +2,6 @@ import React, { useState, useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { jwtDecode, JwtPayload } from "jwt-decode";
 
-// Define an interface that extends JwtPayload
-interface CustomJwtPayload extends JwtPayload {
-  "http://schemas.microsoft.com/ws/2008/06/identity/claims/role": string;
-}
-
-// Import all the necessary pages/components
 import LoginPage from "./Pages/LoginPage/LoginPage";
 import ResetPage from "./Pages/LoginPage/ResetPage";
 import AdminPage from "./Pages/AdminPage/AdminPage";
@@ -29,10 +23,14 @@ import ManagerProfilePage from "./Pages/ManagerPage/ManagerProfilePage";
 import TermsConditionsPage from "./Pages/TermsConditionsPage";
 import GuestPage from "./Pages/GuestPage/GuestPage";
 
+// Define an interface that extends JwtPayload
+interface CustomJwtPayload extends JwtPayload {
+  "http://schemas.microsoft.com/ws/2008/06/identity/claims/role": string;
+}
+
 const App: React.FC = () => {
   // State to store the user's role
   const [userRole, setUserRole] = useState<string | null>(() => {
-    // Get user role from sessionStorage if available
     return sessionStorage.getItem("Role");
   });
 
