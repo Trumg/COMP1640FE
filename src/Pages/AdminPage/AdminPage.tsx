@@ -187,8 +187,8 @@ function AdminPage() {
                 </div>
               </div>
             </form>
-
-            {/* User List Table */}
+            {/* Line break */}
+            <hr className="my-8 border-gray-300" />
             <div className="mt-8">
               <h2 className="text-xl font-bold mb-3">User List</h2>
               {/* <Table dataSource={userList} columns={columns} /> */}
