@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from "react";
-import { Card, message } from "antd"; // Import message from Ant Design
+import { Card, message } from "antd";
 import { EyeOutlined, EyeInvisibleOutlined } from "@ant-design/icons";
 import { motion } from "framer-motion";
 import { LoginImage } from "../../Assets/LoginImage/LoginImage";
 import { Api } from "../../Api";
 import { Link } from "react-router-dom";
-import Confetti from "react-confetti"; // Import Confetti
+import Confetti from "react-confetti";
+import { jwtDecode, JwtPayload } from "jwt-decode";
 
 const LoginForm: React.FC = () => {
   const [isMobile, setIsMobile] = useState<boolean>(false);
@@ -37,15 +38,6 @@ const LoginForm: React.FC = () => {
     setShowPassword(!showPassword);
   };
 
-  const extractUserRole = (jwtToken: string): string => {
-    const base64Url = jwtToken.split(".")[1];
-    const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");
-    const decodedData = JSON.parse(atob(base64));
-    return decodedData[
-      "http://schemas.microsoft.com/ws/2008/06/identity/claims/role"
-    ];
-  };
-
   const handleLogIn = async () => {
     if (!email || !password) return;
     try {
@@ -61,39 +53,49 @@ const LoginForm: React.FC = () => {
 
         if (data.jwtToken) {
           sessionStorage.setItem("Token", data.jwtToken);
+          const decodedToken = jwtDecode(data.jwtToken) as JwtPayload;
 
-          const userRole = extractUserRole(data.jwtToken);
-          switch (userRole) {
-            case "ADMIN":
-              message.success("Login Successful");
-              setShowConfetti(true);
-              setTimeout(() => {
-                window.location.href = "/admin";
-              }, 2000);
-              break;
-            case "MANAGER":
-              message.success("Login Successful");
-              setShowConfetti(true);
-              setTimeout(() => {
-                window.location.href = "/manager";
-              }, 2000);
-              break;
-            case "COORDINATOR":
-              message.success("Login Successful");
-              setShowConfetti(true);
-              setTimeout(() => {
-                window.location.href = "/coordinator";
-              }, 2000);
-              break;
-            case "STUDENT":
-              message.success("Login Successful");
-              setShowConfetti(true);
-              setTimeout(() => {
-                window.location.href = "/student";
-              }, 2000);
-              break;
-            default:
-              message.error("Unknown role found in JWT token");
+          console.log("Decoded token:", decodedToken);
+
+          const userRole = (decodedToken as { [key: string]: string })[
+            "http://schemas.microsoft.com/ws/2008/06/identity/claims/role"
+          ];
+
+          if (userRole) {
+            switch (userRole.toUpperCase()) {
+              case "ADMIN":
+                message.success("Login Successful");
+                setShowConfetti(true);
+                setTimeout(() => {
+                  window.location.href = "/admin";
+                }, 2000);
+                break;
+              case "MANAGER":
+                message.success("Login Successful");
+                setShowConfetti(true);
+                setTimeout(() => {
+                  window.location.href = "/manager";
+                }, 2000);
+                break;
+              case "COORDINATOR":
+                message.success("Login Successful");
+                setShowConfetti(true);
+                setTimeout(() => {
+                  window.location.href = "/coordinator";
+                }, 2000);
+                break;
+              case "STUDENT":
+                message.success("Login Successful");
+                setShowConfetti(true);
+                setTimeout(() => {
+                  window.location.href = "/student";
+                }, 2000);
+                break;
+              default:
+                message.error("Unknown role found in JWT token");
+            }
+          } else {
+            message.error("Role not found in JWT token");
           }
         } else {
           message.error("Token not found in response");
@@ -123,7 +125,7 @@ const LoginForm: React.FC = () => {
         backgroundPosition: "center",
       }}
     >
-      {showConfetti && <Confetti />}{" "}
+      {showConfetti && <Confetti />}
       <Card
         className={`border-[#549b90] border-2 w-full max-w-md p-2 ${
           isMobile ? "max-w-xs" : ""

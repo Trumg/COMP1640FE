@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from "react";
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  Navigate,
-} from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { jwtDecode, JwtPayload } from "jwt-decode";
+
+// Define an interface that extends JwtPayload
+interface CustomJwtPayload extends JwtPayload {
+  "http://schemas.microsoft.com/ws/2008/06/identity/claims/role": string;
+}
 
 // Import all the necessary pages/components
 import LoginPage from "./Pages/LoginPage/LoginPage";
@@ -33,9 +34,20 @@ const App: React.FC = () => {
 
   // Function to extract user role from JWT token
   useEffect(() => {
-    // Fetch user role from JWT or session storage and set it to state
-    const role = sessionStorage.getItem("userRole");
-    if (role) {
+    // Fetch JWT token from session storage
+    const token = sessionStorage.getItem("Token");
+
+    if (token) {
+      // Decode the JWT token
+      const decodedToken = jwtDecode<CustomJwtPayload>(token);
+
+      // Extract user role from the decoded token
+      const role =
+        decodedToken[
+          "http://schemas.microsoft.com/ws/2008/06/identity/claims/role"
+        ];
+
+      // Set user role to state
       setUserRole(role);
     }
   }, []);
@@ -114,8 +126,6 @@ const App: React.FC = () => {
         {/* Terms & Conditions */}
         <Route path="/terms-conditions" element={<TermsConditionsPage />} />
       </Routes>
-      {/* Redirect to login if user role is not set */}
-      {userRole === null && <Navigate to="/" />}
     </Router>
   );
 };
