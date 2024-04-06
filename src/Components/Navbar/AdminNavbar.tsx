@@ -1,22 +1,17 @@
 import React, { useState, useEffect } from "react";
-import { Drawer, Popover, message } from "antd";
+import { Drawer, Popover } from "antd";
 import { AiOutlineMenu } from "react-icons/ai";
 import { FaRegBell, FaRegUser } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom"; // Import useNavigate
 import { CgProfile } from "react-icons/cg";
 import { MdOutlineLogout, MdOutlineDashboard } from "react-icons/md";
 import { IoSettingsOutline } from "react-icons/io5";
-import Cookies from "js-cookie";
 import { MagazineImage } from "../../Assets/MagazineImage/MagazineImage";
-
-interface UserData {
-  role: string;
-}
 
 const AdminNavbar: React.FC = () => {
   const [isMobile, setIsMobile] = useState<boolean>(false);
   const [showDrawer, setShowDrawer] = useState<boolean>(false);
-  const [currentUser, setCurrentUser] = useState<UserData | null>(null);
+  const navigate = useNavigate(); // Initialize useNavigate
 
   useEffect(() => {
     const handleResize = () => {
@@ -28,42 +23,14 @@ const AdminNavbar: React.FC = () => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  useEffect(() => {
-    const fetchCurrentUser = async () => {
-      try {
-        const token = localStorage.getItem("token");
-        if (token) {
-          const tokenData = token.split(".")[1];
-          const decodedTokenData = JSON.parse(atob(tokenData));
-          setCurrentUser({
-            role: decodedTokenData[
-              "http://schemas.microsoft.com/ws/2008/06/identity/claims/role"
-            ],
-          });
-        }
-      } catch (error) {
-        console.error("Error fetching current user:", error);
-      }
-    };
-
-    fetchCurrentUser();
-  }, []);
-
   const toggleMenu = () => {
     setShowDrawer(!showDrawer);
   };
 
   const handleLogout = () => {
-    console.log("Logging out...");
-    console.log("Current token:", Cookies.get("token"));
-
-    Cookies.remove("token", { path: "/" });
-    setCurrentUser(null);
-    message.success("Logged out successfully");
-    console.log("Token removed.");
-
-    console.log("Redirecting to login page...");
-    window.location.href = "/";
+    sessionStorage.removeItem("Token");
+    sessionStorage.removeItem("Role");
+    navigate("/");
   };
 
   const iconSize = "24px";
@@ -83,9 +50,6 @@ const AdminNavbar: React.FC = () => {
           }
         `}
       </style>
-      {currentUser && (
-        <h1 className="text-lg font-bold text-gray-800">{currentUser.role}</h1>
-      )}
       <Link to="/admin/profile" className="link-button">
         <button className="profile-button">
           <CgProfile style={{ marginRight: "10px", fontSize: iconSize }} />

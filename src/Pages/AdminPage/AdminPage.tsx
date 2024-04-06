@@ -52,6 +52,8 @@ function AdminPage() {
     } catch (error) {
       message.error("Error occurred during account creation");
       console.error("Error occurred during account creation:", error);
+      setAlertMessage("An error occurred. Please try again later.");
+      setAlertType("error");
     }
   };
 
@@ -162,3 +164,11 @@ function AdminPage() {
 }
 
 export default AdminPage;
+function setAlertMessage(_arg0: string) {
+  throw new Error("Function not implemented.");
+}
+
+function setAlertType(_arg0: string) {
+  throw new Error("Function not implemented.");
+}
+

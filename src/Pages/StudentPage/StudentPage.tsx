@@ -3,6 +3,7 @@ import { Checkbox, Select, Upload, Button } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
 import StudentNavbar from "../../Components/Navbar/StudentNavbar";
 import { CheckboxChangeEvent } from "antd/lib/checkbox";
+import { Api } from "../../Api"; // Import API and params types
 
 const { Option } = Select;
 
@@ -19,16 +20,20 @@ function StudentPage() {
     setTitle(e.target.value);
   };
 
-  const handleContentChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+  const handleContentChange = (
+    e: React.ChangeEvent<HTMLTextAreaElement>
+  ) => {
     setContent(e.target.value);
   };
 
   const handleImageUpload = (file: File) => {
     setImageFile(file);
+    return false; // Prevent automatic upload
   };
 
   const handleDocUpload = (file: File) => {
     setDocFile(file);
+    return false; // Prevent automatic upload
   };
 
   const handleTermsChange = (e: CheckboxChangeEvent) => {
@@ -43,25 +48,43 @@ function StudentPage() {
     setSelectedFaculty(value);
   };
 
-  const handleSubmit = () => {
-    console.log("Title:", title);
-    console.log("Content:", content);
-    console.log("Image File:", imageFile);
-    console.log("Doc File:", docFile);
-    console.log("Academic Year:", selectedAcademicYear);
-    console.log("Faculty:", selectedFaculty);
-    alert("Submission successful!");
+  const handleSubmit = async () => {
+    try {
+      const requestBody = {
+        file: imageFile,
+        docFile: File, // Add docFile to request body
+        title: title,
+        content: content,
+        academicYear: selectedAcademicYear,
+        faculty: selectedFaculty,
+      };
+
+      // Call API to upload file
+      const response = await apiClient.api.fileUploadFileCreate(requestBody);
+
+      if (response.status === 200) {
+        console.log("Upload successful");
+        alert("Upload successful");
+      } else {
+        console.error("Failed to upload file:", response.data);
+        alert("Failed to upload file");
+      }
+    } catch (error) {
+      console.error("Error submitting:", error);
+      alert("Error submitting: ");
+    }
   };
 
+  const apiClient = new Api({
+    baseUrl: "https://localhost:7279",
+  });
   const isMobile = window.innerWidth <= 768;
 
   return (
     <div>
       <StudentNavbar />
       <div className="flex justify-center items-center min-h-screen font-roboto pt-24">
-        <div
-          className={`${isMobile ? "w-full p-4 px-6" : "w-full max-w-4xl p-4"}`}
-        >
+        <div className={`${isMobile ? "w-full p-4 px-6" : "w-full max-w-4xl p-4"}`}>
           <div className="bg-white border-2 border-[#549b90] rounded-lg shadow-md p-6">
             <h1 className="text-xl font-bold mb-3">Share Your Ideas</h1>
             <div>
@@ -75,7 +98,7 @@ function StudentPage() {
                   value={title}
                   onChange={handleTitleChange}
                   className="block border-[#549b90] text-black px-4 rounded w-full resize-none overflow-auto justify-center border transition duration-200 hover:text-gray-600 hover:border-[#549b90] focus:outline-none focus:border-[#549b90] focus:ring-0"
-                  style={{ fontSize: "1.2rem", padding: "0.5rem" }} // Adjust font size and padding
+                  style={{ fontSize: "1.2rem", padding: "0.5rem" }}
                 />
               </div>
               <div className="mb-4">
@@ -155,10 +178,7 @@ function StudentPage() {
                 style={{ marginBottom: "1rem" }}
               >
                 I agree to the{" "}
-                <a
-                  href="/terms-conditions"
-                  style={{ color: "#549b90", fontWeight: "bold" }}
-                >
+                <a href="/terms-conditions" style={{ color: "#549b90", fontWeight: "bold" }}>
                   Terms and Conditions
                 </a>
               </Checkbox>
@@ -167,9 +187,7 @@ function StudentPage() {
                   if (acceptTerms) {
                     handleSubmit();
                   } else {
-                    alert(
-                      "Please agree to the Terms and Conditions to submit."
-                    );
+                    alert("Please agree to the Terms and Conditions to submit.");
                   }
                 }}
                 disabled={!acceptTerms}
