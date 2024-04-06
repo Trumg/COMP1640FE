@@ -3,7 +3,7 @@ import { MagazineImage } from "../../Assets/MagazineImage/MagazineImage";
 import { Drawer, Popover } from "antd"; // Import Popover and Button from Ant Design
 import { AiOutlineMenu } from "react-icons/ai";
 import { FaRegBell, FaRegUser } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { CgProfile } from "react-icons/cg";
 import { MdOutlineLogout, MdOutlineDashboard } from "react-icons/md";
 import { IoSettingsOutline } from "react-icons/io5";
@@ -11,6 +11,7 @@ import { IoSettingsOutline } from "react-icons/io5";
 const CoordinatorNavbar: React.FC = () => {
   const [isMobile, setIsMobile] = useState<boolean>(false);
   const [showDrawer, setShowDrawer] = useState<boolean>(false);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleResize = () => {
@@ -27,38 +28,39 @@ const CoordinatorNavbar: React.FC = () => {
   };
 
   const handleLogout = () => {
-    console.log("Logout logic goes here");
+    sessionStorage.removeItem("Token");
+    sessionStorage.removeItem("Role");
+    navigate("/");
   };
 
   const iconSize = "24px";
 
   const contentProfile = (
-    <div className="font-roboto">
+    <div className="font-roboto text-center py-4">
       <style>
         {`
-      .link-button:hover {
-        text-decoration: none;
-      }
-    `}
+          .link-button:hover {
+            text-decoration: none;
+          }
+          .profile-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 10px; /* Adjust padding as needed */
+          }
+        `}
       </style>
       <Link to="/coordinator/profile" className="link-button">
-        <button
-          style={{
-            display: "flex",
-            alignItems: "center",
-            marginBottom: "10px",
-          }}
-        >
-          <CgProfile style={{ marginRight: "5px", fontSize: iconSize }} />
+        <button className="profile-button">
+          <CgProfile style={{ marginRight: "10px", fontSize: iconSize }} />
           Profile
         </button>
       </Link>
       <button
-        className="text-red-500 link-button"
+        className="text-red-500 link-button profile-button"
         onClick={handleLogout}
-        style={{ display: "flex", alignItems: "center" }}
       >
-        <MdOutlineLogout style={{ marginRight: "5px", fontSize: iconSize }} />
+        <MdOutlineLogout style={{ marginRight: "10px", fontSize: iconSize }} />
         Logout
       </button>
     </div>

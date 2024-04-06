@@ -91,6 +91,13 @@ const LoginForm: React.FC = () => {
                   window.location.href = "/student";
                 }, 2000);
                 break;
+              case "GUEST":
+                message.success("Login Successful");
+                setShowConfetti(true);
+                setTimeout(() => {
+                  window.location.href = "/guest";
+                }, 2000);
+                break;
               default:
                 message.error("Unknown role found in JWT token");
             }

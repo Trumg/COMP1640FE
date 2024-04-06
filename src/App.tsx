@@ -27,6 +27,7 @@ import ManagerPage from "./Pages/ManagerPage/ManagerPage";
 import ManagerDashboardPage from "./Pages/ManagerPage/ManagerDashboardPage";
 import ManagerProfilePage from "./Pages/ManagerPage/ManagerProfilePage";
 import TermsConditionsPage from "./Pages/TermsConditionsPage";
+import GuestPage from "./Pages/GuestPage/GuestPage";
 
 const App: React.FC = () => {
   // State to store the user's role
@@ -146,6 +147,13 @@ const App: React.FC = () => {
               element={<StudentDashboardPage />}
             />
             <Route path="/terms-conditions" element={<TermsConditionsPage />} />
+          </>
+        )}
+
+        {/* Guest routes */}
+        {userRole === "GUEST" && (
+          <>
+            <Route path="/guest" element={<GuestPage />} />
           </>
         )}
       </Routes>
