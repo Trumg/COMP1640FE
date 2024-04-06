@@ -1,17 +1,15 @@
 import React, { useState, useEffect } from "react";
-import { MagazineImage } from "../../Assets/MagazineImage/MagazineImage";
-import { Drawer, Popover } from "antd"; // Import Popover and Button from Ant Design
+import { Drawer, Popover } from "antd";
 import { AiOutlineMenu } from "react-icons/ai";
 import { FaRegBell, FaRegUser } from "react-icons/fa";
-import { Link, useNavigate } from "react-router-dom";
-import { CgProfile } from "react-icons/cg";
-import { MdOutlineLogout, MdOutlineDashboard } from "react-icons/md";
-import { IoSettingsOutline } from "react-icons/io5";
+import { useNavigate } from "react-router-dom"; // Import useNavigate
+import { MdOutlineLogout } from "react-icons/md";
+import { MagazineImage } from "../../Assets/MagazineImage/MagazineImage";
 
-const ManagerNavbar: React.FC = () => {
+const GuestNavbar: React.FC = () => {
   const [isMobile, setIsMobile] = useState<boolean>(false);
   const [showDrawer, setShowDrawer] = useState<boolean>(false);
-  const navigate = useNavigate();
+  const navigate = useNavigate(); // Initialize useNavigate
 
   useEffect(() => {
     const handleResize = () => {
@@ -50,12 +48,6 @@ const ManagerNavbar: React.FC = () => {
           }
         `}
       </style>
-      <Link to="/manager/profile" className="link-button">
-        <button className="profile-button">
-          <CgProfile style={{ marginRight: "10px", fontSize: iconSize }} />
-          Profile
-        </button>
-      </Link>
       <button
         className="text-red-500 link-button profile-button"
         onClick={handleLogout}
@@ -149,24 +141,6 @@ const ManagerNavbar: React.FC = () => {
               />
             </div>
           )}
-          <Link to="/manager" className="block cursor-pointer mt-2">
-            <button className="flex items-center justify-start w-64 py-2 pl-4 bg-[#549b90] rounded-md shadow-md hover:bg-[#549b90] hover:text-white focus:outline-none focus:bg-gray-100 transition duration-100">
-              <IoSettingsOutline
-                className="mr-2"
-                style={{ fontSize: iconSize }}
-              />
-              Post Management
-            </button>
-          </Link>
-          <Link to="/manager/dashboard" className="block cursor-pointer mt-2">
-            <button className="flex items-center justify-start w-64 py-2 pl-4 bg-[#549b90] rounded-md shadow-md hover:bg-[#549b90] hover:text-white focus:outline-none focus:bg-gray-100 transition duration-100">
-              <MdOutlineDashboard
-                className="mr-2"
-                style={{ fontSize: iconSize }}
-              />
-              Manager Dashboard
-            </button>
-          </Link>
         </div>
         <div className="mt-auto p-4 pt-16 text-gray-600 text-base text-center">
           {`© ${new Date().getFullYear()} Magazine. All Rights Reserved.`}
@@ -176,4 +150,4 @@ const ManagerNavbar: React.FC = () => {
   );
 };
 
-export default ManagerNavbar;
+export default GuestNavbar;
