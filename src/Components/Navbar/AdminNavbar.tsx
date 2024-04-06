@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { MagazineImage } from "../../Assets/MagazineImage/MagazineImage";
 import { Drawer, Popover, message } from "antd";
 import { AiOutlineMenu } from "react-icons/ai";
 import { FaRegBell, FaRegUser } from "react-icons/fa";
@@ -8,6 +7,7 @@ import { CgProfile } from "react-icons/cg";
 import { MdOutlineLogout, MdOutlineDashboard } from "react-icons/md";
 import { IoSettingsOutline } from "react-icons/io5";
 import Cookies from "js-cookie";
+import { MagazineImage } from "../../Assets/MagazineImage/MagazineImage";
 
 interface UserData {
   role: string;

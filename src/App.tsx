@@ -32,16 +32,16 @@ const App: React.FC = () => {
   // State to store the user's role
   const [userRole, setUserRole] = useState<string | null>(() => {
     // Get user role from sessionStorage if available
-    return sessionStorage.getItem("userRole");
+    return sessionStorage.getItem("Role");
   });
 
   // Function to set user role in sessionStorage
   const setUserRoleInSessionStorage = (role: string | null) => {
     setUserRole(role);
     if (role) {
-      sessionStorage.setItem("userRole", role);
+      sessionStorage.setItem("Role", role);
     } else {
-      sessionStorage.removeItem("userRole");
+      sessionStorage.removeItem("Role");
     }
   };
 
@@ -64,6 +64,18 @@ const App: React.FC = () => {
       setUserRoleInSessionStorage(role);
     }
   }, []);
+
+  // Redirect to login if not logged in
+  if (!userRole) {
+    return (
+      <Router>
+        <Routes>
+          <Route path="/" element={<LoginPage />} />
+          <Route path="/reset-password" element={<ResetPage />} />
+        </Routes>
+      </Router>
+    );
+  }
 
   return (
     <Router>
@@ -133,11 +145,9 @@ const App: React.FC = () => {
               path="/student/dashboard"
               element={<StudentDashboardPage />}
             />
+            <Route path="/terms-conditions" element={<TermsConditionsPage />} />
           </>
         )}
-
-        {/* Terms & Conditions */}
-        <Route path="/terms-conditions" element={<TermsConditionsPage />} />
       </Routes>
     </Router>
   );
