@@ -78,7 +78,25 @@ function AdminPage() {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  const columns = [
+  type ColumnType = {
+    title: string;
+    dataIndex: string;
+    key: string;
+    render?: () => JSX.Element;
+  };
+
+  const userList = [
+    {
+      firstName: "John",
+      lastName: "Doe",
+      email: "john.doe@example.com",
+      birthDate: "1990-01-01",
+      role: "Admin",
+      action: null,
+    },
+  ];
+
+  const columns: ColumnType[] = [
     {
       title: "First Name",
       dataIndex: "firstName",
@@ -99,6 +117,26 @@ function AdminPage() {
       dataIndex: "birthDate",
       key: "birthDate",
     },
+    {
+      title: "Role",
+      dataIndex: "role",
+      key: "role",
+    },
+    {
+      title: "Action",
+      dataIndex: "action",
+      key: "action",
+      render: () => (
+        <div className="flex justify-center">
+          <button className="mr-4 border border-yellow-500 relative bg-yellow-500 text-black py-2 px-4 rounded w-full flex justify-center transition duration-200 hover:text-gray-600 focus:outline-none hover:border-yellow-500 hover:bg-gray-200">
+            Edit
+          </button>
+          <button className="border border-yellow-500 relative bg-red-500 text-black py-2 px-4 rounded w-full flex justify-center transition duration-200 hover:text-gray-600 focus:outline-none hover:border-red-500 hover:bg-gray-200">
+            Delete
+          </button>
+        </div>
+      ),
+    },
   ];
 
   return (
@@ -109,7 +147,7 @@ function AdminPage() {
           className={
             isMobile
               ? "w-full p-4 overflow-x-auto sticky top-24"
-              : "w-full max-w-2xl p-4 sticky"
+              : "w-full max-w-4xl p-4 sticky"
           }
           style={{ overflowX: isMobile ? "scroll" : "hidden" }}
         >
@@ -187,12 +225,10 @@ function AdminPage() {
                 </div>
               </div>
             </form>
-            {/* Line break */}
-            <hr className="my-8 border-gray-300" />
-            <div className="mt-8">
+            <hr className="my-10 border-[#549b90]" />
+            <div className="mt-4 tex">
               <h2 className="text-xl font-bold mb-3">User List</h2>
-              {/* <Table dataSource={userList} columns={columns} /> */}
-              <Table columns={columns} />
+              <Table dataSource={userList} columns={columns} bordered />
             </div>
           </div>
         </div>
