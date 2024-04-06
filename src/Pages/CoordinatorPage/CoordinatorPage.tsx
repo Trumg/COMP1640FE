@@ -3,7 +3,7 @@ import { signOut } from "firebase/auth";
 import { auth } from "../../Firebase/firebase";
 
 function CoordinatorPage() {
-  const [selectedContributions, setSelectedContributions] = useState([]);
+  const [selectedContributions, setSelectedContributions] = useState<Array<{ id: number; title: string; description: string; faculty: string; }>>([]);
   const [formData, setFormData] = useState({
     topicName: "",
     topicDescription: "",
@@ -19,6 +19,7 @@ function CoordinatorPage() {
     // });
 
     // For now, let's simulate some data
+    const coordinatorFacultyId = "Faculty A"; // Assuming you have this value
     const simulatedContributions = [
       { id: 1, title: "Contribution 1", description: "Description of Contribution 1", faculty: "Faculty A" },
       { id: 2, title: "Contribution 2", description: "Description of Contribution 2", faculty: "Faculty A" },
@@ -40,7 +41,7 @@ function CoordinatorPage() {
     // Code to submit form data
   };
 
-  const handleDelete = (contributionId: unknown) => {
+  const handleDelete = (contributionId: number) => {
     setSelectedContributions(selectedContributions.filter(contribution => contribution.id !== contributionId));
   };
 

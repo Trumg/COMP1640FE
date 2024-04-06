@@ -53,18 +53,22 @@ function AdminPage() {
     setFormData({ ...formData, [event.target.name]: event.target.value });
   };
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const getUserList = async () => {
     try {
-      const response = await apiClient.api.usersList(); // Gọi API endpoint để lấy danh sách người dùng
+      const response = await apiClient.api.usersList({
+        pageNumber: 10,
+        pageSize: 0,
+      });
       setUserList(response.data);
-    } catch (error) {
-      console.error("Error occurred while fetching users:", error);
-    }
+    } catch (err) {
+      console.error(`Failed to fetch user list: ${err}`);
+      }
   };
 
   useEffect(() => {
     getUserList(); // Gọi hàm getUserList khi component được render
-  }, []); // Dependency array rỗng đảm bảo hàm chỉ được gọi một lần sau khi component được render
+  }, [getUserList]); // Dependency array rỗng đảm bảo hàm chỉ được gọi một lần sau khi component được render
 
   const apiClient = new Api({
     baseUrl: "https://localhost:7279",
@@ -148,3 +152,5 @@ function AdminPage() {
 }
 
 export default AdminPage;
+
+

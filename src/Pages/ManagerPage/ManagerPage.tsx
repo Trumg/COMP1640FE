@@ -3,6 +3,7 @@ import { signOut } from "firebase/auth";
 import { auth } from "../../Firebase/firebase";
 import JSZip from 'jszip';
 import { saveAs } from 'file-saver';
+import { Api } from "../../Api";
 function ManagerPage() {
   const [topics, setTopics] = useState([
     { id: 1, name: "Topic 1", description: "Description of Topic 1", closureDate: new Date("2024-04-01"), selected: false, content: "Content of Topic 1" },
@@ -70,6 +71,10 @@ function ManagerPage() {
       saveAs(content, "Selected_Contributions.zip");
     });
   };
+
+  const apiClient = new Api({
+    baseUrl: "https://localhost:7279",
+  });
 
   return (
     <div className="container mx-auto px-4 py-8">
