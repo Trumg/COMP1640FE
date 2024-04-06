@@ -9,6 +9,32 @@
  * ---------------------------------------------------------------
  */
 
+export interface ChangePasswordRequestDto {
+  oldPassword?: string | null;
+  newPassword?: string | null;
+}
+
+export interface CreateContributionRequestDto {
+  title?: string | null;
+  /** @format uuid */
+  facultyId?: string;
+  /** @format uuid */
+  userId?: string;
+  status?: string | null;
+  approval?: boolean;
+  images?: string | null;
+  documents?: string | null;
+}
+
+export interface CreateFacultyRequestDto {
+  /**
+   * Name of Faculty
+   * @minLength 1
+   * @example "Admin"
+   */
+  name: string;
+}
+
 export interface CreateRoleRequestDto {
   /**
    * Name of Role
@@ -36,13 +62,13 @@ export interface CreateUserRequestDto {
   /**
    * First name
    * @minLength 1
-   * @example "Lee Nguyen"
+   * @example "Le Duy"
    */
   firstName: string;
   /**
    * Last name
    * @minLength 1
-   * @example "Khang"
+   * @example "Trong"
    */
   lastName: string;
   /**
@@ -56,7 +82,7 @@ export interface CreateUserRequestDto {
 export interface LoginRequestDto {
   /**
    * User Name
-   * @example "tranthehao246810@gmail.com"
+   * @example "hao@gmail.com"
    */
   username?: string | null;
   /**
@@ -108,6 +134,30 @@ export interface RegisterRequestDto {
   birthDate: string;
 }
 
+export interface UpdateContributionDto {
+  title?: string | null;
+  /** @format date-time */
+  submissionDate?: string;
+  /** @format date-time */
+  closureDate?: string;
+  images?: string | null;
+  documents?: string | null;
+}
+
+export interface UpdateFacultyRequestDto {
+  /**
+   * The recent Update time
+   * @format date-time
+   */
+  lastUpdatedAt?: string;
+  /**
+   * Name of Faculty
+   * @minLength 1
+   * @example "Admin"
+   */
+  name: string;
+}
+
 export interface UpdateRoleRequestDto {
   /**
    * The recent Update time
@@ -131,13 +181,13 @@ export interface UpdateUserRequestDto {
   /**
    * First name
    * @minLength 1
-   * @example "Lee Nguyen"
+   * @example "Le Duy"
    */
   firstName: string;
   /**
    * Last name
    * @minLength 1
-   * @example "Khang"
+   * @example "Trong"
    */
   lastName: string;
   /**
@@ -176,16 +226,22 @@ export interface FullRequestParams extends Omit<RequestInit, "body"> {
   cancelToken?: CancelToken;
 }
 
-export type RequestParams = Omit<FullRequestParams, "body" | "method" | "query" | "path">;
+export type RequestParams = Omit<
+  FullRequestParams,
+  "body" | "method" | "query" | "path"
+>;
 
 export interface ApiConfig<SecurityDataType = unknown> {
   baseUrl?: string;
   baseApiParams?: Omit<RequestParams, "baseUrl" | "cancelToken" | "signal">;
-  securityWorker?: (securityData: SecurityDataType | null) => Promise<RequestParams | void> | RequestParams | void;
+  securityWorker?: (
+    securityData: SecurityDataType | null
+  ) => Promise<RequestParams | void> | RequestParams | void;
   customFetch?: typeof fetch;
 }
 
-export interface HttpResponse<D extends unknown, E extends unknown = unknown> extends Response {
+export interface HttpResponse<D extends unknown, E extends unknown = unknown>
+  extends Response {
   data: D;
   error: E;
 }
@@ -204,7 +260,8 @@ export class HttpClient<SecurityDataType = unknown> {
   private securityData: SecurityDataType | null = null;
   private securityWorker?: ApiConfig<SecurityDataType>["securityWorker"];
   private abortControllers = new Map<CancelToken, AbortController>();
-  private customFetch = (...fetchParams: Parameters<typeof fetch>) => fetch(...fetchParams);
+  private customFetch = (...fetchParams: Parameters<typeof fetch>) =>
+    fetch(...fetchParams);
 
   private baseApiParams: RequestParams = {
     credentials: "same-origin",
@@ -223,7 +280,9 @@ export class HttpClient<SecurityDataType = unknown> {
 
   protected encodeQueryParam(key: string, value: any) {
     const encodedKey = encodeURIComponent(key);
-    return `${encodedKey}=${encodeURIComponent(typeof value === "number" ? value : `${value}`)}`;
+    return `${encodedKey}=${encodeURIComponent(
+      typeof value === "number" ? value : `${value}`
+    )}`;
   }
 
   protected addQueryParam(query: QueryParamsType, key: string) {
@@ -237,9 +296,15 @@ export class HttpClient<SecurityDataType = unknown> {
 
   protected toQueryString(rawQuery?: QueryParamsType): string {
     const query = rawQuery || {};
-    const keys = Object.keys(query).filter((key) => "undefined" !== typeof query[key]);
+    const keys = Object.keys(query).filter(
+      (key) => "undefined" !== typeof query[key]
+    );
     return keys
-      .map((key) => (Array.isArray(query[key]) ? this.addArrayQueryParam(query, key) : this.addQueryParam(query, key)))
+      .map((key) =>
+        Array.isArray(query[key])
+          ? this.addArrayQueryParam(query, key)
+          : this.addQueryParam(query, key)
+      )
       .join("&");
   }
 
@@ -250,8 +315,13 @@ export class HttpClient<SecurityDataType = unknown> {
 
   private contentFormatters: Record<ContentType, (input: any) => any> = {
     [ContentType.Json]: (input: any) =>
-      input !== null && (typeof input === "object" || typeof input === "string") ? JSON.stringify(input) : input,
-    [ContentType.Text]: (input: any) => (input !== null && typeof input !== "string" ? JSON.stringify(input) : input),
+      input !== null && (typeof input === "object" || typeof input === "string")
+        ? JSON.stringify(input)
+        : input,
+    [ContentType.Text]: (input: any) =>
+      input !== null && typeof input !== "string"
+        ? JSON.stringify(input)
+        : input,
     [ContentType.FormData]: (input: any) =>
       Object.keys(input || {}).reduce((formData, key) => {
         const property = input[key];
@@ -261,14 +331,17 @@ export class HttpClient<SecurityDataType = unknown> {
             ? property
             : typeof property === "object" && property !== null
             ? JSON.stringify(property)
-            : `${property}`,
+            : `${property}`
         );
         return formData;
       }, new FormData()),
     [ContentType.UrlEncoded]: (input: any) => this.toQueryString(input),
   };
 
-  protected mergeRequestParams(params1: RequestParams, params2?: RequestParams): RequestParams {
+  protected mergeRequestParams(
+    params1: RequestParams,
+    params2?: RequestParams
+  ): RequestParams {
     return {
       ...this.baseApiParams,
       ...params1,
@@ -281,7 +354,9 @@ export class HttpClient<SecurityDataType = unknown> {
     };
   }
 
-  protected createAbortSignal = (cancelToken: CancelToken): AbortSignal | undefined => {
+  protected createAbortSignal = (
+    cancelToken: CancelToken
+  ): AbortSignal | undefined => {
     if (this.abortControllers.has(cancelToken)) {
       const abortController = this.abortControllers.get(cancelToken);
       if (abortController) {
@@ -325,15 +400,28 @@ export class HttpClient<SecurityDataType = unknown> {
     const payloadFormatter = this.contentFormatters[type || ContentType.Json];
     const responseFormat = format || requestParams.format;
 
-    return this.customFetch(`${baseUrl || this.baseUrl || ""}${path}${queryString ? `?${queryString}` : ""}`, {
-      ...requestParams,
-      headers: {
-        ...(requestParams.headers || {}),
-        ...(type && type !== ContentType.FormData ? { "Content-Type": type } : {}),
-      },
-      signal: (cancelToken ? this.createAbortSignal(cancelToken) : requestParams.signal) || null,
-      body: typeof body === "undefined" || body === null ? null : payloadFormatter(body),
-    }).then(async (response) => {
+    return this.customFetch(
+      `${baseUrl || this.baseUrl || ""}${path}${
+        queryString ? `?${queryString}` : ""
+      }`,
+      {
+        ...requestParams,
+        headers: {
+          ...(requestParams.headers || {}),
+          ...(type && type !== ContentType.FormData
+            ? { "Content-Type": type }
+            : {}),
+        },
+        signal:
+          (cancelToken
+            ? this.createAbortSignal(cancelToken)
+            : requestParams.signal) || null,
+        body:
+          typeof body === "undefined" || body === null
+            ? null
+            : payloadFormatter(body),
+      }
+    ).then(async (response) => {
       const r = response as HttpResponse<T, E>;
       r.data = null as unknown as T;
       r.error = null as unknown as E;
@@ -372,7 +460,12 @@ export class HttpClient<SecurityDataType = unknown> {
  *
  * Web API for Collection application
  */
-export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDataType> {
+export class Api<
+  SecurityDataType extends unknown,
+> extends HttpClient<SecurityDataType> {
+  authLoginCreate(arg0: { username: string; password: string }) {
+    throw new Error("Method not implemented.");
+  }
   api = {
     /**
      * No description
@@ -383,7 +476,10 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request POST:/api/Auth/Register
      * @secure
      */
-    authRegisterCreate: (data: RegisterRequestDto, params: RequestParams = {}) =>
+    authRegisterCreate: (
+      data: RegisterRequestDto,
+      params: RequestParams = {}
+    ) =>
       this.request<void, any>({
         path: `/api/Auth/Register`,
         method: "POST",
@@ -427,10 +523,335 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         userId?: string;
         token?: string;
       },
-      params: RequestParams = {},
+      params: RequestParams = {}
     ) =>
       this.request<void, any>({
         path: `/api/Auth/VerifyEmail`,
+        method: "GET",
+        query: query,
+        secure: true,
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Contribution
+     * @name ContributionsCreate
+     * @request POST:/api/contributions
+     * @secure
+     */
+    contributionsCreate: (
+      data: CreateContributionRequestDto,
+      params: RequestParams = {}
+    ) =>
+      this.request<void, any>({
+        path: `/api/contributions`,
+        method: "POST",
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Contribution
+     * @name ContributionsList
+     * @request GET:/api/contributions
+     * @secure
+     */
+    contributionsList: (
+      query?: {
+        searchBy?: string;
+        searchQuery?: string;
+        orderBy?: string;
+        /** @default true */
+        isAscending?: boolean;
+        /** @format uuid */
+        facultyId?: string;
+        /** @format uuid */
+        userId?: string;
+        /**
+         * @format int32
+         * @default 1
+         */
+        pageNumber?: number;
+        /**
+         * @format int32
+         * @default 10
+         */
+        pageSize?: number;
+      },
+      params: RequestParams = {}
+    ) =>
+      this.request<void, any>({
+        path: `/api/contributions`,
+        method: "GET",
+        query: query,
+        secure: true,
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Contribution
+     * @name ContributionsDetail
+     * @request GET:/api/contributions/{id}
+     * @secure
+     */
+    contributionsDetail: (id: string, params: RequestParams = {}) =>
+      this.request<void, any>({
+        path: `/api/contributions/${id}`,
+        method: "GET",
+        secure: true,
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Contribution
+     * @name ContributionsUpdate
+     * @request PUT:/api/contributions/{id}
+     * @secure
+     */
+    contributionsUpdate: (
+      id: string,
+      data: UpdateContributionDto,
+      params: RequestParams = {}
+    ) =>
+      this.request<void, any>({
+        path: `/api/contributions/${id}`,
+        method: "PUT",
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Contribution
+     * @name ContributionsDelete
+     * @request DELETE:/api/contributions/{id}
+     * @secure
+     */
+    contributionsDelete: (id: string, params: RequestParams = {}) =>
+      this.request<void, any>({
+        path: `/api/contributions/${id}`,
+        method: "DELETE",
+        secure: true,
+        ...params,
+      }),
+
+    /**
+     * @description Available fields for searchBy: - name Available fields for orderBy: - name - number of users
+     *
+     * @tags Faculty
+     * @name FacultyList
+     * @summary Get list of Facultys in system (Require ADMIN right to perform)
+     * @request GET:/api/Faculty
+     * @secure
+     */
+    facultyList: (
+      query?: {
+        searchBy?: string;
+        searchQuery?: string;
+        orderBy?: string;
+        /** @default true */
+        isAscending?: boolean;
+        /**
+         * @format int32
+         * @min 1
+         * @max 2147483647
+         * @default 1
+         */
+        pageNumber?: number;
+        /**
+         * @format int32
+         * @min 1
+         * @max 2147483647
+         * @default 10
+         */
+        pageSize?: number;
+        /** @format uuid */
+        userId?: string;
+      },
+      params: RequestParams = {}
+    ) =>
+      this.request<void, any>({
+        path: `/api/Faculty`,
+        method: "GET",
+        query: query,
+        secure: true,
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Faculty
+     * @name FacultyCreate
+     * @summary Create a new Faculty (Require ADMIN right to perform)
+     * @request POST:/api/Faculty
+     * @secure
+     */
+    facultyCreate: (
+      data: CreateFacultyRequestDto,
+      params: RequestParams = {}
+    ) =>
+      this.request<void, any>({
+        path: `/api/Faculty`,
+        method: "POST",
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Faculty
+     * @name FacultyDetail
+     * @summary Get Faculty by Id (Require ADMIN right to perform)
+     * @request GET:/api/Faculty/{id}
+     * @secure
+     */
+    facultyDetail: (id: string, params: RequestParams = {}) =>
+      this.request<void, any>({
+        path: `/api/Faculty/${id}`,
+        method: "GET",
+        secure: true,
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Faculty
+     * @name FacultyUpdate
+     * @summary Update an existing Faculty by Id (Require ADMIN right to perform)
+     * @request PUT:/api/Faculty/{id}
+     * @secure
+     */
+    facultyUpdate: (
+      id: string,
+      data: UpdateFacultyRequestDto,
+      params: RequestParams = {}
+    ) =>
+      this.request<void, any>({
+        path: `/api/Faculty/${id}`,
+        method: "PUT",
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Faculty
+     * @name FacultyDelete
+     * @summary Delete the existing Faculty by Id (Require ADMIN right to perform)
+     * @request DELETE:/api/Faculty/{id}
+     * @secure
+     */
+    facultyDelete: (id: string, params: RequestParams = {}) =>
+      this.request<void, any>({
+        path: `/api/Faculty/${id}`,
+        method: "DELETE",
+        secure: true,
+        ...params,
+      }),
+
+    /**
+     * @description Entering FacultyId and userId you want to assign Faculty for
+     *
+     * @tags Faculty
+     * @name FacultyUsersCreate
+     * @summary Assign Faculty to User (Require ADMIN right to perform)
+     * @request POST:/api/Faculty/{facultyId}/users/{userId}
+     * @secure
+     */
+    facultyUsersCreate: (
+      facultyId: string,
+      userId: string,
+      params: RequestParams = {}
+    ) =>
+      this.request<void, any>({
+        path: `/api/Faculty/${facultyId}/users/${userId}`,
+        method: "POST",
+        secure: true,
+        ...params,
+      }),
+
+    /**
+     * @description Entering userId and FacultyId you want to remove from user
+     *
+     * @tags Faculty
+     * @name FacultyUsersDelete
+     * @summary Remove User from Faculty (Require ADMIN right to perform
+     * @request DELETE:/api/Faculty/{FacultyId}/users/{userId}
+     * @secure
+     */
+    facultyUsersDelete: (
+      facultyId: string,
+      userId: string,
+      params: RequestParams = {}
+    ) =>
+      this.request<void, any>({
+        path: `/api/Faculty/${facultyId}/users/${userId}`,
+        method: "DELETE",
+        secure: true,
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags File
+     * @name FileUploadFileCreate
+     * @request POST:/api/File/UploadFile
+     * @secure
+     */
+    fileUploadFileCreate: (
+      data: {
+        /** @format binary */
+        file?: File;
+      },
+      params: RequestParams = {}
+    ) =>
+      this.request<void, string>({
+        path: `/api/File/UploadFile`,
+        method: "POST",
+        body: data,
+        secure: true,
+        type: ContentType.FormData,
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags File
+     * @name FileDownloadFileList
+     * @request GET:/api/File/DownloadFile
+     * @secure
+     */
+    fileDownloadFileList: (
+      query?: {
+        filename?: string;
+      },
+      params: RequestParams = {}
+    ) =>
+      this.request<void, any>({
+        path: `/api/File/DownloadFile`,
         method: "GET",
         query: query,
         secure: true,
@@ -470,7 +891,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         /** @format uuid */
         userId?: string;
       },
-      params: RequestParams = {},
+      params: RequestParams = {}
     ) =>
       this.request<void, any>({
         path: `/api/Roles`,
@@ -525,7 +946,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request PUT:/api/Roles/{id}
      * @secure
      */
-    rolesUpdate: (id: string, data: UpdateRoleRequestDto, params: RequestParams = {}) =>
+    rolesUpdate: (
+      id: string,
+      data: UpdateRoleRequestDto,
+      params: RequestParams = {}
+    ) =>
       this.request<void, any>({
         path: `/api/Roles/${id}`,
         method: "PUT",
@@ -561,7 +986,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request POST:/api/Roles/{roleId}/users/{userId}
      * @secure
      */
-    rolesUsersCreate: (roleId: string, userId: string, params: RequestParams = {}) =>
+    rolesUsersCreate: (
+      roleId: string,
+      userId: string,
+      params: RequestParams = {}
+    ) =>
       this.request<void, any>({
         path: `/api/Roles/${roleId}/users/${userId}`,
         method: "POST",
@@ -578,7 +1007,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request DELETE:/api/Roles/{roleId}/users/{userId}
      * @secure
      */
-    rolesUsersDelete: (roleId: string, userId: string, params: RequestParams = {}) =>
+    rolesUsersDelete: (
+      roleId: string,
+      userId: string,
+      params: RequestParams = {}
+    ) =>
       this.request<void, any>({
         path: `/api/Roles/${roleId}/users/${userId}`,
         method: "DELETE",
@@ -619,7 +1052,7 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
         /** @format uuid */
         roleId?: string;
       },
-      params: RequestParams = {},
+      params: RequestParams = {}
     ) =>
       this.request<void, any>({
         path: `/api/Users`,
@@ -674,7 +1107,11 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
      * @request PUT:/api/Users/{id}
      * @secure
      */
-    usersUpdate: (id: string, data: UpdateUserRequestDto, params: RequestParams = {}) =>
+    usersUpdate: (
+      id: string,
+      data: UpdateUserRequestDto,
+      params: RequestParams = {}
+    ) =>
       this.request<void, any>({
         path: `/api/Users/${id}`,
         method: "PUT",
@@ -713,6 +1150,27 @@ export class Api<SecurityDataType extends unknown> extends HttpClient<SecurityDa
     usersSelfUpdate: (data: UpdateUserRequestDto, params: RequestParams = {}) =>
       this.request<void, any>({
         path: `/api/Users/self`,
+        method: "PUT",
+        body: data,
+        secure: true,
+        type: ContentType.Json,
+        ...params,
+      }),
+
+    /**
+     * No description
+     *
+     * @tags Users
+     * @name UsersChangePasswordUpdate
+     * @request PUT:/api/Users/change-password
+     * @secure
+     */
+    usersChangePasswordUpdate: (
+      data: ChangePasswordRequestDto,
+      params: RequestParams = {}
+    ) =>
+      this.request<void, any>({
+        path: `/api/Users/change-password`,
         method: "PUT",
         body: data,
         secure: true,

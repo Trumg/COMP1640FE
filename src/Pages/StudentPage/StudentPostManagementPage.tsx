@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
-import CoordinatorNavbar from "../../Components/Navbar/CoordinatorNavbar";
+import StudentNavbar from "../../Components/Navbar/StudentNavbar";
 
-function CoordinatorPage() {
+function StudentPostManagementPage() {
   const [posts] = useState([
     { id: 1, title: "Post 1", content: "Content of Post 1", status: "Pending" },
     {
@@ -54,22 +54,22 @@ function CoordinatorPage() {
 
   useEffect(() => {
     const handleResize = () => {
-      setIsMobile(window.innerWidth <= 768); // Adjust the breakpoint as needed
+      setIsMobile(window.innerWidth <= 768);
     };
-    handleResize(); // Call initially to set the initial state
-    window.addEventListener("resize", handleResize); // Listen for window resize
-    return () => window.removeEventListener("resize", handleResize); // Clean up
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   return (
     <div>
-      <CoordinatorNavbar />
+      <StudentNavbar />
       <div className="flex justify-center items-center min-h-screen font-roboto pt-24">
         <div
           className={`${isMobile ? "w-full p-4 px-6" : "w-full max-w-4xl p-4"}`}
         >
-          <div className="bg-white border-2 border-[#549b90] rounded-lg shadow-md p-6">
-            <h1 className="text-xl font-bold mb-3">Post Management</h1>
+          <div className="border-2 border-[#549b90] rounded-lg shadow-md p-6">
+            <h1 className="text-xl font-bold mb-3">New Post Status</h1>
             <div
               className="table-container relative"
               style={{
@@ -78,7 +78,7 @@ function CoordinatorPage() {
                 maxWidth: "1000px",
               }}
             >
-              <table className="w-full border-collapse border border-gray-200">
+              <table className="w-full border-collapse border-1 border-[#549b90]">
                 <thead>
                   <tr className="bg-gray-100">
                     <th className="border border-gray-200 px-6 py-3 sticky top-0 bg-gray-100 z-10 text-lg">
@@ -92,9 +92,6 @@ function CoordinatorPage() {
                     </th>
                     <th className="border border-gray-200 px-4 py-2 sticky top-0 bg-gray-100 z-10">
                       Status
-                    </th>
-                    <th className="border border-gray-200 px-6 py-3 sticky top-0 bg-gray-100 z-10 text-lg">
-                      Action
                     </th>
                   </tr>
                 </thead>
@@ -125,41 +122,6 @@ function CoordinatorPage() {
                           {post.status}
                         </span>
                       </td>
-                      <td className="border border-gray-200 px-4 py-2">
-                        <div className="flex justify-center items-center">
-                          {isMobile ? (
-                            <div>
-                              <button
-                                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mb-2 w-full"
-                                style={{ width: "100px" }}
-                              >
-                                Approve
-                              </button>
-                              <button
-                                className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded w-full"
-                                style={{ width: "100px" }}
-                              >
-                                Reject
-                              </button>
-                            </div>
-                          ) : (
-                            <>
-                              <button
-                                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mr-2"
-                                style={{ width: "100px" }}
-                              >
-                                Approve
-                              </button>
-                              <button
-                                className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded"
-                                style={{ width: "100px" }}
-                              >
-                                Reject
-                              </button>
-                            </>
-                          )}
-                        </div>
-                      </td>
                     </tr>
                   ))}
                 </tbody>
@@ -172,4 +134,4 @@ function CoordinatorPage() {
   );
 }
 
-export default CoordinatorPage;
+export default StudentPostManagementPage;
