@@ -1,0 +1,1546 @@
+{
+    "openapi": "3.0.1",
+    "info": {
+        "title": "COMP1640",
+        "description": "Web API for Collection application",
+        "contact": {
+            "name": "COMP1640",
+            "email": "haottgcs210785@fpt.edu.vn"
+        },
+        "license": {
+            "name": "Education License"
+        },
+        "version": "v1"
+    },
+    "paths": {
+        "/api/Auth/Register": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Register new account",
+                "requestBody": {
+                    "description": "",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/RegisterRequestDto"
+                            }
+                        },
+                        "text/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/RegisterRequestDto"
+                            }
+                        },
+                        "application/*+json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/RegisterRequestDto"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+        },
+        "/api/Auth/Login": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Login to account",
+                "requestBody": {
+                    "description": "",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/LoginRequestDto"
+                            }
+                        },
+                        "text/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/LoginRequestDto"
+                            }
+                        },
+                        "application/*+json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/LoginRequestDto"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+        },
+        "/api/Auth/VerifyEmail": {
+            "get": {
+                "tags": [
+                    "Auth"
+                ],
+                "summary": "Only for verify user email",
+                "parameters": [{
+                        "name": "userId",
+                        "in": "query",
+                        "style": "form",
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    },
+                    {
+                        "name": "token",
+                        "in": "query",
+                        "style": "form",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+        },
+        "/api/contributions": {
+            "post": {
+                "tags": [
+                    "Contribution"
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateContributionRequestDto"
+                            }
+                        },
+                        "text/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateContributionRequestDto"
+                            }
+                        },
+                        "application/*+json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateContributionRequestDto"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            },
+            "get": {
+                "tags": [
+                    "Contribution"
+                ],
+                "parameters": [{
+                        "name": "searchBy",
+                        "in": "query",
+                        "style": "form",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "searchQuery",
+                        "in": "query",
+                        "style": "form",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "orderBy",
+                        "in": "query",
+                        "style": "form",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "isAscending",
+                        "in": "query",
+                        "style": "form",
+                        "schema": {
+                            "type": "boolean",
+                            "default": true
+                        }
+                    },
+                    {
+                        "name": "facultyId",
+                        "in": "query",
+                        "style": "form",
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    },
+                    {
+                        "name": "userId",
+                        "in": "query",
+                        "style": "form",
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    },
+                    {
+                        "name": "pageNumber",
+                        "in": "query",
+                        "style": "form",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32",
+                            "default": 1
+                        }
+                    },
+                    {
+                        "name": "pageSize",
+                        "in": "query",
+                        "style": "form",
+                        "schema": {
+                            "type": "integer",
+                            "format": "int32",
+                            "default": 10
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+        },
+        "/api/contributions/{id}": {
+            "get": {
+                "tags": [
+                    "Contribution"
+                ],
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "required": true,
+                    "style": "simple",
+                    "schema": {
+                        "type": "string",
+                        "format": "uuid"
+                    }
+                }],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Contribution"
+                ],
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "required": true,
+                    "style": "simple",
+                    "schema": {
+                        "type": "string",
+                        "format": "uuid"
+                    }
+                }],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateContributionDto"
+                            }
+                        },
+                        "text/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateContributionDto"
+                            }
+                        },
+                        "application/*+json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateContributionDto"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Contribution"
+                ],
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "required": true,
+                    "style": "simple",
+                    "schema": {
+                        "type": "string",
+                        "format": "uuid"
+                    }
+                }],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+        },
+        "/api/Faculty": {
+            "get": {
+                "tags": [
+                    "Faculty"
+                ],
+                "summary": "Get list of Facultys in system (Require ADMIN right to perform)",
+                "description": "Available fields for searchBy:\r\n- name\r\n\r\nAvailable fields for orderBy:\r\n- name\r\n- number of users",
+                "parameters": [{
+                        "name": "searchBy",
+                        "in": "query",
+                        "style": "form",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "searchQuery",
+                        "in": "query",
+                        "style": "form",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "orderBy",
+                        "in": "query",
+                        "style": "form",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "isAscending",
+                        "in": "query",
+                        "style": "form",
+                        "schema": {
+                            "type": "boolean",
+                            "default": true
+                        }
+                    },
+                    {
+                        "name": "pageNumber",
+                        "in": "query",
+                        "style": "form",
+                        "schema": {
+                            "maximum": 2147483647,
+                            "minimum": 1,
+                            "type": "integer",
+                            "format": "int32",
+                            "default": 1
+                        }
+                    },
+                    {
+                        "name": "pageSize",
+                        "in": "query",
+                        "style": "form",
+                        "schema": {
+                            "maximum": 2147483647,
+                            "minimum": 1,
+                            "type": "integer",
+                            "format": "int32",
+                            "default": 10
+                        }
+                    },
+                    {
+                        "name": "userId",
+                        "in": "query",
+                        "style": "form",
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Faculty"
+                ],
+                "summary": "Create a new Faculty (Require ADMIN right to perform)",
+                "requestBody": {
+                    "description": "",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateFacultyRequestDto"
+                            }
+                        },
+                        "text/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateFacultyRequestDto"
+                            }
+                        },
+                        "application/*+json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateFacultyRequestDto"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+        },
+        "/api/Faculty/{id}": {
+            "get": {
+                "tags": [
+                    "Faculty"
+                ],
+                "summary": "Get Faculty by Id (Require ADMIN right to perform)",
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "description": "Enter Faculty's Id",
+                    "required": true,
+                    "style": "simple",
+                    "schema": {
+                        "type": "string",
+                        "format": "uuid"
+                    }
+                }],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Faculty"
+                ],
+                "summary": "Update an existing Faculty by Id (Require ADMIN right to perform)",
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "description": "Enter Faculty's Id",
+                    "required": true,
+                    "style": "simple",
+                    "schema": {
+                        "type": "string",
+                        "format": "uuid"
+                    }
+                }],
+                "requestBody": {
+                    "description": "",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateFacultyRequestDto"
+                            }
+                        },
+                        "text/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateFacultyRequestDto"
+                            }
+                        },
+                        "application/*+json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateFacultyRequestDto"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "204": {
+                        "description": "No Content"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Faculty"
+                ],
+                "summary": "Delete the existing Faculty by Id (Require ADMIN right to perform)",
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "description": "Enter Faculty's Id",
+                    "required": true,
+                    "style": "simple",
+                    "schema": {
+                        "type": "string",
+                        "format": "uuid"
+                    }
+                }],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "204": {
+                        "description": "No Content"
+                    }
+                }
+            }
+        },
+        "/api/Faculty/{facultyId}/users/{userId}": {
+            "post": {
+                "tags": [
+                    "Faculty"
+                ],
+                "summary": "Assign Faculty to User (Require ADMIN right to perform)",
+                "description": "Entering FacultyId and userId you want to assign Faculty for",
+                "parameters": [{
+                        "name": "facultyId",
+                        "in": "path",
+                        "description": "Faculty Id",
+                        "required": true,
+                        "style": "simple",
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    },
+                    {
+                        "name": "userId",
+                        "in": "path",
+                        "description": "User Id",
+                        "required": true,
+                        "style": "simple",
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+        },
+        "/api/Faculty/{FacultyId}/users/{userId}": {
+            "delete": {
+                "tags": [
+                    "Faculty"
+                ],
+                "summary": "Remove User from Faculty (Require ADMIN right to perform",
+                "description": "Entering userId and FacultyId you want to remove from user",
+                "parameters": [{
+                        "name": "facultyId",
+                        "in": "path",
+                        "description": "Faculty Id",
+                        "required": true,
+                        "style": "simple",
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    },
+                    {
+                        "name": "userId",
+                        "in": "path",
+                        "description": "User Id",
+                        "required": true,
+                        "style": "simple",
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "204": {
+                        "description": "No Content"
+                    }
+                }
+            }
+        },
+        "/api/File/UploadFile": {
+            "post": {
+                "tags": [
+                    "File"
+                ],
+                "requestBody": {
+                    "content": {
+                        "multipart/form-data": {
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "file": {
+                                        "type": "string",
+                                        "format": "binary"
+                                    }
+                                }
+                            },
+                            "encoding": {
+                                "file": {
+                                    "style": "form"
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "content": {
+                            "text/plain": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            },
+                            "application/json": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            },
+                            "text/json": {
+                                "schema": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/File/DownloadFile": {
+            "get": {
+                "tags": [
+                    "File"
+                ],
+                "parameters": [{
+                    "name": "filename",
+                    "in": "query",
+                    "style": "form",
+                    "schema": {
+                        "type": "string"
+                    }
+                }],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+        },
+        "/api/Roles": {
+            "get": {
+                "tags": [
+                    "Roles"
+                ],
+                "summary": "Get list of Roles in system (Require ADMIN right to perform)",
+                "description": "Available fields for searchBy:\r\n- name\r\n\r\nAvailable fields for orderBy:\r\n- name\r\n- number of users",
+                "parameters": [{
+                        "name": "searchBy",
+                        "in": "query",
+                        "style": "form",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "searchQuery",
+                        "in": "query",
+                        "style": "form",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "orderBy",
+                        "in": "query",
+                        "style": "form",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "isAscending",
+                        "in": "query",
+                        "style": "form",
+                        "schema": {
+                            "type": "boolean",
+                            "default": true
+                        }
+                    },
+                    {
+                        "name": "pageNumber",
+                        "in": "query",
+                        "style": "form",
+                        "schema": {
+                            "maximum": 2147483647,
+                            "minimum": 1,
+                            "type": "integer",
+                            "format": "int32",
+                            "default": 1
+                        }
+                    },
+                    {
+                        "name": "pageSize",
+                        "in": "query",
+                        "style": "form",
+                        "schema": {
+                            "maximum": 2147483647,
+                            "minimum": 1,
+                            "type": "integer",
+                            "format": "int32",
+                            "default": 10
+                        }
+                    },
+                    {
+                        "name": "userId",
+                        "in": "query",
+                        "style": "form",
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Roles"
+                ],
+                "summary": "Create a new Role (Require ADMIN right to perform)",
+                "requestBody": {
+                    "description": "",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateRoleRequestDto"
+                            }
+                        },
+                        "text/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateRoleRequestDto"
+                            }
+                        },
+                        "application/*+json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateRoleRequestDto"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+        },
+        "/api/Roles/{id}": {
+            "get": {
+                "tags": [
+                    "Roles"
+                ],
+                "summary": "Get Role by Id (Require ADMIN right to perform)",
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "description": "Enter Role's Id",
+                    "required": true,
+                    "style": "simple",
+                    "schema": {
+                        "type": "string",
+                        "format": "uuid"
+                    }
+                }],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Roles"
+                ],
+                "summary": "Update an existing Role by Id (Require ADMIN right to perform)",
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "description": "Enter Role's Id",
+                    "required": true,
+                    "style": "simple",
+                    "schema": {
+                        "type": "string",
+                        "format": "uuid"
+                    }
+                }],
+                "requestBody": {
+                    "description": "",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateRoleRequestDto"
+                            }
+                        },
+                        "text/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateRoleRequestDto"
+                            }
+                        },
+                        "application/*+json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateRoleRequestDto"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "204": {
+                        "description": "No Content"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Roles"
+                ],
+                "summary": "Delete the existing Role by Id (Require ADMIN right to perform)",
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "description": "Enter Role's Id",
+                    "required": true,
+                    "style": "simple",
+                    "schema": {
+                        "type": "string",
+                        "format": "uuid"
+                    }
+                }],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "204": {
+                        "description": "No Content"
+                    }
+                }
+            }
+        },
+        "/api/Roles/{roleId}/users/{userId}": {
+            "post": {
+                "tags": [
+                    "Roles"
+                ],
+                "summary": "Assign Role to User (Require ADMIN right to perform)",
+                "description": "Entering roleId and userId you want to assign role for",
+                "parameters": [{
+                        "name": "roleId",
+                        "in": "path",
+                        "description": "Role Id",
+                        "required": true,
+                        "style": "simple",
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    },
+                    {
+                        "name": "userId",
+                        "in": "path",
+                        "description": "User Id",
+                        "required": true,
+                        "style": "simple",
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Roles"
+                ],
+                "summary": "Remove User from Role (Require ADMIN right to perform",
+                "description": "Entering userId and roleId you want to remove from user",
+                "parameters": [{
+                        "name": "roleId",
+                        "in": "path",
+                        "description": "Role Id",
+                        "required": true,
+                        "style": "simple",
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    },
+                    {
+                        "name": "userId",
+                        "in": "path",
+                        "description": "User Id",
+                        "required": true,
+                        "style": "simple",
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "204": {
+                        "description": "No Content"
+                    }
+                }
+            }
+        },
+        "/api/Users": {
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Get list of users (Require ADMIN right to perform)",
+                "description": "Fields available for search: \r\n- username \r\n- firstname \r\n- lastname\r\n\r\nFields available for order:\r\n- username\r\n- birthdate",
+                "parameters": [{
+                        "name": "searchBy",
+                        "in": "query",
+                        "style": "form",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "searchQuery",
+                        "in": "query",
+                        "style": "form",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "orderBy",
+                        "in": "query",
+                        "style": "form",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "isAscending",
+                        "in": "query",
+                        "style": "form",
+                        "schema": {
+                            "type": "boolean",
+                            "default": true
+                        }
+                    },
+                    {
+                        "name": "pageNumber",
+                        "in": "query",
+                        "style": "form",
+                        "schema": {
+                            "maximum": 2147483647,
+                            "minimum": 1,
+                            "type": "integer",
+                            "format": "int32",
+                            "default": 1
+                        }
+                    },
+                    {
+                        "name": "pageSize",
+                        "in": "query",
+                        "style": "form",
+                        "schema": {
+                            "maximum": 2147483647,
+                            "minimum": 1,
+                            "type": "integer",
+                            "format": "int32",
+                            "default": 10
+                        }
+                    },
+                    {
+                        "name": "roleId",
+                        "in": "query",
+                        "style": "form",
+                        "schema": {
+                            "type": "string",
+                            "format": "uuid"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Create a new User (Require ADMIN right to perform)",
+                "requestBody": {
+                    "description": "",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateUserRequestDto"
+                            }
+                        },
+                        "text/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateUserRequestDto"
+                            }
+                        },
+                        "application/*+json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/CreateUserRequestDto"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+        },
+        "/api/Users/{id}": {
+            "get": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Get detail of User by Id (Require ADMIN right to perform)",
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "description": "User Id",
+                    "required": true,
+                    "style": "simple",
+                    "schema": {
+                        "type": "string",
+                        "format": "uuid"
+                    }
+                }],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            },
+            "put": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Update an existing User (Require ADMIN right to perform)",
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "description": "User Id",
+                    "required": true,
+                    "style": "simple",
+                    "schema": {
+                        "type": "string",
+                        "format": "uuid"
+                    }
+                }],
+                "requestBody": {
+                    "description": "",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateUserRequestDto"
+                            }
+                        },
+                        "text/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateUserRequestDto"
+                            }
+                        },
+                        "application/*+json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateUserRequestDto"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "204": {
+                        "description": "No Content"
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Delete an existing User (Require ADMIN right to perform)",
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "description": "User Id",
+                    "required": true,
+                    "style": "simple",
+                    "schema": {
+                        "type": "string",
+                        "format": "uuid"
+                    }
+                }],
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "204": {
+                        "description": "No Content"
+                    }
+                }
+            }
+        },
+        "/api/Users/self": {
+            "put": {
+                "tags": [
+                    "Users"
+                ],
+                "summary": "Update profile of current login User (Require login to perform)",
+                "requestBody": {
+                    "description": "",
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateUserRequestDto"
+                            }
+                        },
+                        "text/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateUserRequestDto"
+                            }
+                        },
+                        "application/*+json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/UpdateUserRequestDto"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    },
+                    "204": {
+                        "description": "No Content"
+                    }
+                }
+            }
+        },
+        "/api/Users/change-password": {
+            "put": {
+                "tags": [
+                    "Users"
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ChangePasswordRequestDto"
+                            }
+                        },
+                        "text/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ChangePasswordRequestDto"
+                            }
+                        },
+                        "application/*+json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ChangePasswordRequestDto"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Success"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "ChangePasswordRequestDto": {
+                "type": "object",
+                "properties": {
+                    "oldPassword": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "newPassword": {
+                        "type": "string",
+                        "nullable": true
+                    }
+                },
+                "additionalProperties": false
+            },
+            "CreateContributionRequestDto": {
+                "type": "object",
+                "properties": {
+                    "title": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "facultyId": {
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    "userId": {
+                        "type": "string",
+                        "format": "uuid"
+                    },
+                    "status": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "approval": {
+                        "type": "boolean"
+                    },
+                    "images": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "documents": {
+                        "type": "string",
+                        "nullable": true
+                    }
+                },
+                "additionalProperties": false
+            },
+            "CreateFacultyRequestDto": {
+                "required": [
+                    "name"
+                ],
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "minLength": 1,
+                        "type": "string",
+                        "description": "Name of Faculty",
+                        "example": "Admin"
+                    }
+                },
+                "additionalProperties": false
+            },
+            "CreateRoleRequestDto": {
+                "required": [
+                    "name"
+                ],
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "minLength": 1,
+                        "type": "string",
+                        "description": "Name of Role",
+                        "example": "Admin"
+                    }
+                },
+                "additionalProperties": false
+            },
+            "CreateUserRequestDto": {
+                "required": [
+                    "birthDate",
+                    "firstName",
+                    "lastName",
+                    "password",
+                    "username"
+                ],
+                "type": "object",
+                "properties": {
+                    "username": {
+                        "minLength": 1,
+                        "type": "string",
+                        "description": "Email Address",
+                        "format": "email",
+                        "example": "trung@gmail.com"
+                    },
+                    "password": {
+                        "minLength": 1,
+                        "type": "string",
+                        "description": "Password",
+                        "format": "password",
+                        "example": "Abcd1234?"
+                    },
+                    "firstName": {
+                        "minLength": 1,
+                        "type": "string",
+                        "description": "First name",
+                        "example": "Le Duy"
+                    },
+                    "lastName": {
+                        "minLength": 1,
+                        "type": "string",
+                        "description": "Last name",
+                        "example": "Trong"
+                    },
+                    "birthDate": {
+                        "type": "string",
+                        "description": "Birthdate",
+                        "format": "date-time",
+                        "example": "2000-12-22T07:16:45.261"
+                    }
+                },
+                "additionalProperties": false
+            },
+            "LoginRequestDto": {
+                "type": "object",
+                "properties": {
+                    "username": {
+                        "type": "string",
+                        "description": "User Name",
+                        "nullable": true,
+                        "example": "hao@gmail.com"
+                    },
+                    "password": {
+                        "type": "string",
+                        "description": "Password",
+                        "nullable": true,
+                        "example": "Abcd1234?"
+                    }
+                },
+                "additionalProperties": false
+            },
+            "RegisterRequestDto": {
+                "required": [
+                    "birthDate",
+                    "confirmPassword",
+                    "firstName",
+                    "lastName",
+                    "password",
+                    "username"
+                ],
+                "type": "object",
+                "properties": {
+                    "username": {
+                        "minLength": 1,
+                        "type": "string",
+                        "description": "Email Address",
+                        "format": "email",
+                        "example": "tranthehao246810@gmail.com"
+                    },
+                    "password": {
+                        "minLength": 1,
+                        "type": "string",
+                        "description": "Password",
+                        "format": "password",
+                        "example": "Abcd1234?"
+                    },
+                    "confirmPassword": {
+                        "minLength": 1,
+                        "type": "string",
+                        "description": "Confirmed Password",
+                        "format": "password",
+                        "example": "Abcd1234?"
+                    },
+                    "firstName": {
+                        "minLength": 1,
+                        "type": "string",
+                        "description": "First name",
+                        "example": "Tran The"
+                    },
+                    "lastName": {
+                        "minLength": 1,
+                        "type": "string",
+                        "description": "Last name",
+                        "example": "Hao"
+                    },
+                    "birthDate": {
+                        "type": "string",
+                        "description": "Birthdate",
+                        "format": "date-time",
+                        "example": "2003-04-21T07:16:45.261"
+                    }
+                },
+                "additionalProperties": false
+            },
+            "UpdateContributionDto": {
+                "type": "object",
+                "properties": {
+                    "title": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "submissionDate": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "closureDate": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "images": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "documents": {
+                        "type": "string",
+                        "nullable": true
+                    }
+                },
+                "additionalProperties": false
+            },
+            "UpdateFacultyRequestDto": {
+                "required": [
+                    "name"
+                ],
+                "type": "object",
+                "properties": {
+                    "lastUpdatedAt": {
+                        "type": "string",
+                        "description": "The recent Update time",
+                        "format": "date-time",
+                        "readOnly": true
+                    },
+                    "name": {
+                        "minLength": 1,
+                        "type": "string",
+                        "description": "Name of Faculty",
+                        "example": "Admin"
+                    }
+                },
+                "additionalProperties": false
+            },
+            "UpdateRoleRequestDto": {
+                "required": [
+                    "name"
+                ],
+                "type": "object",
+                "properties": {
+                    "lastUpdatedAt": {
+                        "type": "string",
+                        "description": "The recent Update time",
+                        "format": "date-time",
+                        "readOnly": true
+                    },
+                    "name": {
+                        "minLength": 1,
+                        "type": "string",
+                        "description": "Name of Role",
+                        "example": "Admin"
+                    }
+                },
+                "additionalProperties": false
+            },
+            "UpdateUserRequestDto": {
+                "required": [
+                    "birthDate",
+                    "firstName",
+                    "lastName"
+                ],
+                "type": "object",
+                "properties": {
+                    "lastUpdatedAt": {
+                        "type": "string",
+                        "description": "The recent Update time",
+                        "format": "date-time"
+                    },
+                    "firstName": {
+                        "minLength": 1,
+                        "type": "string",
+                        "description": "First name",
+                        "example": "Le Duy"
+                    },
+                    "lastName": {
+                        "minLength": 1,
+                        "type": "string",
+                        "description": "Last name",
+                        "example": "Trong"
+                    },
+                    "bio": {
+                        "maxLength": 500,
+                        "type": "string",
+                        "description": "Biology of User",
+                        "nullable": true,
+                        "example": "this is me"
+                    },
+                    "birthDate": {
+                        "type": "string",
+                        "description": "Birthdate",
+                        "format": "date-time",
+                        "example": "2000-12-22T07:16:45.261"
+                    }
+                },
+                "additionalProperties": false
+            }
+        },
+        "securitySchemes": {
+            "Bearer": {
+                "type": "apiKey",
+                "name": "Authorization",
+                "in": "header"
+            }
+        }
+    },
+    "security": [{
+        "Bearer": []
+    }],
+    "tags": [{
+            "name": "Auth",
+            "description": "Allowing user to register and login"
+        },
+        {
+            "name": "Roles",
+            "description": "Managing roles"
+        },
+        {
+            "name": "Users",
+            "description": "Managing users"
+        }
+    ]
+}
